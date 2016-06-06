@@ -1,0 +1,43 @@
+"*":
+  "atom-beautify":
+    general:
+      _analyticsUserId: "4079b145-c1f1-4247-9c19-2d2d82fcc5ae"
+  core:
+    autoHideMenuBar: true
+    themes: [
+      "one-dark-ui"
+      "railscasts-syntax"
+    ]
+  editor:
+    fontFamily: "monaco"
+    fontSize: 13
+    invisibles: {}
+    showInvisibles: true
+  "exception-reporting":
+    userId: "c3abfc9e-f5b8-2a8f-a70c-1add26eb025e"
+  "gtk-dark-theme": {}
+  minimap:
+    displayPluginsControls: false
+    plugins:
+      cursorline: true
+      cursorlineDecorationsZIndex: 0
+      "highlight-selected": true
+      "highlight-selectedDecorationsZIndex": 0
+    smoothScrolling: false
+  "one-dark-ui":
+    layoutMode: "Compact"
+  react: {}
+  "split-diff":
+    diffWords: true
+    ignoreWhitespace: true
+    leftEditorColor: "red"
+    rightEditorColor: "green"
+    syncHorizontalScroll: true
+  "tree-view":
+    showOnRightSide: true
+  welcome:
+    showOnStartup: false
+".ini.source":
+  editor:
+    scrollPastEnd: true
+    showIndentGuide: true

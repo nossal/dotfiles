@@ -1,0 +1,27 @@
+[include]
+	path = ~/.gitconfig.local
+
+[advice]
+	statusHints = false
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	ui = true
+
+[grep]
+  extendRegexp = true
+  lineNumber = true
+
+[log]
+	date = local
+
+[push]
+	default = simple
+
+[mergetool]
+	keepBackup = false
+
+[difftool]
+	prompt = false
