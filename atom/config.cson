@@ -11,6 +11,9 @@
     fontSize: 13
     scrollPastEnd: true
     showInvisibles: true
+  linter:
+    displayLinterInfo: false
+    showErrorPanel: false
   minimap:
     displayPluginsControls: false
     plugins:

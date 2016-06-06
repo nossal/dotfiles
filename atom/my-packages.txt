@@ -24,6 +24,8 @@ language-groovy
 language-rust
 language-scala
 language-ini
+linter
+linter-pep8
 minimap
 minimap-cursorline
 minimap-find-and-replace
