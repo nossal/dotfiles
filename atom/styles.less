@@ -18,6 +18,7 @@
 // style the background color of the tree view
 .tree-view {
   // background-color: whitesmoke;
+
   -webkit-font-smoothing: subpixel-antialiased
 }
 
@@ -25,15 +26,14 @@
 atom-text-editor {
   // color: white;
   // background-color: hsl(180, 24%, 12%);
+
+  -webkit-font-smoothing: antialiased;
 }
 
 // To style other content in the text editor's shadow DOM, use the ::shadow expression
 atom-text-editor::shadow .cursor {
-  // border-color: red;
-}
-
-.editor {
-  -webkit-font-smoothing: antialiased;
+  border-color: #c71717;
+  border-width: 3px;
 }
 
 .indent-guide-improved {
