@@ -1,6 +1,9 @@
 [include]
 	path = ~/.gitconfig.local
 
+[credential]
+	helper = cache
+
 [advice]
 	statusHints = false
 
@@ -22,6 +25,9 @@
 
 [mergetool]
 	keepBackup = false
+
+[merge]
+	tool = meld
 
 [difftool]
 	prompt = false
