@@ -9,6 +9,8 @@ Plugin 'scrooloose/nerdtree'
 
 Plugin 'vim-airline/vim-airline'
 
+Plugin 'vim-airline/vim-airline-themes'
+
 Plugin 'editorconfig/editorconfig-vim'
 
 Plugin 'kien/ctrlp.vim'
@@ -19,7 +21,7 @@ Plugin 'tpope/vim-surround'
 
 Plugin 'pangloss/vim-javascript'
 
-Plugin 'myusuf3/numbers.vim'
+Plugin 'Yggdroot/indentLine'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -143,10 +145,12 @@ set laststatus=2
 
 let g:airline_powerline_fonts = 1
 
+set term=xterm-256color
+set t_Co=256
+colorscheme railscasts
 
-if $COLORTERM == 'gnome-terminal'
-  set term=gnome-256color
-  colorscheme railscasts
- else
-  colorscheme railscasts16
- endif
+let g:indentLine_leadingSpaceEnabled = 1
+let g:indentLine_leadingSpaceChar = '˰'
+let g:indentLine_char = '┊'
+
+let g:airline_theme='simple'
