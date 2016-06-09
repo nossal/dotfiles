@@ -5,6 +5,31 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+if [ "$TERM" = "linux" ]; then
+  export TERM="xterm-256color"
+
+  /bin/echo -e "
+  \e]P0282b35
+  \e]P1dc3c3c
+  \e]P24eb355
+  \e]P3d28e5d
+  \e]P43e758c
+  \e]P5b73999
+  \e]P600aba5
+  \e]P7a8a9b0
+  \e]P8393c45
+  \e]P9db5151
+  \e]PA95c76f
+  \e]PBd99d72
+  \e]PC5694ad
+  \e]PDc85eaf
+  \e]PE24bdb7
+  \e]PFc7c9cf
+  "
+  # get rid of artifacts
+  #clear
+fi
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -13,5 +38,5 @@ fi
 # Customize to your needs...
 
 prompt powerlevel9k
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir rbenv vcs)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv context dir rbenv vcs root_indicator)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
