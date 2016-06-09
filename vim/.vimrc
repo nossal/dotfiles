@@ -23,6 +23,8 @@ Plugin 'pangloss/vim-javascript'
 
 Plugin 'Yggdroot/indentLine'
 
+Plugin 'airblade/vim-gitgutter'
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
