@@ -27,7 +27,17 @@ atom-text-editor {
   // color: white;
   // background-color: hsl(180, 24%, 12%);
 
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+atom-text-editor::shadow .gutter-container {
+  margin-right: .5em;
+}
+atom-text-editor::shadow .gutter {
+  background-color: rgb(57, 57, 57);
+}
+atom-text-editor::shadow .gutter .custom-decorations {
+  background-color: rgb(65, 63, 63) !important;
 }
 
 // To style other content in the text editor's shadow DOM, use the ::shadow expression
