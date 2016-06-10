@@ -2,6 +2,6 @@
 
 2. ```$ vim +PluginInstall +qall```
 
-3. ```$ cd ~/.vim/bundle/YouCompleteMe```
+3. ```$ cd ~/.vim/bundle/youcompleteme```
 
   ```$ ./install.py --clang-completer --tern-completer --racer-completer```

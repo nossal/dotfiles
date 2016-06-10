@@ -14,6 +14,8 @@
     fontSize: 13
     scrollPastEnd: true
     showInvisibles: true
+  "file-watcher":
+      promptWhenChange: true
   linter:
     displayLinterInfo: false
     showErrorPanel: false

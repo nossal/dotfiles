@@ -13,7 +13,6 @@ git-diff-details
 git-log
 git-plus
 git-time-machine
-gtk-dark-theme
 highlight-selected
 hyperclick
 indent-guide-improved

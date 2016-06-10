@@ -8,6 +8,14 @@
 ! #d28e5d /
 
 
+Xft.dpi: 96
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+
 ! special
 *.foreground:   #C8CACF
 *.background:   #282b35
