@@ -37,6 +37,6 @@ fi
 
 # Customize to your needs...
 
-prompt powerlevel9k
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv context dir rbenv vcs root_indicator)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
+# prompt powerlevel9k
+# POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv context dir rbenv vcs root_indicator)
+# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()

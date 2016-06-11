@@ -1,0 +1,17 @@
+!.gitignore
+!.editorconfig
+
+# Generic
+*.log
+
+# Java/Scala
+build/
+target/
+*.class
+*.jar
+*.war
+.gradle
+
+# nodejs/JavaScript
+dist/
+node_modules/

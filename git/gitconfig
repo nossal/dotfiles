@@ -3,6 +3,7 @@
 
 [core]
 	editor = vim
+	excludesfile = ~/.gitignore.global
 
 [credential]
 	helper = cache
@@ -15,6 +16,16 @@
 	status = auto
 	branch = auto
 	ui = true
+
+[color "status"]
+	header = white normal dim
+	changed = yellow
+	untracked = red normal blink
+
+[color "branch"]
+	current = green
+	local = cyan
+	remote = magenta
 
 [grep]
   extendRegexp = true

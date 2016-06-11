@@ -1,0 +1,36 @@
+!.gitignore
+!.editorconfig
+
+# Generic
+*.log
+
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+*.so
+.Trash-*
+
+# Windows
+$RECYCLE.BIN/
+Thumbs.db
+Desktop.ini
+*.lnk
+*.msi
+*.exe
+
+# Java/Scala
+build/
+target/
+*.class
+*.jar
+*.war
+.gradle
+
+# nodejs/JavaScript
+dist/
+node_modules/

@@ -42,5 +42,8 @@
   "tree-view":
     showOnRightSide: true
     autoReveal: true
+  "tree-view-autoresize":
+    maximumWidth: 500
+    minimumWidth: 200
   welcome:
     showOnStartup: false
