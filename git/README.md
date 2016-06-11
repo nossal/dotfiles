@@ -1,1 +1,10 @@
-Get more `gitignore` patterns here: [github/gitignore](https://github.com/github/gitignore/)
+# Features
+- Global .gitignore \* (`gitignore.global`) *and*
+- local gitconfig for diferent usernames
+- Colorfull git prompt
+
+> \* Get more gitignore patterns here: [github/gitignore](https://github.com/github/gitignore/)
+
+# Preview
+
+![](_blink.gif)
