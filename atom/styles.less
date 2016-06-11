@@ -28,16 +28,21 @@ atom-text-editor {
   // background-color: hsl(180, 24%, 12%);
 
   -webkit-font-smoothing: subpixel-antialiased;
+  line-height: 1.4em;
 }
 
+atom-text-editor::shadow .scroll-view {
+  margin-top: .5em;
+}
 atom-text-editor::shadow .gutter-container {
-  margin-right: .5em;
+  margin-right: .7em;
 }
 atom-text-editor::shadow .gutter {
-  background-color: rgb(57, 57, 57);
+  background-color: #2e2d2d;
 }
 atom-text-editor::shadow .gutter .custom-decorations {
-  background-color: rgb(65, 63, 63) !important;
+  background-color: #2f2f2f !important;
+  border-right: 1px solid #323030;
 }
 
 // To style other content in the text editor's shadow DOM, use the ::shadow expression
