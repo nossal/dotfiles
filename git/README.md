@@ -7,4 +7,4 @@
 
 # Preview
 
-![](_blink.gif)
+![](http://i.imgur.com/MwDSEx5.gif)

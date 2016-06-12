@@ -1,5 +1,10 @@
 [include]
 	path = ~/.gitconfig.local
+[alias]
+	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+	s = status -s
+	c = clone --recursive
+		dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 [core]
 	editor = vim
@@ -19,6 +24,7 @@
 
 [color "status"]
 	header = white normal dim
+	added = green
 	changed = yellow
 	untracked = red normal blink
 
@@ -26,6 +32,12 @@
 	current = green
 	local = cyan
 	remote = magenta
+
+[diff]
+	renames = copies
+
+[diff "bin"]
+	textconv = hexdump -v -C
 
 [grep]
   extendRegexp = true
