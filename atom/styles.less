@@ -23,7 +23,7 @@
 }
 
 // style the background and foreground colors on the atom-text-editor-element itself
-atom-text-editor {
+atom-text-editor:not([mini]) {
   // color: white;
   // background-color: hsl(180, 24%, 12%);
 
@@ -31,16 +31,17 @@ atom-text-editor {
   line-height: 1.4em;
 }
 
-atom-text-editor::shadow .scroll-view {
+atom-text-editor:not([mini])::shadow .scroll-view {
   margin-top: .5em;
 }
-atom-text-editor::shadow .gutter-container {
+atom-text-editor:not([mini])::shadow .gutter-container {
+  margin-top: .5em;
   margin-right: .7em;
 }
-atom-text-editor::shadow .gutter {
+atom-text-editor:not([mini])::shadow .gutter {
   background-color: #2e2d2d;
 }
-atom-text-editor::shadow .gutter .custom-decorations {
+atom-text-editor:not([mini])::shadow .gutter .custom-decorations {
   background-color: #2f2f2f !important;
   border-right: 1px solid #323030;
 }

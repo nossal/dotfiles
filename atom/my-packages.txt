@@ -35,6 +35,6 @@ railscast-theme
 react
 todo-show
 tree-view-git-status
-tree-view-git-autoresize
+tree-view-autoresize
 emmet
 auto-reveal-in-sidebar
