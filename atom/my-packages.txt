@@ -10,7 +10,6 @@ editorconfig
 file-icons
 file-watcher
 git-diff-details
-git-log
 git-plus
 git-time-machine
 highlight-selected

@@ -52,6 +52,11 @@ atom-text-editor::shadow .cursor {
   border-width: 3px;
 }
 
+// Fix the selection from search result
+atom-text-editor::shadow .current-result.highlight .region {
+  background-color: rgba(71, 77, 92, 0.5)
+}
+
 .indent-guide-improved {
   background-color: rgb(57, 57, 57);
   &.indent-guide-stack {
