@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+PREZTO_HOME="$HOME/.zprezto"
+DOTFILES_HOME="$HOME/.dotfiles"
+
+
+# clone dotfiles
+git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
+
+# prezto
+git clone --recursive https://github.com/sorin-ionescu/prezto.git "$PREZTO_HOME"
+
+prezto_confs=(zlogin zshenv zlogout)
+zsh_confs=(zpreztorc zprofile zshrc)
+
+for rcfile in $prezto_confs; do
+  ln -s "$PREZTO_HOME/runcoms/$rcfile" "$HOME/.$rcfile"
+done
+for rcfile in $zsh_confs; do
+  ln -s "$DOTFILES_HOME/zsh/$rcfile" "$HOME/.$rcfile"
+done

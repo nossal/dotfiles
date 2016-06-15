@@ -7,6 +7,7 @@
     autoHideMenuBar: true
     disabledPackages: [
       "spell-check"
+      "metrics"
     ]
     openEmptyEditorOnStart: false
     themes: [
