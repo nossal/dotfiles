@@ -2,11 +2,13 @@
 
 PREZTO_HOME="$HOME/.zprezto"
 DOTFILES_HOME="$HOME/.dotfiles"
+LOCAL_BIN_DIR="$HOME/.local/bin"
+
 
 function install_dotfiles() {
   git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
 
-  zsh_confs=(zpreztorc zprofile zshrc)
+  zsh_confs=(zpreztorc zprofile zshrc)  # Custom prezto confs.
 
   for rcfile in $zsh_confs; do
     ln -s "$DOTFILES_HOME/zsh/$rcfile" "$HOME/.$rcfile"
@@ -24,9 +26,18 @@ function install_prezto() {
 }
 
 if [[ -a $PREZTO_HOME ]]; then
-  echo "exists"
+  echo "update PREZTO"
+else
+  echo "install PREZTO"
 fi
 
 if [[ -a $DOTFILES_HOME ]]; then
-  echo "exists"
+  echo "update DOTFILES"
+else
+  echo "install PREZTO"
+fi
+
+if [[ ! -a $LOCAL_BIN_DIR ]]; then
+  mkdir -p $LOCAL_BIN_DIR
+  cp
 fi
