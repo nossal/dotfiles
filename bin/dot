@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+# autoinstall: eval "$(curl -fsL http://noss.al/dot)"
+
 PREZTO_HOME="$HOME/.zprezto"
 DOTFILES_HOME="$HOME/.dotfiles"
 LOCAL_BIN_DIR="$HOME/.local/bin"
@@ -29,15 +31,18 @@ if [[ -a $PREZTO_HOME ]]; then
   echo "update PREZTO"
 else
   echo "install PREZTO"
+  install_prezto
 fi
 
 if [[ -a $DOTFILES_HOME ]]; then
   echo "update DOTFILES"
 else
-  echo "install PREZTO"
+  echo "install DOTFILES"
+  install_dotfiles
 fi
 
 if [[ ! -a $LOCAL_BIN_DIR ]]; then
   mkdir -p $LOCAL_BIN_DIR
-  cp
 fi
+
+cp $DOTFILES_HOME/bin/\* $LOCAL_BIN_DIR
