@@ -13,8 +13,12 @@
 ## Install
 1. Just execute the following code into your zsh session:
 ```
-eval "$(curl -fsL http://noss.al/dot)"
+eval "$(curl -sL noss.al/dot)"
 ```
 2. Restart your zsh session.
 3. Done.
 -->
+## License
+Copyright (C) 2016 Rodrigo Nossal.
+
+Distributed under an MIT-style license (see LICENSE for details).
