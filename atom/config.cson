@@ -3,6 +3,10 @@
     general:
       analytics: false
       beautifyEntireFileOnSave: false
+  "atom-maven":
+    mavenHome: "/usr/bin/"      
+  "autocomplete-java":
+    classpathFilePath: ".classpath-atom"
   core:
     autoHideMenuBar: true
     disabledPackages: [
@@ -20,7 +24,7 @@
     scrollPastEnd: true
     showInvisibles: true
   "file-watcher":
-    promptWhenChange: true
+    promptWhenChange: false
   "file-icons":
     forceShow: true
   "highlight-selected":
@@ -29,6 +33,9 @@
   linter:
     displayLinterInfo: false
     showErrorPanel: false
+  "linter-javac":
+    classpathFilename: ".classpath-atom"
+    verboseLogging: true
   minimap:
     displayPluginsControls: false
     plugins:

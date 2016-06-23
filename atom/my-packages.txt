@@ -1,6 +1,7 @@
 atom-beautify
 atom-jinja2
 atom-ternjs
+atom-maven
 autocomplete-html-entities
 autocomplete-java
 autocomplete-modules
@@ -24,6 +25,7 @@ language-scala
 language-ini
 linter
 linter-pep8
+linter-javac
 minimap
 minimap-cursorline
 minimap-find-and-replace
