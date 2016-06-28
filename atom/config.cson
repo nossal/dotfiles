@@ -3,6 +3,10 @@
     general:
       analytics: false
       beautifyEntireFileOnSave: false
+  "atom-maven":
+    mavenHome: "/usr/bin/"
+  "autocomplete-java":
+    classpathFilePath: ".classpath-atom"
   core:
     autoHideMenuBar: true
     disabledPackages: [
@@ -14,21 +18,27 @@
       "one-dark-ui"
       "railscast-theme"
     ]
+  "cursor-history":
+    flashOnLand: true
   editor:
     fontFamily: "Monaco"
     fontSize: 13
     scrollPastEnd: true
     showInvisibles: true
-  "file-watcher":
-    promptWhenChange: true
   "file-icons":
     forceShow: true
+  "file-watcher":
+    promptWhenChange: false
   "highlight-selected":
     hideHighlightOnSelectedWord: true
     lightTheme: true
   linter:
     displayLinterInfo: false
     showErrorPanel: false
+  "linter-javac":
+    classpathFilename: ".classpath-atom"
+    verboseLogging: true
+  "lisp-paredit": {}
   minimap:
     displayPluginsControls: false
     plugins:
