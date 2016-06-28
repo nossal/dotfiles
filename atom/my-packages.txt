@@ -7,6 +7,7 @@ autocomplete-java
 autocomplete-modules
 autocomplete-python
 color-picker
+cursor-history
 editorconfig
 file-icons
 file-watcher
