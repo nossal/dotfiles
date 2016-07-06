@@ -28,7 +28,7 @@ atom-text-editor:not([mini]) {
   // background-color: hsl(180, 24%, 12%);
 
   -webkit-font-smoothing: subpixel-antialiased;
-  line-height: 1.4em;
+  // line-height: 1.4em;
 }
 
 atom-text-editor:not([mini])::shadow .scroll-view {
@@ -58,11 +58,11 @@ atom-text-editor::shadow .current-result.highlight .region {
 }
 
 .indent-guide-improved {
-  background-color: rgb(57, 57, 57);
+  background-color: rgba(255, 255, 255, .05);
   &.indent-guide-stack {
-    background-color: rgb(69, 69, 69);
+    background-color: rgba(255, 255, 255, .1);
     &.indent-guide-active {
-      background-color: rgb(98, 97, 97);
+      background-color: rgba(255, 255, 255, .2);
     }
   }
 }
