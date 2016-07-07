@@ -7,11 +7,14 @@
     mavenHome: "/usr/bin/"
   "autocomplete-java":
     classpathFilePath: ".classpath-atom"
+  autosave:
+    enabled: true
   core:
     autoHideMenuBar: true
     disabledPackages: [
       "spell-check"
       "metrics"
+      "atom-maven"
     ]
     openEmptyEditorOnStart: false
     themes: [
@@ -23,15 +26,17 @@
   editor:
     fontFamily: "Monaco"
     fontSize: 13
+    lineHeight: 1.4
     scrollPastEnd: true
     showInvisibles: true
   "file-icons":
     forceShow: true
   "file-watcher":
     promptWhenChange: false
+  "line-ending-selector":
+    defaultLineEnding: "LF"
   "highlight-selected":
     hideHighlightOnSelectedWord: true
-    lightTheme: true
   linter:
     displayLinterInfo: false
     showErrorPanel: false
@@ -53,6 +58,8 @@
   "one-dark-ui":
     layoutMode: "Compact"
     tabSizing: "Even"
+  pigments:
+    mergeColorDuplicates: true
   "tree-view":
     showOnRightSide: true
     autoReveal: true
