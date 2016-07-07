@@ -33,6 +33,8 @@
     forceShow: true
   "file-watcher":
     promptWhenChange: false
+  "line-ending-selector":
+    defaultLineEnding: "LF"
   "highlight-selected":
     hideHighlightOnSelectedWord: true
   linter:
