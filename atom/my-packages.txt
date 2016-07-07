@@ -1,7 +1,6 @@
 atom-beautify
 atom-jinja2
 atom-ternjs
-atom-maven
 autocomplete-html-entities
 autocomplete-java
 autocomplete-modules
@@ -34,7 +33,6 @@ minimap-git-diff
 minimap-highlight-selected
 pigments
 railscast-theme
-react
 todo-show
 tree-view-git-status
 tree-view-autoresize
