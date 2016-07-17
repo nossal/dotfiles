@@ -4,13 +4,38 @@
 # Generic
 *.log
 
-# Java/Scala
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+*.so
+.Trash-*
+
+# Windows
+$RECYCLE.BIN/
+Thumbs.db
+Desktop.ini
+*.lnk
+*.msi
+*.exe
+
+# Java/Scala/Clojure
 build/
 target/
 *.class
 *.jar
 *.war
-.gradle
+/.gradle
+/.env
+/.lein-env
+/.lein-repl-history
+/.lein-deps-sum
+/.lein-failures
+/.nrepl-port
 
 # nodejs/JavaScript
 dist/
@@ -18,3 +43,4 @@ node_modules/
 
 # Python
 *.pyc
+*.egg

@@ -31,12 +31,12 @@
 # Atom Flight Manual:
 # https://atom.io/docs/latest/using-atom-basic-customization#cson
 
-'atom-workspace':
-  'ctrl-i':     'cursor-history:next'
-  'ctrl-o':     'cursor-history:prev'
-  'ctrl-cmd-i': 'cursor-history:next-within-editor'
-  'ctrl-cmd-o': 'cursor-history:prev-within-editor'
-
 '.platform-win32, .platform-linux':
   'alt': ' '
   'alt-m': 'window:toggle-menu-bar'
+
+'atom-workspace':
+  'f10':        'cursor-history:next'
+  'f9':         'cursor-history:prev'
+  'ctrl-f10':  'cursor-history:next-within-editor'
+  'ctrl-f9':   'cursor-history:prev-within-editor'

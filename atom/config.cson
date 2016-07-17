@@ -3,8 +3,6 @@
     general:
       analytics: false
       beautifyEntireFileOnSave: false
-  "atom-maven":
-    mavenHome: "/usr/bin/"
   "autocomplete-java":
     classpathFilePath: ".classpath-atom"
   autosave:
@@ -14,7 +12,6 @@
     disabledPackages: [
       "spell-check"
       "metrics"
-      "atom-maven"
     ]
     openEmptyEditorOnStart: false
     themes: [
@@ -25,8 +22,9 @@
     flashOnLand: true
   editor:
     fontFamily: "Monaco"
-    fontSize: 13
+    fontSize: 12
     lineHeight: 1.4
+    preferredLineLength: 120
     scrollPastEnd: true
     showInvisibles: true
   "file-icons":
@@ -35,6 +33,8 @@
     promptWhenChange: false
   "line-ending-selector":
     defaultLineEnding: "LF"
+  "flow-ide":
+    executablePath: "~/opt/flow/flow"
   "highlight-selected":
     hideHighlightOnSelectedWord: true
   linter:
