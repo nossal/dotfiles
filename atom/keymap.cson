@@ -32,11 +32,12 @@
 # https://atom.io/docs/latest/using-atom-basic-customization#cson
 
 '.platform-win32, .platform-linux':
+  'ctrl-alt': ' '
   'alt': ' '
   'alt-m': 'window:toggle-menu-bar'
 
 'atom-workspace':
-  'f10':        'cursor-history:next'
-  'f9':         'cursor-history:prev'
+  'f10':       'cursor-history:next'
+  'f9':        'cursor-history:prev'
   'ctrl-f10':  'cursor-history:next-within-editor'
   'ctrl-f9':   'cursor-history:prev-within-editor'
