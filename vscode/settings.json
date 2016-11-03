@@ -3,6 +3,7 @@
     "editor.fontFamily": "Monaco",
     "editor.fontSize": 12,
     "editor.renderWhitespace": "boundary",
+    "editor.codeLens": false,
 
     "workbench.sideBar.location": "right"
 }
