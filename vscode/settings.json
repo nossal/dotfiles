@@ -1,0 +1,12 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "editor.fontFamily": "Monaco",
+    "editor.fontSize": 12,
+    "editor.renderWhitespace": "boundary",
+    "editor.codeLens": false,
+    "editor.renderIndentGuides": true,
+
+    "workbench.sideBar.location": "right",
+    
+    "npm-intellisense.scanDevDependencies": true
+}
