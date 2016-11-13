@@ -1,0 +1,11 @@
+EditorConfig.EditorConfig
+christian-kohler.npm-intellisense
+christian-kohler.path-intellisense
+dbaeumer.vscode-eslint
+donjayamanne.python
+dzannotti.vscode-babel-coloring
+eamodio.gitlens
+lei.theme-chromodynamics
+redhat.java
+robertohuertasm.vscode-icons
+wmaurer.change-case
