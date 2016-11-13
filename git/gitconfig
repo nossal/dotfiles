@@ -36,6 +36,7 @@
 
 [diff]
 	renames = copies
+	external = git-meld
 
 [diff "bin"]
 	textconv = hexdump -v -C
