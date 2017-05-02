@@ -10,6 +10,8 @@
 [core]
 	editor = vim
 	excludesfile = ~/.gitignore.global
+	fscache = true
+	preloadindex = true
 
 [credential]
 	helper = cache
@@ -59,3 +61,6 @@
 
 [difftool]
 	prompt = false
+
+[gc]
+	auto = 256
