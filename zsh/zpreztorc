@@ -1,4 +1,4 @@
-#
+  #
 # Sets Prezto options.
 #
 # Authors:
@@ -24,11 +24,12 @@ zstyle ':prezto:*:*' color 'yes'
 # Set the Prezto modules to load (browse modules).
 # The order matters.
 zstyle ':prezto:load' pmodule \
+  'environment' \
   'git' \
   'archive' \
   'syntax-highlighting' \
   'autosuggestions' \
-  'environment' \
+  'history-substring-search' \
   'terminal' \
   'editor' \
   'history' \
@@ -147,7 +148,7 @@ zstyle ':prezto:module:prompt' theme 'sorin'
 #
 
 # Auto set the tab and window titles.
-# zstyle ':prezto:module:terminal' auto-title 'yes'
+zstyle ':prezto:module:terminal' auto-title 'yes'
 
 # Set the window title format.
 # zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'

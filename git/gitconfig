@@ -1,60 +1,76 @@
 [include]
-	path = ~/.gitconfig.local
+    path = ~/.gitconfig.local
 
 [alias]
-	l = log --pretty=oneline -n 20 --graph --abbrev-commit
-	s = status -s
-	c = clone --recursive
-	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+    l = log --pretty=oneline -n 20 --graph --abbrev-commit
+    s = status -s
+    c = clone --recursive
+    dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 [core]
-	editor = vim
-	excludesfile = ~/.gitignore.global
+    editor = vim
+    excludesfile = ~/.gitignore.global
+    fscache = true
+    preloadindex = true
 
 [credential]
-	helper = cache
+    helper = cache
 
 [advice]
-	statusHints = false
+    statusHints = false
 
 [color]
-	diff = auto
-	status = auto
-	branch = auto
-	ui = true
+    diff = auto
+    status = auto
+    branch = auto
+    ui = true
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
 
 [color "status"]
-	header = white normal dim
-	added = green
-	changed = yellow
-	untracked = red normal blink
+    header = white normal dim
+    added = green
+    changed = yellow
+    deleted   = red bold
+    untracked = red normal blink
 
 [color "branch"]
-	current = green
-	local = cyan
-	remote = magenta
+    current = green
+    local = cyan
+    remote = magenta
 
-[diff]
-	renames = copies
-
-[diff "bin"]
-	textconv = hexdump -v -C
+[push]
+    default = simple
 
 [grep]
   extendRegexp = true
   lineNumber = true
 
 [log]
-	date = local
+    date = local
 
-[push]
-	default = simple
+[diff]
+    renames = copies
+    tool = meld
 
-[mergetool]
-	keepBackup = false
-
-[merge]
-	tool = meld
+[diff "bin"]
+    textconv = hexdump -v -C
 
 [difftool]
-	prompt = false
+    prompt = false
+
+[difftool "meld"]
+    cmd = meld "$LOCAL" "$REMOTE"
+
+[merge]
+    tool = meld
+
+[mergetool]
+    keepBackup = false
+
+[gc]
+    auto = 256
