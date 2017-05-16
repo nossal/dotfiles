@@ -33,6 +33,7 @@ fi
 # Paths
 #
 export GRADLE_HOME=$HOME/opt/gradle/bin
+export MAVEN_HOME=$HOME/opt/maven/bin
 
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path
@@ -46,10 +47,8 @@ typeset -gU cdpath fpath mailpath path
 path=(
   /usr/local/{bin,sbin}
   $HOME/.local/bin
-  /opt/webOS_TV_SDK/CLI/bin
-  $HOME/opt/android-studio/bin
-  $HOME/opt/spring/bin
   $GRADLE_HOME
+  $MAVEN_HOME
   $path
 )
 
