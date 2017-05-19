@@ -26,7 +26,7 @@ module.exports = {
     backgroundColor: '#282b35',
 
     // border color (window, tabs)
-    borderColor: '#333',
+    borderColor: '#454545',
 
     // custom css to embed in the main window
     css: '',
@@ -44,7 +44,7 @@ module.exports = {
     showWindowControls: 'left',
 
     // custom padding (css format, i.e.: `top right bottom left`)
-    padding: '2px 4px',
+    padding: '2px 6px',
 
     // the full list. if you're going to provide the full color palette,
     // including the 6 x 6 color cubes and the grayscale map, just provide
@@ -99,8 +99,8 @@ module.exports = {
     hyperBorder: {
       // animate: true,
       borderColors: ['#fc1da7', '#fba506'],
-      borderAngle: '180deg',
-      borderWidth: '2px'
+      borderAngle: '45deg',
+      borderWidth: '1px'
     }
   },
 
@@ -110,7 +110,7 @@ module.exports = {
   //   `hyperpower`
   //   `@company/project`
   //   `project#1.0.1`
-  plugins: ['hyperborder', 'hyper-mac-controls'],
+  plugins: ['hyperborder'],
 
   // in development, you can create a directory under
   // `~/.hyper_plugins/local/` and include it here
