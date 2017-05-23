@@ -79,6 +79,9 @@ module.exports = {
     // by default ['--login'] will be used
     shellArgs: ['--login'],
 
+    // 84x20
+    windowSize: [630, 360],
+
     // for environment variables
     env: {},
 
