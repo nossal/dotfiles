@@ -36,7 +36,7 @@
     added = green
     changed = yellow
     deleted   = red bold
-    untracked = red normal blink
+    untracked = red normal
 
 [color "branch"]
     current = green
@@ -64,13 +64,16 @@
     prompt = false
 
 [difftool "meld"]
-    cmd = meld "$LOCAL" "$REMOTE"
+    trustExitCode = true
+    cmd = open -W -a Meld --args \"$LOCAL\" \"$PWD/$REMOTE\"
 
 [merge]
     tool = meld
 
 [mergetool]
     keepBackup = false
+    trustExitCode = true
+    cmd = open -W -a Meld --args --auto-merge \"$PWD/$LOCAL\" \"$PWD/$BASE\" \"$PWD/$REMOTE\" --output=\"$PWD/$MERGED\"
 
 [gc]
     auto = 256

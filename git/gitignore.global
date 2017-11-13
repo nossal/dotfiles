@@ -1,6 +1,8 @@
 '!.gitignore
 !.editorconfig
 
+.vscode
+
 # Generic
 *.log
 
