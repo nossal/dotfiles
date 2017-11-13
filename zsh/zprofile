@@ -34,6 +34,7 @@ fi
 #
 export GRADLE_HOME=$HOME/opt/gradle/bin
 export MAVEN_HOME=$HOME/opt/maven/bin
+export JAVA_HOME=/etc/alternatives/java_sdk
 
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path

@@ -1,8 +1,12 @@
-!.gitignore
+'!.gitignore
 !.editorconfig
 
 # Generic
 *.log
+
+# VI swap files
+*.swp
+*.swo
 
 # Mac
 .DS_Store
@@ -22,15 +26,3 @@ Desktop.ini
 *.lnk
 *.msi
 *.exe
-
-# Java/Scala
-build/
-target/
-*.class
-*.jar
-*.war
-.gradle
-
-# nodejs/JavaScript
-dist/
-node_modules/
