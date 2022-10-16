@@ -4,3 +4,5 @@ require 'impatient'
 require 'plugins'
 
 require 'options'
+
+vim.cmd("colorscheme kanagawa")
