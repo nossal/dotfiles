@@ -2,37 +2,33 @@
 
 # autoinstall: eval "$(curl -fsL http://noss.al/dot)"
 
-PREZTO_HOME="$HOME/.zprezto"
 DOTFILES_HOME="$HOME/.dotfiles"
 LOCAL_BIN_DIR="$HOME/.local/bin"
+
+declare -A files
+files=(
+  shell/starship.toml .config/starship.toml
+  shell/lsd.yaml .config/lsd/config.yaml
+)
+
+for key value in ${(kv)files}; do
+    echo "$key -> $value"
+done
 
 
 function install_dotfiles() {
   git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
 
-  zsh_confs=(zpreztorc zprofile zshrc)  # Custom prezto confs.
+  zsh_confs=(zlogin zprofile zshenv zshrc)  # Custom confs.
 
   for rcfile in $zsh_confs; do
     ln -s "$DOTFILES_HOME/zsh/$rcfile" "$HOME/.$rcfile"
   done
 }
 
-function install_prezto() {
-  git clone --recursive https://github.com/sorin-ionescu/prezto.git "$PREZTO_HOME"
+ln -s "$DOTFILES_HOME/shell/starship.toml" "$HOME/.config/starship.toml"
+ln -s
 
-  prezto_confs=(zlogin zshenv zlogout)
-
-  for rcfile in $prezto_confs; do
-    ln -s "$PREZTO_HOME/runcoms/$rcfile" "$HOME/.$rcfile"
-  done
-}
-
-if [[ -a $PREZTO_HOME ]]; then
-  echo "update PREZTO"
-else
-  echo "install PREZTO"
-  install_prezto
-fi
 
 if [[ -a $DOTFILES_HOME ]]; then
   echo "update DOTFILES"
