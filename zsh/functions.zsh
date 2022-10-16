@@ -10,7 +10,7 @@ function zsh_add_plugin() {
         zsh_add_file "plugins/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh" || \
         zsh_add_file "plugins/$PLUGIN_NAME/$PLUGIN_NAME.zsh"
     else
-        git clone "https://github.com/$1.git" "$DOTDIR/plugins/$PLUGIN_NAME"
+        git clone "https://github.com/$1.git" "$ZSHDOTDIR/plugins/$PLUGIN_NAME"
     fi
 }
 
@@ -22,9 +22,9 @@ function zsh_add_completion() {
         fpath+="$(dirname "${completion_file_path}")"
         zsh_add_file "plugins/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh"
     else
-        git clone "https://github.com/$1.git" "$DOTDIR/plugins/$PLUGIN_NAME"
+        git clone "https://github.com/$1.git" "$ZSHDOTDIR/plugins/$PLUGIN_NAME"
         fpath+=$(ls $ZSHDOTDIR/plugins/$PLUGIN_NAME/_*)
-        [ -f $DOTDIR/.zccompdump ] && $DOTDIR/.zccompdump
+        [ -f $ZSHDOTDIR/.zccompdump ] && $ZSHDOTDIR/.zccompdump
     fi
     completion_file="$(basename "${completion_file_path}")"
     if [ "$2" = true ] && compinit "${completion_file:1}"
