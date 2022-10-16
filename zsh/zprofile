@@ -1,80 +1,15 @@
-#
-# Executes commands at login pre-zshrc.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
+# this file is installed as ~/.zprofile for newly created users
 
-#
-# Browser
-#
-
-if [[ "$OSTYPE" == darwin* ]]; then
-  export BROWSER='open'
+# prepend ~/.local/bin and ~/bin to $PATH unless it is already there
+if ! [[ "$PATH" =~ "$HOME/bin" ]]
+then
+    PATH="$HOME/bin:$PATH"
 fi
-
-#
-# Editors
-#
-
-export EDITOR='vi'
-export VISUAL='vi'
-export PAGER='less'
-
-#
-# Language
-#
-
-if [[ -z "$LANG" ]]; then
-  export LANG='en_US.UTF-8'
+if ! [[ "$PATH" =~ "$HOME/.local/bin:" ]]
+then
+    PATH="$HOME/.local/bin:$PATH"
 fi
+export PATH
 
-#
-# Paths
-#
-export GRADLE_HOME=$HOME/opt/gradle/bin
-export MAVEN_HOME=$HOME/opt/maven/bin
-export JAVA_HOME=/etc/alternatives/java_sdk
 
-# Ensure path arrays do not contain duplicates.
-typeset -gU cdpath fpath mailpath path
-
-# Set the the list of directories that cd searches.
-# cdpath=(
-#   $cdpath
-# )
-
-# Set the list of directories that Zsh searches for programs.
-path=(
-  /usr/local/{bin,sbin}
-  $HOME/.local/bin
-  $GRADLE_HOME
-  $MAVEN_HOME
-  $path
-)
-
-#
-# Less
-#
-
-# Set the default Less options.
-# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
-# Remove -X and -F (exit if the content fits on one screen) to enable it.
-export LESS='-F -g -i -M -R -S -w -X -z-4'
-
-# Set the Less input preprocessor.
-# Try both `lesspipe` and `lesspipe.sh` as either might exist on a system.
-if (( $#commands[(i)lesspipe(|.sh)] )); then
-  export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
-fi
-
-#
-# Temporary Files
-#
-
-if [[ ! -d "$TMPDIR" ]]; then
-  export TMPDIR="/tmp/$LOGNAME"
-  mkdir -p -m 700 "$TMPDIR"
-fi
-
-TMPPREFIX="${TMPDIR%/}/zsh"
+export JASYPT_ENCRYPTOR_PASSWORD=NnxKVV3#*VbcERyW

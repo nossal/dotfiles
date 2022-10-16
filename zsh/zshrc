@@ -1,42 +1,71 @@
 #
-# Executes commands at the start of an interactive session.
+# .zshrc is sourced in interactive shells.
+# It should contain commands to set up aliases,
+# functions, options, key bindings, etc.
 #
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
 
-if [ "$TERM" = "linux" ]; then
-  export TERM="xterm-256color"
+source $ZSHDOTDIR/functions.zsh
+source $ZSHDOTDIR/mappings.zsh
 
-  /bin/echo -e "
-  \e]P0282b35
-  \e]P1dc3c3c
-  \e]P24eb355
-  \e]P3d28e5d
-  \e]P43e758c
-  \e]P5b73999
-  \e]P600aba5
-  \e]P7a8a9b0
-  \e]P8393c45
-  \e]P9db5151
-  \e]PA95c76f
-  \e]PBd99d72
-  \e]PC5694ad
-  \e]PDc85eaf
-  \e]PE24bdb7
-  \e]PFc7c9cf
-  "
-  # get rid of artifacts
-  #clear
-fi
+autoload -U compinit
+compinit
 
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
+#allow tab completion in the middle of a word
+setopt COMPLETE_IN_WORD
 
-# Customize to your needs...
+## keep background processes at full speed
+setopt NOBGNICE
+## restart running processes on exit
+#setopt HUP
 
-# prompt powerlevel9k
-# POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv context dir rbenv vcs root_indicator)
-# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
+
+## history
+setopt APPEND_HISTORY
+## for sharing history between zsh processes
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history.
+setopt HIST_IGNORE_DUPS          # Do not record an event that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete an old recorded event if a new event is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a previously found event.
+setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
+setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
+setopt HIST_BEEP                 # Beep when accessing non-existent history.
+
+HISTFILE="${HISTFILE:-${ZDOTDIR:-$HOME}/.zsh_history}"
+HISTSIZE=10000
+SAVEHIST=$HISTSIZE
+## never ever beep ever
+setopt NO_BEEP
+
+## automatically decide when to page a list of completions
+#LISTMAX=0
+
+## disable mail checking
+MAILCHECK=0
+
+autoload -U colors
+#colors
+
+# Plugins
+zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
+zsh_add_plugin "zsh-users/zsh-autosuggestions"
+zsh_add_plugin "Aloxaf/fzf-tab"
+zsh_add_plugin "zsh-users/zsh-history-substring-search"
+zsh_add_plugin "softmoth/zsh-vim-mode"
+
+
+eval "$(starship init zsh)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

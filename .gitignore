@@ -33,3 +33,6 @@ target/
 # nodejs/JavaScript
 dist/
 node_modules/
+zsh/plugins
+nvim/plugin
+.zcompdump
