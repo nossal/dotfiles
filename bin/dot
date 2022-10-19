@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# autoinstall: eval "$(curl -fsL http://noss.al/dot)"
+# autoinstall: zsh "$(curl -fsL http://noss.al/dot)"
 
 DOTFILES_HOME="$HOME/.dotfiles"
 LOCAL_BIN_DIR="$HOME/.local/bin"
@@ -8,27 +8,21 @@ LOCAL_BIN_DIR="$HOME/.local/bin"
 declare -A files
 files=(
   shell/starship.toml .config/starship.toml
-  shell/lsd.yaml .config/lsd/config.yaml
+  shell/lsd.yaml      .config/lsd/config.yaml
+  shell/tmux.conf     .tmux.conf
+  zsh/zlogin          .zlogin
+  zsh/zprofile        .zprofile
+  zsh/zshenv          .zshenv
+  zsh/zshrc           .zshrc
 )
-
-for key value in ${(kv)files}; do
-    echo "$key -> $value"
-done
-
 
 function install_dotfiles() {
   git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
 
-  zsh_confs=(zlogin zprofile zshenv zshrc)  # Custom confs.
-
-  for rcfile in $zsh_confs; do
-    ln -s "$DOTFILES_HOME/zsh/$rcfile" "$HOME/.$rcfile"
+  for key value in ${(kv)files}; do
+      echo ln -s "$DOTFILES_HOME/$key" "$HOME/$value"
   done
 }
-
-ln -s "$DOTFILES_HOME/shell/starship.toml" "$HOME/.config/starship.toml"
-ln -s
-
 
 if [[ -a $DOTFILES_HOME ]]; then
   echo "update DOTFILES"
@@ -41,4 +35,4 @@ if [[ ! -a $LOCAL_BIN_DIR ]]; then
   mkdir -p $LOCAL_BIN_DIR
 fi
 
-cp $DOTFILES_HOME/bin/\* $LOCAL_BIN_DIR
+# cp $DOTFILES_HOME/bin/\* $LOCAL_BIN_DIR

@@ -30,6 +30,6 @@ function zsh_add_completion() {
     if [ "$2" = true ] && compinit "${completion_file:1}"
 }
 
-function ssh () {
-    /usr/bin/ssh -t "$@" "tmux attach || tmux new";
-}
+# function ssh () {
+#     /usr/bin/ssh -t "$@" "tmux attach || tmux new";
+# }
