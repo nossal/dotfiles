@@ -11,3 +11,17 @@ right_format = """$all"""
 [directory]
 truncation_length = 1
 fish_style_pwd_dir_length = 1
+
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "
+symbol = ""
+
+
+
+[battery]
+full_symbol = "🔋 "
+charging_symbol = "⚡️ "
+discharging_symbol = "💀 "
+
+[gcloud]
+disabled = true
