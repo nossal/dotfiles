@@ -14,6 +14,7 @@ files=(
   zsh/zprofile        .zprofile
   zsh/zshenv          .zshenv
   zsh/zshrc           .zshrc
+  git/gitconfig       .gitconfig
 )
 
 function install_dotfiles() {

@@ -28,3 +28,27 @@ Desktop.ini
 *.lnk
 *.msi
 *.exe
+
+# Redis
+*.rdb
+
+# Dev
+.settings
+.classpath
+.project
+/target
+/build
+/target
+/bin
+*.war
+*.rpm
+*.deb
+~*
+
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache

@@ -1,5 +1,5 @@
 [include]
-    path = ~/.gitconfig.local
+    path = ~/.dotfiles/git/gitconfig.local
 
 [alias]
     l = log --pretty=oneline -n 20 --graph --abbrev-commit
@@ -8,8 +8,8 @@
     dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 [core]
-    editor = vim
-    excludesfile = ~/.gitignore.global
+    editor = nvim
+    excludesfile = ~/.dotfiles/git/gitignore.global
     fscache = true
     preloadindex = true
 
