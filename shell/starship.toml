@@ -25,3 +25,7 @@ discharging_symbol = "💀 "
 
 [gcloud]
 disabled = true
+
+
+[cmd_duration]
+disabled = true
