@@ -13,22 +13,22 @@ right_format = """$all"""
 [directory]
 truncation_length = 1
 fish_style_pwd_dir_length = 1
-style = "067 bold"
+style = "066"
 
 [battery]
 full_symbol = "🔋 "
 charging_symbol = "⚡️ "
 discharging_symbol = "💀 "
 
-[gcloud]
-disabled = true
-
 [cmd_duration]
 disabled = true
 
 [git_branch]
 format = "[$symbol$branch(:$remote_branch)]($style) "
-symbol = ""
+symbol = " "
+
+[gcloud]
+disabled = true
 
 [git_status]
 format ="([$all_status$ahead_behind]($style) )"
@@ -38,7 +38,7 @@ diverged = "↕️"
 modified = "❗"
 untracked = "❓"
 stashed = "📂"
-up_to_date = "✔️"
+# up_to_date = "✔️"
 
 [package]
 format = "/ [$symbol$version]($style) "
@@ -46,11 +46,32 @@ symbol = "📦 "
 
 [java]
 format = "/ [${symbol}(${version} )]($style)"
-style = "blue"
-symbol = "☕ "
 version_format ="${raw}"
+style = "bright-blue"
+symbol = " "
 
 [python]
-format = '/ [${symbol}${pyenv_prefix}(${version} )]($style)[\($virtualenv\)](028)'
-symbol = "🐍 "
+format = '/ [${symbol}${pyenv_prefix}(${version} )]($style)[(\($virtualenv\) )](028)'
+
 version_format ="${raw}"
+symbol = " "
+
+[rust]
+format = "/ [${symbol}(${version} )]($style)"
+version_format ="${raw}"
+symbol = " "
+
+[nodejs]
+format = "/ [${symbol}(${version} )]($style)"
+version_format ="${raw}"
+symbol = " "
+
+[lua]
+format = "/ [${symbol}(${version} )]($style)"
+version_format ="${raw}"
+symbol = " "
+
+[c]
+format = "/ [${symbol}(${version} )]($style)"
+version_format ="${raw}"
+symbol = " "
