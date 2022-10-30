@@ -5,18 +5,15 @@ $directory\
 $character
 """
 
+continuation_prompt = "[▶](242)"
+
 # move the rest of the prompt to the right
 right_format = """$all"""
 
 [directory]
 truncation_length = 1
 fish_style_pwd_dir_length = 1
-
-[git_branch]
-format = "[$symbol$branch(:$remote_branch)]($style) "
-symbol = ""
-
-
+style = "067 bold"
 
 [battery]
 full_symbol = "🔋 "
@@ -26,6 +23,34 @@ discharging_symbol = "💀 "
 [gcloud]
 disabled = true
 
-
 [cmd_duration]
 disabled = true
+
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "
+symbol = ""
+
+[git_status]
+format ="([$all_status$ahead_behind]($style) )"
+behind = "⬇️"
+ahead = "⬆️"
+diverged = "↕️"
+modified = "❗"
+untracked = "❓"
+stashed = "📂"
+up_to_date = "✔️"
+
+[package]
+format = "/ [$symbol$version]($style) "
+symbol = "📦 "
+
+[java]
+format = "/ [${symbol}(${version} )]($style)"
+style = "blue"
+symbol = "☕ "
+version_format ="${raw}"
+
+[python]
+format = '/ [${symbol}${pyenv_prefix}(${version} )]($style)[\($virtualenv\)](028)'
+symbol = "🐍 "
+version_format ="${raw}"
