@@ -5,7 +5,7 @@ $directory\
 $character
 """
 
-continuation_prompt = "[▶](242)"
+continuation_prompt = "[▶](242) "
 
 # move the rest of the prompt to the right
 right_format = """$all"""
@@ -23,55 +23,66 @@ discharging_symbol = "💀 "
 [cmd_duration]
 disabled = true
 
-[git_branch]
-format = "[$symbol$branch(:$remote_branch)]($style) "
-symbol = " "
-
 [gcloud]
 disabled = true
 
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "
+symbol = " "
+style = "202"
+
 [git_status]
 format ="([$all_status$ahead_behind]($style) )"
-behind = "⬇️"
-ahead = "⬆️"
-diverged = "↕️"
-modified = "❗"
-untracked = "❓"
-stashed = "📂"
-# up_to_date = "✔️"
+behind = " ${count}"
+ahead = " ${count}"
+diverged = " ⇡${ahead_count}⇣${behind_count}"
+modified = " ${count} "# " "
+untracked = " ${count} "
+deleted = " ${count} " #""#"✘"
+stashed = " ${count} "
+up_to_date = "[](green)"#"" #"" #"" #""
+staged = '[++\($count\)](green)'
+style = "208"
+
+[git_state]
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+cherry_pick = "[ 🍒 PICKING](bold red)"
+
 
 [package]
-format = "/ [$symbol$version]($style) "
+format = "[⏽](244) [$symbol$version]($style) "
 symbol = "📦 "
+style = "166 bold"
 
 [java]
-format = "/ [${symbol}(${version} )]($style)"
+format = "[⏽](244) [${symbol}(${version} )]($style)"
 version_format ="${raw}"
-style = "bright-blue"
+style = "027"
 symbol = " "
 
 [python]
-format = '/ [${symbol}${pyenv_prefix}(${version} )]($style)[(\($virtualenv\) )](028)'
+format = '[⏽](244) [${symbol}${pyenv_prefix}(${version} )]($style)[(\($virtualenv\) )](028)'
+style = "214"
 
 version_format ="${raw}"
 symbol = " "
 
 [rust]
-format = "/ [${symbol}(${version} )]($style)"
+format = "[⏽](244) [${symbol}(${version} )]($style)"
 version_format ="${raw}"
 symbol = " "
 
 [nodejs]
-format = "/ [${symbol}(${version} )]($style)"
+format = "[⏽](244) [${symbol}(${version} )]($style)"
 version_format ="${raw}"
 symbol = " "
 
 [lua]
-format = "/ [${symbol}(${version} )]($style)"
+format = "[⏽](244) [${symbol}(${version} )]($style)"
 version_format ="${raw}"
 symbol = " "
 
 [c]
-format = "/ [${symbol}(${version} )]($style)"
+format = "[⏽](244) [${symbol}(${version} )]($style)"
 version_format ="${raw}"
 symbol = " "
