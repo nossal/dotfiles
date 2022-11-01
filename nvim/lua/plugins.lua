@@ -40,7 +40,10 @@ return packer.startup(function(use)
 
     use 'lewis6991/impatient.nvim'
 
+    use 'nvim-lua/plenary.nvim'
+
     use 'numToStr/Comment.nvim'
+
     use 'nvim-treesitter/nvim-treesitter'
     use { 'nvim-treesitter/nvim-treesitter-textobjects', after = { 'nvim-treesitter' } }
     use 'neovim/nvim-lspconfig'
@@ -50,18 +53,24 @@ return packer.startup(function(use)
     use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }
     use 'lukas-reineke/indent-blankline.nvim'
 
-    use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
+    use { 'nvim-telescope/telescope.nvim', branch = '0.1.x' }
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable "make" == 1 }
 
     use "rebelot/kanagawa.nvim"
 
     use "rebelot/heirline.nvim"
 
+    use  "metakirby5/codi.vim"
 
+    use "mickael-menu/zk-nvim"
+
+    use "nvim-tree/nvim-web-devicons"
+
+    use "willthbill/opener.nvim"
 
     use {
         "folke/trouble.nvim",
-        requires = "kyazdani42/nvim-web-devicons",
+        requires = "nvim-tree/nvim-web-devicons",
         config = function()
             require("trouble").setup {
             -- your configuration comes here
@@ -70,6 +79,14 @@ return packer.startup(function(use)
             }
         end
     }
+
+    use {
+        'nvim-tree/nvim-tree.lua',
+        requires = {
+          'nvim-tree/nvim-web-devicons', -- optional, for file icons
+        },
+        tag = 'nightly' -- optional, updated every week. (see issue #1193)
+      }
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
