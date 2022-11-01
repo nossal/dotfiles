@@ -1,2 +1,4 @@
 export DOTDIR=$HOME/.dotfiles
 export ZSHDOTDIR=$DOTDIR/zsh
+
+. "$HOME/.cargo/env"
