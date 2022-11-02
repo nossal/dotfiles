@@ -67,12 +67,21 @@ autoload -U colors
 #colors
 
 # Plugins
-zsh_add_plugin "zsh-users/zsh-autosuggestions"
-zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
-zsh_add_plugin "Aloxaf/fzf-tab"
-zsh_add_plugin "zsh-users/zsh-history-substring-search"
-zsh_add_plugin "softmoth/zsh-vim-mode"
+plugins=(
+  "zsh-users/zsh-autosuggestions"
+  "zsh-users/zsh-syntax-highlighting"
+  "Aloxaf/fzf-tab"
+  "zsh-users/zsh-history-substring-search"
+  "softmoth/zsh-vim-mode"
+  "trystan2k/zsh-tab-title"
+)
 
+for plugin in $plugins; do
+  zsh_add_plugin $plugin
+done
+
+# TODO: custom fzf theme
+# https://github.com/junegunn/fzf/wiki/Color-schemes
 
 eval "$(starship init zsh)"
 
