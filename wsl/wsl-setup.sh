@@ -5,7 +5,7 @@ packages=(
         "util-linux-core"
         "which"
         "fzf"
-        "fd"
+        "fd-find"
         "exa"
         "ripgrep"
         "bat"

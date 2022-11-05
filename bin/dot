@@ -36,4 +36,8 @@ if [[ ! -a $LOCAL_BIN_DIR ]]; then
   mkdir -p $LOCAL_BIN_DIR
 fi
 
+
+# /mnt/c/Users/nossal/AppData/Local/Microsoft/Windows/Fonts
+
+
 # cp $DOTFILES_HOME/bin/\* $LOCAL_BIN_DIR
