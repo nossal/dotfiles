@@ -7,8 +7,8 @@
 source $ZSHDOTDIR/functions.zsh
 source $ZSHDOTDIR/mappings.zsh
 
-autoload -U compinit
-compinit
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
 
 #allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
@@ -76,6 +76,10 @@ plugins=(
   "trystan2k/zsh-tab-title"
 )
 
+completion=(
+  "$NVM_DIR/bash_completion"
+)
+
 for plugin in $plugins; do
   zsh_add_plugin $plugin
 done
@@ -84,11 +88,3 @@ done
 # https://github.com/junegunn/fzf/wiki/Color-schemes
 
 eval "$(starship init zsh)"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

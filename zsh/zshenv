@@ -1,9 +1,6 @@
 export DOTDIR=$HOME/.dotfiles
 export ZSHDOTDIR=$DOTDIR/zsh
 
-source "$HOME/.cargo/env"
-
-
 WORK_FILE="$DOTDIR/work.sh"
 if [[ -a $WORK_FILE ]]; then
     source $WORK_FILE
