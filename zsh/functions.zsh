@@ -31,6 +31,10 @@ function zsh_add_completion() {
 }
 
 
+_priv_func() {
+    echo "Private Function"
+}
+
 # function ssh () {
 #     /usr/bin/ssh -t "$@" "tmux attach || tmux new";
 # }

@@ -36,6 +36,8 @@ if [[ ! -a $LOCAL_BIN_DIR ]]; then
   mkdir -p $LOCAL_BIN_DIR
 fi
 
+NIX_INSTALLER_NO_MODIFY_PROFILE=true
+$ sh <(curl -L https://nixos.org/nix/install)
 
 # /mnt/c/Users/nossal/AppData/Local/Microsoft/Windows/Fonts
 

@@ -76,13 +76,18 @@ plugins=(
   "trystan2k/zsh-tab-title"
 )
 
-completion=(
+completions=(
   "$NVM_DIR/bash_completion"
 )
 
 for plugin in $plugins; do
   zsh_add_plugin $plugin
 done
+
+for completion in $completions; do
+  zsh_add_completion $completion
+done
+
 
 # TODO: custom fzf theme
 # https://github.com/junegunn/fzf/wiki/Color-schemes
