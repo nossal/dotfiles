@@ -68,6 +68,8 @@ return packer.startup(function(use)
 
     use "willthbill/opener.nvim"
 
+    use 'ttbug/tig.nvim'
+
     use {
         "folke/trouble.nvim",
         requires = "nvim-tree/nvim-web-devicons",
@@ -87,6 +89,8 @@ return packer.startup(function(use)
         },
         tag = 'nightly' -- optional, updated every week. (see issue #1193)
       }
+
+
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

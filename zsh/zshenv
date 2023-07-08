@@ -1,7 +1,7 @@
 export DOTDIR=$HOME/.dotfiles
 export ZSHDOTDIR=$DOTDIR/zsh
 
-WORK_FILE="$DOTDIR/work.sh"
+WORK_FILE="$DOTDIR/work/env.sh"
 if [[ -a $WORK_FILE ]]; then
     source $WORK_FILE
 fi

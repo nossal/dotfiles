@@ -76,9 +76,9 @@ plugins=(
   "trystan2k/zsh-tab-title"
 )
 
-completions=(
-  "$NVM_DIR/bash_completion"
-)
+# completions=(
+#   "$NVM_DIR/bash_completion"
+# )
 
 for plugin in $plugins; do
   zsh_add_plugin $plugin
