@@ -1,0 +1,18 @@
+Include ~/.dotfiles/work/sshconfig
+
+Host *
+  ServerAliveInterval 60
+
+# GitHub, GitLab,
+Host *github.com *.gitlab.com
+  User nossal
+  IdentityFile ~/.ssh/github.key
+
+Host 3d-printer
+  HostName 3dprinter.local
+  User pi
+  IdentityFile ~/.ssh/mainsail
+
+Host 192.168.* node-* *.local
+  User nossal
+  IdentityFile ~/.ssh/nossal
