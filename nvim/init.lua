@@ -1,8 +1,3 @@
-require 'impatient'
+require("plugins")
 
--- Plugins
-require 'plugins'
-
-require 'options'
-
-vim.cmd("colorscheme kanagawa")
+vim.loader.enable()

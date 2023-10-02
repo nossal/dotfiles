@@ -98,19 +98,3 @@ opt.foldtext = "v:lua.CustomFoldText()"
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
 opt.termguicolors = true
-
-
-require("nvim-tree").setup {
-    renderer = {
-        group_empty = true,
-        highlight_opened_files = "all",
-        highlight_git = true
-    },
-    view = {
-        side = "right"
-    },
-    update_focused_file = {
-        enable = true
-    }
-
-}
