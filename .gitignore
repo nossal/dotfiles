@@ -36,3 +36,7 @@ node_modules/
 zsh/plugins
 nvim/plugin
 .zcompdump
+
+work/
+
+lazy-lock.json
