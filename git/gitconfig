@@ -9,6 +9,7 @@
 
 [core]
     editor = nvim
+    pager = delta
     excludesfile = ~/.dotfiles/git/gitignore.global
     fscache = true
     preloadindex = true
@@ -53,27 +54,23 @@
 [log]
     date = local
 
-[diff]
-    renames = copies
-    tool = meld
+[interactive]
+    diffFilter = delta --color-only --features=interactive
 
-[diff "bin"]
-    textconv = hexdump -v -C
+[delta]
+    features = decorations
 
-[difftool]
-    prompt = false
+[delta "interactive"]
+    keep-plus-minus-markers = false
 
-[difftool "meld"]
-    trustExitCode = true
-    cmd = open -W -a Meld --args \"$LOCAL\" \"$PWD/$REMOTE\"
-
-[merge]
-    tool = meld
-
-[mergetool]
-    keepBackup = false
-    trustExitCode = true
-    cmd = open -W -a Meld --args --auto-merge \"$PWD/$LOCAL\" \"$PWD/$BASE\" \"$PWD/$REMOTE\" --output=\"$PWD/$MERGED\"
+[delta "decorations"]
+    commit-decoration-style = blue ol
+    commit-style = raw
+    file-style = omit
+    hunk-header-decoration-style = blue box
+    hunk-header-file-style = red
+    hunk-header-line-number-style = "#067a00"
+    hunk-header-style = file line-number syntax
 
 [gc]
     auto = 256
