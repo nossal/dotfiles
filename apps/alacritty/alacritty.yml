@@ -2,19 +2,25 @@ window:
   decorations: full
   padding:
     y: 0
-
-shell:
-  program: wsl.exe -d fedora
-  args:
-    - --cd ~
-
 font:
   normal:
-    family: FiraCode Nerd Font
-  size: 12
-
+    family: MesloLGM Nerd Font
+  size: 10
+cursor:
+  style:
+    shape: Block
+    blinking: On
+  blink_interval: 350
+  blink_timeout: 5
+  unfocused_hollow: true
 
 colors:
+  cursor:
+    text: '#0000FF'
+    cursor: '#055F9C'
+  vi_mode_cursor:
+    text: '#0000FF'
+    cursor: '#FF0000'
   primary:
     background: '#1e1e1e'
     foreground: '#C3C5C9'
@@ -36,3 +42,8 @@ colors:
     magenta: '#C85EAF'
     cyan:    '#25C2BC'
     white:   '#CBCED4'
+
+# OS/2 Colors
+# Red:    #db2416   #8e170e
+# Yellow: #fede00   #b19b00
+# Blue:   #009bcf   #006182
