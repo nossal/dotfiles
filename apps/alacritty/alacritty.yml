@@ -1,11 +1,32 @@
+selection:
+  save_to_clipboard: true
+  text: CellBackground
 window:
+  opacity: 1.0
+  startup_mode: Windowed
   decorations: full
+  dimentions:
+    columns: 110
+    lines: 52
   padding:
+    x: 4
     y: 0
+scrolling:
+  history: 10000
+  multplier: 3
+mouse:
+  hide_when_typing: true
 font:
   normal:
     family: MesloLGM Nerd Font
-  size: 10
+    style: Regular
+  bold:
+    family: MesloLGM Nerd Font
+    style: Bold
+  italic:
+    family: MesloLGM Nerd Font
+    style: Italic
+  size: 10.0
 cursor:
   style:
     shape: Block
@@ -47,3 +68,8 @@ colors:
 # Red:    #db2416   #8e170e
 # Yellow: #fede00   #b19b00
 # Blue:   #009bcf   #006182
+
+# Red     #f14524   #a42f18
+# Magenta #e2008d   #95005d
+# Green   #10b065   #096339
+# Yellow  #fde10a   #b09c06
