@@ -69,21 +69,19 @@ autoload -U colors
 # Plugins
 plugins=(
   "zsh-users/zsh-autosuggestions"
+  # "joshskidmore/zsh-fzf-history-search"
+  "marlonrichert/zsh-autocomplete"
   "zsh-users/zsh-syntax-highlighting"
   "Aloxaf/fzf-tab"
-  "zsh-users/zsh-history-substring-search"
+  # "zsh-users/zsh-history-substring-search"
   "softmoth/zsh-vim-mode"
   "trystan2k/zsh-tab-title"
 )
+load_plugins $plugins;
 
 # completions=(
 #   "$NVM_DIR/bash_completion"
 # )
-
-for plugin in $plugins; do
-  zsh_add_plugin $plugin
-done
-
 for completion in $completions; do
   zsh_add_completion $completion
 done

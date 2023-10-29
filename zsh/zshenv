@@ -1,3 +1,4 @@
+export LANG=en_US.UTF-8
 export DOTDIR=$HOME/.dotfiles
 export ZSHDOTDIR=$DOTDIR/zsh
 
