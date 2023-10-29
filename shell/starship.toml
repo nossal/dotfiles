@@ -9,6 +9,7 @@ continuation_prompt = "[▶](242) "
 
 # move the rest of the prompt to the right
 right_format = """$all"""
+add_newline = false 
 
 [directory]
 truncation_length = 1
@@ -86,3 +87,4 @@ symbol = " "
 format = "[⏽](244) [${symbol}(${version} )]($style)"
 version_format ="${raw}"
 symbol = " "
+
