@@ -94,3 +94,5 @@ format = "[⏽](244) [${symbol}(${version} )]($style)"
 version_format ="${raw}"
 symbol = " "
 
+[gcloud]
+disabled = true
