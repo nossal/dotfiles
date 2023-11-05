@@ -69,13 +69,12 @@ autoload -U colors
 # Plugins
 plugins=(
   "zsh-users/zsh-autosuggestions"
-  # "joshskidmore/zsh-fzf-history-search"
-  "marlonrichert/zsh-autocomplete"
-  "zsh-users/zsh-syntax-highlighting"
+  # "marlonrichert/zsh-autocomplete"
   "Aloxaf/fzf-tab"
   # "zsh-users/zsh-history-substring-search"
-  "softmoth/zsh-vim-mode"
-  "trystan2k/zsh-tab-title"
+  # "softmoth/zsh-vim-mode"
+  "zsh-users/zsh-syntax-highlighting"
+  "joshskidmore/zsh-fzf-history-search"
 )
 load_plugins $plugins;
 

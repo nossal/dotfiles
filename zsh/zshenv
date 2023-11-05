@@ -6,3 +6,5 @@ WORK_FILE="$DOTDIR/work/env.sh"
 if [[ -a $WORK_FILE ]]; then
     source $WORK_FILE
 fi
+
+source "$HOME/.cargo/env"
