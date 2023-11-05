@@ -55,7 +55,6 @@ setopt MULTIOS              # Write to multiple descriptors.
 setopt EXTENDED_GLOB        # Use extended globbing syntax.
 unsetopt CLOBBER            # Do not overwrite existing files with > and >>.
                             # Use >! and >>! to bypass.
-``
 
 ## automatically decide when to page a list of completions
 #LISTMAX=0
@@ -71,10 +70,8 @@ plugins=(
   "zsh-users/zsh-autosuggestions"
   # "marlonrichert/zsh-autocomplete"
   "Aloxaf/fzf-tab"
-  # "zsh-users/zsh-history-substring-search"
-  # "softmoth/zsh-vim-mode"
-  "zsh-users/zsh-syntax-highlighting"
   "joshskidmore/zsh-fzf-history-search"
+  "zsh-users/zsh-syntax-highlighting"
 )
 load_plugins $plugins;
 
@@ -89,4 +86,5 @@ done
 # TODO: custom fzf theme
 # https://github.com/junegunn/fzf/wiki/Color-schemes
 
+# The Prompt
 eval "$(starship init zsh)"
