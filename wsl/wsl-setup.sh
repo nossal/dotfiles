@@ -39,6 +39,15 @@ eval "$(starship init zsh)"
 
 printf "\n[user]\ndefault = $username\n" | sudo tee -a /etc/wsl.conf
 
-
+fedora_update ()
+{
+        sudo dnf upgrade --refresh
+        sudo dnf install dnf-plugin-system-upgrade
+        sudo dnf system-upgrade download --releasever=$1
+        export dnf_system_upgrade_no_reboot=1
+        sudo -e dnf system-upgrade reboot
+        sudo -e dnf system-upgrade upgrade
+        sudo dnf upgrade --refresh
+}
 
 useradd -G wheel $username

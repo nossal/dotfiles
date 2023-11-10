@@ -67,6 +67,7 @@ autoload -U colors
 
 # Plugins
 plugins=(
+  'olets/zsh-window-title'
   "zsh-users/zsh-autosuggestions"
   # "marlonrichert/zsh-autocomplete"
   "Aloxaf/fzf-tab"
