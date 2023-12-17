@@ -6,7 +6,7 @@ Host *
 # GitHub, GitLab,
 Host *github.com *.gitlab.com
   User nossal
-  IdentityFile ~/.ssh/github.key
+  IdentityFile ~/.ssh/nossal
 
 Host 3d-printer
   HostName 3dprinter.local
