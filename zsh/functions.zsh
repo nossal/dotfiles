@@ -8,11 +8,11 @@ function load_plugins() {
         plugin_name=$(echo $plugin | cut -d "/" -f 2)
 
         if [ ! -d "$ZSHDOTDIR/plugins/$plugin_name" ]; then
-            git clone "https://github.com/$1.git" "$ZSHDOTDIR/plugins/$plugin_name"
+            git clone "https://github.com/$plugin.git" "$ZSHDOTDIR/plugins/$plugin_name"
         fi
 
         source_file "plugins/$plugin_name/$plugin_name.plugin.zsh" || \
-        source_file "plugins/$plugin_name/$plugin_name.zsh"
+            source_file "plugins/$plugin_name/$plugin_name.zsh"
     done
 }
 
