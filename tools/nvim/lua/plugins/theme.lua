@@ -1,11 +1,9 @@
 return {
-  -- Theme inspired by Atom
-  'folke/tokyonight.nvim',
+  "craftzdog/solarized-osaka.nvim",
+  lazy = false,
   priority = 1000,
+  opts = {},
   config = function()
-    vim.cmd.colorscheme 'tokyonight'
-    require("tokyonight").setup({
-      style = "storm"
-    })
-  end,
+    vim.cmd[[colorscheme solarized-osaka]]
+  end
 }
