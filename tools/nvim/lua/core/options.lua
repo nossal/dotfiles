@@ -32,7 +32,7 @@ o.backspace = "indent,eol,start" -- allow backspacing over everything in insert 
 o.autoindent = true
 o.copyindent = true -- copy the previous indentation on autoindenting
 o.number = true -- always show line numbers
-o.relativenumber = true 
+o.relativenumber = true
 o.showmatch = true -- show matching parenthesis with a quick jump
 o.ignorecase = true -- ignore case when searching with / or ?
 o.smartcase = true -- ignore case if search pattern is all lowercase, case-sensitive otherwise
@@ -50,22 +50,24 @@ o.wildignorecase = true -- ignore case command completion menu
 o.showcmd = true -- show key spressed in lower-right corner
 o.sidescroll = 1 -- smooth side scrolling
 -- o.scrolloff = 16 -- minimal number of lines above/below cursor (see autocommands)
-o.splitkeep = 'screen'
+o.splitkeep = "screen"
 o.conceallevel = 2 -- conceal marked text
 o.completeopt = "menuone,noinsert,noselect"
 o.pumheight = 15 -- set menu max height
 o.maxmempattern = 5000
 
 opt.fillchars:append({
-    fold = " ",
-    horiz = "━", -- '▃',--'═', --'─',
-    horizup = "┻", --'╩',-- '┴',
-    horizdown = "┳", --'╦', --'┬',
-    vert = "┃", --'▐', --'║', --'┃',
-    vertleft = "┨", --'╣', --'┤',
-    vertright = "┣", --'╠', --'├',
-    verthoriz = "╋", --'╬',--'┼','
+	fold = " ",
+	horiz = "━", -- '▃',--'═', --'─',
+	horizup = "┻", --'╩',-- '┴',
+	horizdown = "┳", --'╦', --'┬',
+	vert = "┃", --'▐', --'║', --'┃',
+	vertleft = "┨", --'╣', --'┤',
+	vertright = "┣", --'╠', --'├',
+	verthoriz = "╋", --'╬',--'┼','
 })
+vim.wo.foldmethod = "expr"
+vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 
 opt.fillchars:append({ foldopen = "▾", foldsep = "│", foldclose = "▸" })
 opt.fillchars:append({ diff = "╲" })
@@ -89,14 +91,13 @@ o.spelloptions = "noplainbuffer"
 -- opt.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
 
 function CustomFoldText()
-    return fn.getline(vim.v.foldstart) .. " ... " .. fn.getline(vim.v.foldend):gsub("^%s*", "")
+	return fn.getline(vim.v.foldstart) .. " ... " .. fn.getline(vim.v.foldend):gsub("^%s*", "")
 end
 
 opt.foldtext = "v:lua.CustomFoldText()"
 
-
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
 opt.termguicolors = true
-g.mapleader = ' '
-g.maplocalleader = ' '
+g.mapleader = " "
+g.maplocalleader = " "
