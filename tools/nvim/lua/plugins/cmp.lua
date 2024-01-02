@@ -26,7 +26,6 @@ return {
 					require("luasnip").lsp_expand(args.body)
 				end,
 			},
-			
 
 			mapping = cmp.mapping.preset.insert({
 				["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -45,7 +44,7 @@ return {
 			}),
 			-- Installed sources:
 			sources = cmp.config.sources({
-			    { name = "luasnip" },
+				{ name = "luasnip" },
 				{ name = "path" }, -- file paths
 				{ name = "nvim_lsp", keyword_length = 3 }, -- from language server
 				{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
@@ -65,7 +64,6 @@ return {
 						luasnip = "⋗",
 						buffer = "Ω",
 						path = "🖫",
-						
 					}
 					item.menu = menu_icon[entry.source.name]
 					return item

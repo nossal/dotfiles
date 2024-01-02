@@ -46,7 +46,7 @@ o.wildmenu = true -- diplay command completion listing and choice menu
 opt.wildoptions:append({ "pum" })
 o.wildcharm = 26 -- trigger completion in macros
 o.wildignorecase = true -- ignore case command completion menu
--- o.clipboard            = "unnamed"         -- send yanks to system clipboard (buggy with v-block)
+-- o.clipboard = "unnamed"         -- send yanks to system clipboard (buggy with v-block)
 o.showcmd = true -- show key spressed in lower-right corner
 o.sidescroll = 1 -- smooth side scrolling
 -- o.scrolloff = 16 -- minimal number of lines above/below cursor (see autocommands)
@@ -56,7 +56,7 @@ o.completeopt = "menuone,noinsert,noselect"
 o.pumheight = 15 -- set menu max height
 o.maxmempattern = 5000
 
-opt.fillchars:append({
+--[[ opt.fillchars:append({
 	fold = " ",
 	horiz = "━", -- '▃',--'═', --'─',
 	horizup = "┻", --'╩',-- '┴',
@@ -65,7 +65,7 @@ opt.fillchars:append({
 	vertleft = "┨", --'╣', --'┤',
 	vertright = "┣", --'╠', --'├',
 	verthoriz = "╋", --'╬',--'┼','
-})
+}) ]]
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 
@@ -86,18 +86,19 @@ o.splitright = true
 o.foldenable = false
 opt.jumpoptions:append({ "view" })
 
-o.dictionary = "/usr/share/dict/words"
+-- o.dictionary = "/usr/share/dict/words"
 o.spelloptions = "noplainbuffer"
 -- opt.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50"
 
-function CustomFoldText()
+--[[ function CustomFoldText()
 	return fn.getline(vim.v.foldstart) .. " ... " .. fn.getline(vim.v.foldend):gsub("^%s*", "")
 end
 
-opt.foldtext = "v:lua.CustomFoldText()"
+opt.foldtext = "v:lua.CustomFoldText()" ]]
 
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
 opt.termguicolors = true
+
 g.mapleader = " "
 g.maplocalleader = " "
