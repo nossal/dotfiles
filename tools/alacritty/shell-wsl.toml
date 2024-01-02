@@ -1,0 +1,3 @@
+[shell]
+args = ["--cd ~"]
+program = "wsl.exe -d fedora"

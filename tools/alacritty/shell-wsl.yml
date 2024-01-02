@@ -1,4 +1,0 @@
-shell:
-  program: wsl.exe -d fedora
-  args:
-    - --cd ~

@@ -1,0 +1,64 @@
+[colors.primary]
+background = "#1e1e1e"
+foreground = "#C3C5C9"
+
+[colors.normal]
+black = "#434859"
+blue = "#055F9C"
+cyan = "#067F80"
+green = "#04BA1D"
+magenta = "#AB358F"
+red = "#DC3C3C"
+white = "#B3B4BA"
+yellow = "#CC9C57"
+
+[colors.bright]
+black = "#626878"
+blue = "#4E78B3"
+cyan = "#25C2BC"
+green = "#32E830"
+magenta = "#C85EAF"
+red = "#DB5151"
+white = "#CBCED4"
+yellow = "#D9B172"
+
+[colors.cursor]
+cursor = "#055F9C"
+text = "#0000FF"
+
+[colors.vi_mode_cursor]
+cursor = "#FF0000"
+text = "#0000FF"
+
+[cursor]
+blink_interval = 350
+blink_timeout = 5
+unfocused_hollow = true
+style = { blinking = "On", shape = "Block" }
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 11.0
+bold = { family = "MesloLGM Nerd Font", style = "Bold" }
+italic = { family = "MesloLGM Nerd Font", style = "Italic" }
+normal = { family = "MesloLGM Nerd Font", style = "Regular" }
+
+[mouse]
+hide_when_typing = true
+
+[scrolling]
+history = 10000
+
+[selection]
+save_to_clipboard = true
+#text = "CellBackground"
+
+[window]
+decorations = "full"
+opacity = 1.0
+startup_mode = "Windowed"
+dimensions = { columns = 150, lines = 52 }
+padding = { x = 0, y = 0 }
+
