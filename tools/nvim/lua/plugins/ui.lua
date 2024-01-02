@@ -10,6 +10,7 @@ return {
 			notify.setup({
 				render = "compact",
 				stages = "fade",
+				fps = 60,
 			})
 			vim.notify = notify
 		end,

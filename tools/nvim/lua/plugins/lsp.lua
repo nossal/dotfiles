@@ -1,29 +1,14 @@
 return {
 	"neovim/nvim-lspconfig",
+	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
-		{
-			"williamboman/mason.nvim",
-			config = function()
-				require("mason").setup()
-			end,
-		},
-		{
-			"williamboman/mason-lspconfig.nvim",
-			config = function()
-				require("mason-lspconfig").setup({
-					ensure_installed = { "lua_ls", "rust_analyzer", "clojure_lsp" },
-				})
-			end,
-		},
-		"jay-babu/mason-nvim-dap.nvim",
-
+        "hrsh7th/cmp-nvim-lsp",
 		-- Useful status updates for LSP
 		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
 		{ "j-hui/fidget.nvim", opts = {} },
 
 		-- Additional lua configuration, makes nvim stuff amazing!
 		"folke/neodev.nvim",
-
 		"mfussenegger/nvim-jdtls",
 	},
 	config = function()
@@ -69,7 +54,6 @@ return {
 			keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
 
 			opts.desc = "Show line diagnostics"
-
 			keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
 			opts.desc = "Go to previous diagnostic"
