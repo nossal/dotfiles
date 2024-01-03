@@ -1,0 +1,10 @@
+import = [
+     "\\\\wsl.localhost\\fedora\\home\\nossal\\.dotfiles\\tools\\alacritty\\config-base.toml"
+]
+
+live_config_reload = true
+
+[shell]
+args = ["--cd ~"]
+program = "wsl.exe -d fedora" 
+

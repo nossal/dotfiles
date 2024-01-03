@@ -1,0 +1,11 @@
+import = [
+    "~/.dotfiles/tools/alacritty/config-base.toml"
+]
+
+[window]
+decorations = "None"
+startup_mode = "Maximized"
+
+[font]
+size = 16
+
