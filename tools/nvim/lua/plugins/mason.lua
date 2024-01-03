@@ -30,10 +30,8 @@ return {
 				"lua_ls",
 				"rust_analyzer",
 				"clojure_lsp",
-
 				"tsserver",
 				"html",
-				"htmlx",
 				"cssls",
 				"emmet_ls",
 				"pyright",

@@ -2,18 +2,17 @@ return {
 	"neovim/nvim-lspconfig",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
-        "hrsh7th/cmp-nvim-lsp",
-		-- Useful status updates for LSP
-		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-		{ "j-hui/fidget.nvim", opts = {} },
+		"hrsh7th/cmp-nvim-lsp",
 
 		-- Additional lua configuration, makes nvim stuff amazing!
-		"folke/neodev.nvim",
+		{ "folke/neodev.nvim", opts = {} },
 		"mfussenegger/nvim-jdtls",
 	},
 	config = function()
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 		local lspconfig = require("lspconfig")
+
+		require("neodev").setup({})
 
 		-- Change the Diagnostic symbols in the sign column (gutter)
 		-- (not in youtube nvim video)
