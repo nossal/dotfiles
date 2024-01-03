@@ -40,4 +40,5 @@ nvim/plugin
 work/
 
 lazy-lock.json
+.luarc.json
 *Zone.Identifier
