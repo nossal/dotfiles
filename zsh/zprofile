@@ -1,10 +1,13 @@
 typeset -gU path
 
+JAVA=$(rtx where java)/bin
+
 path=(
     $HOME/.local/bin(N)
     $HOME/{,s}bin(N)
     /opt/{homebrew,local}/{,s}bin(N)
     /usr/local{,s}bin(N)
+    $JAVA
     $path
 )
 
