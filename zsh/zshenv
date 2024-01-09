@@ -8,3 +8,4 @@ if [[ -a $WORK_FILE ]]; then
 fi
 
 source "$HOME/.cargo/env"
+eval "$(rtx activate zsh)"
