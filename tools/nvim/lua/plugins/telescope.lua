@@ -36,11 +36,7 @@ return {
 			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find Files" })
 			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live Grep" })
 			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find Buffers" })
-			vim.keymap.set("n", "<leader>fw", function()
-				local word = vim.fn.expand("<cword>")
-				print(word)
-				builtin.grep_string({ search = word })
-			end, { desc = "search in files" })
+			vim.keymap.set('n', '<leader>fw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 
 			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help Tags" })
 		end,
