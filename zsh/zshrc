@@ -65,6 +65,14 @@ MAILCHECK=0
 autoload -U colors
 #colors
 
+
+# completions=(
+#   "$NVM_DIR/bash_completion"
+# )
+for completion in $completions; do
+  zsh_add_completion $completion
+done
+
 # Plugins
 plugins=(
   'olets/zsh-window-title'
@@ -73,15 +81,9 @@ plugins=(
   "Aloxaf/fzf-tab"
   "joshskidmore/zsh-fzf-history-search"
   "zsh-users/zsh-syntax-highlighting"
+  "hlissner/zsh-autopair"
 )
 load_plugins $plugins;
-
-# completions=(
-#   "$NVM_DIR/bash_completion"
-# )
-for completion in $completions; do
-  zsh_add_completion $completion
-done
 
 
 # TODO: custom fzf theme
