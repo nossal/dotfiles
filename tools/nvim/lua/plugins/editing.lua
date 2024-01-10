@@ -29,6 +29,7 @@ return {
 	},
 	{
 		"lukas-reineke/indent-blankline.nvim",
+		event = { "BufReadPre", "BufNewFile" },
 		main = "ibl",
 		opts = {},
 		config = function()
@@ -57,6 +58,7 @@ return {
 	},
 	{
 		"RRethy/vim-illuminate",
+		event = { "BufReadPre", "BufNewFile" },
 		-- config = function ()
 		--     local illu = require("illuminate")
 		--     illu.configure({
