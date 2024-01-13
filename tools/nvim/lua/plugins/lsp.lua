@@ -108,7 +108,7 @@ return {
 			os = "linux"
 		end
 
-		local jdtls_opts = {
+		lspconfig.jdtls.setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			cmd = {
@@ -136,15 +136,14 @@ return {
 				return root_dir
 			end,
 		}
-
-		lspconfig.jdtls.setup(jdtls_opts)
+)
 
 		vim.api.nvim_create_autocmd("Filetype", {
 			pattern = "java", -- autocmd to start jdtls
 			callback = function()
-				if jdtls_opts.root_dir and jdtls_opts.root_dir ~= "" then
-					print(jdtls_opts.root_dir)
-					require("jdtls").start_or_attach(jdtls_opts)
+				if opts.root_dir and opts.root_dir ~= "" then
+					print(opts.root_dir)
+					require("jdtls").start_or_attach(opts)
 				end
 			end,
 		})
