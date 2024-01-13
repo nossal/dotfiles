@@ -1,6 +1,6 @@
 typeset -gU path
 
-JAVA=$(rtx where java)/bin
+JAVA=$($HOME/.local/bin/mise where java)/bin
 
 path=(
     $HOME/.local/bin(N)
@@ -10,4 +10,3 @@ path=(
     $JAVA
     $path
 )
-
