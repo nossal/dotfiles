@@ -37,7 +37,7 @@ unfocused_hollow = true
 style = { blinking = "On", shape = "Block" }
 
 [env]
-TERM = "screen-256color"
+TERM = "xterm-256color"
 
 [font]
 size = 11.0

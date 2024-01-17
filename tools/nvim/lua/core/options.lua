@@ -58,6 +58,7 @@ opt.title = true
 opt.fillchars:append({
   eob = "█"
 })
+opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
 
 -- o.termguicolors = true -- enable gui colors for terminal
 -- g.vimsyn_embed = "lPr"
