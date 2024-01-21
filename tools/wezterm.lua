@@ -50,6 +50,9 @@ config.enable_tab_bar = false
 
 config.font = wezterm.font("MesloLGM Nerd Font")
 config.font_size = 11
+if wezterm.target_triple:find("apple") then
+  config.font_size = 16
+end
 
 config.underline_thickness = 3
 config.cursor_thickness = 1
@@ -57,9 +60,6 @@ config.underline_position = -6
 
 config.term = "xterm-256color"
 
-if wezterm.target_triple:find("apple") then
-  config.font_size = 16
-end
 -- config.animation_fps = 60
 
 config.window_decorations = "RESIZE"
@@ -74,8 +74,8 @@ config.window_decorations = "RESIZE"
 --   border_top_color = 'purple',
 -- }
 config.window_padding = {
-  left = 2,
-  right = 2,
+  left = 0,
+  right = 0,
   top = 10,
   bottom = 0,
 }
