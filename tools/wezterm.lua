@@ -90,10 +90,10 @@ wezterm.on("gui-startup", function(cmd)
   local width_ratio = 0.5
   local ratio = screen.width / screen.height
 
-  local height = 0.90 * screen.height
+  local height = 0.93 * screen.height
   if ratio < 2 then
-    top = (screen.height - height) / 2
-    width_ratio = 0.96
+    top = (screen.height - height) / 2 + 25
+    width_ratio = 0.98
   end
   local gui = window:gui_window()
   local width = width_ratio * screen.width
