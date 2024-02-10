@@ -31,7 +31,7 @@ return {
 				"rust_analyzer",
 				"clojure_lsp",
 				"jdtls",
-				"tsserver",
+				-- "tsserver",
 				"html",
 				"htmx",
 				"cssls",
@@ -44,12 +44,13 @@ return {
 
 		mason_tool_installer.setup({
 			ensure_installed = {
-				"prettier", -- prettier formatter
+				-- "prettier", -- prettier formatter
 				"stylua", -- lua formatter
 				"isort", -- python formatter
 				"black", -- python formatter
 				"pylint", -- python linter
-				"eslint_d", -- js linter
+        "biome",
+				-- "eslint_d", -- js linter
 			},
 		})
 	end,

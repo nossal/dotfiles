@@ -11,6 +11,7 @@ function load_plugins() {
             git clone "https://github.com/$plugin.git" "$ZSHDOTDIR/plugins/$plugin_name"
         fi
 
+        echo "$plugin_name"
         source_file "plugins/$plugin_name/$plugin_name.plugin.zsh" || \
             source_file "plugins/$plugin_name/$plugin_name.zsh"
     done
@@ -37,6 +38,11 @@ _priv_func() {
     echo "Private Function"
 }
 
-# function ssh () {
-#     /usr/bin/ssh -t "$@" "tmux attach || tmux new";
-# }
+function ssht () {
+    /usr/bin/ssh -t "$@" "tmux attach || tmux new";
+}
+
+function hostname() {
+
+  echo `cat /proc/sys/kernel/hostname`
+}

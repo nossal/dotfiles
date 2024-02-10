@@ -47,6 +47,7 @@ config.color_scheme = "nossal"
 config.show_tabs_in_tab_bar = false
 config.show_tab_index_in_tab_bar = false
 config.enable_tab_bar = false
+config.enable_scroll_bar = false
 
 config.font = wezterm.font("MesloLGM Nerd Font")
 config.font_size = 11
@@ -56,7 +57,7 @@ end
 
 config.underline_thickness = 3
 config.cursor_thickness = 1
-config.underline_position = -6
+-- config.underline_position = -6
 
 config.term = "xterm-256color"
 
@@ -76,7 +77,7 @@ config.window_decorations = "RESIZE"
 config.window_padding = {
   left = 0,
   right = 0,
-  top = 10,
+  top = 0,
   bottom = 0,
 }
 
