@@ -1,9 +1,18 @@
 return {
 	"rmagatti/auto-session",
 	config = function()
+    local hist_file = "~/.local/share/nvim/auto_session/history.undo"
 		require("auto-session").setup({
 			log_level = "error",
 			auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+      auto_session_enable_last_session = true,
+      pre_save_cmds = {
+        function ()
+          return [["tabdo NvimTreeClose"]]
+        end,
+        "wundo " .. hist_file
+      },
+      post_restore_cmds = { "rundo " .. hist_file }
 		})
 		local keymap = vim.keymap
 
