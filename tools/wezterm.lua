@@ -6,61 +6,71 @@ local config = {}
 -- In newer versions of wezterm, use the config_builder which will
 -- help provide clearer error messages
 if wezterm.config_builder then
-  config = wezterm.config_builder()
+	config = wezterm.config_builder()
 end
 
 if wezterm.target_triple:find("windows") then
-  config.default_prog = { "C:\\Windows\\System32\\wsl.exe", "-d", "fedora", "--cd", "~" }
+	config.default_prog = { "C:\\Windows\\System32\\wsl.exe", "-d", "fedora", "--cd", "~" }
 end
 -- This is where you actually apply your config choices
 
 -- For example, changing the color scheme:
 config.color_schemes = {
-  ["nossal"] = {
-    background = "#1e1e1e",
-    foreground = "#C3C5C9",
-    cursor_bg = "#FF0000",
-    cursor_fg = "#C3C3C3",
-    ansi = {
-      "#434859",
-      "#DC3C3C",
-      "#04BA1D",
-      "#CC9C57",
-      "#055F9C",
-      "#AB358F",
-      "#067F80",
-      "#B3B4BA",
-    },
-    brights = {
-      "#626878", -- black
-      "#DB5151", -- red
-      "#32E830", -- green
-      "#D9B172", -- yellow
-      "#4E78B3", -- blue
-      "#C85EAF", -- magenta
-      "#4E78B3", -- cyan
-      "#CBCED4", -- white
-    },
-  },
+	["nossal"] = {
+		background = "#1e1e1e",
+		foreground = "#C3C5C9",
+		cursor_bg = "#FF0000",
+		cursor_fg = "#C3C3C3",
+		ansi = {
+			"#434859",
+			"#DC3C3C",
+			"#04BA1D",
+			"#CC9C57",
+			"#055F9C",
+			"#AB358F",
+			"#067F80",
+			"#B3B4BA",
+		},
+		brights = {
+			"#626878", -- black
+			"#DB5151", -- red
+			"#32E830", -- green
+			"#D9B172", -- yellow
+			"#4E78B3", -- blue
+			"#C85EAF", -- magenta
+			"#4E78B3", -- cyan
+			"#CBCED4", -- white
+		},
+	},
 }
 config.color_scheme = "nossal"
 config.show_tabs_in_tab_bar = false
 config.show_tab_index_in_tab_bar = false
 config.enable_tab_bar = false
-config.enable_scroll_bar = false
 
 config.font = wezterm.font("MesloLGM Nerd Font")
 config.font_size = 11
-if wezterm.target_triple:find("apple") then
-  config.font_size = 16
-end
 
-config.underline_thickness = 3
+config.underline_thickness = 1
 config.cursor_thickness = 1
--- config.underline_position = -6
+config.underline_position = -6
 
 config.term = "xterm-256color"
 
+config.visual_bell = {
+	fade_in_function = "EaseIn",
+	fade_in_duration_ms = 75,
+	fade_out_function = "EaseOut",
+	fade_out_duration_ms = 75,
+	target = "CursorColor",
+}
+config.cursor_blink_rate = 800
+config.cursor_blink_ease_in = "EaseIn"
+config.cursor_blink_ease_out = "EaseOut"
+
+if wezterm.target_triple:find("apple") then
+	config.font_size = 16
+end
 -- config.animation_fps = 60
 
 config.window_decorations = "RESIZE"
@@ -75,34 +85,39 @@ config.window_decorations = "RESIZE"
 --   border_top_color = 'purple',
 -- }
 config.window_padding = {
-  left = 0,
-  right = 0,
-  top = 0,
-  bottom = 0,
+	left = 0,
+	right = 0,
+	top = 0,
+	bottom = 0,
 }
 
 wezterm.on("gui-startup", function(cmd)
-  local screen = wezterm.gui.screens().active
-  local tab, pane, window = mux.spawn_window(cmd or {
-    width = 150,
-    height = 50,
-  })
-  local top = 5
-  local width_ratio = 0.5
-  local ratio = screen.width / screen.height
+	local screen = wezterm.gui.screens().active
+	local tab, pane, window = mux.spawn_window(cmd or {
+		width = 150,
+		height = 50,
+	})
+	local top = 5
+	local width_ratio = 0.5
+	local ratio = screen.width / screen.height
 
-  local height = 0.93 * screen.height
-  if ratio < 2 then
-    top = (screen.height - height) / 2 + 25
-    width_ratio = 0.98
-  end
-  local gui = window:gui_window()
-  local width = width_ratio * screen.width
+  local hgap = 30
+  local line_height = 20
+  local line_width = 9
 
-  gui:set_inner_size(width, height)
-  gui:set_position((screen.width - width) / 2, top)
+	local height = screen.height - (3 * line_height) - hgap
+	if ratio < 2 then
+		top = (screen.height - height) / 2
+		width_ratio = 0.96
+	end
 
-  -- window:gui_window():maximize()
+	local gui = window:gui_window()
+  local width = math.floor((width_ratio * screen.width) / line_width) * line_width
+
+	gui:set_inner_size(width, height)
+	gui:set_position((screen.width - width) / 2, top)
+
+	-- window:gui_window():maximize()
 end)
 
 -- wezterm.on('window-config-reloaded', function(window, pane)
