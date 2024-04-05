@@ -5,6 +5,7 @@
 #
 
 source $ZSHDOTDIR/functions.zsh
+source $ZSHDOTDIR/editor.zsh
 source $ZSHDOTDIR/mappings.zsh
 
 autoload -U +X compinit && compinit
