@@ -22,6 +22,8 @@ opt.wrap = false -- disable line wrapping
 -- search settings
 opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
+opt.hlsearch = true -- highlight search terms
+opt.inccommand = "split" -- real time preview of substitution commands
 
 -- cursor line
 opt.cursorline = true -- highlight the current cursor line
@@ -44,6 +46,13 @@ opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 opt.splitright = true -- split vertical window to the right
 opt.splitbelow = true -- split horizontal window to the bottom
 
+-- Sets how neovim will display certain whitespace characters in the editor.
+opt.list = true
+opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+opt.fillchars:append({
+  eob = "█"
+})
+
 -- turn off swapfile
 opt.swapfile = false
 
@@ -55,11 +64,24 @@ opt.swapfile = false
 opt.encoding = "utf-8"
 
 opt.title = true
-opt.fillchars:append({
-  eob = "█"
-})
-opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
+
+-- opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
 opt.conceallevel = 2
+opt.breakindent = true
+opt.showmode = false -- Do not show -- MODE -- in cmdline--
+
+opt.updatetime = 250 -- Decrease update time
+opt.timeoutlen = 300 -- Decrease mapped sequence wait time; Displays which-key popup sooner
+
+vim.g.have_nerd_font = true
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
 -- o.termguicolors = true -- enable gui colors for terminal
 -- g.vimsyn_embed = "lPr"
 -- g.tex_flavor = "latex"
