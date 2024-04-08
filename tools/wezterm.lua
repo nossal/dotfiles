@@ -3,18 +3,22 @@ local mux = wezterm.mux
 -- This table will hold the configuration.
 local config = {}
 
--- In newer versions of wezterm, use the config_builder which will
--- help provide clearer error messages
 if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
-if wezterm.target_triple:find("windows") then
-	config.default_prog = { "C:\\Windows\\System32\\wsl.exe", "-d", "fedora", "--cd", "~" }
-end
--- This is where you actually apply your config choices
+config.default_prog = {"tmux", "a"}
 
--- For example, changing the color scheme:
+if wezterm.target_triple:find("windows") then
+  config.wsl_domains = {{
+    name = "wsl",
+    distribution = "fedora",
+    default_cwd = "~",
+    default_prog = {"tmux", "a"},
+  }}
+  config.default_domain = "wsl"
+end
+
 config.color_schemes = {
 	["nossal"] = {
 		background = "#1e1e1e",
@@ -44,11 +48,14 @@ config.color_schemes = {
 	},
 }
 config.color_scheme = "nossal"
+
+config.enable_tab_bar = false
+config.use_fancy_tab_bar = false
 config.show_tabs_in_tab_bar = false
 config.show_tab_index_in_tab_bar = false
-config.enable_tab_bar = false
+config.show_new_tab_button_in_tab_bar = false
 
-config.font = wezterm.font("MesloLGM Nerd Font")
+config.font = wezterm.font_with_fallback({ "MesloLGM Nerd Font", "Symbols Nerd Font Mono" })
 config.font_size = 11
 
 config.underline_thickness = 1
@@ -97,13 +104,13 @@ wezterm.on("gui-startup", function(cmd)
 		width = 150,
 		height = 50,
 	})
-	local top = 5
+	local top = 10
 	local width_ratio = 0.5
 	local ratio = screen.width / screen.height
 
-  local hgap = 30
-  local line_height = 20
-  local line_width = 9
+	local hgap = 10
+	local line_height = 20
+	local line_width = 9
 
 	local height = screen.height - (3 * line_height) - hgap
 	if ratio < 2 then
@@ -112,12 +119,10 @@ wezterm.on("gui-startup", function(cmd)
 	end
 
 	local gui = window:gui_window()
-  local width = math.floor((width_ratio * screen.width) / line_width) * line_width
+	local width = math.floor((width_ratio * screen.width) / line_width) * line_width
 
 	gui:set_inner_size(width, height)
 	gui:set_position((screen.width - width) / 2, top)
-
-	-- window:gui_window():maximize()
 end)
 
 -- wezterm.on('window-config-reloaded', function(window, pane)
