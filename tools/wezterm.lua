@@ -7,8 +7,6 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
-config.default_prog = {"tmux", "a"}
-
 if wezterm.target_triple:find("windows") then
   config.wsl_domains = {{
     name = "wsl",
@@ -17,6 +15,10 @@ if wezterm.target_triple:find("windows") then
     default_prog = {"tmux", "a"},
   }}
   config.default_domain = "wsl"
+end
+
+if wezterm.target_triple:find("apple") then
+  config.default_prog = {"/usr/local/bin/tmux", "a"}
 end
 
 config.color_schemes = {
