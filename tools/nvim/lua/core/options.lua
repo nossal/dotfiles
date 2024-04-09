@@ -16,6 +16,7 @@ opt.shiftwidth = 2 -- 2 spaces for indent width
 opt.expandtab = true -- expand tab to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
 
+o.modeline = true
 -- line wrapping
 opt.wrap = false -- disable line wrapping
 
@@ -68,7 +69,12 @@ opt.title = true
 -- opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
 opt.conceallevel = 2
 opt.breakindent = true
+
 opt.showmode = false -- Do not show -- MODE -- in cmdline--
+opt.cmdheight = 0
+opt.showcmd = true
+opt.showtabline = 0
+o.cmdheight = 0
 
 opt.updatetime = 250 -- Decrease update time
 opt.timeoutlen = 300 -- Decrease mapped sequence wait time; Displays which-key popup sooner
@@ -82,6 +88,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+-- Folding
+-- o.foldmethod = "expr"
+-- o.foldexpr = "nvim_treesitter#foldexpr()"
+-- function CustomFoldText()
+--     return fn.getline(vim.v.foldstart) .. " ... " .. fn.getline(vim.v.foldend):gsub("^%s*", "")
+-- end
+--
+-- -- opt.foldtext = "v:lua.CustomFoldText()"
+-- opt.foldtext = "v:lua.vim.treesitter.foldtext()"
+
 -- o.termguicolors = true -- enable gui colors for terminal
 -- g.vimsyn_embed = "lPr"
 -- g.tex_flavor = "latex"

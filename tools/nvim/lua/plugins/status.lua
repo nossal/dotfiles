@@ -176,9 +176,229 @@ return {
 			{ provider = "%<" } -- this means that the statusline is cut here when there's not enough space
 		)
 
+		-- We're getting minimalists here!
+		local Ruler = {
+			-- %l = current line number
+			-- %L = number of lines in the buffer
+			-- %c = column number
+			-- %P = percentage through file of displayed window
+			provider = "%7(%l/%3L%):%2c %P",
+		}
+		-- I take no credits for this! :lion:
+		local ScrollBar = {
+			static = {
+				sbar = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" },
+				-- Another variant, because the more choice the better.
+				-- sbar = { '🭶', '🭷', '🭸', '🭹', '🭺', '🭻' }
+			},
+			provider = function(self)
+				local curr_line = vim.api.nvim_win_get_cursor(0)[1]
+				local lines = vim.api.nvim_buf_line_count(0)
+				local i = math.floor((curr_line - 1) / lines * #self.sbar) + 1
+				return string.rep(self.sbar[i], 2)
+			end,
+			hl = { fg = "blue", bg = "white" },
+		}
+
+		local LSPActive = {
+			condition = conditions.lsp_attached,
+			update = { "LspAttach", "LspDetach" },
+
+			-- You can keep it simple,
+			-- provider = " [LSP]",
+
+			-- Or complicate things a bit and get the servers names
+			provider = function()
+				local names = {}
+				for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+					table.insert(names, server.name)
+				end
+				return " [" .. table.concat(names, " ") .. "]"
+			end,
+			hl = { fg = "green", bold = true },
+		}
+
+		-- I personally use it only to display progress messages!
+		-- See lsp-status/README.md for configuration options.
+
+		-- Note: check "j-hui/fidget.nvim" for a nice statusline-free alternative.
+		-- local LSPMessages = {
+		-- 	provider = require("lsp-status").status,
+		-- 	hl = { fg = "gray" },
+		-- }
+		local Diagnostics = {
+
+			condition = conditions.has_diagnostics,
+
+			static = {
+				error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
+				warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
+				info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
+				hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
+			},
+
+			init = function(self)
+				self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+				self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+				self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
+				self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
+			end,
+
+			update = { "DiagnosticChanged", "BufEnter" },
+
+			{
+				provider = "![",
+			},
+			{
+				provider = function(self)
+					-- 0 is just another output, we can decide to print it or not!
+					return self.errors > 0 and (self.error_icon .. self.errors .. " ")
+				end,
+				hl = { fg = "red" },
+			},
+			{
+				provider = function(self)
+					return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
+				end,
+				hl = { fg = "orange" },
+			},
+			{
+				provider = function(self)
+					return self.info > 0 and (self.info_icon .. self.info .. " ")
+				end,
+				hl = { fg = "blue" },
+			},
+			{
+				provider = function(self)
+					return self.hints > 0 and (self.hint_icon .. self.hints)
+				end,
+				hl = { fg = "green" },
+			},
+			{
+				provider = "]",
+			},
+		}
+
+		local Git = {
+			condition = conditions.is_git_repo,
+
+			init = function(self)
+				self.status_dict = vim.b.gitsigns_status_dict
+				self.has_changes = self.status_dict.added ~= 0
+					or self.status_dict.removed ~= 0
+					or self.status_dict.changed ~= 0
+			end,
+
+			hl = { fg = "orange" },
+
+			{ -- git branch name
+				provider = function(self)
+					return " " .. self.status_dict.head
+				end,
+				hl = { bold = true },
+			},
+			-- You could handle delimiters, icons and counts similar to Diagnostics
+			{
+				condition = function(self)
+					return self.has_changes
+				end,
+				provider = "(",
+			},
+			{
+				provider = function(self)
+					local count = self.status_dict.added or 0
+					return count > 0 and ("+" .. count)
+				end,
+				hl = { fg = "green" },
+			},
+			{
+				provider = function(self)
+					local count = self.status_dict.removed or 0
+					return count > 0 and ("-" .. count)
+				end,
+				hl = { fg = "red" },
+			},
+			{
+				provider = function(self)
+					local count = self.status_dict.changed or 0
+					return count > 0 and ("~" .. count)
+				end,
+				hl = { fg = "orange" },
+			},
+			{
+				condition = function(self)
+					return self.has_changes
+				end,
+				provider = ")",
+			},
+		}
+
+		local SearchCount = {
+			condition = function()
+				return vim.v.hlsearch ~= 0 and vim.o.cmdheight == 0
+			end,
+			init = function(self)
+				local ok, search = pcall(vim.fn.searchcount)
+				if ok and search.total then
+					self.search = search
+				end
+			end,
+			provider = function(self)
+				local search = self.search
+				return string.format("[%d/%d]", search.current, math.min(search.total, search.maxcount))
+			end,
+		}
+
+		local MacroRec = {
+			condition = function()
+				return vim.fn.reg_recording() ~= "" and vim.o.cmdheight == 0
+			end,
+			provider = " ",
+			hl = { fg = "orange", bold = true },
+			utils.surround({ "[", "]" }, nil, {
+				provider = function()
+					return vim.fn.reg_recording()
+				end,
+				hl = { fg = "green", bold = true },
+			}),
+			update = {
+				"RecordingEnter",
+				"RecordingLeave",
+			},
+			{ provider = " " },
+		}
+
+		vim.opt.showcmdloc = "statusline"
+		local ShowCmd = {
+			condition = function()
+				return vim.o.cmdheight == 0
+			end,
+			provider = ":%3.5(%S%)",
+			-- hl = function(self)
+			-- 	return { bold = true, fg = self:mode_color() }
+			-- end,
+		}
+
+		local Align = { provider = "%=" }
+		local Space = { provider = " " }
+
+		ViMode = utils.surround({ "", "" }, "black", { MacroRec, ViMode, ShowCmd })
+
 		local StatusLine = {
 			{ ViMode },
+			{ Space },
+			-- { SearchCount },
+			{ Git },
+			{ Space },
 			{ FileNameBlock },
+			{ provider = "%<" },
+			{ Align },
+			{ LSPActive },
+			{ Space },
+			{ Diagnostics },
+			{ Space },
+			{ Ruler },
+			{ ScrollBar },
 		}
 		local StatusColumn = {}
 		local Winbar = {}
