@@ -1,18 +1,43 @@
 return {
 	"rmagatti/auto-session",
 	config = function()
-    local hist_file = "~/.local/share/nvim/auto_session/history.undo"
+		local function file_exists(name)
+			local f = io.open(name, "r")
+			if f ~= nil then
+				io.close(f)
+				return true
+			else
+				return false
+			end
+		end
+
+		local undo_file_tpl = vim.fn.expand("~") .. "/.local/share/nvim/auto_session/hist-%s.undo"
+
 		require("auto-session").setup({
 			log_level = "error",
 			auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
-      auto_session_enable_last_session = true,
-      pre_save_cmds = {
-        function ()
-          return [["tabdo NvimTreeClose"]]
-        end,
-        "wundo " .. hist_file
-      },
-      post_restore_cmds = { "rundo " .. hist_file }
+			auto_session_enable_last_session = true,
+			pre_save_cmds = {
+				function()
+					return [["tabdo NvimTreeClose"]]
+				end,
+				function()
+					local undo_file = string.format(undo_file_tpl, require("auto-session.lib").current_session_name())
+					require("notify")("Undo write: " .. undo_file)
+
+					vim.cmd("wundo " .. undo_file)
+				end,
+			},
+			post_restore_cmds = {
+				function()
+					local undo_file = string.format(undo_file_tpl, require("auto-session.lib").current_session_name())
+					-- require("notify")("Session: " .. undo_file)
+
+					if file_exists(undo_file) then
+						vim.cmd("rundo " .. undo_file)
+					end
+				end,
+			},
 		})
 		local keymap = vim.keymap
 
