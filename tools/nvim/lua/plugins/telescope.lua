@@ -21,8 +21,23 @@ return {
 		config = function()
 			local telescope = require("telescope")
 			local builtin = require("telescope.builtin")
+			local themes = require("telescope.themes")
 
 			telescope.setup({
+				defaults = {
+          file_ignore_patterns = { "node_modules", "build", "target" },
+					layout_config = {
+						vertical = { width = 0.5 },
+					},
+          path_display = {
+            shorten = { len = 1, exclude = {1, -1} }
+          },
+				},
+				pickers = {
+					find_files = {
+						theme = "dropdown",
+					},
+				},
 				extensions = {
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown({}),
@@ -33,11 +48,23 @@ return {
 			telescope.load_extension("ui-select")
 			telescope.load_extension("fzf")
 
+      local function edit_dotfiles()
+        local opts = themes.get_dropdown {
+          cwd = "~/.dotfiles/",
+          prompt_title = " ~ dotfiles ~ ",
+
+          previewer = false,
+          winblend = 10,
+        }
+
+				builtin.find_files(opts)
+			end
+
+			vim.keymap.set("n", "<leader>fd", edit_dotfiles, { desc = "Find Dotfiles" })
 			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find Files" })
 			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live Grep" })
 			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find Buffers" })
-			vim.keymap.set('n', '<leader>fw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-
+			vim.keymap.set("n", "<leader>fw", require("telescope.builtin").grep_string, { desc = "[F]ind current [W]ord" })
 			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help Tags" })
 		end,
 	},
