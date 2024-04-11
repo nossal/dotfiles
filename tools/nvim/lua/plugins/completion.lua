@@ -60,61 +60,61 @@ return {
 			-- Value         = ' ', --   󰀬 󰎠
 			-- Variable      = ' ', --   󰀫 
 
-      -- Class = " ",
-      -- Color = " ",
-      -- Constant = " ",
-      -- Constructor = " ",
-      -- Enum = " ",
-      -- EnumMember = " ",
-      -- Field = "󰄶 ",
-      -- File = " ",
-      -- Folder = " ",
-      -- Function = " ",
-      -- Interface = "󰜰",
-      -- Keyword = "󰌆 ",
-      -- Method = "ƒ ",
-      -- Module = "󰏗 ",
-      -- Property = " ",
-      -- Snippet = "󰘍 ",
-      -- Struct = " ",
-      -- Text = " ",
-      -- Unit = " ",
-      -- Value = "󰎠 ",
-      -- Variable = " ",
+			-- Class = " ",
+			-- Color = " ",
+			-- Constant = " ",
+			-- Constructor = " ",
+			-- Enum = " ",
+			-- EnumMember = " ",
+			-- Field = "󰄶 ",
+			-- File = " ",
+			-- Folder = " ",
+			-- Function = " ",
+			-- Interface = "󰜰",
+			-- Keyword = "󰌆 ",
+			-- Method = "ƒ ",
+			-- Module = "󰏗 ",
+			-- Property = " ",
+			-- Snippet = "󰘍 ",
+			-- Struct = " ",
+			-- Text = " ",
+			-- Unit = " ",
+			-- Value = "󰎠 ",
+			-- Variable = " ",
 
-      local icons = {
-        Text = "󰉿",
-        Method = "󰆧",
-        Function = "󰊕",
-        Constructor = "",
-        Field = "󰜢",
-        Variable = "󰀫",
-        Class = "󰠱",
-        Interface = "",
-        Module = "",
-        Property = "󰜢",
-        Unit = "󰑭",
-        Value = "󰎠",
-        Enum = "",
-        Keyword = "󰌋",
-        Snippet = "",
-        Color = "󰏘",
-        File = "󰈙",
-        Reference = "󰈇",
-        Folder = " ",
-        -- Folder = "󰉋",
-        EnumMember = "",
-        Constant = "󰏿",
-        Struct = "󰙅",
-        Event = "",
-        Operator = "󰆕",
-        TypeParameter = "",
-      }
+			local icons = {
+				Text = "󰉿",
+				Method = "󰆧",
+				Function = "󰊕",
+				Constructor = "",
+				Field = "󰜢",
+				Variable = "󰀫",
+				Class = "󰠱",
+				Interface = "",
+				Module = "",
+				Property = "󰜢",
+				Unit = "󰑭",
+				Value = "󰎠",
+				Enum = "",
+				Keyword = "󰌋",
+				Snippet = "",
+				Color = "󰏘",
+				File = "󰈙",
+				Reference = "󰈇",
+				Folder = " ",
+				-- Folder = "󰉋",
+				EnumMember = "",
+				Constant = "󰏿",
+				Struct = "󰙅",
+				Event = "",
+				Operator = "󰆕",
+				TypeParameter = "",
+			}
 
-      local function kind_label(k)
-        local icon = icons[k] or ""
-        return " " .. icon .. " " .. k
-      end
+			local function kind_label(k)
+				local icon = icons[k] or ""
+				return " " .. icon .. " " .. k
+			end
 
 			cmp.setup({
 				-- Enable LSP snippets
@@ -123,7 +123,24 @@ return {
 						require("luasnip").lsp_expand(args.body)
 					end,
 				},
-
+				sorting = {
+					priority_weight = 2,
+					comparators = {
+						cmp.config.compare.offset,
+						cmp.config.compare.exact,
+						cmp.config.compare.score,
+						cmp.config.compare.recently_used,
+						cmp.config.compare.locality,
+						cmp.config.compare.kind,
+						cmp.config.compare.sort_text,
+						cmp.config.compare.length,
+						cmp.config.compare.order,
+					},
+				},
+				experimental = {
+					native_menu = false,
+					ghost_text = false,
+				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-p>"] = cmp.mapping.select_prev_item(),
 					["<C-n>"] = cmp.mapping.select_next_item(),
@@ -163,7 +180,7 @@ return {
 							path = "🖫",
 						}
 						item.menu = menu_icon[entry.source.name]
-            item.kind = kind_label(item.kind)
+						item.kind = kind_label(item.kind)
 						return item
 					end,
 				},
@@ -181,6 +198,9 @@ return {
 			})
 
 			cmp.setup.cmdline(":", {
+				formatting = {
+					fields = { "menu", "abbr" },
+				},
 				mapping = cmp.mapping.preset.cmdline(),
 				sources = cmp.config.sources({
 					{ name = "path" },
