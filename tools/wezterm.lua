@@ -7,18 +7,21 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
+local tmux_bin = "tmux"
+if wezterm.target_triple:find("apple") then
+  tmux_bin = "/usr/local/bin/tmux"
+end
+
+config.default_prog = { tmux_bin, "new", "-A", "-s", "work" }
+
 if wezterm.target_triple:find("windows") then
   config.wsl_domains = {{
     name = "wsl",
     distribution = "fedora",
     default_cwd = "~",
-    default_prog = {"tmux", "a"},
+    default_prog = config.default_prog,
   }}
   config.default_domain = "wsl"
-end
-
-if wezterm.target_triple:find("apple") then
-  config.default_prog = {"/usr/local/bin/tmux", "a"}
 end
 
 config.color_schemes = {
