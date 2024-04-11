@@ -12,10 +12,21 @@ return {
     -- import mason-lspconfig
     local mason_lspconfig = require("mason-lspconfig")
 		local mason_tool_installer = require("mason-tool-installer")
-
+		local border = {
+			{ "╭", "FloatBorder" },
+			{ "─", "FloatBorder" },
+			{ "╮", "FloatBorder" },
+			{ "│", "FloatBorder" },
+			{ "╯", "FloatBorder" },
+			{ "─", "FloatBorder" },
+			{ "╰", "FloatBorder" },
+			{ "│", "FloatBorder" },
+		}
 		-- enable mason and configure icons
 		mason.setup({
 			ui = {
+        border = border,
+        height = 0.7,
 				icons = {
 					package_installed = "✓",
 					package_pending = "➜",
