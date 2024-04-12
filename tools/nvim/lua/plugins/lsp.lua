@@ -121,11 +121,11 @@ return {
 				"ovl_no_viable_function_in_call",
 			},
 			empty_block = {
-				message = " That shouldn't be empty here",
+				message = "󰂕 That shouldn't be empty here",
 				"empty-block",
 			},
 			missing_symbol = {
-				message = " Here should be a symbol",
+				message = "󰍉 Here should be a symbol",
 				"miss-symbol",
 			},
 			expected_semi_colon = {
@@ -135,7 +135,7 @@ return {
 				"invalid_token_after_toplevel_declarator",
 			},
 			redefinition = {
-				message = " That variable was defined before",
+				message = "󰁡 That variable was defined before",
 				"redefinition",
 				"redefined-local",
 			},
@@ -150,11 +150,11 @@ return {
 				"trailing-space",
 			},
 			unused_variable = {
-				message = " Don't define variables you don't use",
+				message = "󰂭 Don't define variables you don't use",
 				"unused-local",
 			},
 			unused_function = {
-				message = " Don't define functions you don't use",
+				message = "󰂭 Don't define functions you don't use",
 				"unused-function",
 			},
 			useless_symbols = {
@@ -162,7 +162,7 @@ return {
 				"unknown-symbol",
 			},
 			wrong_type = {
-				message = " Try to use the correct types",
+				message = "󰉺 Try to use the correct types",
 				"init_conversion_failed",
 			},
 			undeclared_variable = {
@@ -197,7 +197,7 @@ return {
 				prefix = function(diagnostic, i, total)
 					local icon, highlight
 					if diagnostic.severity == 1 then
-						icon = ""
+						icon = "󰅙"
 						highlight = "DiagnosticError"
 					elseif diagnostic.severity == 2 then
 						icon = ""
