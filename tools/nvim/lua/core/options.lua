@@ -71,10 +71,13 @@ opt.conceallevel = 2
 opt.breakindent = true
 
 opt.showmode = false -- Do not show -- MODE -- in cmdline--
-opt.cmdheight = 0
 opt.showcmd = true
 opt.showtabline = 0
+opt.cmdheight = 0
 o.cmdheight = 0
+
+
+opt.laststatus = 3
 
 opt.updatetime = 250 -- Decrease update time
 opt.timeoutlen = 300 -- Decrease mapped sequence wait time; Displays which-key popup sooner
