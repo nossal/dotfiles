@@ -60,8 +60,9 @@ config.show_tabs_in_tab_bar = false
 config.show_tab_index_in_tab_bar = false
 config.show_new_tab_button_in_tab_bar = false
 
-config.font = wezterm.font_with_fallback({ "MesloLGM Nerd Font", "Symbols Nerd Font Mono" })
+config.font = wezterm.font_with_fallback({ "MesloLGM Nerd Font Propo", "Symbols Nerd Font Mono" })
 config.font_size = 11
+config.line_height = 1.2
 
 config.underline_thickness = 1
 config.cursor_thickness = 1
@@ -113,11 +114,12 @@ wezterm.on("gui-startup", function(cmd)
 	local width_ratio = 0.5
 	local ratio = screen.width / screen.height
 
-	local hgap = 10
-	local line_height = 20
+	local line_height = math.floor((config.font_size * 1.819)) * config.line_height
 	local line_width = 9
+	local hgap = -line_height + 30
 
-	local height = screen.height - (3 * line_height) - hgap
+	-- local height = screen.height - (3 * line_height) - hgap
+	local height = (screen.height / line_height - 3) * line_height - hgap
 	if ratio < 2 then
 		top = (screen.height - height) / 2
 		width_ratio = 0.96
