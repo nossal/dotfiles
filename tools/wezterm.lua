@@ -66,9 +66,9 @@ config.font = wezterm.font_with_fallback({ "MesloLGM Nerd Font Propo", "Symbols 
 config.font_size = 11
 config.line_height = 1.2
 
-config.underline_thickness = 1
-config.cursor_thickness = 1
-config.underline_position = -6
+config.cursor_thickness = 3
+config.underline_thickness = 2
+config.underline_position = -12
 
 config.term = "xterm-256color"
 
