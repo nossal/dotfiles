@@ -5,6 +5,7 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
+			"kkharji/sqlite.lua",
 			-- Fuzzy Finder Algorithm which requires local dependencies to be built.
 			-- Only load if `make` is available. Make sure you have the system
 			-- requirements installed.
@@ -17,6 +18,10 @@ return {
 					return vim.fn.executable("make") == 1
 				end,
 			},
+			{
+				"danielfalk/smart-open.nvim",
+				branch = "0.2.x",
+			},
 		},
 		config = function()
 			local telescope = require("telescope")
@@ -25,13 +30,13 @@ return {
 
 			telescope.setup({
 				defaults = {
-          file_ignore_patterns = { "node_modules", "build", "target" },
+					file_ignore_patterns = { "node_modules", "build", "target" },
 					layout_config = {
 						vertical = { width = 0.5 },
 					},
-          path_display = {
-            shorten = { len = 1, exclude = {1, -1} }
-          },
+					path_display = {
+						shorten = { len = 1, exclude = { 1, -1 } },
+					},
 				},
 				pickers = {
 					find_files = {
@@ -47,15 +52,16 @@ return {
 
 			telescope.load_extension("ui-select")
 			telescope.load_extension("fzf")
+			telescope.load_extension("smart_open")
 
-      local function edit_dotfiles()
-        local opts = themes.get_dropdown {
-          cwd = "~/.dotfiles/",
-          prompt_title = " ~ dotfiles ~ ",
+			local function edit_dotfiles()
+				local opts = themes.get_dropdown({
+					cwd = "~/.dotfiles/",
+					prompt_title = " ~ dotfiles ~ ",
 
-          previewer = false,
-          winblend = 10,
-        }
+					previewer = false,
+					winblend = 10,
+				})
 
 				builtin.find_files(opts)
 			end
@@ -64,7 +70,12 @@ return {
 			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find Files" })
 			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live Grep" })
 			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find Buffers" })
-			vim.keymap.set("n", "<leader>fw", require("telescope.builtin").grep_string, { desc = "[F]ind current [W]ord" })
+			vim.keymap.set(
+				"n",
+				"<leader>fw",
+				require("telescope.builtin").grep_string,
+				{ desc = "[F]ind current [W]ord" }
+			)
 			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help Tags" })
 		end,
 	},

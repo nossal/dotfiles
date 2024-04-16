@@ -49,9 +49,9 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 -- Sets how neovim will display certain whitespace characters in the editor.
 opt.list = true
-opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 opt.fillchars:append({
-  eob = "█"
+	eob = "█",
 })
 
 -- turn off swapfile
@@ -84,12 +84,12 @@ opt.timeoutlen = 300 -- Decrease mapped sequence wait time; Displays which-key p
 
 vim.g.have_nerd_font = true
 
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
 })
 
 -- Folding
@@ -187,5 +187,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 end
 
 opt.foldtext = "v:lua.CustomFoldText()" ]]
-
-

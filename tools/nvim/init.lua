@@ -29,7 +29,8 @@ require("lazy").setup("plugins", {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
     title = "Lazy Plugin Manager",
 		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-		icons = --[[ vim.g.have_nerd_font and {} or  ]]{
+		--[[ vim.g.have_nerd_font and {} or  ]]
+		icons = {
 			cmd = "⌘",
 			config = "🛠",
 			event = "📅",
@@ -46,6 +47,6 @@ require("lazy").setup("plugins", {
 		},
 	},
 })
-
+require("oil").setup()
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

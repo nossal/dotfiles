@@ -9,6 +9,8 @@ return {
 		"mfussenegger/nvim-jdtls",
 	},
 	config = function()
+		require("neodev").setup({})
+
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 		capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 		capabilities.textDocument.completion.completionItem.preselectSupport = true
@@ -32,8 +34,6 @@ return {
 		local on_attach = function(client, bufnr)
 			opts.buffer = bufnr
 
-			-- print(client)
-			-- set keybinds
 			opts.desc = "Show LSP references"
 			keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 
@@ -74,8 +74,7 @@ return {
 			keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 		end
 
-		require("neodev").setup({})
-
+		-- vim.cmd([[au CursorHold  * lua vim.diagnostic.open_float()]])
 		-- vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
 		-- vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
 
@@ -241,6 +240,10 @@ return {
 			settings = {
 				["rust-analyzer"] = {},
 			},
+		})
+		lspconfig.pyright.setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
 		})
 
 		local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }

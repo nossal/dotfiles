@@ -93,12 +93,7 @@ return {
 		},
 		cmd = "Spectre",
 		keys = {
-			{
-				mode = "n",
-				"<leader>S",
-				'<cmd>lua require("spectre").toggle()<CR>',
-				desc = "Toggle Spectre",
-			},
+			{ mode = "n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', desc = "Toggle Spectre" },
 			{
 				mode = "n",
 				"<leader>sw",
