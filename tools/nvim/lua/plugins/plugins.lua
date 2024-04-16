@@ -1,15 +1,15 @@
 return {
-	{
-		"chipsenkbeil/distant.nvim",
-		branch = "v0.3",
-		config = function()
-			require("distant"):setup({
-				["network.private"] = true,
-				["network.unix_socket"] = "/tmp/distant.sock",
-			})
-		end,
-	},
-	--[[ "smoka7/hop.nvim",
+  {
+    "chipsenkbeil/distant.nvim",
+    branch = "v0.3",
+    config = function()
+      require("distant"):setup({
+        ["network.private"] = true,
+        ["network.unix_socket"] = "/tmp/distant.sock",
+      })
+    end,
+  },
+  --[[ "smoka7/hop.nvim",
 	version = "*",
 	config = function()
 		-- place this in one of your configuration file(s)

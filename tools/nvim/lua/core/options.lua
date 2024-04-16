@@ -51,7 +51,7 @@ opt.splitbelow = true -- split horizontal window to the bottom
 opt.list = true
 opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 opt.fillchars:append({
-	eob = "█",
+  eob = "█",
 })
 
 -- turn off swapfile
@@ -76,7 +76,6 @@ opt.showtabline = 0
 opt.cmdheight = 0
 o.cmdheight = 0
 
-
 opt.laststatus = 3
 
 opt.updatetime = 250 -- Decrease update time
@@ -85,11 +84,11 @@ opt.timeoutlen = 300 -- Decrease mapped sequence wait time; Displays which-key p
 vim.g.have_nerd_font = true
 
 vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
-	callback = function()
-		vim.highlight.on_yank()
-	end,
+  desc = "Highlight when yanking (copying) text",
+  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
 })
 
 -- Folding
