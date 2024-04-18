@@ -6,6 +6,8 @@ local fn = vim.fn
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
 
+g.have_nerd_font = true
+
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
 opt.number = true -- shows absolute line number on cursor line (when relative number is on)
@@ -47,6 +49,8 @@ opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 opt.splitright = true -- split vertical window to the right
 opt.splitbelow = true -- split horizontal window to the bottom
 
+o.mousescroll = "ver:1,hor:1"
+
 -- Sets how neovim will display certain whitespace characters in the editor.
 opt.list = true
 opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
@@ -80,8 +84,6 @@ opt.laststatus = 3
 
 opt.updatetime = 250 -- Decrease update time
 opt.timeoutlen = 300 -- Decrease mapped sequence wait time; Displays which-key popup sooner
-
-vim.g.have_nerd_font = true
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking (copying) text",

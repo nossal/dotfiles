@@ -37,6 +37,7 @@ return {
           path_display = {
             shorten = { len = 1, exclude = { 1, -1 } },
           },
+          prompt_prefix = " ",
         },
         pickers = {
           find_files = {
