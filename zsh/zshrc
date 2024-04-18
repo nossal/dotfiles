@@ -89,7 +89,7 @@ load_plugins $plugins;
 
 # TODO: custom fzf theme
 # https://github.com/junegunn/fzf/wiki/Color-schemes
-
+eval "$(fzf --zsh)"
 # The Prompt
 eval "$(starship init zsh)"
 
