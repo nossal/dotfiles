@@ -70,7 +70,7 @@ config.cursor_thickness = 3
 config.underline_thickness = 2
 config.underline_position = -12
 
-config.term = "xterm-256color"
+config.term = "wezterm"
 
 config.visual_bell = {
     fade_in_function = "EaseIn",
