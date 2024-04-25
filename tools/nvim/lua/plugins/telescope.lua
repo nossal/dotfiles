@@ -6,6 +6,7 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-ui-select.nvim",
       "kkharji/sqlite.lua",
+      "nvim-telescope/telescope-frecency.nvim",
       -- Fuzzy Finder Algorithm which requires local dependencies to be built.
       -- Only load if `make` is available. Make sure you have the system
       -- requirements installed.
@@ -45,7 +46,10 @@ return {
           },
         },
         extensions = {
-          ["ui-select"] = {
+          frecency = {
+            require("telescope.themes").get_dropdown({}),
+          },
+          [ {"frecency", "ui-select"} ] = {
             require("telescope.themes").get_dropdown({}),
           },
         },
@@ -54,6 +58,7 @@ return {
       telescope.load_extension("ui-select")
       telescope.load_extension("fzf")
       telescope.load_extension("smart_open")
+      telescope.load_extension("frecency")
 
       local function edit_dotfiles()
         local opts = themes.get_dropdown({
