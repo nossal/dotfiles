@@ -12,10 +12,16 @@ return {
       auto_install = true,
       indent = { enable = true },
       highlight = { enable = true },
-    })
-
-    require("nvim-treesitter.configs").setup({
       textobjects = {
+        lsp_interop = {
+          enable = true,
+          border = 'none',
+          floating_preview_opts = {},
+          peek_definition_code = {
+            ["<leader>df"] = "@function.outer",
+            ["<leader>dF"] = "@class.outer",
+          },
+        },
         select = {
           enable = true,
           -- Automatically jump forward to textobj, similar to targets.vim
@@ -109,7 +115,6 @@ return {
             ["[l"] = { query = "@loop.outer", desc = "Prev loop start" },
           },
           goto_previous_end = {
-
             ["[F"] = { query = "@call.outer", desc = "Prev function call end" },
             ["[M"] = { query = "@function.outer", desc = "Prev method/function def end" },
             ["[C"] = { query = "@class.outer", desc = "Prev class end" },

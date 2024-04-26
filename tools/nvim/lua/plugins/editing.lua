@@ -61,17 +61,42 @@ return {
   {
     "RRethy/vim-illuminate",
     event = { "BufReadPre", "BufNewFile" },
-    -- config = function ()
-    --     local illu = require("illuminate")
-    --     illu.configure({
-    --
-    --     })
-    -- end
+    config = function()
+      local illu = require("illuminate")
+      illu.configure({
+        providers = {
+          "lsp",
+          "treesitter",
+          "regex",
+        },
+        filetypes_denylist = {
+          "oil",
+          "markdown",
+          "text",
+          "dirbuf",
+          "dirvish",
+          "fugitive",
+        },
+      })
+      vim.keymap.set("n", "<C-n>", require("illuminate").goto_next_reference, { desc = "Move to next reference" })
+      vim.keymap.set("n", "<C-p>", require("illuminate").goto_prev_reference, { desc = "Move to previous reference" })
+    end,
   },
   {
     "NvChad/nvim-colorizer.lua",
     event = { "BufReadPre", "BufNewFile" },
-    config = true,
+    config = function()
+      -- #990000 Red blue hsl(120deg 75% 25%)
+      require("colorizer").setup({
+        user_default_options = {
+          names = false,
+          hsl_fn = true,
+          css_fn = true,
+          mode = "virtualtext",
+          virtualtext = " ",
+        },
+      })
+    end,
   },
   {
     "johmsalas/text-case.nvim",
@@ -92,10 +117,30 @@ return {
     },
     cmd = "Spectre",
     keys = {
-      { mode = "n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', desc = "Toggle Spectre" },
-      { mode = "n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', desc = "Search current word", },
-      { mode = "v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<CR>', desc = "Search current word", },
-      { mode = "n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', desc = "Search on current file", },
+      {
+        mode = "n",
+        "<leader>S",
+        '<cmd>lua require("spectre").toggle()<CR>',
+        desc = "Toggle Spectre",
+      },
+      {
+        mode = "n",
+        "<leader>sw",
+        '<cmd>lua require("spectre").open_visual({select_word=true})<CR>',
+        desc = "Search current word",
+      },
+      {
+        mode = "v",
+        "<leader>sw",
+        '<esc><cmd>lua require("spectre").open_visual()<CR>',
+        desc = "Search current word",
+      },
+      {
+        mode = "n",
+        "<leader>sp",
+        '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>',
+        desc = "Search on current file",
+      },
     },
   },
 }

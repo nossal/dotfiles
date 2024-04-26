@@ -31,7 +31,7 @@ return {
     -- see below for full list of options 👇
     completion = {
       nvum_cmp = true,
-      nim_chars = 2,
+      min_chars = 2,
     },
     picker = {
       name = "telescope.nvim",
