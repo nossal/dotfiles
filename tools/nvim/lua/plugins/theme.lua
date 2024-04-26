@@ -5,10 +5,10 @@ return {
   opts = {},
   config = function()
     require("solarized-osaka").setup({
-      on_colors = function (colors)
-        colors.green = "#0aaf27" 
-      end
+      on_colors = function(colors)
+        colors.green = "#0aaf27"
+      end,
     })
-    vim.cmd[[colorscheme solarized-osaka-night]]
+    vim.cmd [[colorscheme solarized-osaka-night]]
   end
 }

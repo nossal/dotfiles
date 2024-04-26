@@ -218,7 +218,18 @@ return {
       severity_sort = true,
     })
 
-    local servers = { "cssls", "html", "lua_ls", "clojure_lsp", "rust_analyzer", "tsserver", "biome", "pyright" }
+    local servers = {
+      "yamlls",
+      "cssls",
+      "emmet_ls",
+      "html",
+      "lua_ls",
+      "clojure_lsp",
+      "rust_analyzer",
+      "tsserver",
+      "biome",
+      "pyright",
+    }
     for _, value in ipairs(servers) do
       lspconfig[value].setup({
         capabilities = capabilities,

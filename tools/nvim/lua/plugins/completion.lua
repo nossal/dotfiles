@@ -139,7 +139,7 @@ return {
         },
         experimental = {
           native_menu = false,
-          ghost_text = false,
+          ghost_text = true,
         },
         mapping = cmp.mapping.preset.insert({
           ["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -167,8 +167,8 @@ return {
           { name = "buffer", keyword_length = 4 }, -- source current buffer
         }),
         window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
+          -- completion = cmp.config.window.bordered(),
+          -- documentation = cmp.config.window.bordered(),
         },
         formatting = {
           fields = { "menu", "abbr", "kind" },
