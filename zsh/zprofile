@@ -4,7 +4,6 @@ typeset -gU path
 JAVA=$($HOME/.local/bin/mise where java)/bin
 
 path=(
-    /mnt/c/Program Files/WezTerm(N)
     $HOME/.local/bin(N)
     $HOME/{,s}bin(N)
     /opt/{homebrew,local}/{,s}bin(N)

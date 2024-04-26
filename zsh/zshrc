@@ -76,11 +76,8 @@ done
 
 # Plugins
 plugins=(
-  'olets/zsh-window-title'
   "zsh-users/zsh-autosuggestions"
-  # "marlonrichert/zsh-autocomplete"
   "Aloxaf/fzf-tab"
-  "joshskidmore/zsh-fzf-history-search"
   "zsh-users/zsh-syntax-highlighting"
   "hlissner/zsh-autopair"
 )
@@ -90,8 +87,6 @@ load_plugins $plugins;
 # TODO: custom fzf theme
 # https://github.com/junegunn/fzf/wiki/Color-schemes
 eval "$(fzf --zsh)"
+
 # The Prompt
 eval "$(starship init zsh)"
-
-# Generated for envman. Do not edit.
-[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
