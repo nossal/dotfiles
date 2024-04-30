@@ -54,6 +54,7 @@ return {
       telescope.load_extension("ui-select")
       telescope.load_extension("fzf")
       telescope.load_extension("smart_open")
+      telescope.load_extension("noice")
 
       local function edit_dotfiles()
         local opts = themes.get_dropdown({

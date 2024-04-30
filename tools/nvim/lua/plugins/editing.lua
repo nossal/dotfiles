@@ -34,7 +34,11 @@ return {
     config = function()
       require("ibl").setup({
         indent = { char = "▏" },
-        scope = { char = "▏" },
+        scope = {
+          char = "▏",
+          show_end = false,
+          show_start = false,
+        },
       })
     end,
   },

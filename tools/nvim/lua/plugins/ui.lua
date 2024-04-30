@@ -31,10 +31,22 @@ return {
       vim.notify = notify
     end,
   },
-  -- {
-  -- 	"mrded/nvim-lsp-notify",
-  -- 	config = function()
-  -- 		require("lsp-notify").setup({})
-  -- 	end,
-  -- },
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- add any options here
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+    },
+  },
+  {
+    "j-hui/fidget.nvim",
+    enabled = false,
+    opts = {
+      -- options
+    },
+  },
 }
