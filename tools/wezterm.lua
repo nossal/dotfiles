@@ -63,8 +63,31 @@ config.show_tab_index_in_tab_bar = false
 config.show_new_tab_button_in_tab_bar = false
 
 config.font = wezterm.font_with_fallback({ "MesloLGM Nerd Font Propo", "Symbols Nerd Font Mono" })
+config.bold_brightens_ansi_colors = true
+config.font_rules = {
+  {
+    intensity = "Bold",
+    italic = true,
+    font = wezterm.font({ family = "Maple Mono", weight = "Bold", style = "Italic" }),
+  },
+  {
+    italic = true,
+    intensity = "Half",
+    font = wezterm.font({ family = "Maple Mono", weight = "DemiBold", style = "Italic" }),
+  },
+  {
+    italic = true,
+    intensity = "Normal",
+    font = wezterm.font({ family = "Maple Mono", style = "Italic" }),
+  },
+}
 config.font_size = 11
 config.line_height = 1.2
+
+if wezterm.target_triple:find("apple") then
+  config.font_size = 16
+  config.underline_position = -12
+end
 
 config.cursor_thickness = 2
 config.underline_thickness = 2
@@ -82,11 +105,6 @@ config.visual_bell = {
 config.cursor_blink_rate = 800
 config.cursor_blink_ease_in = "EaseIn"
 config.cursor_blink_ease_out = "EaseOut"
-
-if wezterm.target_triple:find("apple") then
-  config.font_size = 16
-  config.underline_position = -12
-end
 -- config.animation_fps = 60
 
 config.window_decorations = "RESIZE"
@@ -113,7 +131,7 @@ wezterm.on("gui-startup", function(cmd)
     width = 150,
     height = 50,
   })
-  local top = 10
+  local top = 40
   local width_ratio = 0.5
   local ratio = screen.width / screen.height
 
