@@ -68,17 +68,17 @@ config.font_rules = {
   {
     intensity = "Bold",
     italic = true,
-    font = wezterm.font({ family = "Maple Mono", weight = "Bold", style = "Italic" }),
+    font = wezterm.font({ family = "Maple Mono NF", weight = "Bold", style = "Italic" }),
   },
   {
-    italic = true,
     intensity = "Half",
-    font = wezterm.font({ family = "Maple Mono", weight = "DemiBold", style = "Italic" }),
+    italic = true,
+    font = wezterm.font({ family = "Maple Mono NF", weight = "DemiBold", style = "Italic" }),
   },
   {
-    italic = true,
     intensity = "Normal",
-    font = wezterm.font({ family = "Maple Mono", style = "Italic" }),
+    italic = true,
+    font = wezterm.font({ family = "Maple Mono NF", style = "Italic" }),
   },
 }
 config.font_size = 11

@@ -79,6 +79,7 @@ opt.showcmd = true
 opt.showtabline = 0
 opt.cmdheight = 0
 o.cmdheight = 0
+opt.pumheight = 10
 
 opt.laststatus = 3
 
