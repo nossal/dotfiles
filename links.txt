@@ -1,0 +1,14 @@
+[default]
+neovim                  .config/nvim
+starship/starship.toml  .config/starship.toml
+shell/lsd.yaml          .config/lsd/config.yaml
+tmux/tmux.conf          .tmux.conf
+[zsh]
+shell/zsh/zlogin        .zlogin
+shell/zsh/zprofile      .zprofile
+shell/zsh/zshenv        .zshenv
+shell/zsh/zshrc         .zshrc
+[bash]
+shell/bash/bashrc       .bashrc
+[default,git]
+git/gitconfig           .gitconfig

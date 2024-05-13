@@ -86,7 +86,11 @@ load_plugins $plugins;
 
 # TODO: custom fzf theme
 # https://github.com/junegunn/fzf/wiki/Color-schemes
-eval "$(fzf --zsh)"
 
 # The Prompt
 eval "$(starship init zsh)"
+eval "$(fzf --zsh)"
+eval "$(zoxide init zsh)"
+
+# Generated for envman. Do not edit.
+# [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"

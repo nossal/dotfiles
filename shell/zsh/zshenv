@@ -1,6 +1,6 @@
 export LANG=en_US.UTF-8
 export DOTDIR=$HOME/.dotfiles
-export ZSHDOTDIR=$DOTDIR/zsh
+export ZSHDOTDIR=$DOTDIR/shell/zsh
 
 WORK_FILE="$DOTDIR/work/env.sh"
 if [[ -a $WORK_FILE ]]; then

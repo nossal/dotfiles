@@ -1,22 +1,127 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env sh
 
-# autoinstall: zsh "$(curl -fsL http://noss.al/dot)"
+# autoinstall: sh "$(curl -fsL https://noss.al/dot)"
 
 DOTFILES_HOME="$HOME/.dotfiles"
 LOCAL_BIN_DIR="$HOME/.local/bin"
 
-declare -A files
-files=(
-  shell/starship.toml .config/starship.toml
-  shell/lsd.yaml      .config/lsd/config.yaml
-  shell/tmux.conf     .tmux.conf
-  zsh/zlogin          .zlogin
-  zsh/zprofile        .zprofile
-  zsh/zshenv          .zshenv
-  zsh/zshrc           .zshrc
-  git/gitconfig       .gitconfig
-)
+function _shell() {
+  if command -v zsh &> /dev/null; then
+    if [[ ! $SHELL == *"/zsh" ]]; then
+      chsh -s /bin/zsh
+    fi
+    echo "zsh"
+  else
+    echo "bash"
+  fi
+}
+shell="$(_shell)"
 
+function os_name() {
+  case "$(uname -o)" in
+    "GNU/Linux")
+      # echo "It\`s Linux, baby!"
+      local name="$(awk -F= '$1=="ID" { print $2 }' /etc/os-release)"
+      IFS='-' read -r ver sub rest <<< "$(uname -r)"
+      if [ "$sub" == "microsoft" ]; then
+        name="$name-wsl"
+      fi
+      echo "$name"
+      ;;
+    "Darwin")
+      # echo "Is\`s a Mac, man!"
+      echo "mac"
+      ;;
+    "Msys")
+      echo "msys2"
+      ;;
+    *)
+      # echo "I dont\`t know"
+      echo ""
+      ;;
+  esac
+}
+
+function filter() {
+  local section=$1
+  local file=$2
+  local found=false
+
+  while IFS= read -r line; do
+    # Check if the line contains the section name
+    if [[ "$line" == "["*"$section"*"]" ]]; then
+      found=true
+      continue  # Skip printing the section name
+    fi
+    if [[ "$line" != "["*"$section"*"]" && "$line" == "["* ]]; then
+      found=false
+      continue  # Skip printing the section name
+    fi
+
+    # If the section is found, print the line
+    if [ "$found" = true ]; then
+      echo "$line"
+    fi
+  done < "$file"
+}
+
+function make_links() {
+  local profile=$1
+  local tag="${2:-default}"
+
+  [ -n "$profile" ] && profile="-$profile"
+
+  local links_file="$DOTFILES_HOME/links$profile.txt"
+  echo "> $links_file"
+
+  if [ ! -f "$links_file" ]; then
+    echo "File $links_file not found."
+    # exit 1
+    return
+  fi
+
+  while IFS= read -r line; do
+    IFS=' ' read -r key value <<< "$line"
+    local target="$HOME/$value"
+    [ ! -L "$target" ] && ln -s "$DOTFILES_HOME/$key" "$target"
+    echo "$target"
+    # echo "ln -s $DOTFILES_HOME/$key" "$HOME/$value"
+  done <<< "$(filter $tag $links_file)"
+}
+
+function clean() {
+  broken_links=$(find $HOME -maxdepth 2 -type l ! -exec test -e {} \; -print 2> /dev/null)
+  if [ ! -z "$broken_links" ]; then
+    echo "Removing broken synlinks:\n$broken_links"
+    echo "$broken_links" | xargs rm
+  fi
+}
+
+function fonts() {
+  echo "fonts"
+}
+
+function bootstrap() {
+  git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
+
+}
+
+echo "This os is: $(os_name)"
+# wsl
+# msys2
+# macos
+# server ssh (Linux)
+# server ssh dev (Linux)
+#
+
+clean
+echo "---------"
+# run the default profile file with default tags
+make_links
+make_links "" "$shell"
+echo "---------"
+
+exit 0
 function install_dotfiles() {
   git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
 
