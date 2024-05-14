@@ -80,6 +80,13 @@ return {
           "dirbuf",
           "dirvish",
           "fugitive",
+          "lazy",
+          "NeogitStatus",
+          "NeogitCommitView",
+          "TelescopePrompt",
+          "Trouble",
+          "DiffviewFiles",
+          "DiffviewFileHistory"
         },
       })
       vim.keymap.set("n", "<C-n>", require("illuminate").goto_next_reference, { desc = "Move to next reference" })

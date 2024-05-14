@@ -229,6 +229,7 @@ return {
       "tsserver",
       "biome",
       "pyright",
+      "bashls",
     }
     for _, value in ipairs(servers) do
       lspconfig[value].setup({
