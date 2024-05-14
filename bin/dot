@@ -7,9 +7,7 @@ LOCAL_BIN_DIR="$HOME/.local/bin"
 
 function _shell() {
   if command -v zsh &> /dev/null; then
-    if [[ ! $SHELL == *"/zsh" ]]; then
-      chsh -s /bin/zsh
-    fi
+    [[ ! $SHELL == *"/zsh" ]] && chsh -s /bin/zsh
     echo "zsh"
   else
     echo "bash"
@@ -23,9 +21,7 @@ function os_name() {
       # echo "It\`s Linux, baby!"
       local name="$(awk -F= '$1=="ID" { print $2 }' /etc/os-release)"
       IFS='-' read -r ver sub rest <<< "$(uname -r)"
-      if [ "$sub" == "microsoft" ]; then
-        name="$name-wsl"
-      fi
+      [ "$sub" == "microsoft" ] && name="$name-wsl"
       echo "$name"
       ;;
     "Darwin")
