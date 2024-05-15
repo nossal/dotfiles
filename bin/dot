@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # autoinstall: sh "$(curl -fsL https://noss.al/dot)"
 
@@ -19,9 +19,12 @@ function os_name() {
   case "$(uname -o)" in
     "GNU/Linux")
       # echo "It\`s Linux, baby!"
-      local name="$(awk -F= '$1=="ID" { print $2 }' /etc/os-release)"
-      IFS='-' read -r ver sub rest <<< "$(uname -r)"
+      local name
+      name="$(awk -F= '$1=="ID" { print $2 }' /etc/os-release)"
+
+      IFS='-' read -r _ sub rest <<< "$(uname -r)"
       [ "$sub" == "microsoft" ] && name="$name-wsl"
+
       echo "$name"
       ;;
     "Darwin")
@@ -82,24 +85,26 @@ function make_links() {
     [ ! -L "$target" ] && ln -s "$DOTFILES_HOME/$key" "$target"
     echo "$target"
     # echo "ln -s $DOTFILES_HOME/$key" "$HOME/$value"
-  done <<< "$(filter $tag $links_file)"
+  done <<< "$(filter "$tag" "$links_file")"
 }
 
 function clean() {
-  broken_links=$(find $HOME -maxdepth 2 -type l ! -exec test -e {} \; -print 2> /dev/null)
-  if [ ! -z "$broken_links" ]; then
-    echo "Removing broken synlinks:\n$broken_links"
+  broken_links=$(find "$HOME" -maxdepth 2 -type l ! -exec test -e {} \; -print 2> /dev/null)
+  if [ -n "$broken_links" ]; then
+    echo  -e "Removing broken synlinks:\n$broken_links"
     echo "$broken_links" | xargs rm
   fi
 }
 
 function fonts() {
+  # /mnt/c/Users/nossal/AppData/Local/Microsoft/Windows/Fonts
   echo "fonts"
 }
 
 function bootstrap() {
-  git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
+  [ ! -a "$LOCAL_BIN_DIR" ] && mkdir -p "$LOCAL_BIN_DIR"
 
+  git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
 }
 
 echo "This os is: $(os_name)"
@@ -117,28 +122,5 @@ make_links
 make_links "" "$shell"
 echo "---------"
 
-exit 0
-function install_dotfiles() {
-  git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
-
-  for key value in ${(kv)files}; do
-      echo ln -s "$DOTFILES_HOME/$key" "$HOME/$value"
-  done
-}
-
-if [[ -a $DOTFILES_HOME ]]; then
-  echo "update DOTFILES"
-else
-  echo "install DOTFILES"
-  install_dotfiles
-fi
-
-if [[ ! -a $LOCAL_BIN_DIR ]]; then
-  mkdir -p $LOCAL_BIN_DIR
-fi
-
-
-# /mnt/c/Users/nossal/AppData/Local/Microsoft/Windows/Fonts
-
-
 # cp $DOTFILES_HOME/bin/\* $LOCAL_BIN_DIR
+
