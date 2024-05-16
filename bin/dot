@@ -15,15 +15,26 @@ function _shell() {
 }
 shell="$(_shell)"
 
+function is_wsl() {
+  IFS='-' read -r _ sub rest <<< "$(uname -r)"
+  [ "$sub" == "microsoft" ] && echo true
+}
+
+function username() {
+  if [ "$(is_wsl)" = true ]; then
+    echo "$(powershell.exe '$env:UserName' | sed -e 's/\r//g')"
+    return
+  fi
+  echo "$USER"
+}
+
 function os_name() {
   case "$(uname -o)" in
     "GNU/Linux")
-      # echo "It\`s Linux, baby!"
       local name
+      # echo "It\`s Linux, baby!"
       name="$(awk -F= '$1=="ID" { print $2 }' /etc/os-release)"
-
-      IFS='-' read -r _ sub rest <<< "$(uname -r)"
-      [ "$sub" == "microsoft" ] && name="$name-wsl"
+      [ "$(is_wsl)" = true ] && name="$name-wsl"
 
       echo "$name"
       ;;
@@ -83,6 +94,7 @@ function make_links() {
     IFS=' ' read -r key value <<< "$line"
     local target="$HOME/$value"
     [ ! -L "$target" ] && ln -s "$DOTFILES_HOME/$key" "$target"
+
     echo "$target"
     # echo "ln -s $DOTFILES_HOME/$key" "$HOME/$value"
   done <<< "$(filter "$tag" "$links_file")"
@@ -97,7 +109,18 @@ function clean() {
 }
 
 function fonts() {
-  # /mnt/c/Users/nossal/AppData/Local/Microsoft/Windows/Fonts
+  local target os
+
+  os="$(os_name)"
+  [ "$os" = "macos" ] && \
+    target="$HOME/Library/Fonts"
+
+  [ "$(is_wsl)" = true ] && \
+    target="/mnt/c/Users/$(username)/AppData/Local/Microsoft/Windows/Fonts"
+
+  [ -n "$target" ] && \
+    cp -rf "$DOTFILES_HOME/fonts/*" "$target/"
+
   echo "fonts"
 }
 
