@@ -2,14 +2,10 @@
 # .zshrc is sourced in interactive shells.
 # It should contain commands to set up aliases,
 # functions, options, key bindings, etc.
-#
 
 source $ZSHDOTDIR/functions.zsh
 source $ZSHDOTDIR/editor.zsh
 source $ZSHDOTDIR/mappings.zsh
-
-autoload -U +X compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
 
 #allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
@@ -19,13 +15,9 @@ setopt NOBGNICE
 ## restart running processes on exit
 #setopt HUP
 
-
 ## history
 setopt APPEND_HISTORY
-## for sharing history between zsh processes
 setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
 setopt SHARE_HISTORY             # Share history between all sessions.
@@ -57,15 +49,8 @@ setopt EXTENDED_GLOB        # Use extended globbing syntax.
 unsetopt CLOBBER            # Do not overwrite existing files with > and >>.
                             # Use >! and >>! to bypass.
 
-## automatically decide when to page a list of completions
-#LISTMAX=0
-
 ## disable mail checking
 MAILCHECK=0
-
-autoload -U colors
-#colors
-
 
 # completions=(
 #   "$NVM_DIR/bash_completion"
@@ -74,15 +59,32 @@ for completion in $completions; do
   zsh_add_completion $completion
 done
 
+autoload -U colors
+
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+
 # Plugins
 plugins=(
-  "zsh-users/zsh-autosuggestions"
   "Aloxaf/fzf-tab"
   "z-shell/F-Sy-H"
+  "zsh-users/zsh-autosuggestions"
+  "zsh-users/zsh-completions"
   "hlissner/zsh-autopair"
+  "jeffreytse/zsh-vi-mode"
 )
 load_plugins $plugins;
 
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#444"
+
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+
+# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 # TODO: custom fzf theme
 # https://github.com/junegunn/fzf/wiki/Color-schemes
@@ -90,7 +92,6 @@ load_plugins $plugins;
 # The Prompt
 eval "$(starship init zsh)"
 
-eval "$(fzf --zsh)"
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 eval "$(zoxide init zsh)"
-# Generated for envman. Do not edit.
-# [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
