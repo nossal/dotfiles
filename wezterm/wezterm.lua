@@ -102,10 +102,11 @@ config.visual_bell = {
   fade_out_duration_ms = 75,
   target = "CursorColor",
 }
-config.cursor_blink_rate = 800
+config.cursor_blink_rate = 300
 config.cursor_blink_ease_in = "EaseIn"
 config.cursor_blink_ease_out = "EaseOut"
--- config.animation_fps = 60
+config.animation_fps = 60
+config.default_cursor_style = "BlinkingBar"
 
 config.window_decorations = "RESIZE"
 -- config.window_frame = {
@@ -132,7 +133,7 @@ wezterm.on("gui-startup", function(cmd)
     height = 50,
   })
   local top = 40
-  local width_ratio = 0.5
+  local width_ratio = 0.7
   local ratio = screen.width / screen.height
 
   local line_height = math.floor((config.font_size * 1.819)) * config.line_height
@@ -142,7 +143,7 @@ wezterm.on("gui-startup", function(cmd)
   local height = (screen.height / line_height - 3) * line_height - hgap
   if ratio < 2 then
     top = (screen.height - height) / 2
-    width_ratio = 0.96
+    width_ratio = 0.97
   end
 
   local gui = window:gui_window()
