@@ -27,6 +27,10 @@ local border = {
   { "│", "FloatBorder" },
 }
 require("lazy").setup("plugins", {
+  checker = {
+    enabled = true,
+    frequency = 43200,
+  },
   ui = {
     border = border,
     -- If you are using a Nerd Font: set icons to an empty table which will use the
