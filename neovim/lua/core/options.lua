@@ -107,12 +107,9 @@ opt.fillchars = list {
   "foldopen:",
   "fold: ",
   "msgsep:─",
+  "eob:█",
 }
 opt.showbreak = "⤷ "
-
-opt.fillchars:append({
-  eob = "█",
-})
 
 -- turn off swapfile
 opt.swapfile = false
@@ -121,18 +118,18 @@ opt.swapfile = false
 -- -- opt.foldexpr = "nvim_treesitter#foldexpr()"
 -- opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- opt.foldtext = "v:lua.vim.treesitter.foldtext()"
-opt.cursorline = true
-opt.guicursor = list {
-  "n-v-c-sm:block-Cursor/lCursor",
-  "i-ci-ve:ver25-Cursor/lCursor",
-  "r-cr-o:hor20",
-}
+
+-- opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
+-- opt.guicursor = list {
+--   "n-v-c-sm:block-Cursor/lCursor",
+--   "i-ci-ve:ver25-Cursor/lCursor",
+--   "r-cr-o:hor20",
+-- }
 
 opt.encoding = "utf-8"
 
 opt.title = true
 
--- opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
 opt.conceallevel = 2
 opt.breakindent = true
 
