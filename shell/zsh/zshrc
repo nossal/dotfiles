@@ -5,7 +5,7 @@
 
 source $ZSHDOTDIR/functions.zsh
 source $ZSHDOTDIR/editor.zsh
-source $ZSHDOTDIR/mappings.zsh
+source $ZSHDOTDIR/../mappings
 
 #allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
@@ -95,3 +95,4 @@ eval "$(starship init zsh)"
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 eval "$(zoxide init zsh)"
+
