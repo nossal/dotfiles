@@ -240,6 +240,10 @@ return {
 
     -- Java jdtls
     -- ------------------------------------
+    local get_java_home = function (version)
+      return vim.fn.system("mise where java@" .. version):gsub("%s+", "")
+    end
+
     local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }
     local root_dir = require("jdtls.setup").find_root(root_markers)
     local status, jdtls = pcall(require, "jdtls")
@@ -255,19 +259,28 @@ return {
     os.execute("mkdir " .. workspace_dir)
 
     -- get the mason install path
-    local install_path = require("mason-registry").get_package("jdtls"):get_install_path()
+    local mason_jdtls_path = require("mason-registry").get_package("jdtls"):get_install_path()
 
-    local java_home = vim.fn.system("mise where java@lts"):gsub("%s+", "")
+    local java_home = get_java_home("17")
 
     -- get the current OS
-    local os
-    if vim.fn.has("macunix") then
-      os = "mac"
-    elseif vim.fn.has("win32") then
-      os = "win"
-    else
-      os = "linux"
-    end
+    local system_table = {
+      ["Darwin"] = "mac",
+      ["Linux"] = "linux",
+      ["Windows"] = "win"
+    }
+    local os = system_table[vim.loop.os_uname().sysname] or "linux"
+
+    local bundles = {}
+    local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
+    vim.list_extend(bundles, vim.split(vim.fn.glob(mason_path .. "packages/java-test/extension/server/*.jar"), "\n"))
+    vim.list_extend(
+      bundles,
+      vim.split(
+        vim.fn.glob(mason_path .. "packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"),
+        "\n"
+      )
+    )
 
     lspconfig.jdtls.setup({
       capabilities = capabilities,
@@ -280,7 +293,7 @@ return {
         "-Declipse.product=org.eclipse.jdt.ls.core.product",
         "-Dlog.protocol=true",
         "-Dlog.level=ALL",
-        "-javaagent:" .. install_path .. "/lombok.jar",
+        "-javaagent:" .. mason_jdtls_path .. "/lombok.jar",
         "-Xms1g",
         "--add-modules=ALL-SYSTEM",
         "--add-opens",
@@ -288,9 +301,9 @@ return {
         "--add-opens",
         "java.base/java.lang=ALL-UNNAMED",
         "-jar",
-        vim.fn.glob(install_path .. "/plugins/org.eclipse.equinox.launcher_*.jar"),
+        vim.fn.glob(mason_jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar"),
         "-configuration",
-        install_path .. "/config_" .. os,
+        mason_jdtls_path .. "/config_" .. os,
         "-data",
         workspace_dir,
       },
@@ -299,8 +312,26 @@ return {
       end,
       settings = {
         java = {
-          signatureHelp = { enabled = true },
-          extendedClientCapabilities = extendedClientCapabilities,
+          configuration = {
+            updateBuildConfiguration = "interactive",
+            runtimes = {
+              {
+                name = "JavaSE-8",
+                path = get_java_home("8")
+              },
+              {
+                name = "JavaSE-17",
+                path = get_java_home("17")
+              },
+              {
+                name = "JavaSE-LTS",
+                path = get_java_home("lts")
+              },
+            },
+          },
+          eclipse = {
+            downloadSources = true,
+          },
           maven = {
             downloadSources = true,
           },
@@ -319,6 +350,11 @@ return {
             enabled = false,
           },
         },
+        signatureHelp = { enabled = true },
+        extendedClientCapabilities = extendedClientCapabilities,
+      },
+      init_options = {
+        bundles = bundles,
       },
     })
 
@@ -326,8 +362,16 @@ return {
       pattern = "java", -- autocmd to start jdtls
       callback = function()
         if opts.root_dir and opts.root_dir ~= "" then
-          print(opts.root_dir)
-          require("jdtls").start_or_attach(opts)
+          local _, _ = pcall(vim.lsp.codelens.refresh)
+
+          local local_jdtls = require("jdtls")
+          local_jdtls.start_or_attach(opts)
+
+          local_jdtls.setup_dap({ hotcodereplace = "auto" })
+          local status_ok, jdtls_dap = pcall(require, "jdtls.dap")
+          if status_ok then
+            jdtls_dap.setup_dap_main_class_configs()
+          end
         end
 
         keymap.set("n", "<leader>co", "<Cmd>lua require'jdtls'.organize_imports()<CR>", { desc = "Organize Imports" })
