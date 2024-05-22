@@ -264,12 +264,12 @@ return {
     local java_home = get_java_home("17")
 
     -- get the current OS
-    local system_table = {
+    local systems = {
       ["Darwin"] = "mac",
       ["Linux"] = "linux",
       ["Windows"] = "win"
     }
-    local os = system_table[vim.loop.os_uname().sysname] or "linux"
+    local os = systems[vim.loop.os_uname().sysname] or "linux"
 
     local bundles = {}
     local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
@@ -316,7 +316,7 @@ return {
             updateBuildConfiguration = "interactive",
             runtimes = {
               {
-                name = "JavaSE-8",
+                name = "JavaSE-1.8",
                 path = get_java_home("8")
               },
               {
@@ -324,7 +324,7 @@ return {
                 path = get_java_home("17")
               },
               {
-                name = "JavaSE-LTS",
+                name = "JavaSE-21",
                 path = get_java_home("lts")
               },
             },
