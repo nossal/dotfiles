@@ -1,7 +1,4 @@
 #/* vim: set filetype=gitconfig : */
-[include]
-  path = ~/.dotfiles/git/gitconfig.local
-
 [alias]
   l = log --pretty=oneline -n 20 --graph --abbrev-commit
   s = status -s
@@ -11,9 +8,22 @@
 [core]
   editor = nvim
   pager = delta
-  excludesfile = ~/.dotfiles/git/gitignore.global
+  excludesfile = ~/.dotfiles/git/gitignore
   fscache = true
   preloadindex = true
+
+[gc]
+  auto = 256
+
+[rerere]
+  enabled = true
+
+[page]
+	diff = delta
+	show = delta
+	log = delta
+	blame = delta
+	reflog = delta
 
 [credential]
   helper = cache
@@ -47,8 +57,10 @@
 
 [push]
   default = simple
+
 [pull]
   rebase = true
+
 [grep]
   extendRegexp = true
   lineNumber = true
@@ -74,13 +86,3 @@
   hunk-header-line-number-style = "#067a00"
   hunk-header-style = file line-number syntax
 
-[gc]
-  auto = 256
-[rerere]
-  enabled = true
-[page]
-	diff = delta
-	show = delta
-	log = delta
-	blame = delta
-	reflog = delta

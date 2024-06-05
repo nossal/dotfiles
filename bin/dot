@@ -93,6 +93,8 @@ function make_links() {
   while IFS= read -r line; do
     IFS=' ' read -r key value <<< "$line"
     local target="$HOME/$value"
+    local target_dir="$(dirname $target)"
+    [ ! -L "$target_dir" ] && mkdir -p "$target_dir"
     [ ! -L "$target" ] && ln -s "$DOTFILES_HOME/$key" "$target"
 
     echo "$target"

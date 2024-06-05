@@ -1,8 +1,15 @@
+#/* vim: set filetype=gitconfig : */
 !.gitignore
 !.editorconfig
 
+.vscode
+
 # Generic
 *.log
+
+# VI swap files
+*.swp
+*.swo
 
 # Mac
 .DS_Store
@@ -22,10 +29,30 @@ Desktop.ini
 *.lnk
 *.msi
 *.exe
+*Zone.Identifier
+
+# Redis
+*.rdb
+
+# Dev
+.project
+*.rpm
+*.deb
+~*
+
+# nodejs/JavaScript
+dist/
+node_modules/
+.zcompdump
 
 # Java/Scala/Clojure
 build/
 target/
+.factorypath
+.springBeans
+.sts4-cache
+.settings
+.classpath
 *.class
 *.jar
 *.war
@@ -37,10 +64,8 @@ target/
 /.lein-failures
 /.nrepl-port
 
-# nodejs/JavaScript
-dist/
-node_modules/
-
 # Python
 *.pyc
 *.egg
+.apt_generated
+
