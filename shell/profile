@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Function to mimic the 'N' glob qualifier from zsh, which means 'nullglob'
+# This function will expand each path in the list and only include it if it exists.
+expand_paths() {
+    local -n paths=$1
+    local expanded=()
+    for p in "${paths[@]}"; do
+        for ep in $p; do
+            if [[ -e $ep ]]; then
+                expanded+=("$ep")
+            fi
+        done
+    done
+    echo "${expanded[@]}"
+}
+
+# Initialize JAVA variable
+JAVA=$($HOME/.local/bin/mise where java)/bin
+
+# List of paths to be included in PATH
+path_list=(
+    "$HOME/.local/bin"
+    "$HOME/bin" "$HOME/sbin"
+    "/opt/homebrew/bin" "/opt/homebrew/sbin" "/opt/local/bin" "/opt/local/sbin"
+    "/usr/local/bin" "/usr/local/sbin"
+    "$HOME/go/bin"
+    "$JAVA"
+)
+
+# Expand paths and set PATH
+expanded_paths=$(expand_paths path_list)
+export PATH=$(echo "$expanded_paths" | tr ' ' ':')
+
+# Optionally, you can add existing PATH at the end
+export PATH="$PATH:$(echo "$path" | tr ' ' ':')"
+
