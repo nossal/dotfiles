@@ -247,12 +247,14 @@ return {
 
     local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }
     local root_dir = require("jdtls.setup").find_root(root_markers)
+    -- require("lspconfig.server_configurations.jdtls").default_config.root_dir
     local status, jdtls = pcall(require, "jdtls")
     if not status then
       print("jdtls pcall status fail")
       return
     end
     local extendedClientCapabilities = jdtls.extendedClientCapabilities
+    extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
     -- calculate workspace dir
     local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
@@ -261,7 +263,7 @@ return {
 
     -- get the mason install path
     local mason_jdtls_path = require("mason-registry").get_package("jdtls"):get_install_path()
-
+    local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
     local java_home = get_java_home("17")
 
     -- get the current OS
@@ -272,23 +274,20 @@ return {
     }
     local os = systems[vim.loop.os_uname().sysname] or "linux"
 
-    local bundles = {}
-    local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
-    vim.list_extend(bundles, vim.split(vim.fn.glob(mason_path .. "packages/java-test/extension/server/*.jar"), "\n"))
-    vim.list_extend(
-      bundles,
-      vim.split(
-        vim.fn.glob(mason_path .. "packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"),
-        "\n"
-      )
-    )
+    -- for debugging
+    -- package: java-debug
+    local bundles = vim.fn.glob(
+      mason_path .. "packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar", true, true)
+    -- for testing
+    -- package: vscode-java-test
+    local test_bundles = vim.fn.glob(mason_path .. "packages/java-test/extension/server/*.jar", true, true)
+    vim.list_extend(bundles, test_bundles)
 
     lspconfig.jdtls.setup({
       capabilities = capabilities,
       on_attach = on_attach,
       cmd = {
         "" .. java_home .. "/bin/java",
-        -- "java",
         "-Declipse.application=org.eclipse.jdt.ls.core.id1",
         "-Dosgi.bundles.defaultStartLevel=4",
         "-Declipse.product=org.eclipse.jdt.ls.core.product",
@@ -297,16 +296,11 @@ return {
         "-javaagent:" .. mason_jdtls_path .. "/lombok.jar",
         "-Xms1g",
         "--add-modules=ALL-SYSTEM",
-        "--add-opens",
-        "java.base/java.util=ALL-UNNAMED",
-        "--add-opens",
-        "java.base/java.lang=ALL-UNNAMED",
-        "-jar",
-        vim.fn.glob(mason_jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar"),
-        "-configuration",
-        mason_jdtls_path .. "/config_" .. os,
-        "-data",
-        workspace_dir,
+        "--add-opens", "java.base/java.util=ALL-UNNAMED",
+        "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+        "-jar", vim.fn.glob(mason_jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar"),
+        "-configuration", mason_jdtls_path .. "/config_" .. os,
+        "-data", workspace_dir,
       },
       root_dir = function()
         return root_dir
@@ -353,6 +347,10 @@ return {
         },
         signatureHelp = { enabled = true },
         extendedClientCapabilities = extendedClientCapabilities,
+      },
+      flags = {
+        allow_incremental_sync = true,
+        server_side_fuzzy_completion = true,
       },
       init_options = {
         bundles = bundles,
