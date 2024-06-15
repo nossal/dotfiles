@@ -1,6 +1,9 @@
-#/* vim: set filetype=gitconfig : */
+#/* vim: set filetype=gitconfig : *
+; [include]
+;   path user.conf
+
 [alias]
-  l = log --pretty=oneline -n 20 --graph --abbrev-commit
+  l = "log --pretty=format:'%<|(4)%Cgreen %h%Cblue%<(12,trunc) %an %Creset- %s' --graph --no-merges -15"
   s = status -s
   c = clone --recursive
   dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
