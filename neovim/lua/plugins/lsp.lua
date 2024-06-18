@@ -175,14 +175,14 @@ return {
 
     vim.diagnostic.config({
       float = {
-        focusable = false,
-        border = border,
+        focusable = true,
+        -- border = border,
         scope = "cursor",
         -- source = true,
         format = function(diagnostic)
           local code = diagnostic.user_data.lsp.code
           print("diagnostic:")
-          dump(diagnostic)
+          -- dump(diagnostic)
           for _, table in pairs(codes) do
             if vim.tbl_contains(table, code) then
               return table.message
@@ -237,6 +237,5 @@ return {
         on_attach = on_attach,
       })
     end
-
   end,
 }

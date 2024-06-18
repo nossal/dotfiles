@@ -221,13 +221,11 @@ return {
     -- I personally use it only to display progress messages!
     -- See lsp-status/README.md for configuration options.
 
-    -- Note: check "j-hui/fidget.nvim" for a nice statusline-free alternative.
     -- local LSPMessages = {
     -- 	provider = require("lsp-status").status,
     -- 	hl = { fg = "gray" },
     -- }
     local Diagnostics = {
-
       condition = conditions.has_diagnostics,
 
       static = {
