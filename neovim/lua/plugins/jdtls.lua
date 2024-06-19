@@ -172,6 +172,8 @@ return {
         capabilities = require("cmp_nvim_lsp").default_capabilities() or nil,
       }, opts.jdtls)
 
+      vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
+
       -- Existing server will be reused if the root_dir matches.
       require("jdtls").start_or_attach(config)
       -- not need to require("jdtls.setup").add_commands(), start automatically adds commands
