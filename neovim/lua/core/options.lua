@@ -145,10 +145,3 @@ opt.laststatus = 3
 opt.updatetime = 250 -- Decrease update time
 opt.timeoutlen = 300 -- Decrease mapped sequence wait time; Displays which-key popup sooner
 
-vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking (copying) text",
-  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
