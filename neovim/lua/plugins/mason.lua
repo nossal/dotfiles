@@ -57,6 +57,7 @@ return {
         "stylua", -- lua formatter
         "black", -- python formatter
         "biome",
+        "sonarlint-language-server",
       },
     })
   end,
