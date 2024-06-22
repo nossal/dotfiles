@@ -1,6 +1,6 @@
 return {
   "huggingface/llm.nvim",
-  enabled = false,
+  -- enabled = false,
   opts = {
     backend = "ollama",
     url = "http://192.168.1.236:11434",
@@ -14,7 +14,7 @@ return {
     model = "codellama:7b-code",
     context_window = 4096,
     tokenizer = {
-      repository = "codellama:7b-code",
+      repository = "codellama/CodeLlama-7b-hf",
     },
   },
 }
