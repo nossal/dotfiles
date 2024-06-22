@@ -1,4 +1,5 @@
 local java_filetypes = { "java" }
+
 local get_java_home = function(version)
   return vim.fn.system("mise where java@" .. version):gsub("%s+", "")
 end
@@ -56,7 +57,7 @@ return {
         local project_name = opts.project_name(root_dir)
         local cmd = vim.deepcopy(opts.cmd)
         -- vim.notify(opts.jdtls_workspace_dir(project_name))
-        vim.notify(root_dir)
+        -- vim.notify(root_dir)
         if project_name then
           vim.list_extend(cmd, {
             "-Declipse.application=org.eclipse.jdt.ls.core.id1",
@@ -196,12 +197,18 @@ return {
         if client and client.name == "jdtls" then
           local wk = require("which-key")
           wk.register({
+            ["<leader>ca"] = { vim.lsp.buf.code_action, "See available Code Actions" },
+          }, {mode = { "n", "v" }, buffer  = args.buf})
+          wk.register({
             ["<leader>cx"] = { name = "+extract" },
             ["<leader>cxv"] = { require("jdtls").extract_variable_all, "Extract Variable" },
             ["<leader>cxc"] = { require("jdtls").extract_constant, "Extract Constant" },
+            ["<leader>co"] = { require("jdtls").organize_imports, "Organize Imports" },
+            ["<leader>rn"] = { vim.lsp.buf.rename, "Smart Rename" },
             ["gs"] = { require("jdtls").super_implementation, "Goto Super" },
             ["gS"] = { require("jdtls.tests").goto_subjects, "Goto Subjects" },
-            ["<leader>co"] = { require("jdtls").organize_imports, "Organize Imports" },
+            ["gd"] = { vim.lsp.buf.definition, "Goto to Definitions" },
+            ["gi"] = { "<cmd>Telescope lsp_implementations<CR>", "List Implementations" },
           }, { mode = "n", buffer = args.buf })
           wk.register({
             ["<leader>c"] = { name = "+code" },
