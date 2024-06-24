@@ -2,5 +2,6 @@
 	"diagnostics.globals": ["vim" ],
 	"diagnostics": {
 		"disable": ["missing-fields" ]
-	}
+	},
+  "hint.enable": true
 }
