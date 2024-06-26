@@ -5,6 +5,10 @@ return {
   opts = {},
   config = function()
     require("solarized-osaka").setup({
+      transparent = true,
+      styles = {
+        dim_inactive = true,
+      },
       on_colors = function(colors)
         colors.green = "#0aaf27"
       end,

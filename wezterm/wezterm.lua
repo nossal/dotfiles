@@ -120,18 +120,18 @@ config.cursor_blink_ease_out = "EaseOut"
 config.animation_fps = 60
 config.default_cursor_style = "BlinkingBar"
 
-config.macos_window_background_blur = 20
-config.window_background_opacity = 0.9
--- config.win32_system_backdrop = 'Tabbed'
+config.macos_window_background_blur = 50
+config.window_background_opacity = 0.97
+config.win32_system_backdrop = 'Tabbed'
 config.window_decorations = "RESIZE"
 --
 config.window_background_gradient = {
-	colors = { "#252a2b", "#181a1b" },
-	noise = 64,
+	colors = { "#131122", "#121119" },
+	noise = 70,
 	orientation = {
 	-- Specifices a Linear gradient starting in the top left corner.
 		-- Linear = { angle = -45.0 },
-		Radial = { cx = 0.75, cy = 0.75, radius = 1.25 },
+		Radial = { cx = 0.75, cy = 0.75, radius = 0.8 },
 	},
 }
 
