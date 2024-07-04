@@ -66,7 +66,7 @@ zle -N prepend-sudo
 
 # Expand aliases
 function glob-alias {
-  zle _expand_alias 
+  zle _expand_alias
   zle expand-word
   zle magic-space
 }
@@ -103,6 +103,4 @@ bindkey "$key_info[Control]X$key_info[Control]S" prepend-sudo
 
 # control-space expands all aliases, including global
 bindkey "$key_info[Control] " glob-alias
-
-print "Editor"
 

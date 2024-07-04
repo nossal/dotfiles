@@ -11,7 +11,7 @@ function load_plugins() {
             git clone "https://github.com/$plugin.git" "$ZSHDOTDIR/plugins/$plugin_name"
         fi
 
-        echo "$plugin_name"
+        # echo "$plugin_name"
         source_file "plugins/$plugin_name/$plugin_name.plugin.zsh" || \
             source_file "plugins/$plugin_name/$plugin_name.zsh"
     done
