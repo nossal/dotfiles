@@ -120,8 +120,6 @@ config.cursor_blink_ease_out = "EaseOut"
 config.animation_fps = 60
 config.default_cursor_style = "BlinkingBar"
 
-config.macos_window_background_blur = 50
-config.window_background_opacity = 0.97
 config.win32_system_backdrop = 'Tabbed'
 config.window_decorations = "RESIZE"
 --
