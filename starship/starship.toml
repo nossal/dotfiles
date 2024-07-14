@@ -9,7 +9,14 @@ continuation_prompt = "[▶](242) "
 
 # move the rest of the prompt to the right
 right_format = """$all"""
-add_newline = false 
+add_newline = false
+
+palette = "nsl"
+
+[palettes.nsl]
+git_br_bg = "#1e1e2e"
+lang_bg = "#1e1e2e"
+lang_icon_bg = "#28283d"
 
 [line_break]
 disabled = true
@@ -28,18 +35,21 @@ discharging_symbol = "💀 "
 disabled = true
 
 [hostname]
-ssh_only = false
-format = '[$ssh_symbol](bold blue) on [$hostname](bold red) '
+ssh_only = true
+ssh_symbol = ""
+format = '[$ssh_symbol](bold blue) [$hostname](bold red) '
 trim_at = '.local'
 
+[username]
+disabled = true
 
 [git_branch]
-format = "[$symbol$branch(:$remote_branch)]($style) "
+format = "[ $symbol$branch(:$remote_branch) ]($style) "
 symbol = " "
-style = "202"
+style = "bg:git_br_bg"
 
 [git_status]
-format ="([$all_status$ahead_behind]($style) )"
+format ="[ $all_status$ahead_behind]($style) "
 behind = " ${count}"
 ahead = " ${count}"
 diverged = " ⇡${ahead_count}⇣${behind_count}"
@@ -49,7 +59,7 @@ deleted = " ${count} " #""#"✘"
 stashed = " ${count} "
 up_to_date = "[](green)"#"" #"" #"" #""
 staged = '[++\($count\)](green)'
-style = "208"
+style = "bg:#1e1e2e 208"
 
 [git_state]
 format = '[\($state( $progress_current of $progress_total)\)]($style) '
@@ -57,15 +67,19 @@ cherry_pick = "[ 🍒 PICKING](bold red)"
 
 
 [package]
-format = "[⏽](244) [$symbol$version]($style) "
-symbol = "📦 "
+format = "[⏽](244) [$symbol $version]($style) "
+symbol = "📦"
 style = "166 bold"
 
 [java]
-format = "[⏽](244) [${symbol}(${version} )]($style)"
+format = "[ ${symbol} ](bg:lang_icon_bg)[ (${version} )]($style)"
 version_format ="${raw}"
-style = "027"
-symbol = " "
+style = "fg:#2443b5 bg:lang_bg"
+symbol = ""
+
+[gradle]
+symbol = ""
+format = "[$symbol ($version )]($style)"
 
 [python]
 format = '[⏽](244) [${symbol}${pyenv_prefix}(${version} )]($style)[(\($virtualenv\) )](028)'
