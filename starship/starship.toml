@@ -31,6 +31,9 @@ full_symbol = "🔋 "
 charging_symbol = "⚡️ "
 discharging_symbol = "💀 "
 
+[[battery.display]]
+threshold = 15
+
 [cmd_duration]
 disabled = true
 
@@ -44,9 +47,9 @@ trim_at = '.local'
 disabled = true
 
 [git_branch]
-format = "[ $symbol$branch(:$remote_branch) ]($style) "
-symbol = " "
-style = "bg:git_br_bg"
+format = "[ $symbol$branch(:$remote_branch) ]($style)"
+symbol = " " #  
+style = "bg:git_br_bg fg:#f54d27 italic"
 
 [git_status]
 format ="[ $all_status$ahead_behind]($style) "
@@ -54,12 +57,12 @@ behind = " ${count}"
 ahead = " ${count}"
 diverged = " ⇡${ahead_count}⇣${behind_count}"
 modified = " ${count} "# " "
-untracked = " ${count} "
+untracked = "[ ${count}](bg:git_br_bg fg:#535367 italic) " #  
 deleted = " ${count} " #""#"✘"
 stashed = " ${count} "
-up_to_date = "[](green)"#"" #"" #"" #""
-staged = '[++\($count\)](green)'
-style = "bg:#1e1e2e 208"
+up_to_date = "[ ](bg:git_br_bg fg:green italic) "#"" #"" #"" #""
+staged = '[++$count](bg:git_br_bg fg:green italic) '
+style = "bg:git_br_bg 208 italic"
 
 [git_state]
 format = '[\($state( $progress_current of $progress_total)\)]($style) '
@@ -67,46 +70,48 @@ cherry_pick = "[ 🍒 PICKING](bold red)"
 
 
 [package]
-format = "[⏽](244) [$symbol $version]($style) "
+format = "[ $symbol $version ]($style) "
 symbol = "📦"
-style = "166 bold"
+style = "fg:#2443b5 bg:lang_bg italic"
 
 [java]
 format = "[ ${symbol} ](bg:lang_icon_bg)[ (${version} )]($style)"
 version_format ="${raw}"
-style = "fg:#2443b5 bg:lang_bg"
+style = "fg:#2443b5 bg:lang_bg italic"
 symbol = ""
 
 [gradle]
-symbol = ""
-format = "[$symbol ($version )]($style)"
+disabled = true
 
 [python]
-format = '[⏽](244) [${symbol}${pyenv_prefix}(${version} )]($style)[(\($virtualenv\) )](028)'
-style = "214"
-
+format = '[ ${symbol}${pyenv_prefix}(${version} )]($style)[(\($virtualenv\) )](028)'
 version_format ="${raw}"
 symbol = " "
+style = "fg:#ffe263 bg:lang_bg italic"
 
 [rust]
-format = "[⏽](244) [${symbol}(${version} )]($style)"
+format = "[ ${symbol}(${version} )]($style)"
 version_format ="${raw}"
 symbol = " "
+style = "fg:#f44a00 bg:lang_bg italic"
 
 [nodejs]
-format = "[⏽](244) [${symbol}(${version} )]($style)"
+format = "[ ${symbol}(${version} )]($style)"
 version_format ="${raw}"
 symbol = " "
+style = "fg:#2443b5 bg:lang_bg italic"
 
 [lua]
-format = "[⏽](244) [${symbol}(${version} )]($style)"
+format = "[ ${symbol}(${version} )]($style)"
 version_format ="${raw}"
 symbol = " "
+style = "fg:#2443b5 bg:lang_bg italic"
 
 [c]
-format = "[⏽](244) [${symbol}(${version} )]($style)"
+format = "[ ${symbol}(${version} )]($style)"
 version_format ="${raw}"
 symbol = " "
+style = "fg:#2443b5 bg:lang_bg italic"
 
 [gcloud]
 disabled = true
