@@ -32,7 +32,8 @@ charging_symbol = "⚡️ "
 discharging_symbol = "💀 "
 
 [[battery.display]]
-threshold = 15
+threshold = 20
+style = "red italic"
 
 [cmd_duration]
 disabled = true
@@ -60,19 +61,19 @@ modified = " ${count} "# " "
 untracked = "[ ${count}](bg:git_br_bg fg:#535367 italic) " #  
 deleted = " ${count} " #""#"✘"
 stashed = " ${count} "
-up_to_date = "[ ](bg:git_br_bg fg:green italic) "#"" #"" #"" #""
+up_to_date = "[ ](bg:git_br_bg fg:green italic)"#"" #"" #"" #""
 staged = '[++$count](bg:git_br_bg fg:green italic) '
 style = "bg:git_br_bg 208 italic"
 
 [git_state]
 format = '[\($state( $progress_current of $progress_total)\)]($style) '
-cherry_pick = "[ 🍒 PICKING](bold red)"
+cherry_pick = "[  PICKING](italic red)" # 🍒
 
 
 [package]
 format = "[ $symbol $version ]($style) "
-symbol = "📦"
-style = "fg:#2443b5 bg:lang_bg italic"
+symbol = "" #  📦
+style = "fg:#999999 bg:lang_bg italic"
 
 [java]
 format = "[ ${symbol} ](bg:lang_icon_bg)[ (${version} )]($style)"
