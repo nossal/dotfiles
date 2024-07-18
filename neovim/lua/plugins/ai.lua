@@ -1,6 +1,6 @@
 return {
   "huggingface/llm.nvim",
-  -- enabled = false,
+  enabled = false,
   opts = {
     backend = "ollama",
     url = "http://192.168.1.236:11434",
