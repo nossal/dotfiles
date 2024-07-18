@@ -61,7 +61,7 @@ modified = " ${count} "# " "
 untracked = "[ ${count}](bg:git_br_bg fg:#535367 italic) " #  
 deleted = " ${count} " #""#"✘"
 stashed = " ${count} "
-up_to_date = "[ ](bg:git_br_bg fg:green italic)"#"" #"" #"" #""
+up_to_date = "[  ](bg:git_br_bg fg:green italic)"#"" #"" #"" #""
 staged = '[++$count](bg:git_br_bg fg:green italic) '
 style = "bg:git_br_bg 208 italic"
 
