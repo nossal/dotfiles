@@ -3,14 +3,13 @@
 ;   path user.conf
 
 [alias]
-  l = "log --pretty=format:'%<|(4)%Cgreen %h%Cblue%<(12,trunc) %an %Creset- %s' --graph --no-merges -15"
+  l = "log --pretty=format:'%<|(4)%Cgreen %h  %Cbrightblack│%Cblue%<(12,trunc) %an %Creset│ %s' --graph --no-merges -15"
   s = status -s
   c = clone --recursive
   dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 [core]
   editor = nvim
-  pager = delta
   excludesfile = ~/.dotfiles/git/gitignore
   fscache = true
   preloadindex = true
@@ -20,13 +19,6 @@
 
 [rerere]
   enabled = true
-
-[page]
-	diff = delta
-	show = delta
-	log = delta
-	blame = delta
-	reflog = delta
 
 [credential]
   helper = cache
@@ -70,22 +62,4 @@
 
 [log]
   date = local
-
-[interactive]
-	diffFilter = delta --color-only
-
-[delta]
-  features = decorations
-
-[delta "interactive"]
-  keep-plus-minus-markers = false
-
-[delta "decorations"]
-  commit-decoration-style = blue ol
-  commit-style = raw
-  file-style = omit
-  hunk-header-decoration-style = blue box
-  hunk-header-file-style = red
-  hunk-header-line-number-style = "#067a00"
-  hunk-header-style = file line-number syntax
 
