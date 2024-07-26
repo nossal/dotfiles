@@ -45,7 +45,7 @@ return {
           },
         },
         extensions = {
-          [ "ui-select"] = {
+          ["ui-select"] = {
             require("telescope.themes").get_dropdown({}),
           },
         },
@@ -67,6 +67,9 @@ return {
 
         builtin.find_files(opts)
       end
+
+      local telelsp = require("core.telelsp")
+      vim.keymap.set("n", "<leader><leader>", telelsp.find_symbols, { desc = "Power Search" })
 
       vim.keymap.set("n", "<leader>fd", edit_dotfiles, { desc = "Find Dotfiles" })
       vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find Files" })
