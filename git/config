@@ -9,7 +9,7 @@
   dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 [core]
-  editor = nvim
+  editor = ~/.dotfiles/git/giteditor
   excludesfile = ~/.dotfiles/git/gitignore
   fscache = true
   preloadindex = true

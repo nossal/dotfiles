@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+tmux display-popup -BE -s "bg=#111111" -d "$(pwd)" -h 50% "vi --nofork $*"
