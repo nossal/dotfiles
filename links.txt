@@ -1,5 +1,6 @@
 [default]
 neovim                  .config/nvim
+neovim-git              .config/nvim-git
 starship/starship.toml  .config/starship.toml
 shell/lsd.yaml          .config/lsd/config.yaml
 tmux/tmux.conf          .config/tmux/tmux.conf

@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-tmux display-popup -BE -s "bg=#111111" -d "$(pwd)" -h 50% "vi --nofork $*"
+tmux display-popup -BE -b rounded -S "bg=#1a1b26 fg=#34364c" -s "bg=#111111" -d "$(pwd)" -h 50% "NVIM_APPNAME=nvim-git nvim $*"
+
