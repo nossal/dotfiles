@@ -48,7 +48,7 @@ trim_at = '.local'
 disabled = true
 
 [git_branch]
-format = "[ $symbol$branch(:$remote_branch) ]($style)"
+format = "[ $symbol$branch(:$remote_branch)]($style)"
 symbol = " " #  
 style = "bg:git_br_bg fg:#f54d27 italic"
 
