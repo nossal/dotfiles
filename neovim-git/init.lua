@@ -184,12 +184,7 @@ require("lazy").setup({
       require("dressing").setup()
     end,
   },
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {},
-  },
+  { "rebelot/kanagawa.nvim" },
 }, {
   checker = {
     enabled = true,
@@ -220,6 +215,6 @@ require("lazy").setup({
   },
 })
 
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("kanagawa-dragon")
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
