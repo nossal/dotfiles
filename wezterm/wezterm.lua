@@ -7,13 +7,13 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
-config.front_end = 'OpenGL'
--- for _, gpu in ipairs(wezterm.gui.enumerate_gpus()) do
--- 	if gpu.backend == "Vulkan" then
--- 		config.webgpu_preferred_adapter = gpu
--- 		break
--- 	end
--- end
+for _, gpu in ipairs(wezterm.gui.enumerate_gpus()) do
+	if gpu.backend == "Vulkan" then
+		config.webgpu_preferred_adapter = gpu
+		break
+	end
+end
+config.front_end = "WebGpu"
 
 config.keys = {
 	{ key = "L", mods = "CTRL", action = wezterm.action.ShowDebugOverlay },
@@ -120,14 +120,14 @@ config.cursor_blink_ease_out = "EaseOut"
 config.animation_fps = 60
 config.default_cursor_style = "BlinkingBar"
 
-config.win32_system_backdrop = 'Tabbed'
+config.win32_system_backdrop = "Tabbed"
 config.window_decorations = "RESIZE"
 --
 config.window_background_gradient = {
 	colors = { "#131122", "#121119" },
 	noise = 70,
 	orientation = {
-	-- Specifices a Linear gradient starting in the top left corner.
+		-- Specifices a Linear gradient starting in the top left corner.
 		-- Linear = { angle = -45.0 },
 		Radial = { cx = 0.75, cy = 0.75, radius = 0.8 },
 	},
