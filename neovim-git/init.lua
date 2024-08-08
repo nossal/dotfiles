@@ -12,8 +12,8 @@ g.loaded_netrwPlugin = 1
 g.have_nerd_font = true
 
 -- line numbers
-opt.relativenumber = true -- show relative line numbers
-opt.number = true -- shows absolute line number on cursor line (when relative number is on)
+opt.relativenumber = false -- show relative line numbers
+opt.number = false -- shows absolute line number on cursor line (when relative number is on)
 
 -- tabs & indentation
 opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
@@ -106,7 +106,7 @@ opt.fillchars = list({
   "foldopen:",
   "fold: ",
   "msgsep:─",
-  "eob:█",
+  -- "eob:█",
 })
 opt.showbreak = "⤷ "
 
