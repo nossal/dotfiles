@@ -1,0 +1,17 @@
+gui:
+  nerdFontsVersion: "3"
+  shortTimeFormat: 13:04
+  showListFooter: false
+  showBottomLine: false
+  theme:
+    # Border color of focused window
+    activeBorderColor:
+      - green
+      - bold
+
+    # Border color of non-focused windows
+    inactiveBorderColor:
+      - "#555"
+git:
+  paging:
+    useConfig: true
