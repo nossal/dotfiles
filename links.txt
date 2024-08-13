@@ -13,3 +13,4 @@ shell/zsh/zshrc         .zshrc
 shell/bash/bashrc       .bashrc
 [default,git]
 git/config              .config/git/config
+git/config.yml          .config/lazygit/config.yml
