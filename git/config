@@ -1,4 +1,4 @@
-#/* vim: set filetype=gitconfig : *
+# vi: ft=gitconfig
 ; [include]
 ;   path user.conf
 
