@@ -1,5 +1,6 @@
 return {
   "rmagatti/auto-session",
+  enabled = false,
   config = function()
     local function file_exists(name)
       local f = io.open(name, "r")

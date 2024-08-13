@@ -10,7 +10,7 @@ return {
   config = function()
     local config = require("nvim-treesitter.configs")
     config.setup({
-      ensure_installed = { "vim", "regex", "lua", "bash", "markdown", "markdown_inline" },
+      ensure_installed = { "gitcommit", "diff", "git_rebase", "vim", "regex", "lua", "bash", "markdown", "markdown_inline" },
       auto_install = true,
       indent = { enable = true },
       highlight = { enable = true },
