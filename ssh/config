@@ -10,6 +10,8 @@ Host *
   AddressFamily inet
   ServerAliveInterval 15
   ConnectTimeout 20
+  ControlPath ~/.ssh/control/%C
+  ControlMaster auto
 
 # GitHub, GitLab,
 Host *github.com *.gitlab.com
