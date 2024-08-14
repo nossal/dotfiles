@@ -19,9 +19,10 @@ end
 
 return {
   "mfussenegger/nvim-jdtls",
-  dependencies = { "folke/which-key.nvim" },
   ft = java_filetypes,
+  dependencies = { "folke/which-key.nvim", "JavaHello/spring-boot.nvim" },
   opts = function()
+    require('spring_boot').setup({})
     return {
       -- How to find the root dir for a given filename. The default comes from
       -- lspconfig which provides a function specifically for java projects.
@@ -158,6 +159,8 @@ return {
       end
     end
 
+    vim.list_extend(bundles, require("spring_boot").java_extensions())
+
     local function attach_jdtls()
       local fname = vim.api.nvim_buf_get_name(0)
 
@@ -198,7 +201,7 @@ return {
           local wk = require("which-key")
           wk.register({
             ["<leader>ca"] = { vim.lsp.buf.code_action, "See available Code Actions" },
-          }, {mode = { "n", "v" }, buffer  = args.buf})
+          }, { mode = { "n", "v" }, buffer = args.buf })
           wk.register({
             ["<leader>cx"] = { name = "+extract" },
             ["<leader>cxv"] = { require("jdtls").extract_variable_all, "Extract Variable" },
