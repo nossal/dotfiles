@@ -42,7 +42,7 @@ return {
         "rust_analyzer",
         "clojure_lsp",
         "jdtls",
-        "tsserver",
+        "ts_ls",
         "html",
         "cssls",
         "emmet_ls",
@@ -57,7 +57,7 @@ return {
         "stylua", -- lua formatter
         "black", -- python formatter
         "biome",
-        "sonarlint-language-server",
+        -- "sonarlint-language-server",
       },
     })
   end,

@@ -82,7 +82,7 @@ return {
       "lua_ls",
       "clojure_lsp",
       "rust_analyzer",
-      "tsserver",
+      "ts_ls",
       "biome",
       "basedpyright",
       "bashls",
