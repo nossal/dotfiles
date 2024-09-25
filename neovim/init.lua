@@ -29,7 +29,7 @@ local border = {
 require("lazy").setup("plugins", {
   checker = {
     enabled = true,
-    frequency = 86400,
+    frequency = 604800,
   },
   ui = {
     border = border,

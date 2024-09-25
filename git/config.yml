@@ -15,3 +15,7 @@ gui:
 git:
   paging:
     useConfig: true
+
+customCommands:
+  - key: '<c-l>'
+    context: 'reflogCommits'

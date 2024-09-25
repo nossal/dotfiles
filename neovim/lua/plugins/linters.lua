@@ -23,6 +23,7 @@ return {
   },
   {
     "danarth/sonarlint.nvim",
+    enabled = false,
     config = function()
       local get_java_home = function(version)
         return vim.fn.system("mise where java@" .. version):gsub("%s+", "")
