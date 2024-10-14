@@ -97,8 +97,8 @@ config.font_size = 11
 config.line_height = 1.2
 
 config.cursor_thickness = 2
-config.underline_thickness = 2
-config.underline_position = -6
+config.underline_thickness = 1
+config.underline_position = -2
 
 if wezterm.target_triple:find("apple") then
   config.font_size = 16
@@ -150,6 +150,29 @@ config.window_padding = {
   bottom = 0,
 }
 
+local win_size_presets = {
+  win = {
+    normal = {
+      width = 1791,
+      height = 978,
+      top = 10,
+      left = 400,
+    },
+    left = {
+      width = 1591,
+      height = 978,
+      top = 10,
+      left = 400,
+    }
+  }
+}
+local function window_to_size(window, preset)
+  local gui = window:gui_window()
+
+  gui:set_position(preset.left, preset.top)
+  gui:set_inner_size(preset.width, preset.height)
+end
+
 wezterm.on("gui-startup", function(cmd)
   local screen = wezterm.gui.screens().active
 	local tab, pane, window = mux.spawn_window(cmd or { })
@@ -157,22 +180,27 @@ wezterm.on("gui-startup", function(cmd)
   local width_ratio = 0.7
 
   local multiplier = 1
+  local lines_space = 4
   if wezterm.target_triple:find("apple") then
     multiplier = 2
+    lines_space = 1
   end
 
-  local line_height = math.floor((config.font_size * 1.38030 * multiplier) * config.line_height)
+  -- local line_height = math.floor((config.font_size * 1.38030 * multiplier) * config.line_height)
+  local line_height = 24
   local line_width = 10
   -- local hgap = -line_height + 30
 
-  local height = (math.floor(screen.height / line_height) - 1) * line_height
+  local height = (math.floor(screen.height / line_height) - lines_space) * line_height
 
-  print(screen.height)
-  print(height)
-  print(line_height)
+  print("screen h -", screen.height)
+  print("height -", height)
+  print("line height -", line_height)
+  print("font size -", config.font_size)
+  print("line size -", config.line_height)
   local ratio = screen.width / screen.height
   if ratio < 2 then
-    top_margin = line_height * 1.5
+    top_margin = line_height * 1.2
     width_ratio = 0.95
     -- height = height / 2
   end
@@ -180,9 +208,15 @@ wezterm.on("gui-startup", function(cmd)
   local gui = window:gui_window()
   local width = math.floor((width_ratio * screen.width) / line_width) * line_width
 
-  gui:set_position((screen.width - width) / 2, top_margin)
-  gui:set_inner_size(width, height)
-  print(gui:get_dimensions().pixel_height)
+  width = 1791
+  height = 978
+  top_margin = 10
+  -- gui:set_position((screen.width - width) / 2, top_margin)
+  -- gui:set_inner_size(width, height)
+
+  window_to_size(window, win_size_presets.win.normal)
+  -- print("px height: ", gui:get_dimensions().pixel_height)
+  -- print("px width: ", gui:get_dimensions().pixel_width)
 end)
 
 -- wezterm.on('window-config-reloaded', function(window, pane)
