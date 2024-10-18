@@ -185,9 +185,8 @@ local win_size_presets = {
 
 local function get_display_profile_name()
   local screen = wezterm.gui.screens().active
-  local ratio = screen.width / screen.height
 
-  if ratio > 2 then
+  if string.find(screen.name, "ULTRAWIDE") then
     return "uwide"
   end
   return "macbpro"
@@ -205,7 +204,7 @@ local function to_size(name)
   window_to_size(profile)
 end
 
-wezterm.on('gui-startup', function(cmd)
+wezterm.on("gui-startup", function(cmd)
   local tab, pane, window = mux.spawn_window(cmd or {})
   local win = window:gui_window()
 
@@ -218,7 +217,7 @@ end)
 
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 config.keys = {
-  { key = "L", mods = "LEADER",      action = wezterm.action.ShowDebugOverlay },
+  { key = "L", mods = "LEADER", action = wezterm.action.ShowDebugOverlay },
   {
     key = "v",
     mods = "LEADER",
