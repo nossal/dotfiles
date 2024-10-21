@@ -1,47 +1,131 @@
 require("core.diagnostics")
 
-lsp_servers = {
-  "yamlls",
-  "cssls",
-  "emmet_ls",
-  "html",
-  "lua_ls",
-  "clojure_lsp",
-  "rust_analyzer",
-  "ts_ls",
-  "biome",
-  "basedpyright",
-  "bashls",
-  "lemminx",
+local border = {
+  { "╭", "FloatBorder" },
+  { "─", "FloatBorder" },
+  { "╮", "FloatBorder" },
+  { "│", "FloatBorder" },
+  { "╯", "FloatBorder" },
+  { "─", "FloatBorder" },
+  { "╰", "FloatBorder" },
+  { "│", "FloatBorder" },
+}
+local get_java_home = function(version)
+  return vim.fn.system("mise where java@" .. version):gsub("%s+", "")
+end
+
+local lsp_servers = {
+  yamlls = {
+    type = "lsp",
+  },
+  cssls = {
+    type = "lsp",
+  },
+  emmet_ls = {
+    type = "lsp",
+  },
+  html = {
+    type = "lsp",
+  },
+  lua_ls = {
+    type = "lsp",
+  },
+  clojure_lsp = {
+    type = "lsp",
+  },
+  rust_analyzer = {
+    type = "lsp",
+  },
+  ts_ls = {
+    type = "lsp",
+  },
+  biome = {
+    type = "lsp",
+  },
+  basedpyright = {
+    type = "lsp",
+  },
+  bashls = {
+    type = "lsp",
+  },
+  jdtls = {
+    setup = {
+      settings = {
+        java = {
+          configuration = {
+            runtimes = {
+              {
+                name = "JavaSE-1.8",
+                path = get_java_home("8"),
+              },
+              {
+                name = "JavaSE-17",
+                path = get_java_home("17"),
+              },
+              {
+                name = "JavaSE-21",
+                path = get_java_home("lts"),
+              },
+            },
+          },
+          eclipse = {
+            downloadSources = true,
+          },
+          maven = {
+            downloadSources = true,
+          },
+          referencesCodeLens = {
+            enabled = true,
+          },
+          references = {
+            includeDecompiledSources = true,
+          },
+          inlayHints = {
+            parameterNames = {
+              enabled = "all", -- literals, all, none
+            },
+          },
+          format = {
+            enabled = false,
+          },
+        },
+        signatureHelp = { enabled = true },
+      },
+    },
+  },
 }
 
 return {
   {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+  { "nvim-java/nvim-java" },
+  {
     "williamboman/mason.nvim",
+    opts = {
+      registries = {
+        "github:nvim-java/mason-registry",
+        "github:mason-org/mason-registry",
+      },
+    },
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "jay-babu/mason-nvim-dap.nvim",
     },
-    config = function()
+    config = function(_, opts)
       -- import mason
       local mason = require("mason")
-
-      -- import mason-lspconfig
-      local mason_lspconfig = require("mason-lspconfig")
-      local mason_tool_installer = require("mason-tool-installer")
-      local border = {
-        { "╭", "FloatBorder" },
-        { "─", "FloatBorder" },
-        { "╮", "FloatBorder" },
-        { "│", "FloatBorder" },
-        { "╯", "FloatBorder" },
-        { "─", "FloatBorder" },
-        { "╰", "FloatBorder" },
-        { "│", "FloatBorder" },
-      }
-      -- enable mason and configure icons
-      mason.setup({
+      local conf = vim.tbl_deep_extend("keep", opts, {
         ui = {
           border = border,
           height = 0.7,
@@ -52,20 +136,22 @@ return {
           },
         },
       })
+      mason.setup(conf)
+      -- import mason-lspconfig
+      local mason_lspconfig = require("mason-lspconfig")
+      local mason_tool_installer = require("mason-tool-installer")
+      -- enable mason and configure icons
+
+      local only_lsp = {}
+      for key, val in pairs(lsp_servers) do
+        if val.type == "lsp" then
+          table.insert(only_lsp, key)
+        end
+      end
 
       mason_lspconfig.setup({
         -- list of servers for mason to install
-        ensure_installed = {
-          "lua_ls",
-          "rust_analyzer",
-          "clojure_lsp",
-          "jdtls",
-          "ts_ls",
-          "html",
-          "cssls",
-          "emmet_ls",
-          "basedpyright",
-        },
+        ensure_installed = only_lsp,
         -- auto-install configured servers (with lspconfig)
         automatic_installation = true, -- not the same as ensure_installed
       })
@@ -84,16 +170,16 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-
       -- Additional lua configuration, makes nvim stuff amazing!
-      { "folke/neodev.nvim", opts = {} },
     },
     config = function()
-      require("neodev").setup({})
+      require("java").setup({
+        jdk = { auto_install = false },
+        java_debug_adapter = { enable = false },
+        notifications = { dap = false },
+      })
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
       capabilities.textDocument.completion.completionItem.preselectSupport = true
       capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
       capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
@@ -154,18 +240,13 @@ return {
         keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
       end
 
-      for _, value in ipairs(lsp_servers) do
-        lspconfig[value].setup({
-          capabilities = capabilities,
-          on_attach = on_attach,
-          inlay_hint = {
-            enabled = true,
-          },
-          hint = {
-            enable = true,
-            setType = true,
-          },
-        })
+      for key, value in pairs(lsp_servers) do
+        local setup = value.setup or {}
+        setup.capabilities = capabilities
+        setup.on_attach = on_attach
+        setup.inlay_hint = { enabled = true }
+
+        lspconfig[key].setup(setup)
       end
     end,
   },
