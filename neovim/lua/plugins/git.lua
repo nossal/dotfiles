@@ -7,6 +7,7 @@ return {
 
       "nvim-telescope/telescope.nvim",
     },
+    lazy = true,
     config = function()
       require("neogit").setup({
         disable_signs = false,

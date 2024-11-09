@@ -64,6 +64,8 @@ autoload -U colors
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
+install_xterm_kitty_terminfo
+
 # Plugins
 plugins=(
   "Aloxaf/fzf-tab"
@@ -71,7 +73,6 @@ plugins=(
   "zsh-users/zsh-autosuggestions"
   "zsh-users/zsh-completions"
   "hlissner/zsh-autopair"
-  "jeffreytse/zsh-vi-mode"
 )
 load_plugins $plugins;
 

@@ -108,7 +108,23 @@ return {
     },
   },
   { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
-  { "nvim-java/nvim-java" },
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "InsertEnter",
+    opts = {
+      bind = true,
+      handler_opts = {
+        border = "rounded",
+      },
+    },
+    config = function(_, opts)
+      require("lsp_signature").setup(opts)
+    end,
+  },
+  {
+    "nvim-java/nvim-java",
+    event = { "BufEnter *.java" },
+  },
   {
     "williamboman/mason.nvim",
     opts = {
@@ -159,7 +175,7 @@ return {
       mason_tool_installer.setup({
         ensure_installed = {
           "stylua", -- lua formatter
-          "black", -- python formatter
+          "black",  -- python formatter
           "biome",
           -- "sonarlint-language-server",
         },

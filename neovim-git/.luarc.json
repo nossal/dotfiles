@@ -3,5 +3,6 @@
 	"diagnostics": {
 		"disable": ["missing-fields" ]
 	},
-  "hint.enable": true
+  "hint.enable": true,
+  "hint.arrayIndex": "Disable"
 }
