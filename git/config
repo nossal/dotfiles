@@ -1,9 +1,13 @@
 # vi: ft=gitconfig
-; [include]
-;   path user.conf
+
+[init]
+	defaultBranch = main
+
+[include]
+  path = user.conf
 
 [alias]
-  l = "log --pretty=format:'%<|(4)%Cgreen %h  %Cbrightblack│%Cblue%<(12,trunc) %an %Creset│ %s' --graph --no-merges -15"
+  l = "log --pretty=format:'%<|(4)%Cgreen %h %C(brightblack)│%Cblue%<(12,trunc) %an %Creset%C(brightblack)│%C(reset) %s' --graph --no-merges -15"
   s = status -s
   c = clone --recursive
   dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
