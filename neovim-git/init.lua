@@ -187,7 +187,7 @@ require("lazy").setup({
   { "rebelot/kanagawa.nvim" },
 }, {
   checker = {
-    enabled = true,
+    enabled = false,
     frequency = 86400,
   },
   ui = {
