@@ -50,6 +50,11 @@ local lsp_servers = {
   },
   jdtls = {
     setup = {
+      handlers = {
+        -- By assigning an empty function, you can remove the notifications
+        -- printed to the cmd
+        ["$/progress"] = function(_, result, ctx) end,
+      },
       settings = {
         java = {
           configuration = {
@@ -104,27 +109,11 @@ return {
         -- See the configuration section for more details
         -- Load luvit types when the `vim.uv` word is found
         { path = "luvit-meta/library", words = { "vim%.uv" } },
+        { path = "wezterm-types", mods = { "wezterm" } },
       },
     },
   },
   { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
-  {
-    "ray-x/lsp_signature.nvim",
-    event = "InsertEnter",
-    opts = {
-      bind = true,
-      handler_opts = {
-        border = "rounded",
-      },
-    },
-    config = function(_, opts)
-      require("lsp_signature").setup(opts)
-    end,
-  },
-  {
-    "nvim-java/nvim-java",
-    event = { "BufEnter *.java" },
-  },
   {
     "williamboman/mason.nvim",
     opts = {
@@ -132,28 +121,25 @@ return {
         "github:nvim-java/mason-registry",
         "github:mason-org/mason-registry",
       },
-    },
-    dependencies = {
-      "williamboman/mason-lspconfig.nvim",
-      "WhoIsSethDaniel/mason-tool-installer.nvim",
-      "jay-babu/mason-nvim-dap.nvim",
-    },
-    config = function(_, opts)
-      -- import mason
-      local mason = require("mason")
-      local conf = vim.tbl_deep_extend("keep", opts, {
-        ui = {
-          border = border,
-          height = 0.7,
-          icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗",
-          },
+      ui = {
+        border = border,
+        height = 0.7,
+        icons = {
+          package_installed = "✓",
+          package_pending = "➜",
+          package_uninstalled = "✗",
         },
-      })
-      mason.setup(conf)
-      -- import mason-lspconfig
+      },
+    },
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
+      "williamboman/mason.nvim",
+      -- "jay-babu/mason-nvim-dap.nvim",
+    },
+    config = function()
       local mason_lspconfig = require("mason-lspconfig")
       local mason_tool_installer = require("mason-tool-installer")
       -- enable mason and configure icons
@@ -165,6 +151,8 @@ return {
         end
       end
 
+      require("mason").setup()
+
       mason_lspconfig.setup({
         -- list of servers for mason to install
         ensure_installed = only_lsp,
@@ -175,10 +163,22 @@ return {
       mason_tool_installer.setup({
         ensure_installed = {
           "stylua", -- lua formatter
-          "black",  -- python formatter
+          "black", -- python formatter
           "biome",
           -- "sonarlint-language-server",
         },
+      })
+    end,
+  },
+  {
+    "nvim-java/nvim-java",
+    event = { "BufEnter *.java" },
+    config = function()
+      require("java").setup({
+        jdk = { auto_install = false },
+        java_debug_adapter = { enable = false },
+        java_test = { enable = false },
+        notifications = { dap = false },
       })
     end,
   },
@@ -187,14 +187,10 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       -- Additional lua configuration, makes nvim stuff amazing!
+      { "nvim-java/nvim-java" },
+      { "saghen/blink.cmp" },
     },
     config = function()
-      require("java").setup({
-        jdk = { auto_install = false },
-        java_debug_adapter = { enable = false },
-        notifications = { dap = false },
-      })
-
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.textDocument.completion.completionItem.preselectSupport = true
       capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
@@ -258,6 +254,7 @@ return {
 
       for key, value in pairs(lsp_servers) do
         local setup = value.setup or {}
+        capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
         setup.capabilities = capabilities
         setup.on_attach = on_attach
         setup.inlay_hint = { enabled = true }
