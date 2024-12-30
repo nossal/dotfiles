@@ -102,11 +102,11 @@ return {
 
           local ft_icon, ft_color = devicons.get_icon_color(filename)
           return {
-            ft_icon and { " ", ft_icon, " ", guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or "",
+            ft_icon and { " ", ft_icon, " ", guifg = ft_color, guibg = helpers.contrast_color(ft_color) } or "",
             " ",
-            { filename, gui = modified and "bold,italic" or "bold" },
+            { filename, gui = modified and "italic" or "bold" },
             " ",
-            guibg = "#44406e",
+            guibg = "#1c1b27",
           }
         end,
         window = {
@@ -114,7 +114,7 @@ return {
           margin = { horizontal = 0 },
         },
         hide = {
-          only_win = false,
+          only_win = true,
           cursorline = "focused_win",
           focused_win = true,
         },
