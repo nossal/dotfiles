@@ -9,18 +9,6 @@ return {
     end,
   },
   {
-    "rcarriga/nvim-notify",
-    config = function()
-      local notify = require("notify")
-      notify.setup({
-        render = "compact",
-        stages = "fade",
-        fps = 60,
-      })
-      vim.notify = notify
-    end,
-  },
-  {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
@@ -46,7 +34,7 @@ return {
           lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = " ", lang = "lua" },
           help = { pattern = "^:%s*he?l?p?%s+", icon = "󰋖 " },
           input = { view = "cmdline_input", icon = "󰥻 " }, -- Used by input()
-        }
+        },
       },
       views = {
         cmdline_popup = {
@@ -71,7 +59,16 @@ return {
     dependencies = {
       -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
       "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
+      {
+        "rcarriga/nvim-notify",
+        opts = {
+          render = "wrapped-compact",
+          max_height = 6,
+          max_width = 60,
+          stages = "fade",
+          fps = 60,
+        },
+      },
     },
   },
   {
