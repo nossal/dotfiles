@@ -48,6 +48,9 @@ local lsp_servers = {
   bashls = {
     type = "lsp",
   },
+  gradle_ls = {
+    type = "lsp",
+  },
   jdtls = {
     setup = {
       handlers = {
@@ -87,7 +90,7 @@ local lsp_servers = {
           },
           inlayHints = {
             parameterNames = {
-              enabled = "all", -- literals, all, none
+              enabled = "none", -- literals, all, none
             },
           },
           format = {
@@ -165,6 +168,9 @@ return {
           "stylua", -- lua formatter
           "black", -- python formatter
           "biome",
+          { "spring-boot-tools", auto_update = false, pinned = true },
+          { "java-test", auto_update = false },
+          { "java-debug-adapter", auto_update = false },
           -- "sonarlint-language-server",
         },
       })
@@ -192,16 +198,15 @@ return {
     },
     config = function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.preselectSupport = true
-      capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-      capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-      capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-      capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-      capabilities.textDocument.completion.completionItem.tagSupport = {
-        valueSet = { 1 },
-      }
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities.textDocument.completion.completionItem.resolveSupport = {
+      local completionItem = capabilities.textDocument.completion.completionItem
+      completionItem.preselectSupport = true
+      completionItem.insertReplaceSupport = true
+      completionItem.labelDetailsSupport = true
+      completionItem.deprecatedSupport = true
+      completionItem.commitCharactersSupport = true
+      completionItem.tagSupport = { valueSet = { 1 } }
+      completionItem.snippetSupport = true
+      completionItem.resolveSupport = {
         properties = { "documentation", "detail", "additionalTextEdits" },
       }
 
