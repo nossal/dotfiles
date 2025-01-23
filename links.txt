@@ -4,6 +4,7 @@ neovim-git              .config/nvim-git
 starship/starship.toml  .config/starship.toml
 shell/lsd.yaml          .config/lsd/config.yaml
 tmux/tmux.conf          .config/tmux/tmux.conf
+mise/config.yml         .config/mise/config.yaml
 [zsh]
 shell/zsh/zlogin        .zlogin
 shell/zsh/zprofile      .zprofile

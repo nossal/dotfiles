@@ -1,0 +1,11 @@
+[tools]
+go = "latest"
+lazygit = "latest"
+
+[settings]
+experimental = true
+ignored_config_paths = ["$HOME/.dotfiles/mise/"]
+
+[settings.python]
+uv_venv_auto = true
+
