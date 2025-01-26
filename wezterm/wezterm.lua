@@ -6,13 +6,20 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
+local tmux_bin = "tmux"
+if wezterm.target_triple:find("apple") then
+  tmux_bin = "/usr/local/bin/tmux"
+end
+
+config.default_prog = { tmux_bin, "new", "-A", "-s", "work" }
+
 local Profile = {
   RYZEN = "RYZEN",
   XONE = "XONE",
   MACPRO = "MACPRO",
 }
 
-local profiles = {
+local PROFILES = {
   XONE = {
     config = {
       font_size = 13,
@@ -41,17 +48,51 @@ local profiles = {
       },
       default_domain = "wsl",
     },
+    win_presets = {
+      normal = {
+        width = 1791,
+        height = 1002,
+        top = 10,
+        left = 350,
+      },
+      mdev = {
+        width = 1701,
+        height = 1026,
+        top = 5,
+        left = 505,
+      },
+      video = {
+        width = 1449,
+        height = 1026,
+        top = 5,
+        left = 10,
+      },
+    },
   },
   MACPRO = {
     config = {
       font_size = 16,
       underline_position = -12,
     },
+    win_presets = {
+      normal = {
+        width = 2833,
+        height = 1695,
+        top = 65,
+        left = 25,
+      },
+      mdev = {
+        width = 1788,
+        height = 1695,
+        top = 65,
+        left = 1065,
+      },
+    },
   },
 }
 
 local function get_profile_name()
-  local hostname = wezterm.hostname()
+  local hostname = wezterm.hostname():lower()
 
   if string.find(hostname, "ryzen") then
     return Profile.RYZEN
@@ -75,14 +116,6 @@ end
 --   end
 -- end
 -- config.front_end = "WebGpu"
-
-local tmux_bin = "tmux"
-if wezterm.target_triple:find("apple") then
-  tmux_bin = "/usr/local/bin/tmux"
-end
-
-config.default_prog = { tmux_bin, "new", "-A", "-s", "work" }
-
 config.color_schemes = {
   ["nossal"] = {
     background = "#1e1e1e",
@@ -161,7 +194,7 @@ config.default_cursor_style = "BlinkingBar"
 config.max_fps = 120
 
 -- config.win32_system_backdrop = "Tabbed"
--- config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 
 config.window_background_gradient = {
   colors = { "#131122", "#121119" },
@@ -180,57 +213,6 @@ config.window_padding = {
   bottom = 0,
 }
 
-local win_size_presets = {
-  RYZEN = {
-    normal = {
-      width = 1791,
-      height = 1002,
-      top = 10,
-      left = 350,
-    },
-    mdev = {
-      width = 1701,
-      height = 1026,
-      top = 5,
-      left = 505,
-    },
-    video = {
-      width = 1449,
-      height = 1026,
-      top = 5,
-      left = 10,
-    },
-  },
-  XONE = {
-    normal = {
-      width = 1810,
-      height = 900,
-      top = 15,
-      left = 15,
-    },
-    mdev = {
-      width = 1788,
-      height = 1695,
-      top = 65,
-      left = 10,
-    },
-  },
-  MACPRO = {
-    normal = {
-      width = 2833,
-      height = 1695,
-      top = 65,
-      left = 25,
-    },
-    mdev = {
-      width = 1788,
-      height = 1695,
-      top = 65,
-      left = 1065,
-    },
-  },
-}
-
 local function window_to_size(preset)
   local gui = wezterm.gui.gui_windows()[1]
 
@@ -239,7 +221,7 @@ local function window_to_size(preset)
 end
 
 local function to_size(name)
-  local preset = win_size_presets[get_profile_name()][name]
+  local preset = PROFILES[get_profile_name()].win_presets[name]
   window_to_size(preset)
 end
 
@@ -286,5 +268,6 @@ config.keys = {
   { key = "a", mods = "LEADER|CTRL", action = wezterm.action.SendKey({ key = "a", mods = "CTRL" }) },
 }
 
-update_config(config, profiles[get_profile_name()].config)
+update_config(config, PROFILES[get_profile_name()].config)
+
 return config
