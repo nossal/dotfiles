@@ -1,19 +1,80 @@
 local wezterm = require("wezterm")
 local mux = wezterm.mux
--- This table will hold the configuration.
 local config = {}
 
 if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
-for _, gpu in ipairs(wezterm.gui.enumerate_gpus()) do
-  if gpu.backend == "Vulkan" then
-    config.webgpu_preferred_adapter = gpu
-    break
+local Profile = {
+  RYZEN = "RYZEN",
+  XONE = "XONE",
+  MACPRO = "MACPRO",
+}
+
+local profiles = {
+  XONE = {
+    config = {
+      font_size = 13,
+      enable_wayland = true,
+      window_frame = {
+        border_left_width = "0.5cell",
+        border_right_width = "0.5cell",
+        border_bottom_height = "0.2cell",
+        border_top_height = "0.2cell",
+        border_left_color = "#021C3D",
+        border_right_color = "#021C3D",
+        border_bottom_color = "#021C3D",
+        border_top_color = "#021C3D",
+      },
+    },
+  },
+  RYZEN = {
+    config = {
+      wsl_domains = {
+        {
+          name = "wsl",
+          distribution = "fedora",
+          default_cwd = "~",
+          default_prog = config.default_prog,
+        },
+      },
+      default_domain = "wsl",
+    },
+  },
+  MACPRO = {
+    config = {
+      font_size = 16,
+      underline_position = -12,
+    },
+  },
+}
+
+local function get_profile_name()
+  local hostname = wezterm.hostname()
+
+  if string.find(hostname, "ryzen") then
+    return Profile.RYZEN
+  end
+  if string.find(hostname, "x-one") then
+    return Profile.XONE
+  end
+  return Profile.MACPRO
+end
+
+local function update_config(original, updates)
+  for key, value in pairs(updates) do
+    original[key] = value
   end
 end
-config.front_end = "WebGpu"
+
+-- for _, gpu in ipairs(wezterm.gui.enumerate_gpus()) do
+--   if gpu.backend == "Vulkan" then
+--     config.webgpu_preferred_adapter = gpu
+--     break
+--   end
+-- end
+-- config.front_end = "WebGpu"
 
 local tmux_bin = "tmux"
 if wezterm.target_triple:find("apple") then
@@ -21,18 +82,6 @@ if wezterm.target_triple:find("apple") then
 end
 
 config.default_prog = { tmux_bin, "new", "-A", "-s", "work" }
-
-if wezterm.target_triple:find("windows") then
-  config.wsl_domains = {
-    {
-      name = "wsl",
-      distribution = "fedora",
-      default_cwd = "~",
-      default_prog = config.default_prog,
-    },
-  }
-  config.default_domain = "wsl"
-end
 
 config.color_schemes = {
   ["nossal"] = {
@@ -91,15 +140,9 @@ config.font_rules = {
 }
 config.font_size = 11
 config.line_height = 1.2
-
 config.cursor_thickness = 2
 config.underline_thickness = 1
 config.underline_position = -2
-
-if wezterm.target_triple:find("apple") then
-  config.font_size = 16
-  config.underline_position = -12
-end
 
 config.term = "xterm-256color"
 
@@ -113,12 +156,13 @@ config.visual_bell = {
 config.cursor_blink_rate = 300
 config.cursor_blink_ease_in = "EaseIn"
 config.cursor_blink_ease_out = "EaseOut"
-config.animation_fps = 60
+config.animation_fps = 120
 config.default_cursor_style = "BlinkingBar"
+config.max_fps = 120
 
-config.win32_system_backdrop = "Tabbed"
-config.window_decorations = "RESIZE"
---
+-- config.win32_system_backdrop = "Tabbed"
+-- config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+
 config.window_background_gradient = {
   colors = { "#131122", "#121119" },
   noise = 70,
@@ -129,16 +173,6 @@ config.window_background_gradient = {
   },
 }
 
--- config.window_frame = {
---   border_left_width = '0.5cell',
---   border_right_width = '0.5cell',
---   border_bottom_height = '0.25cell',
---   border_top_height = '0.25cell',
---   border_left_color = 'purple',
---   border_right_color = 'purple',
---   border_bottom_color = 'purple',
---   border_top_color = 'purple',
--- }
 config.window_padding = {
   left = 0,
   right = 0,
@@ -147,7 +181,7 @@ config.window_padding = {
 }
 
 local win_size_presets = {
-  uwide = {
+  RYZEN = {
     normal = {
       width = 1791,
       height = 1002,
@@ -167,7 +201,21 @@ local win_size_presets = {
       left = 10,
     },
   },
-  macbpro = {
+  XONE = {
+    normal = {
+      width = 1810,
+      height = 900,
+      top = 15,
+      left = 15,
+    },
+    mdev = {
+      width = 1788,
+      height = 1695,
+      top = 65,
+      left = 10,
+    },
+  },
+  MACPRO = {
     normal = {
       width = 2833,
       height = 1695,
@@ -183,15 +231,6 @@ local win_size_presets = {
   },
 }
 
-local function get_display_profile_name()
-  local screen = wezterm.gui.screens().active
-
-  if string.find(screen.name, "ULTRAWIDE") then
-    return "uwide"
-  end
-  return "macbpro"
-end
-
 local function window_to_size(preset)
   local gui = wezterm.gui.gui_windows()[1]
 
@@ -200,13 +239,18 @@ local function window_to_size(preset)
 end
 
 local function to_size(name)
-  local profile = win_size_presets[get_display_profile_name()][name]
-  window_to_size(profile)
+  local preset = win_size_presets[get_profile_name()][name]
+  window_to_size(preset)
 end
 
 wezterm.on("gui-startup", function(cmd)
   local tab, pane, window = mux.spawn_window(cmd or {})
   local win = window:gui_window()
+
+  local profile = get_profile_name()
+  if profile == Profile.XONE then
+    win:maximize()
+  end
 
   to_size("normal")
 end)
@@ -241,5 +285,6 @@ config.keys = {
   },
   { key = "a", mods = "LEADER|CTRL", action = wezterm.action.SendKey({ key = "a", mods = "CTRL" }) },
 }
--- and finally, return the configuration to wezterm
+
+update_config(config, profiles[get_profile_name()].config)
 return config
