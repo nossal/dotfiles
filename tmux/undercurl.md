@@ -1,5 +1,10 @@
 ## Configure the Terminfo
 
+**Test undercurl on your terminal**
+```shell
+echo -e "\e[4:3mThis text has an undercurl\e[0m"
+```
+
   1. Verify Smulx in Tmux
   ```shell
    infocmp -l -x | grep Smulx

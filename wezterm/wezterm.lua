@@ -38,6 +38,7 @@ local PROFILES = {
   },
   RYZEN = {
     config = {
+      underline_position = -4,
       wsl_domains = {
         {
           name = "wsl",
