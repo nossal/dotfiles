@@ -26,7 +26,9 @@ local border = {
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   opts = opts or {}
-  opts.border = opts.border or border
+  opts.max_width = 70
+  opts.max_height = 15
+  opts.border = opts.border or border or "rounded"
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
@@ -99,24 +101,46 @@ local codes = {
 }
 
 vim.diagnostic.config({
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  virtual_text = false,
+  -- virtual_text = {
+  --   spacing = 4,
+  --   source = "if_many",
+  --   prefix = " ●",
+  -- },
+  -- virtual_lines = true,
+  severity_sort = true,
+  -- float = true,
   float = {
-    focusable = true,
-    -- border = border,
-    scope = "cursor",
-    -- source = true,
+    source = false,
     format = function(diagnostic)
-      local code = diagnostic.user_data.lsp.code
-      print("diagnostic:")
-      -- dump(diagnostic)
+      local code = diagnostic and diagnostic.user_data and diagnostic.user_data.lsp.code
+
+      if not diagnostic.source or not code then
+        return string.format("%s", diagnostic.message)
+      end
+
+      if diagnostic.source == "eslint" then
+        for _, table in pairs(codes) do
+          if vim.tbl_contains(table, code) then
+            return string.format("%s [%s]", table.icon .. diagnostic.message, code)
+          end
+        end
+
+        return string.format("%s [%s]", diagnostic.message, code)
+      end
+
       for _, table in pairs(codes) do
         if vim.tbl_contains(table, code) then
           return table.message
         end
       end
-      return diagnostic.message
+
+      return string.format("%s [%s]", diagnostic.message, diagnostic.source)
     end,
     header = { "Cursor Diagnostics:", "DiagnosticHeader" },
-    pos = 1,
     prefix = function(diagnostic, i, total)
       local icon, highlight
       if diagnostic.severity == 1 then
@@ -135,9 +159,6 @@ vim.diagnostic.config({
       return i .. "/" .. total .. " " .. icon .. "  ", highlight
     end,
   },
-  signs = true,
-  underline = true,
-  update_in_insert = false,
-  virtual_text = true,
-  severity_sort = true,
 })
+
+-- vim.cmd([[au CursorHold  * lua vim.diagnostic.open_float()]])
