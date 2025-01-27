@@ -1,4 +1,6 @@
-local border = {
+local M = {}
+
+M.border = {
   { "╭", "FloatBorder" },
   { "─", "FloatBorder" },
   { "╮", "FloatBorder" },
@@ -8,3 +10,5 @@ local border = {
   { "╰", "FloatBorder" },
   { "│", "FloatBorder" },
 }
+
+return M

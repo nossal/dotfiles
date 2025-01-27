@@ -1,6 +1,3 @@
-if vim.loader then
-  vim.loader.enable()
-end
 require("core")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -16,16 +13,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local border = {
-  { "╭", "FloatBorder" },
-  { "─", "FloatBorder" },
-  { "╮", "FloatBorder" },
-  { "│", "FloatBorder" },
-  { "╯", "FloatBorder" },
-  { "─", "FloatBorder" },
-  { "╰", "FloatBorder" },
-  { "│", "FloatBorder" },
-}
+local border = require("core.ui").border
+
 require("lazy").setup("plugins", {
   checker = {
     enabled = true,
@@ -55,6 +44,7 @@ require("lazy").setup("plugins", {
     },
   },
 })
+
 require("oil").setup()
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

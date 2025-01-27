@@ -1,15 +1,7 @@
 require("core.diagnostics")
 
-local border = {
-  { "╭", "FloatBorder" },
-  { "─", "FloatBorder" },
-  { "╮", "FloatBorder" },
-  { "│", "FloatBorder" },
-  { "╯", "FloatBorder" },
-  { "─", "FloatBorder" },
-  { "╰", "FloatBorder" },
-  { "│", "FloatBorder" },
-}
+local border = require("core.ui").border
+
 local get_java_home = function(version)
   return vim.fn.system("mise where java@" .. version):gsub("%s+", "")
 end

@@ -2,16 +2,7 @@
 local a = vim.api
 local Path = require("plenary.path")
 -- local incline = require("incline")
-local border = {
-  { "╭", "FloatBorder" },
-  { "─", "FloatBorder" },
-  { "╮", "FloatBorder" },
-  { "│", "FloatBorder" },
-  { "╯", "FloatBorder" },
-  { "─", "FloatBorder" },
-  { "╰", "FloatBorder" },
-  { "│", "FloatBorder" },
-}
+
 local extra_colors = {
   theme_bg = "#222032",
   fg = "#FFFFFF",
