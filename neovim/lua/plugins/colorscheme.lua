@@ -19,7 +19,7 @@ return {
           colors.green = "#0aaf27"
         end,
       })
-      vim.cmd([[colorscheme solarized-osaka-night]])
+      vim.cmd([[colorscheme solarized-osaka]])
     end,
   },
 }
