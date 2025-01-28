@@ -64,8 +64,6 @@ autoload -U colors
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
-install_xterm_kitty_terminfo
-
 # Plugins
 plugins=(
   "Aloxaf/fzf-tab"
@@ -92,8 +90,8 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 # The Prompt
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+eval "$(~/.local/bin/mise activate zsh)"
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
-eval "$(zoxide init zsh)"
-
