@@ -23,6 +23,7 @@ local PROFILES = {
   XONE = {
     config = {
       font_size = 13,
+      underline_position = -8,
       enable_wayland = true,
       window_frame = {
         border_left_width = "0.5cell",
@@ -39,6 +40,7 @@ local PROFILES = {
   RYZEN = {
     config = {
       underline_position = -4,
+      window_decorations = "RESIZE",
       wsl_domains = {
         {
           name = "wsl",
@@ -98,7 +100,7 @@ local function get_profile_name()
   if string.find(hostname, "ryzen") then
     return Profile.RYZEN
   end
-  if string.find(hostname, "x-one") then
+  if string.find(hostname, "one") then
     return Profile.XONE
   end
   return Profile.MACPRO
@@ -180,6 +182,7 @@ config.underline_position = -2
 
 config.term = "xterm-256color"
 
+
 config.visual_bell = {
   fade_in_function = "EaseIn",
   fade_in_duration_ms = 75,
@@ -195,7 +198,7 @@ config.default_cursor_style = "BlinkingBar"
 config.max_fps = 120
 
 -- config.win32_system_backdrop = "Tabbed"
-config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+-- config.window_decorations = "RESIZE"
 
 config.window_background_gradient = {
   colors = { "#131122", "#121119" },
@@ -230,12 +233,13 @@ wezterm.on("gui-startup", function(cmd)
   local tab, pane, window = mux.spawn_window(cmd or {})
   local win = window:gui_window()
 
-  local profile = get_profile_name()
-  if profile == Profile.XONE then
     win:maximize()
+  if get_profile_name() == Profile.XONE then
+    win:maximize()
+    -- window:maximize()
+  else
+    to_size("normal")
   end
-
-  to_size("normal")
 end)
 
 -- wezterm.on('window-config-reloaded', function(window, pane)
