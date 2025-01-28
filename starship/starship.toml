@@ -69,11 +69,8 @@ style = "bg:git_br_bg 208 italic"
 format = '[\($state( $progress_current of $progress_total)\)]($style) '
 cherry_pick = "[  PICKING](italic red)" # 🍒
 
-
 [package]
-format = "[ $symbol $version ]($style) "
-symbol = "" #  📦
-style = "fg:#999999 bg:lang_bg italic"
+disabled = true
 
 [java]
 format = "[ ${symbol} ](bg:lang_icon_bg)[ (${version} )]($style)"
