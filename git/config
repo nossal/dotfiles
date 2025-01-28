@@ -1,7 +1,6 @@
 # vi: ft=gitconfig
-
 [init]
-	defaultBranch = main
+  defaultBranch = main
 
 [include]
   path = user.conf

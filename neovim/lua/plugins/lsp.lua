@@ -277,7 +277,7 @@ return {
         local caps = require("blink.cmp").get_lsp_capabilities(capabilities)
         setup.capabilities = caps
         setup.on_attach = on_attach
-        setup.inlay_hint = { enabled = true }
+        -- setup.inlay_hint = { enabled = true }
 
         lspconfig[key].setup(setup)
       end

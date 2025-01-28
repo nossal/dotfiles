@@ -1,5 +1,5 @@
 # vi: ft=sshconfig
-Include ~/.dotfiles/work/ssh-config
+Include ~/.dotfiles-work/ssh-config
 
 Host *
   ServerAliveInterval 60
