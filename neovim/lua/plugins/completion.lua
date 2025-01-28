@@ -31,25 +31,31 @@ return {
         nerd_font_variant = "mono",
       },
       completion = {
+        menu = { border = "rounded" },
         documentation = {
+          window = { border = "rounded" },
           auto_show = true,
           auto_show_delay_ms = 500,
         },
-        ghost_text = { enabled = true },
+        ghost_text = { enabled = false },
+      },
+      signature = {
+        enabled = true,
+        window = { show_documentation = true, border = "rounded" },
       },
 
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
-        providers = {
-          lazydev = {
-            name = "LazyDev",
-            module = "lazydev.integrations.blink",
-            -- make lazydev completions top priority (see `:h blink.cmp`)
-            score_offset = 100,
-          },
-        },
+        default = { "lsp", "path", "snippets", "buffer" },
+        -- providers = {
+        --   lazydev = {
+        --     name = "LazyDev",
+        --     module = "lazydev.integrations.blink",
+        --     -- make lazydev completions top priority (see `:h blink.cmp`)
+        --     score_offset = 100,
+        --   },:
+        -- },
       },
     },
     opts_extend = { "sources.default" },

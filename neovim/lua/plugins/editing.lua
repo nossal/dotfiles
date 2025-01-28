@@ -10,24 +10,6 @@ return {
     end,
   },
   {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    opts = {}, -- this is equalent to setup({}) function
-    dependencies = {
-      "hrsh7th/nvim-cmp",
-    },
-    config = function()
-      local autopairs = require("nvim-autopairs")
-      autopairs.setup({
-        check_ts = true,
-      })
-
-      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-      local cmp = require("cmp")
-      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-    end,
-  },
-  {
     "lukas-reineke/indent-blankline.nvim",
     event = { "BufReadPre", "BufNewFile" },
     main = "ibl",

@@ -9,6 +9,9 @@ end
 local lsp_servers = {
   yamlls = {
     type = "lsp",
+    setup = {
+      filetypes = { "yaml", "bu", "yaml.docker-compose", "yaml.gitlab" },
+    },
   },
   cssls = {
     type = "lsp",
@@ -98,6 +101,7 @@ local lsp_servers = {
 return {
   {
     "folke/lazydev.nvim",
+    enabled = false,
     ft = "lua", -- only load on lua files
     opts = {
       library = {
@@ -111,6 +115,7 @@ return {
   { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
   {
     "williamboman/mason.nvim",
+    lazy = true,
     opts = {
       registries = {
         "github:nvim-java/mason-registry",
@@ -137,7 +142,6 @@ return {
     config = function()
       local mason_lspconfig = require("mason-lspconfig")
       local mason_tool_installer = require("mason-tool-installer")
-      -- enable mason and configure icons
 
       local only_lsp = {}
       for key, val in pairs(lsp_servers) do
@@ -156,25 +160,45 @@ return {
       })
 
       mason_tool_installer.setup({
+        run_on_start = false,
         ensure_installed = {
           "stylua", -- lua formatter
+          "luacheck", -- lua linter
           "black", -- python formatter
-          "biome",
-          { "spring-boot-tools", auto_update = false, pinned = true },
-          { "java-test", auto_update = false },
-          { "java-debug-adapter", auto_update = false },
-          -- "sonarlint-language-server",
+          "biome", -- javascript formatter
+          "stylelint", -- css linter
+          "shellcheck", -- shell linter
+          "shfmt", -- shell formatter
+          "markdownlint", -- markdown linter
+          "yamllint", -- yaml linter
+          "jsonlint", -- json linter
         },
       })
     end,
   },
   {
     "nvim-java/nvim-java",
+    -- dependencies = {
+    --   "williamboman/mason-lspconfig.nvim",
+    --   opts = {
+    --     handlers = {
+    --       ["jdtls"] = function()
+    --         require("java").setup({
+    --           jdk = { auto_install = false },
+    --           -- java_debug_adapter = { enable = false },
+    --           java_test = { enable = false },
+    --           notifications = { dap = false },
+    --         })
+    --       end,
+    --     },
+    --   },
+    -- },
     event = { "BufEnter *.java" },
+    -- ft = { "java" },
     config = function()
       require("java").setup({
         jdk = { auto_install = false },
-        java_debug_adapter = { enable = false },
+        -- java_debug_adapter = { enable = false },
         java_test = { enable = false },
         notifications = { dap = false },
       })
@@ -182,9 +206,8 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
+    -- event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      -- Additional lua configuration, makes nvim stuff amazing!
       { "nvim-java/nvim-java" },
       { "saghen/blink.cmp" },
     },
@@ -251,8 +274,8 @@ return {
 
       for key, value in pairs(lsp_servers) do
         local setup = value.setup or {}
-        capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
-        setup.capabilities = capabilities
+        local caps = require("blink.cmp").get_lsp_capabilities(capabilities)
+        setup.capabilities = caps
         setup.on_attach = on_attach
         setup.inlay_hint = { enabled = true }
 

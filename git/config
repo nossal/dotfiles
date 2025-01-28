@@ -67,3 +67,8 @@
 [log]
   date = local
 
+[user]
+	email = rodrigo@noss.al
+	name = nossal
+[init]
+	defaultBranch = main
