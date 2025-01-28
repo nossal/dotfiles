@@ -101,7 +101,7 @@ local lsp_servers = {
 return {
   {
     "folke/lazydev.nvim",
-    enabled = false,
+    -- enabled = false,
     ft = "lua", -- only load on lua files
     opts = {
       library = {
