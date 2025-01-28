@@ -149,22 +149,22 @@ opt.timeoutlen = 300 -- Decrease mapped sequence wait time; Displays which-key p
 -- vim.cmd([[let &t_Cs = "\e[4:3m"]])
 -- vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
-if os.getenv 'SSH_CLIENT' ~= nil or os.getenv 'SSH_TTY' ~= nil then
-  local function paste()
-    return {
-      vim.split(vim.fn.getreg '', '\n'),
-      vim.fn.getregtype '',
-    }
-  end
-  vim.g.clipboard = {
-    name = 'OSC 52',
-    copy = {
-      ['+'] = require('vim.ui.clipboard.osc52').copy '+',
-      ['*'] = require('vim.ui.clipboard.osc52').copy '*',
-    },
-    paste = {
-      ['+'] = paste,
-      ['*'] = paste,
-    },
-  }
-end
+-- if os.getenv 'SSH_CLIENT' ~= nil or os.getenv 'SSH_TTY' ~= nil then
+--   local function paste()
+--     return {
+--       vim.split(vim.fn.getreg '', '\n'),
+--       vim.fn.getregtype '',
+--     }
+--   end
+--   vim.g.clipboard = {
+--     name = 'OSC 52',
+--     copy = {
+--       ['+'] = require('vim.ui.clipboard.osc52').copy '+',
+--       ['*'] = require('vim.ui.clipboard.osc52').copy '*',
+--     },
+--     paste = {
+--       ['+'] = paste,
+--       ['*'] = paste,
+--     },
+--   }
+-- end

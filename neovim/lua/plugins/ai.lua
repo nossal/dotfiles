@@ -104,7 +104,7 @@ return {
   },
   {
     "huggingface/llm.nvim",
-    enabled = true,
+    enabled = false,
     opts = {
       backend = "ollama",
       url = "http://ai.local:11434",

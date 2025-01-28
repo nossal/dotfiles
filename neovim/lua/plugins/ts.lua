@@ -7,7 +7,6 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     build = ":TSUpdate",
     config = function()
-
       require("nvim-treesitter.configs").setup({
         ensure_instqlled = {
           "gitcommit",
