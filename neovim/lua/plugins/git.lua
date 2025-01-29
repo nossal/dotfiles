@@ -2,12 +2,12 @@ return {
   {
     "NeogitOrg/neogit",
     dependencies = {
-      "nvim-lua/plenary.nvim", -- required
+      "nvim-lua/plenary.nvim",  -- required
       "sindrets/diffview.nvim", -- optional - Diff integration
 
       "nvim-telescope/telescope.nvim",
     },
-    lazy = true,
+    -- lazy = true,
     config = function()
       require("neogit").setup({
         disable_signs = false,
@@ -46,6 +46,7 @@ return {
       })
     end,
   },
+  { 'akinsho/git-conflict.nvim', version = "*", config = true },
   {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },

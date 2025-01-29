@@ -20,8 +20,19 @@ return {
         },
         on_colors = function(colors)
           colors.green = "#0aaf27"
+          colors.bg = "#121119"
+          colors.bg_float = "#121119"
         end,
         on_highlights = function(hl, c)
+          -- hl.GitConflictCurrent = {
+          --   bg =
+          -- }
+          -- hl.GitConflictIncoming
+          -- hl.GitConflictAncestor
+          -- hl.GitConflictCurrentLabel
+          -- hl.GitConflictIncomingLabel
+          -- hl.GitConflictAncestorLabel
+
           hl.CursorLine = {
             -- bg = util.darken(c.bg, 0.1),
             bg = util.lighten(c.bg, 0.97),
