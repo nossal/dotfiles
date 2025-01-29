@@ -1,22 +1,18 @@
 return {
-  -- NOTE: Yes, you can install new plugins here!
-  "mfussenegger/nvim-dap",
+  "rcarriga/nvim-dap-ui",
   lazy = true,
-  event = "VeryLazy",
-  -- NOTE: And you can specify dependencies as well
+  -- event = "VeryLazy",
   dependencies = {
-    -- Creates a beautiful debugger UI
-    "rcarriga/nvim-dap-ui",
+    "mfussenegger/nvim-dap",
 
     -- Required dependency for nvim-dap-ui
     "nvim-neotest/nvim-nio",
 
     -- Installs the debug adapters for you
-    "williamboman/mason.nvim",
+    -- "williamboman/mason.nvim",
     "jay-babu/mason-nvim-dap.nvim",
 
     -- Add your own debuggers here
-    "leoluz/nvim-dap-go",
   },
   config = function()
     local dap = require("dap")
@@ -80,8 +76,5 @@ return {
     dap.listeners.after.event_initialized["dapui_config"] = dapui.open
     dap.listeners.before.event_terminated["dapui_config"] = dapui.close
     dap.listeners.before.event_exited["dapui_config"] = dapui.close
-
-    -- Install golang specific config
-    require("dap-go").setup()
   end,
 }
