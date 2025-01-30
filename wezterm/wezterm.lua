@@ -164,14 +164,14 @@ config.font_rules = {
     font = wezterm.font({ family = "Maple Mono NF", weight = "Bold", style = "Italic" }),
   },
   {
-    intensity = "Half",
-    italic = true,
-    font = wezterm.font({ family = "Maple Mono NF", weight = "DemiBold", style = "Italic" }),
-  },
-  {
     intensity = "Normal",
     italic = true,
     font = wezterm.font({ family = "Maple Mono NF", style = "Italic" }),
+  },
+  {
+    intensity = "Half",
+    italic = true,
+    font = wezterm.font({ family = "Maple Mono NF", weight = "Thin", style = "Italic" }),
   },
 }
 config.font_size = 11
@@ -181,7 +181,6 @@ config.underline_thickness = 1
 config.underline_position = -2
 
 config.term = "xterm-256color"
-
 
 config.visual_bell = {
   fade_in_function = "EaseIn",
@@ -233,7 +232,7 @@ wezterm.on("gui-startup", function(cmd)
   local tab, pane, window = mux.spawn_window(cmd or {})
   local win = window:gui_window()
 
-    win:maximize()
+  win:maximize()
   if get_profile_name() == Profile.XONE then
     win:maximize()
     -- window:maximize()
