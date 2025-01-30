@@ -1,52 +1,6 @@
 return {
-  {
-    "NeogitOrg/neogit",
-    dependencies = {
-      "nvim-lua/plenary.nvim",  -- required
-      "sindrets/diffview.nvim", -- optional - Diff integration
-
-      "nvim-telescope/telescope.nvim",
-    },
-    -- lazy = true,
-    config = function()
-      require("neogit").setup({
-        disable_signs = false,
-        disable_hint = true,
-        disable_context_highlighting = false,
-        disable_builtin_notifications = true,
-        status = {
-          recent_commit_count = 10,
-        },
-        -- customize displayed signs
-        signs = {
-          -- { CLOSED, OPENED }
-          section = { "", "" },
-          item = { "", "" },
-          hunk = { "", "" },
-          -- hunk = { "", "" },
-          -- item = { "", "" },
-          -- section = { "", "" },
-        },
-        integrations = {
-          diffview = true,
-        },
-        sections = {
-          recent = {
-            folded = false,
-          },
-        },
-        -- override/add mappings
-        -- mappings = {
-        --   -- modify status buffer mappings
-        --   status = {
-        --     -- Adds a mapping with "B" as key that does the "BranchPopup" command
-        --     ["B"] = "BranchPopup",
-        --   },
-        -- },
-      })
-    end,
-  },
-  { 'akinsho/git-conflict.nvim', version = "*", config = true },
+  { "sindrets/diffview.nvim" },
+  { "akinsho/git-conflict.nvim", version = "*", config = true },
   {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
