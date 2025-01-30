@@ -164,7 +164,7 @@ return {
         ensure_installed = {
           "stylua", -- lua formatter
           "luacheck", -- lua linter
-          "black", -- python formatter
+          "ruff", -- python formatter
           "biome", -- javascript formatter
           "stylelint", -- css linter
           "shellcheck", -- shell linter
