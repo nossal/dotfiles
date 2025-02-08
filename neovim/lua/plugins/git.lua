@@ -1,5 +1,5 @@
 return {
-  { "sindrets/diffview.nvim" },
+  { "sindrets/diffview.nvim", lazy = true },
   { "akinsho/git-conflict.nvim", version = "*", config = true },
   {
     "lewis6991/gitsigns.nvim",

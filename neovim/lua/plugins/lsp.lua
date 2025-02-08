@@ -117,10 +117,6 @@ return {
     "williamboman/mason.nvim",
     lazy = true,
     opts = {
-      registries = {
-        "github:nvim-java/mason-registry",
-        "github:mason-org/mason-registry",
-      },
       ui = {
         border = border,
         height = 0.7,
@@ -134,6 +130,7 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
+    lazy = true,
     dependencies = {
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "williamboman/mason.nvim",
@@ -194,7 +191,6 @@ return {
     --   },
     -- },
     event = { "BufEnter *.java" },
-    -- ft = { "java" },
     config = function()
       require("java").setup({
         jdk = { auto_install = false },
@@ -207,6 +203,8 @@ return {
   {
     "neovim/nvim-lspconfig",
     -- event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = { "LspInfo", "LspInstall", "LspUninstall" },
     dependencies = {
       { "nvim-java/nvim-java" },
       { "saghen/blink.cmp" },
