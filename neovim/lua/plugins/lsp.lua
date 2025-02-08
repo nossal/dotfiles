@@ -1,5 +1,6 @@
 require("core.diagnostics")
 
+local keymap = require("core.helpers").map
 local border = require("core.ui").border
 
 local get_java_home = function(version)
@@ -108,7 +109,7 @@ return {
         -- See the configuration section for more details
         -- Load luvit types when the `vim.uv` word is found
         { path = "luvit-meta/library", words = { "vim%.uv" } },
-        { path = "wezterm-types", mods = { "wezterm" } },
+        { path = "wezterm-types",      mods = { "wezterm" } },
       },
     },
   },
@@ -159,16 +160,16 @@ return {
       mason_tool_installer.setup({
         run_on_start = false,
         ensure_installed = {
-          "stylua", -- lua formatter
-          "luacheck", -- lua linter
-          "ruff", -- python formatter
-          "biome", -- javascript formatter
-          "stylelint", -- css linter
-          "shellcheck", -- shell linter
-          "shfmt", -- shell formatter
+          "stylua",       -- lua formatter
+          "luacheck",     -- lua linter
+          "ruff",         -- python formatter
+          "biome",        -- javascript formatter
+          "stylelint",    -- css linter
+          "shellcheck",   -- shell linter
+          "shfmt",        -- shell formatter
           "markdownlint", -- markdown linter
-          "yamllint", -- yaml linter
-          "jsonlint", -- json linter
+          "yamllint",     -- yaml linter
+          "jsonlint",     -- json linter
         },
       })
     end,
@@ -224,50 +225,31 @@ return {
       }
 
       local lspconfig = require("lspconfig")
-      local keymap = vim.keymap -- for conciseness
 
       local opts = { noremap = true, silent = true }
       local on_attach = function(_, bufnr)
         opts.buffer = bufnr
 
-        opts.desc = "Show LSP references"
-        keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+        keymap("n", "gR", "<cmd>Telescope lsp_references<CR>", "Show LSP references", opts)
+        keymap("n", "gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration", opts)
+        keymap("n", "gd", vim.lsp.buf.definition, "Show LSP definitions", opts)
+        keymap("n", "gi", "<cmd>Telescope lsp_implementations<CR>", "Show LSP implementations", opts)
+        keymap("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", "Show LSP type definitions", opts)
+        keymap({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions", opts)
+        keymap("n", "<leader>rn", vim.lsp.buf.rename, "Smart rename", opts)
+        keymap("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", "Show buffer diagnostics", opts)
+        keymap("n", "<leader>d", vim.diagnostic.open_float, "Show line diagnostics", opts)
+        keymap("n", "[d", vim.diagnostic.goto_prev, "Go to previous diagnostic", opts)
+        keymap("n", "]d", vim.diagnostic.goto_next, "Go to next diagnostic", opts)
+        keymap("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor", opts)
+        keymap("n", "<leader>rs", ":LspRestart<CR>", "Restart LSP", opts)
 
-        opts.desc = "Go to declaration"
-        keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
-
-        opts.desc = "Show LSP definitions"
-        keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- show lsp definitions
-
-        opts.desc = "Show LSP implementations"
-        keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-
-        opts.desc = "Show LSP type definitions"
-        keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-
-        opts.desc = "See available code actions"
-        keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
-
-        opts.desc = "Smart rename"
-        keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
-
-        opts.desc = "Show buffer diagnostics"
-        keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-
-        opts.desc = "Show line diagnostics"
-        keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
-
-        opts.desc = "Go to previous diagnostic"
-        keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-
-        opts.desc = "Go to next diagnostic"
-        keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
-
-        opts.desc = "Show documentation for what is under cursor"
-        keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
-
-        opts.desc = "Restart LSP"
-        keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+        -- Lesser used LSP functionality
+        keymap("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
+        keymap("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
+        keymap("n", "<leader>wl", function()
+          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end, "[W]orkspace [L]ist Folders")
       end
 
       for key, value in pairs(lsp_servers) do
