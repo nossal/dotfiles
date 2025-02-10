@@ -25,6 +25,7 @@ local PROFILES = {
       font_size = 13,
       underline_position = -8,
       enable_wayland = true,
+      window_decorations = "NONE",
       window_frame = {
         border_left_width = "0.5cell",
         border_right_width = "0.5cell",
@@ -197,7 +198,7 @@ config.default_cursor_style = "BlinkingBar"
 config.max_fps = 120
 
 -- config.win32_system_backdrop = "Tabbed"
--- config.window_decorations = "RESIZE"
+config.window_decorations = "RESIZE"
 
 config.window_background_gradient = {
   colors = { "#131122", "#121119" },
@@ -232,10 +233,8 @@ wezterm.on("gui-startup", function(cmd)
   local tab, pane, window = mux.spawn_window(cmd or {})
   local win = window:gui_window()
 
-  win:maximize()
   if get_profile_name() == Profile.XONE then
     win:maximize()
-    -- window:maximize()
   else
     to_size("normal")
   end
