@@ -47,6 +47,9 @@ local lsp_servers = {
   gradle_ls = {
     type = "lsp",
   },
+  terraformls = {
+    type = "lsp"
+  },
   jdtls = {
     setup = {
       handlers = {
