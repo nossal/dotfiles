@@ -178,7 +178,7 @@ config.font_rules = {
 config.font_size = 11
 config.line_height = 1.2
 config.cursor_thickness = 2
-config.underline_thickness = 1
+config.underline_thickness = 2
 config.underline_position = -2
 
 config.term = "xterm-256color"

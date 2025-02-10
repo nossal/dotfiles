@@ -1,10 +1,5 @@
 return {
   {
-    "rktjmp/lush.nvim",
-    -- if you wish to use your own colorscheme:
-    -- { dir = '/absolute/path/to/colorscheme', lazy = true },
-  },
-  {
     "craftzdog/solarized-osaka.nvim",
     -- enabled = false,
     lazy = false,
@@ -32,6 +27,10 @@ return {
           -- hl.GitConflictCurrentLabel
           -- hl.GitConflictIncomingLabel
           -- hl.GitConflictAncestorLabel
+          hl.Constant = {
+            fg = c.green,
+          }
+          hl.String = { fg = c.green }
 
           hl.CursorLine = {
             -- bg = util.darken(c.bg, 0.1),
