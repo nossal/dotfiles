@@ -56,7 +56,6 @@ return {
         syntax_limit_b = 1024 * 100, -- 100KB
       },
     },
-
     oldfiles = {
       cwd_only = true,
       stat_file = true,
@@ -65,6 +64,15 @@ return {
     winopts = {
       preview = {
         delay = 10,
+      },
+    },
+    lsp = {
+      code_actions = {
+        prompt = "ca>",
+        -- preview = {
+        --   vertical = "down:45%",
+        --   layout = "vertical",
+        -- },
       },
     },
     keymap = {
