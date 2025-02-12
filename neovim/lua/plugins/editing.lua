@@ -59,6 +59,8 @@ return {
     "NvChad/nvim-colorizer.lua",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
+      -- local c = hsl(20, 20, 20)
+
       -- #990000 Red blue hsl(120deg 75% 25%)
       require("colorizer").setup({
         user_default_options = {
@@ -70,18 +72,6 @@ return {
         },
       })
     end,
-  },
-  {
-    "johmsalas/text-case.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim" },
-    config = function()
-      require("textcase").setup({})
-      require("telescope").load_extension("textcase")
-    end,
-    keys = {
-      "ga", -- default invocation prefix
-      { "ga.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "v" }, desc = "Telescope" },
-    },
   },
   {
     "nvim-pack/nvim-spectre",
