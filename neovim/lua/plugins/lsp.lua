@@ -48,7 +48,7 @@ local lsp_servers = {
     type = "lsp",
   },
   terraformls = {
-    type = "lsp"
+    type = "lsp",
   },
   jdtls = {
     setup = {
@@ -107,6 +107,8 @@ return {
     "folke/lazydev.nvim",
     -- enabled = false,
     ft = "lua", -- only load on lua files
+    dependencies =
+  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
     opts = {
       library = {
         -- See the configuration section for more details
@@ -116,10 +118,9 @@ return {
       },
     },
   },
-  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
   {
     "williamboman/mason.nvim",
-    lazy = true,
+    -- lazy = true,
     opts = {
       ui = {
         border = border,
@@ -206,11 +207,10 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    -- event = { "BufReadPre", "BufNewFile" },
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "LspInfo", "LspInstall", "LspUninstall" },
     dependencies = {
-      { "nvim-java/nvim-java" },
+      -- { "nvim-java/nvim-java" },
       { "saghen/blink.cmp" },
     },
     config = function()
@@ -233,14 +233,14 @@ return {
       local on_attach = function(_, bufnr)
         opts.buffer = bufnr
 
-        keymap("n", "gR", "<cmd>Telescope lsp_references<CR>", "Show LSP references", opts)
+        keymap("n", "gR", "<cmd>FzfLua lsp_references<CR>", "Show LSP references", opts)
         keymap("n", "gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration", opts)
         keymap("n", "gd", vim.lsp.buf.definition, "Show LSP definitions", opts)
-        keymap("n", "gi", "<cmd>Telescope lsp_implementations<CR>", "Show LSP implementations", opts)
-        keymap("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", "Show LSP type definitions", opts)
+        keymap("n", "gi", "<cmd>FzfLua lsp_implementations<CR>", "Show LSP implementations", opts)
+        keymap("n", "gt", "<cmd>FzfLua lsp_type_definitions<CR>", "Show LSP type definitions", opts)
         keymap({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions", opts)
         keymap("n", "<leader>rn", vim.lsp.buf.rename, "Smart rename", opts)
-        keymap("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", "Show buffer diagnostics", opts)
+        keymap("n", "<leader>D", "<cmd>FzfLua diagnostics bufnr=0<CR>", "Show buffer diagnostics", opts)
         keymap("n", "<leader>d", vim.diagnostic.open_float, "Show line diagnostics", opts)
         keymap("n", "[d", vim.diagnostic.goto_prev, "Go to previous diagnostic", opts)
         keymap("n", "]d", vim.diagnostic.goto_next, "Go to next diagnostic", opts)

@@ -3,6 +3,24 @@ return {
   -- optional = true,
   keys = {
     {
+      "<leader>fd",
+      function()
+        require("fzf-lua").files({
+          cwd = "~/.dotfiles",
+          prompt = "Files❯ ",
+          winopts = {
+            preview = { hidden = true },
+            height = 0.35,
+            width = 0.50,
+            title = " ~ dotfies ~ ",
+            title_flags = false,
+            backdrop = 95,
+          },
+        })
+      end,
+      desc = "Find Dotfiles",
+    },
+    {
       ",,",
       function()
         require("fzf-lua").files()
@@ -10,7 +28,7 @@ return {
       desc = "Find Files",
     },
     {
-      "<leader>n",
+      "<leader>fb",
       function()
         require("fzf-lua").buffers()
       end,
