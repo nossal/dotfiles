@@ -1,13 +1,44 @@
 return {
-  { "nvim-tree/nvim-web-devicons" },
   {
-    "stevearc/dressing.nvim",
-    event = "VeryLazy",
-    opts = {},
-    config = function()
-      require("dressing").setup()
-    end,
+    "folke/snacks.nvim",
+    ---@type snacks.Config
+    opts = {
+      styles = {
+        input = {
+          title_pos = "left",
+          relative = "cursor",
+          row = -3,
+          col = 0,
+          width = 30,
+        },
+      },
+      dashboard = {
+        -- your dashboard configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+        sections = {
+          { section = "header" },
+          { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
+          { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+          { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+          { section = "startup" },
+        },
+      },
+      input = {},
+      indent = {
+        animate = {
+          duration = {
+            total = 300,
+          },
+        },
+        -- chunk = {
+        --   enabled = true,
+        -- }
+      },
+      image = {},
+    },
   },
+  { "nvim-tree/nvim-web-devicons" },
   {
     "folke/noice.nvim",
     event = "VeryLazy",
@@ -29,7 +60,7 @@ return {
         },
         documentation = {
           enabled = false,
-        }
+        },
       },
       cmdline = {
         format = {
@@ -83,51 +114,5 @@ return {
     opts = {
       -- options
     },
-  },
-  {
-    "b0o/incline.nvim",
-    config = function()
-      local helpers = require("incline.helpers")
-      local devicons = require("nvim-web-devicons")
-      local a = vim.api
-
-      require("incline").setup({
-        render = function(props)
-          local buf_focused = props.buf == a.nvim_get_current_buf()
-          local modified = vim.bo[props.buf].modified
-          local diag_disabled = vim.diagnostic.is_disabled(props.buf)
-          local has_error = not diag_disabled
-            and #vim.diagnostic.get(props.buf, {
-                severity = vim.diagnostic.severity.ERROR,
-              })
-              > 0
-          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-          if filename == "" then
-            filename = "[No Name]"
-          end
-
-          local ft_icon, ft_color = devicons.get_icon_color(filename)
-          return {
-            ft_icon and { " ", ft_icon, " ", guifg = ft_color, guibg = helpers.contrast_color(ft_color) } or "",
-            " ",
-            { filename, gui = modified and "italic" or "bold" },
-            " ",
-            guibg = "#1c1b27",
-          }
-        end,
-        window = {
-          padding = 0,
-          margin = { horizontal = 0 },
-        },
-        hide = {
-          only_win = true,
-          cursorline = "focused_win",
-          focused_win = true,
-        },
-      })
-    end,
-    -- Optional: Lazy load Incline
-    event = "VeryLazy",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
   },
 }

@@ -10,21 +10,6 @@ return {
     end,
   },
   {
-    "lukas-reineke/indent-blankline.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    main = "ibl",
-    config = function()
-      require("ibl").setup({
-        indent = { char = "▏" },
-        scope = {
-          char = "▏",
-          show_end = false,
-          show_start = false,
-        },
-      })
-    end,
-  },
-  {
     "RRethy/vim-illuminate",
     event = { "BufReadPre", "BufNewFile" },
     config = function()

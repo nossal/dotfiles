@@ -13,6 +13,8 @@ return {
   },
   {
     "alexghergh/nvim-tmux-navigation",
+    event = "VeryLazy",
+    lazy = true,
     config = function()
       local nvim_tmux_nav = require("nvim-tmux-navigation")
 
