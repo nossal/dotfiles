@@ -1,37 +1,6 @@
 return {
   "ibhagwan/fzf-lua",
-  -- optional = true,
   dependencies = { "nvim-tree/nvim-web-devicons" },
-  -- keys = {
-  --   {
-  --     ",,",
-  --     function()
-  --       require("fzf-lua").files()
-  --     end,
-  --     desc = "Find Files",
-  --   },
-  --   {
-  --     "<leader>fb",
-  --     function()
-  --       require("fzf-lua").buffers()
-  --     end,
-  --     desc = "Find Buffers",
-  --   },
-  --   {
-  --     "<leader>/",
-  --     function()
-  --       require("fzf-lua").live_grep()
-  --     end,
-  --     desc = "Find Text",
-  --   },
-  --   {
-  --     ",.",
-  --     function()
-  --       require("fzf-lua").lsp_live_workspace_symbols()
-  --     end,
-  --     desc = "Find Workspace Symbol",
-  --   },
-  -- },
   config = function()
     local fzf = require("fzf-lua")
     fzf.setup({
@@ -49,6 +18,7 @@ return {
       },
       winopts = {
         backdrop = 95,
+        title_flags = false,
         preview = {
           delay = 10,
         },
@@ -71,6 +41,11 @@ return {
     })
 
     local keymap = require("core.helpers").map
+
+    keymap("n", "<leader>ff", "<cmd>FzfLua files<CR>", "Find Files")
+    keymap("n", "<leader>fb", "<cmd>FzfLua buffers<CR>", "Find Buffers")
+    keymap("n", "<leader>ft", "<cmd>FzfLua live_grep<CR>", "Find Text")
+    keymap("n", "<leader>fs", "<cmd>FzfLua lsp_live_workspace_symbols<CR>", "Find Workspace Symbol")
 
     keymap("n", "<leader>fd", function()
       require("fzf-lua").files({
