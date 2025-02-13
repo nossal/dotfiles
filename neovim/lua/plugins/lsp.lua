@@ -180,21 +180,6 @@ return {
   },
   {
     "nvim-java/nvim-java",
-    -- dependencies = {
-    --   "williamboman/mason-lspconfig.nvim",
-    --   opts = {
-    --     handlers = {
-    --       ["jdtls"] = function()
-    --         require("java").setup({
-    --           jdk = { auto_install = false },
-    --           -- java_debug_adapter = { enable = false },
-    --           java_test = { enable = false },
-    --           notifications = { dap = false },
-    --         })
-    --       end,
-    --     },
-    --   },
-    -- },
     event = { "BufEnter *.java" },
     config = function()
       require("java").setup({
@@ -210,7 +195,7 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "LspInfo", "LspInstall", "LspUninstall" },
     dependencies = {
-      -- { "nvim-java/nvim-java" },
+      { "nvim-java/nvim-java" },
       { "saghen/blink.cmp" },
     },
     config = function()
