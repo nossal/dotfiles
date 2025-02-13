@@ -1,5 +1,4 @@
 require("core.options")
-require("core.mappings")
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)

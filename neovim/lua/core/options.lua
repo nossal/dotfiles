@@ -3,6 +3,9 @@ local o = vim.o
 local opt = vim.opt
 local fn = vim.fn
 
+g.mapleader = " "
+g.maplocalleader = " "
+
 local function list(items, sep)
   return table.concat(items, sep or ",")
 end
