@@ -27,6 +27,10 @@ return {
           -- hl.GitConflictCurrentLabel
           -- hl.GitConflictIncomingLabel
           -- hl.GitConflictAncestorLabel
+          hl.StatusLine = {
+            bg = "#1e1e24",
+            fg = "#757575",
+          }
           hl.Constant = {
             fg = c.green,
           }
