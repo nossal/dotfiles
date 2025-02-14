@@ -210,21 +210,20 @@ return {
       completionItem.resolveSupport = {
         properties = { "documentation", "detail", "additionalTextEdits" },
       }
-
-      local lspconfig = require("lspconfig")
+      local capbs = require("blink.cmp").get_lsp_capabilities(capabilities)
 
       local on_attach = function(_, bufnr)
         wk.add({
           { "gD",         vim.lsp.buf.declaration,                desc = "[G]oto [D]eclaration" },
           { "gd",         vim.lsp.buf.definition,                 desc = "Show LSP definitions" },
+          { "K",          vim.lsp.buf.hover,                      desc = "Show documentation under cursor" },
+          { "<leader>rn", vim.lsp.buf.rename,                     desc = "Smart rename" },
           { "gR",         "<cmd>FzfLua lsp_references<CR>",       desc = "Show LSP references" },
           { "gt",         "<cmd>FzfLua lsp_type_definitions<CR>", desc = "Show LSP type definitions" },
           { "<leader>D",  "<cmd>FzfLua diagnostics bufnr=0<CR>",  desc = "Show buffer diagnostics" },
-          { "<leader>rn", vim.lsp.buf.rename,                     desc = "Smart rename" },
           { "<leader>d",  vim.diagnostic.open_float,              desc = "Show line diagnostics" },
           { "[d",         vim.diagnostic.goto_prev,               desc = "Go to previous diagnostic" },
           { "]d",         vim.diagnostic.goto_next,               desc = "Go to next diagnostic" },
-          { "K",          vim.lsp.buf.hover,                      desc = "Show documentation under cursor" },
           { "<leader>rs", ":LspRestart<CR>",                      desc = "Restart LSP" },
           -- { "<leader>ca", vim.lsp.buf.code_action,                desc = "See available code actions", mode = { "n", "v" } },
           -- { "<leader>ca", "<cmd>FzfLua lsp_code_actions<CR>",     desc = "See available code actions", mode ={ "n", "v" } },
@@ -240,10 +239,11 @@ return {
         })
       end
 
-      local caps = require("blink.cmp").get_lsp_capabilities(capabilities)
+      local lspconfig = require("lspconfig")
+
       for key, value in pairs(lsp_servers) do
         local setup = value.setup or {}
-        setup.capabilities = caps
+        setup.capabilities = capbs
         setup.on_attach = on_attach
         -- setup.inlay_hint = { enabled = true }
 
