@@ -1,6 +1,6 @@
 require("core.diagnostics")
 
-local keymap = require("core.helpers").map
+local wk = require("which-key")
 local border = require("core.ui").border
 
 local get_java_home = function(version)
@@ -106,9 +106,8 @@ return {
   {
     "folke/lazydev.nvim",
     -- enabled = false,
-    ft = "lua", -- only load on lua files
-    dependencies =
-  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+    ft = "lua",                                             -- only load on lua files
+    dependencies = { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
     opts = {
       library = {
         -- See the configuration section for more details
@@ -214,36 +213,36 @@ return {
 
       local lspconfig = require("lspconfig")
 
-      local opts = { noremap = true, silent = true }
       local on_attach = function(_, bufnr)
-        opts.buffer = bufnr
+        wk.add({
+          { "gD",         vim.lsp.buf.declaration,                desc = "[G]oto [D]eclaration" },
+          { "gd",         vim.lsp.buf.definition,                 desc = "Show LSP definitions" },
+          { "gR",         "<cmd>FzfLua lsp_references<CR>",       desc = "Show LSP references" },
+          { "gt",         "<cmd>FzfLua lsp_type_definitions<CR>", desc = "Show LSP type definitions" },
+          { "<leader>D",  "<cmd>FzfLua diagnostics bufnr=0<CR>",  desc = "Show buffer diagnostics" },
+          { "<leader>rn", vim.lsp.buf.rename,                     desc = "Smart rename" },
+          { "<leader>d",  vim.diagnostic.open_float,              desc = "Show line diagnostics" },
+          { "[d",         vim.diagnostic.goto_prev,               desc = "Go to previous diagnostic" },
+          { "]d",         vim.diagnostic.goto_next,               desc = "Go to next diagnostic" },
+          { "K",          vim.lsp.buf.hover,                      desc = "Show documentation under cursor" },
+          { "<leader>rs", ":LspRestart<CR>",                      desc = "Restart LSP" },
+          -- { "<leader>ca", vim.lsp.buf.code_action,                desc = "See available code actions", mode = { "n", "v" } },
+          -- { "<leader>ca", "<cmd>FzfLua lsp_code_actions<CR>",     desc = "See available code actions", mode ={ "n", "v" } },
 
-        keymap("n", "gR", "<cmd>FzfLua lsp_references<CR>", "Show LSP references", opts)
-        keymap("n", "gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration", opts)
-        keymap("n", "gd", vim.lsp.buf.definition, "Show LSP definitions", opts)
-        keymap("n", "gi", "<cmd>FzfLua lsp_implementations<CR>", "Show LSP implementations", opts)
-        keymap("n", "gt", "<cmd>FzfLua lsp_type_definitions<CR>", "Show LSP type definitions", opts)
-        -- keymap({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions", opts)
-        -- keymap({ "n", "v" }, "<leader>ca", "<cmd>FzfLua lsp_code_actions<CR>","See available code actions", opts)
-        keymap("n", "<leader>rn", vim.lsp.buf.rename, "Smart rename", opts)
-        keymap("n", "<leader>D", "<cmd>FzfLua diagnostics bufnr=0<CR>", "Show buffer diagnostics", opts)
-        keymap("n", "<leader>d", vim.diagnostic.open_float, "Show line diagnostics", opts)
-        keymap("n", "[d", vim.diagnostic.goto_prev, "Go to previous diagnostic", opts)
-        keymap("n", "]d", vim.diagnostic.goto_next, "Go to next diagnostic", opts)
-        keymap("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor", opts)
-        keymap("n", "<leader>rs", ":LspRestart<CR>", "Restart LSP", opts)
-
-        -- Lesser used LSP functionality
-        keymap("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
-        keymap("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
-        keymap("n", "<leader>wl", function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, "[W]orkspace [L]ist Folders")
+          -- Workspaces
+          { "<leader>wa", vim.lsp.buf.add_workspace_folder,       desc = "[W]orkspace [A]dd Folder" },
+          { "<leader>wr", vim.lsp.buf.remove_workspace_folder,    desc = "[W]orkspace [R]emove Folder" },
+          { "<leader>wl",
+            function()
+              print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+            end,
+            desc = "[W]orkspace [L]ist Folders" },
+        })
       end
 
+      local caps = require("blink.cmp").get_lsp_capabilities(capabilities)
       for key, value in pairs(lsp_servers) do
         local setup = value.setup or {}
-        local caps = require("blink.cmp").get_lsp_capabilities(capabilities)
         setup.capabilities = caps
         setup.on_attach = on_attach
         -- setup.inlay_hint = { enabled = true }

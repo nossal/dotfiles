@@ -3,7 +3,6 @@ return {
   event = "VeryLazy",
   init = function()
     local wk = require("which-key")
-
     wk.add({
       { "<leader>f", group = "file/find", icon = "󰈞" },
       { "<leader>h", group = "Git" },
