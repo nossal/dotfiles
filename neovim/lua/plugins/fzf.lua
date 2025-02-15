@@ -39,6 +39,19 @@ return {
       },
     })
 
+    fzf.register_ui_select(function(opts, items)
+      local min_h, max_h = 0.15, 0.45
+      local h = (#items + 4) / vim.o.lines
+      if h < min_h then
+        h = min_h
+      elseif h > max_h then
+        h = max_h
+      end
+      opts.title = opts.title or "Select"
+
+      return { winopts = { title = opts.title, height = h, width = 0.40, row = 0.40 } }
+    end)
+
     local wk = require("which-key")
     wk.add({
       { "<leader>ff", "<cmd>FzfLua files<CR>",                      desc = "Find Files" },
@@ -80,7 +93,8 @@ return {
           })
         end,
         desc = "See the Code Actions",
-        mode = { "n", "v" } },
+        mode = { "n", "v" },
+      },
     })
   end,
 }
