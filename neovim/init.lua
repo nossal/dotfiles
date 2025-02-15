@@ -1,8 +1,10 @@
 require("core")
 
+local border = require("core.ui").border
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local out = vim.fn.system({
     "git",
     "clone",
     "--filter=blob:none",
@@ -10,10 +12,17 @@ if not vim.loop.fs_stat(lazypath) then
     "--branch=stable", -- latest stable release
     lazypath,
   })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out,                            "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
 vim.opt.rtp:prepend(lazypath)
-
-local border = require("core.ui").border
 
 require("lazy").setup("plugins", {
   checker = {
@@ -22,29 +31,11 @@ require("lazy").setup("plugins", {
   },
   ui = {
     border = border,
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
+    size = { width = 0.5, height = 0.8 },
+    backdrop = 95,
     title = " Lazy Plugin Manager ",
     title_pos = "left",
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-    --[[ vim.g.have_nerd_font and {} or  ]]
-    icons = {
-      cmd = "⌘",
-      config = "🛠",
-      event = "📅",
-      ft = "📂",
-      init = "⚙",
-      keys = "🗝",
-      plugin = "🔌",
-      runtime = "💻",
-      require = "🌙",
-      source = "📄",
-      start = "🚀",
-      task = "📌",
-      lazy = "💤 ",
-    },
   },
 })
 
 require("oil").setup()
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et

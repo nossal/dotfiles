@@ -123,7 +123,8 @@ return {
     opts = {
       ui = {
         border = border,
-        height = 0.7,
+        height = 0.8,
+        width = 0.6,
         icons = {
           package_installed = "✓",
           package_pending = "➜",
