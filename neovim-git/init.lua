@@ -13,12 +13,12 @@ g.have_nerd_font = true
 
 -- line numbers
 opt.relativenumber = false -- show relative line numbers
-opt.number = false -- shows absolute line number on cursor line (when relative number is on)
+opt.number = false         -- shows absolute line number on cursor line (when relative number is on)
 
 -- tabs & indentation
-opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
-opt.shiftwidth = 2 -- 2 spaces for indent width
-opt.expandtab = true -- expand tab to spaces
+opt.tabstop = 2       -- 2 spaces for tabs (prettier default)
+opt.shiftwidth = 2    -- 2 spaces for indent width
+opt.expandtab = true  -- expand tab to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
 
 o.modeline = true
@@ -26,9 +26,9 @@ o.modeline = true
 opt.wrap = false -- disable line wrapping
 
 -- search settings
-opt.ignorecase = true -- ignore case when searching
-opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
-opt.hlsearch = true -- highlight search terms
+opt.ignorecase = true    -- ignore case when searching
+opt.smartcase = true     -- if you include mixed case in your search, assumes you want case-sensitive
+opt.hlsearch = true      -- highlight search terms
 opt.inccommand = "split" -- real time preview of substitution commands
 
 -- cursor line
@@ -40,7 +40,7 @@ opt.cursorline = true -- highlight the current cursor line
 -- (have to use iterm2 or any other true color terminal)
 opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-opt.signcolumn = "yes" -- show sign column so that text doesn't shift
+opt.signcolumn = "yes"  -- show sign column so that text doesn't shift
 
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
@@ -133,17 +133,20 @@ opt.updatetime = 250 -- Decrease update time
 opt.timeoutlen = 300 -- Decrease mapped sequence wait time; Displays which-key popup sooner
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out,                            "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
-vim.opt.rtp:prepend(lazypath)
+opt.rtp:prepend(lazypath)
 
 local border = {
   { "╭", "FloatBorder" },
@@ -192,29 +195,9 @@ require("lazy").setup({
   },
   ui = {
     border = border,
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
     title = " Lazy Plugin Manager ",
     title_pos = "left",
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-    --[[ vim.g.have_nerd_font and {} or  ]]
-    icons = {
-      cmd = "⌘",
-      config = "🛠",
-      event = "📅",
-      ft = "📂",
-      init = "⚙",
-      keys = "🗝",
-      plugin = "🔌",
-      runtime = "💻",
-      require = "🌙",
-      source = "📄",
-      start = "🚀",
-      task = "📌",
-      lazy = "💤 ",
-    },
   },
 })
 
 vim.cmd.colorscheme("kanagawa-dragon")
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
