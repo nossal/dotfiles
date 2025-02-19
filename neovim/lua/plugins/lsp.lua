@@ -193,23 +193,22 @@ return {
     end,
   },
   {
-    "nvim-java/nvim-java",
-    event = { "BufEnter *.java" },
-    config = function()
-      require("java").setup({
-        jdk = { auto_install = false },
-        -- java_debug_adapter = { enable = false },
-        java_test = { enable = false },
-        notifications = { dap = false },
-      })
-    end,
-  },
-  {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "LspInfo", "LspInstall", "LspUninstall" },
     dependencies = {
-      { "nvim-java/nvim-java" },
+      {
+        "nvim-java/nvim-java",
+        event = { "BufEnter *.java" },
+        config = function()
+          require("java").setup({
+            jdk = { auto_install = false },
+            java_debug_adapter = { enable = false },
+            java_test = { enable = false },
+            notifications = { dap = false },
+          })
+        end,
+      },
       { "saghen/blink.cmp" },
     },
     config = function()
