@@ -11,7 +11,21 @@ local lsp_servers = {
   yamlls = {
     type = "lsp",
     setup = {
-      filetypes = { "yaml", "bu", "yaml.docker-compose", "yaml.gitlab" },
+      filetypes = { "yaml", "yaml.butane", "yaml.docker-compose", "yaml.gitlab" },
+      settings = {
+        yaml = {
+          schemas = {
+            kubernetes = "{k8s-,kube}*/**/*.{yml,yaml}",
+            ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
+            ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
+            ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/**/*.{yml,yaml}",
+            ["http://json.schemastore.org/prettierrc"] = ".prettierrc.{yml,yaml}",
+            ["http://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
+            ["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
+            ["https://raw.githubusercontent.com/Relativ-IT/Butane-Schemas/Release/Butane-Schema.json"] = ".bu",
+          },
+        },
+      },
     },
   },
   cssls = {
