@@ -150,6 +150,7 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     lazy = true,
+    cmd = { "MasonToolsInstall", "MasonToolsUpdate", "MasonToolsClean" },
     dependencies = {
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "williamboman/mason.nvim",
@@ -179,7 +180,7 @@ return {
         run_on_start = false,
         ensure_installed = {
           "stylua",       -- lua formatter
-          "luacheck",     -- lua linter
+          -- "luacheck",     -- lua linter
           "ruff",         -- python formatter
           "biome",        -- javascript formatter
           "stylelint",    -- css linter
@@ -241,6 +242,7 @@ return {
           { "<leader>rs", ":LspRestart<CR>",                      desc = "Restart LSP" },
           -- { "<leader>ca", vim.lsp.buf.code_action,                desc = "See available code actions", mode = { "n", "v" } },
           -- { "<leader>ca", "<cmd>FzfLua lsp_code_actions<CR>",     desc = "See available code actions", mode ={ "n", "v" } },
+          -- { "<leader>gf", vim.lsp.buf.format,                     desc = "Format buffer" },
 
           -- Workspaces
           { "<leader>wa", vim.lsp.buf.add_workspace_folder,       desc = "[W]orkspace [A]dd Folder" },

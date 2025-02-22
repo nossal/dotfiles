@@ -1,25 +1,51 @@
 return {
   {
-    "nvimtools/none-ls.nvim",
-    lazy = true,
-    event = { "BufReadPre", "BufNewFile" },
+    "mfussenegger/nvim-lint",
     config = function()
-      local null_ls = require("null-ls")
-
-      null_ls.setup({
-        sources = {
-          null_ls.builtins.formatting.biome,
-          null_ls.builtins.formatting.prettier,
-          null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.black,
-          null_ls.builtins.formatting.clang_format,
-          null_ls.builtins.formatting.yamlfmt,
-          -- null_ls.builtins.diagnostics.eslint,
-          -- null_ls.builtins.completion.spll,
+      require("lint").linters_by_ft = {
+        markdown = { "vale" },
+        bash = { "shellcheck" },
+        python = { "ruff" },
+      }
+    end,
+  },
+  {
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    keys = {
+      {
+        -- Customize or remove this keymap to your liking
+        "<leader>gf",
+        function()
+          require("conform").format({ async = true }, function(err)
+            if not err then
+              local mode = vim.api.nvim_get_mode().mode
+              if vim.startswith(string.lower(mode), "v") then
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+              end
+            end
+          end)
+        end,
+        mode = "",
+        desc = "Format Code",
+      },
+    },
+    config = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          json = { "biome" },
+          css = { "biome" },
+          -- yaml = { "prettier" },
+          lua = { "stylua" },
+          python = { "ruff_format" },
+          javascript = { "biome" },
         },
       })
-
-      vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
+    end,
+    init = function()
+      -- If you want the formatexpr, here is the place to set it
+      vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
     end,
   },
   {
