@@ -5,6 +5,22 @@
 DOTFILES_HOME="$HOME/.dotfiles"
 LOCAL_BIN_DIR="$HOME/.local/bin"
 
+function install_gum() {
+  local GUM_VERSION="$1"
+  local KERNEL="$2"
+  local ARCH="$3"
+  local URL TMP_DIR NAME
+
+  NAME="gum_${GUM_VERSION}_${KERNEL}_${ARCH}"
+  URL="https://github.com/charmbracelet/gum/releases/download/v${GUM_VERSION}/${NAME}.tar.gz"
+  TMP_DIR="$(mktemp -d)"
+
+  curl -s -L "$URL" -o "$TMP_DIR/gum.tar.gz" &&
+  tar -xzf "$TMP_DIR/gum.tar.gz" -C "$TMP_DIR" &&
+  cp "$TMP_DIR/${NAME}/gum" "$LOCAL_BIN_DIR" &&
+  rm -rf "$TMP_DIR"
+}
+
 function _shell() {
   if command -v zsh &> /dev/null; then
     [[ ! $SHELL == *"/zsh" ]] && chsh -s /bin/zsh
@@ -128,6 +144,13 @@ function fonts() {
 
 function bootstrap() {
   [ ! -a "$LOCAL_BIN_DIR" ] && mkdir -p "$LOCAL_BIN_DIR"
+  [[ ! "$PATH" == *"$LOCAL_BIN_DIR"* ]] && export PATH="$LOCAL_BIN_DIR:$PATH"
+
+  install_gum 0.15.2 "$(uname -s)" "$(uname -m)"
+
+  export MISE_INSTALL_HELP=0
+  export MISE_QUIET=1
+  curl -sL https://mise.run | sh
 
   git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
 }
