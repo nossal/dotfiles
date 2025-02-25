@@ -5,6 +5,11 @@
 DOTFILES_HOME="$HOME/.dotfiles"
 LOCAL_BIN_DIR="$HOME/.local/bin"
 
+
+has() {
+  command -v "$1" 1>/dev/null 2>&1
+}
+
 function install_gum() {
   local GUM_VERSION="$1"
   local KERNEL="$2"
@@ -130,6 +135,7 @@ function fonts() {
   local target os
 
   os="$(os_name)"
+
   [ "$os" = "macos" ] && \
     target="$HOME/Library/Fonts"
 
@@ -138,8 +144,6 @@ function fonts() {
 
   [ -n "$target" ] && \
     cp -rf "$DOTFILES_HOME/fonts/*" "$target/"
-
-  echo "fonts"
 }
 
 function bootstrap() {
@@ -151,6 +155,12 @@ function bootstrap() {
   export MISE_INSTALL_HELP=0
   export MISE_QUIET=1
   curl -sL https://mise.run | sh
+
+  [ ! "$(has starship)" ] && \
+    sh -c "$(curl -sS https://starship.rs/install.sh)" -- -y -b "$LOCAL_BIN_DIR"
+
+  [ ! "$(has nvim)" ] && \
+    echo "n tem nvim"
 
   git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
 }
