@@ -6,7 +6,7 @@ DOTFILES_HOME="$HOME/.dotfiles"
 LOCAL_BIN_DIR="$HOME/.local/bin"
 
 
-has() {
+function has() {
   command -v "$1" 1>/dev/null 2>&1
 }
 
@@ -136,7 +136,9 @@ function fonts() {
 
   os="$(os_name)"
 
-  [ "$os" = "macos" ] && \
+  target="$HOME/.local/share/fonts"
+
+  [ "$os" = "mac" ] && \
     target="$HOME/Library/Fonts"
 
   [ "$(is_wsl)" = true ] && \
@@ -144,6 +146,31 @@ function fonts() {
 
   [ -n "$target" ] && \
     cp -rf "$DOTFILES_HOME/fonts/*" "$target/"
+}
+
+function setup_dotfiles() {
+  [ ! -d "$DOTFILES_HOME" ] && \
+    git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
+}
+
+function setup_neovim() {
+  if has nvim; then
+    echo "tem nvim"
+    return
+  fi
+
+  case "$(os_name)" in
+   "mac")
+     brew install neovim
+   ;;
+   "fedora")
+     sudo dnf install -y neovim
+   ;;
+   *)
+    curl -sSL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage -o "$LOCAL_BIN_DIR/nvim"
+    chmod u+x "$LOCAL_BIN_DIR/nvim"
+   ;;
+  esac
 }
 
 function bootstrap() {
@@ -156,13 +183,13 @@ function bootstrap() {
   export MISE_QUIET=1
   curl -sL https://mise.run | sh
 
-  [ ! "$(has starship)" ] && \
+  if ! has starship; then
     sh -c "$(curl -sS https://starship.rs/install.sh)" -- -y -b "$LOCAL_BIN_DIR"
+  fi
 
-  [ ! "$(has nvim)" ] && \
-    echo "n tem nvim"
+  setup_neovim
 
-  git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
+  setup_dotfiles
 }
 
 echo "This os is: $(os_name)"
@@ -172,6 +199,8 @@ echo "This os is: $(os_name)"
 # server ssh (Linux)
 # server ssh dev (Linux)
 #
+
+bootstrap
 
 clean
 echo "---------"
