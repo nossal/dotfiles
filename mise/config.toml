@@ -9,3 +9,5 @@ ignored_config_paths = ["$HOME/.dotfiles/mise"]
 [settings.python]
 uv_venv_auto = true
 
+[alias.java.versions]
+8 = "zulu-8.84.0.15"
