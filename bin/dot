@@ -167,8 +167,13 @@ function setup_neovim() {
      sudo dnf install -y neovim
    ;;
    *)
-    curl -sSL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage -o "$LOCAL_BIN_DIR/nvim"
-    chmod u+x "$LOCAL_BIN_DIR/nvim"
+     local  local_share_dir tmp_dir
+     local_share_dir="$HOME/.local/share/"
+     tmp_dir="$(mktemp -d)"
+     curl -sSL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz -o "$tmp_dir/nvim.tar.gz"
+     tar -C "$local_share_dir" -xzf "$tmp_dir/nvim.tar.gz"
+     ln -s "$local_share_dir/nvim-linux-x86_64/bin/nvim" "$LOCAL_BIN_DIR/nvim"
+     rm -rf "$tmp_dir"
    ;;
   esac
 }
