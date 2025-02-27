@@ -3,9 +3,8 @@ export DOTDIR=$HOME/.dotfiles
 export ZSHDOTDIR=$DOTDIR/shell/zsh
 export EDITOR=vi
 
-WORK_FILE="$DOTDIR-work/env.sh"
-if [[ -a $WORK_FILE ]]; then
-    source $WORK_FILE
+WORK_DOTDIR="$DOTDIR-work"
+if [[ -d $WORK_DOTDIR ]]; then
+·source $WORK_DOTDIR/env.sh
 fi
 
-source "$HOME/.cargo/env"
