@@ -89,7 +89,7 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 # https://github.com/junegunn/fzf/wiki/Color-schemes
 
 # The Prompt
-eval "$(~/.local/bin/mise activate zsh)"
+eval "$($HOME/.local/bin/mise activate zsh)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 

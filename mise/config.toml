@@ -1,10 +1,19 @@
 [tools]
 go = "latest"
+fzf = "latest"
+rg = "latest"
+lsd = "latest"
+zoxide = "latest"
 lazygit = "latest"
+node = "latest"
 
 [settings]
 experimental = true
 ignored_config_paths = ["$HOME/.dotfiles/mise"]
+
+trusted_config_paths = [
+    '~/workspace',
+]
 
 [settings.python]
 uv_venv_auto = true

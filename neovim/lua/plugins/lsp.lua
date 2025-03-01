@@ -77,7 +77,7 @@ local lsp_servers = {
             runtimes = {
               {
                 name = "JavaSE-1.8",
-                path = get_java_home("8"),
+                path = get_java_home("zulu"),
               },
               {
                 name = "JavaSE-17",
@@ -86,6 +86,11 @@ local lsp_servers = {
               {
                 name = "JavaSE-21",
                 path = get_java_home("lts"),
+                default = true,
+              },
+              {
+                name = "JavaSE-24",
+                path = get_java_home("24"),
               },
             },
           },

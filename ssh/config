@@ -1,17 +1,17 @@
 # vi: ft=sshconfig
 Include ~/.dotfiles-work/ssh-config
 
-Host *
-  ServerAliveInterval 60
-  SendEnv LANG LC_*
-  MACs hmac-md5,hmac-sha1
-  ForwardX11 no
-  ForwardAgent yes
-  AddressFamily inet
-  ServerAliveInterval 15
-  ConnectTimeout 20
-  ControlPath ~/.ssh/control/%C
-  ControlMaster auto
+# Host *
+#   ServerAliveInterval 60
+#   SendEnv LANG LC_*
+#   MACs hmac-md5,hmac-sha1
+#   ForwardX11 no
+#   ForwardAgent yes
+#   AddressFamily inet
+#   ServerAliveInterval 15
+#   ConnectTimeout 20
+#   ControlPath ~/.ssh/control/%C
+#   ControlMaster auto
 
 # GitHub, GitLab,
 Host *github.com *.gitlab.com
