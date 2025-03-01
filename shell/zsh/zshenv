@@ -4,7 +4,5 @@ export ZSHDOTDIR=$DOTDIR/shell/zsh
 export EDITOR=vi
 
 WORK_DOTDIR="$DOTDIR-work"
-if [[ -d $WORK_DOTDIR ]]; then
-·source $WORK_DOTDIR/env.sh
-fi
+[ -d $WORK_DOTDIR ] && source $WORK_DOTDIR/env.sh
 
