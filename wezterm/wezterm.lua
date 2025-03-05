@@ -8,7 +8,7 @@ end
 
 local tmux_bin = "tmux"
 if wezterm.target_triple:find("apple") then
-  tmux_bin = "/usr/local/bin/tmux"
+  tmux_bin = "/opt/homebrew/bin/tmux"
 end
 
 config.default_prog = { tmux_bin, "new", "-A", "-s", "work" }
