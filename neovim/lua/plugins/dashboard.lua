@@ -1,8 +1,26 @@
+local logo = vim.split(
+[[
+      ___                                    ___
+     /__/\          ___        ___          /__/\
+     \  \:\        /__/\      /  /\        |  |::\
+      \  \:\       \  \:\    /  /:/        |  |:|:\
+  _____\__\:\       \  \:\  /__/::\      __|__|:|\:\
+ /__/::::::::\  ___  \__\:\ \__\/\:\__  /__/::::| \:\
+ \  \:\~~\~~\/ /__/\ |  |:|    \  \:\/\ \  \:\~~\__\/
+  \  \:\  ~~~  \  \:\|  |:|     \__\::/  \  \:\
+   \  \:\       \  \:\__|:|     /__/:/    \  \:\
+    \  \:\       \__\::::/      \__\/      \  \:\
+     \__\/           ~~~~                   \__\/
+  ]], "\r")
+
 return {
   "folke/snacks.nvim",
   ---@type snacks.Config
   opts = {
     dashboard = {
+      preset = {
+        header = logo
+      },
       -- your dashboard configuration comes here
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
