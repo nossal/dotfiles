@@ -27,15 +27,19 @@ return {
           -- hl.GitConflictCurrentLabel
           -- hl.GitConflictIncomingLabel
           -- hl.GitConflictAncestorLabel
+          --
+          hl.ErrorMsg = { bg = c.red500, fg = "#cccccc" }
+
+          hl.Whitespace = { fg = "#424250" }
           hl.StatusLine = {
-            bg = "#1e1e24",
+            bg = "#1B1D1C",
             fg = "#757575",
           }
-          hl.Constant = {
-            fg = c.green,
-          }
+          hl.Constant = { fg = c.green, }
           hl.String = { fg = c.green }
 
+          hl.LineNr = { fg = "#42352f" }
+          hl.CursorLineNr = { fg = "#aa4400" }
           hl.CursorLine = {
             -- bg = util.darken(c.bg, 0.1),
             bg = util.lighten(c.bg, 0.97),
