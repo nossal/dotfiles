@@ -8,6 +8,19 @@ local get_java_home = function(version)
 end
 
 local lsp_servers = {
+  cssls = { type = "lsp" },
+  tailwindcss = { type = "lsp" },
+  emmet_ls = { type = "lsp" },
+  html = { type = "lsp" },
+  lua_ls = { type = "lsp" },
+  clojure_lsp = { type = "lsp" },
+  rust_analyzer = { type = "lsp" },
+  ts_ls = { type = "lsp" },
+  biome = { type = "lsp" },
+  basedpyright = { type = "lsp" },
+  bashls = { type = "lsp" },
+  gradle_ls = { type = "lsp" },
+  terraformls = { type = "lsp" },
   yamlls = {
     type = "lsp",
     setup = {
@@ -27,42 +40,6 @@ local lsp_servers = {
         },
       },
     },
-  },
-  cssls = {
-    type = "lsp",
-  },
-  emmet_ls = {
-    type = "lsp",
-  },
-  html = {
-    type = "lsp",
-  },
-  lua_ls = {
-    type = "lsp",
-  },
-  clojure_lsp = {
-    type = "lsp",
-  },
-  rust_analyzer = {
-    type = "lsp",
-  },
-  ts_ls = {
-    type = "lsp",
-  },
-  biome = {
-    type = "lsp",
-  },
-  basedpyright = {
-    type = "lsp",
-  },
-  bashls = {
-    type = "lsp",
-  },
-  gradle_ls = {
-    type = "lsp",
-  },
-  terraformls = {
-    type = "lsp",
   },
   jdtls = {
     setup = {
@@ -125,14 +102,14 @@ return {
   {
     "folke/lazydev.nvim",
     -- enabled = false,
-    ft = "lua",                                             -- only load on lua files
+    ft = "lua", -- only load on lua files
     dependencies = { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
     opts = {
       library = {
         -- See the configuration section for more details
         -- Load luvit types when the `vim.uv` word is found
         { path = "luvit-meta/library", words = { "vim%.uv" } },
-        { path = "wezterm-types",      mods = { "wezterm" } },
+        { path = "wezterm-types", mods = { "wezterm" } },
       },
     },
   },
@@ -184,16 +161,22 @@ return {
       mason_tool_installer.setup({
         run_on_start = false,
         ensure_installed = {
-          "stylua",       -- lua formatter
+          "clang-format", -- java formatter
+          "shfmt", -- shell formatter
+          "stylua", -- lua formatter
+          "ruff", -- python formatter/linter
+          "biome", -- javascript, json formatter/linter
+
           -- "luacheck",     -- lua linter
-          "ruff",         -- python formatter
-          "biome",        -- javascript formatter
-          "stylelint",    -- css linter
-          "shellcheck",   -- shell linter
-          "shfmt",        -- shell formatter
+          -- "stylelint", -- css linter
+          "selene", -- Lua linter
+          "shellcheck", -- shell linter
           "markdownlint", -- markdown linter
-          "yamllint",     -- yaml linter
-          "jsonlint",     -- json linter
+          "vale", -- markdown linter
+          "yamllint", -- yaml linter
+          "prettier",
+
+          -- "ast_grep", -- linter/formater
         },
       })
     end,
@@ -234,29 +217,30 @@ return {
 
       local on_attach = function(_, bufnr)
         wk.add({
-          { "gD",         vim.lsp.buf.declaration,                desc = "[G]oto [D]eclaration" },
-          { "gd",         vim.lsp.buf.definition,                 desc = "Show LSP definitions" },
-          { "K",          vim.lsp.buf.hover,                      desc = "Show documentation under cursor" },
-          { "<leader>rn", vim.lsp.buf.rename,                     desc = "Smart rename" },
-          { "gR",         "<cmd>FzfLua lsp_references<CR>",       desc = "Show LSP references" },
-          { "gt",         "<cmd>FzfLua lsp_type_definitions<CR>", desc = "Show LSP type definitions" },
-          { "<leader>D",  "<cmd>FzfLua diagnostics bufnr=0<CR>",  desc = "Show buffer diagnostics" },
-          { "<leader>d",  vim.diagnostic.open_float,              desc = "Show line diagnostics" },
-          { "[d",         vim.diagnostic.goto_prev,               desc = "Go to previous diagnostic" },
-          { "]d",         vim.diagnostic.goto_next,               desc = "Go to next diagnostic" },
-          { "<leader>rs", ":LspRestart<CR>",                      desc = "Restart LSP" },
+          { "gD", vim.lsp.buf.declaration, desc = "[G]oto [D]eclaration" },
+          { "gd", vim.lsp.buf.definition, desc = "Show LSP definitions" },
+          { "K", vim.lsp.buf.hover, desc = "Show documentation under cursor" },
+          { "<leader>rn", vim.lsp.buf.rename, desc = "Smart rename" },
+          { "gR", "<cmd>FzfLua lsp_references<CR>", desc = "Show LSP references" },
+          { "gt", "<cmd>FzfLua lsp_type_definitions<CR>", desc = "Show LSP type definitions" },
+          { "<leader>D", "<cmd>FzfLua diagnostics bufnr=0<CR>", desc = "Show buffer diagnostics" },
+          { "<leader>d", vim.diagnostic.open_float, desc = "Show line diagnostics" },
+          { "[d", vim.diagnostic.goto_prev, desc = "Go to previous diagnostic" },
+          { "]d", vim.diagnostic.goto_next, desc = "Go to next diagnostic" },
+          { "<leader>rs", ":LspRestart<CR>", desc = "Restart LSP" },
           -- { "<leader>ca", vim.lsp.buf.code_action,                desc = "See available code actions", mode = { "n", "v" } },
           -- { "<leader>ca", "<cmd>FzfLua lsp_code_actions<CR>",     desc = "See available code actions", mode ={ "n", "v" } },
           -- { "<leader>gf", vim.lsp.buf.format,                     desc = "Format buffer" },
 
           -- Workspaces
-          { "<leader>wa", vim.lsp.buf.add_workspace_folder,       desc = "[W]orkspace [A]dd Folder" },
-          { "<leader>wr", vim.lsp.buf.remove_workspace_folder,    desc = "[W]orkspace [R]emove Folder" },
+          { "<leader>wa", vim.lsp.buf.add_workspace_folder, desc = "[W]orkspace [A]dd Folder" },
+          { "<leader>wr", vim.lsp.buf.remove_workspace_folder, desc = "[W]orkspace [R]emove Folder" },
           { "<leader>wl",
             function()
               print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
             end,
-            desc = "[W]orkspace [L]ist Folders" },
+            desc = "[W]orkspace [L]ist Folders",
+          },
         })
       end
 

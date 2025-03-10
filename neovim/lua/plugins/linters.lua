@@ -1,12 +1,45 @@
 return {
   {
     "mfussenegger/nvim-lint",
-    config = function()
-      require("lint").linters_by_ft = {
+    opts = {
+      linters = {
+        selene = {
+          condition = function(ctx)
+            local root = vim.uv.cwd()
+            local var = vim.fs.find({ "selene.toml" }, { path = root, upward = true })
+
+            vim.notify(table.concat(var, ", "))
+            return var[1]
+          end,
+        },
+      },
+    },
+    config = function(opts)
+      local lint = require("lint")
+
+      lint.linters_by_ft = {
         markdown = { "vale" },
-        bash = { "shellcheck" },
+        shell = { "shellcheck" },
         python = { "ruff" },
+        css = { "stylelint" },
+        lua = { "selene" },
+        javascript = { "biomejs" },
+        yaml = { "yamllint" },
+        rust = { "clippy" },
       }
+
+      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+        callback = function()
+          -- try_lint without arguments runs the linters defined in `linters_by_ft`
+          -- for the current filetype
+          -- require("lint").try_lint("selene", opts)
+          require("lint").try_lint()
+
+          -- You can call `try_lint` with a linter name or a list of names to always
+          -- run specific linters, independent of the `linters_by_ft` configuration
+          -- require("lint").try_lint("cspell")
+        end,
+      })
     end,
   },
   {
@@ -34,12 +67,16 @@ return {
     config = function()
       require("conform").setup({
         formatters_by_ft = {
+          lua = { "stylua" },
+          javascript = { "biome" },
           json = { "biome" },
           css = { "biome" },
           -- yaml = { "prettier" },
-          lua = { "stylua" },
           python = { "ruff_format" },
-          javascript = { "biome" },
+          java = { "clang-format" },
+          shell = { "shfmt" },
+          rust = { "rustfmt" },
+          html = { "prettier", lsp_format = "fallback" },
         },
       })
     end,
