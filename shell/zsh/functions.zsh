@@ -46,3 +46,8 @@ function hostname() {
 
   echo `cat /proc/sys/kernel/hostname`
 }
+
+function zv() {
+  __zoxide_zi "$@" && nvim
+}
+
