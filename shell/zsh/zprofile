@@ -6,6 +6,7 @@ JAVA=$($HOME/.local/bin/mise where java)/bin
 path=(
   $HOME/.local/bin(N)
   $HOME/.dotfiles/bin(N)
+  $HOME/.cargo/bin(N)
   /opt/{homebrew,local}/{,s}bin(N)
   /usr/local{,s}bin(N)
   $HOME/go/bin(N)
