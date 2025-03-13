@@ -78,6 +78,11 @@ return {
           rust = { "rustfmt" },
           html = { "prettier", lsp_format = "fallback" },
         },
+        formatters = {
+          biome = {
+            args = { "format", "--config-path", vim.fn.expand("$HOME/.dotfiles"), "--stdin-file-path", "$FILENAME" },
+          },
+        },
       })
     end,
     init = function()
