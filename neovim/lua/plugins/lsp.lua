@@ -136,7 +136,7 @@ return {
     dependencies = {
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "williamboman/mason.nvim",
-      -- "jay-babu/mason-nvim-dap.nvim",
+      "jay-babu/mason-nvim-dap.nvim",
     },
     config = function()
       local mason_lspconfig = require("mason-lspconfig")
@@ -192,8 +192,6 @@ return {
         config = function()
           require("java").setup({
             jdk = { auto_install = false },
-            java_debug_adapter = { enable = false },
-            java_test = { enable = false },
             notifications = { dap = false },
           })
         end,
