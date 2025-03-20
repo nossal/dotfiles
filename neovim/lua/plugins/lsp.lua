@@ -14,7 +14,16 @@ local lsp_servers = {
   html = { type = "lsp" },
   lua_ls = { type = "lsp" },
   clojure_lsp = { type = "lsp" },
-  rust_analyzer = { type = "lsp" },
+  rust_analyzer = {
+    type = "lsp",
+    setup = {
+      cargo = { all_features = true },
+      check = {
+        command = "clippy",
+      },
+      checkOnSave = true,
+    },
+  },
   ts_ls = { type = "lsp" },
   biome = { type = "lsp" },
   basedpyright = { type = "lsp" },
