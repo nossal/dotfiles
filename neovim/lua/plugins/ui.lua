@@ -14,7 +14,7 @@ return {
       },
       dashboard = {
         sections = {
-          { section = "terminal", cmd = "cat ~/.dotfiles/neovim/neo.txt", height = 8 , padding = 1 },
+          { section = "terminal", cmd = "cat ~/.dotfiles/neovim/neo.txt", height = 8, padding = 1 },
           { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
           { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
           -- { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
@@ -32,6 +32,17 @@ return {
         --   enabled = true,
         -- }
       },
+      notifier = {
+        -- your notifier configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+        --     render = "wrapped-compact",
+        style = "compact",
+        --     max_height = 6,
+        --     max_width = 60,
+        --     stages = "fade",
+        --     fps = 60,
+      },
       image = {},
     },
   },
@@ -40,6 +51,7 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
+      notify = { enabled = false },
       lsp = {
         progress = {
           enabled = false,
@@ -93,16 +105,17 @@ return {
     dependencies = {
       -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
       "MunifTanjim/nui.nvim",
-      {
-        "rcarriga/nvim-notify",
-        opts = {
-          render = "wrapped-compact",
-          max_height = 6,
-          max_width = 60,
-          stages = "fade",
-          fps = 60,
-        },
-      },
+      -- {
+
+      --   "rcarriga/nvim-notify",
+      --   opts = {
+      --     render = "wrapped-compact",
+      --     max_height = 6,
+      --     max_width = 60,
+      --     stages = "fade",
+      --     fps = 60,
+      --   },
+      -- },
     },
   },
   {

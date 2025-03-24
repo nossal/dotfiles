@@ -1,6 +1,7 @@
 return {
   {
     "mfussenegger/nvim-lint",
+    lazy = true,
     opts = {
       linters = {
         selene = {
