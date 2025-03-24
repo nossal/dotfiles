@@ -54,19 +54,19 @@ local PROFILES = {
     },
     win_presets = {
       normal = {
-        width = 1791,
+        width = 1790,
         height = 1002,
         top = 10,
         left = 350,
       },
       mdev = {
-        width = 1701,
+        width = 1700,
         height = 1026,
         top = 5,
         left = 505,
       },
       video = {
-        width = 1449,
+        width = 1450,
         height = 1026,
         top = 5,
         left = 10,
@@ -156,7 +156,7 @@ config.show_tabs_in_tab_bar = false
 config.show_tab_index_in_tab_bar = false
 config.show_new_tab_button_in_tab_bar = false
 
-config.font = wezterm.font_with_fallback({ "MesloLGM Nerd Font Propo", "Symbols Nerd Font Mono" })
+config.font = wezterm.font_with_fallback({ "0xProto Nerd Font Propo", "Symbols Nerd Font Mono" })
 config.bold_brightens_ansi_colors = true
 config.font_rules = {
   {
@@ -175,7 +175,7 @@ config.font_rules = {
     font = wezterm.font({ family = "Maple Mono NF", weight = "Thin", style = "Italic" }),
   },
 }
-config.font_size = 11
+config.font_size = 12
 config.line_height = 1.2
 config.cursor_thickness = 2
 config.underline_thickness = 2
