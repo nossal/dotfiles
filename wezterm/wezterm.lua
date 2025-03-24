@@ -76,19 +76,19 @@ local PROFILES = {
   MACPRO = {
     config = {
       font_size = 16,
-      underline_position = -12,
+      underline_position = -6,
     },
     win_presets = {
       normal = {
-        width = 2833,
-        height = 1695,
-        top = 65,
+        width = 2980,
+        height = 1833,
+        top = 90,
         left = 25,
       },
       mdev = {
-        width = 1788,
-        height = 1695,
-        top = 65,
+        width = 1939,
+        height = 1833,
+        top = 90,
         left = 1065,
       },
     },
