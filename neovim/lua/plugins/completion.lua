@@ -1,3 +1,18 @@
+local source_icons = {
+  buffer = "",
+  path = "פּ",
+  snippets = "",
+  luasnip = "",
+  lsp = "",
+  nvim_lsp = "",
+  nvim_lua = "",
+  lazydev = "",
+  obsidian = "",
+  obsidian_tags = "",
+  obsidian_new = "",
+}
+
+
 return {
   {
     "saghen/blink.cmp",
@@ -31,7 +46,26 @@ return {
         nerd_font_variant = "mono",
       },
       completion = {
-        -- menu = { border = "rounded" },
+        menu = {
+          -- border = "rounded",
+          draw = {
+            columns = {
+              { "label", "label_description", gap = 1 },
+              { "kind_icon", "kind", gap = 1 },
+              { "source_icon" },
+            },
+            components = {
+              source_icon = {
+                ellipsis = false,
+                width = { max = 4 },
+                text = function(ctx)
+                  return ctx.source_id
+                end,
+                highlight = "BlinkCmpSource",
+              },
+            },
+          },
+        },
         documentation = {
           window = { border = "rounded" },
           auto_show = true,
@@ -49,6 +83,7 @@ return {
       sources = {
         default = { "lsp", "lazydev", "path", "snippets", "buffer" },
         providers = {
+          buffer = { score_offset = -100 },
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
