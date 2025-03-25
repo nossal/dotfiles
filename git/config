@@ -17,6 +17,9 @@
   fscache = true
   preloadindex = true
 
+[commit]
+  gpgsign = true
+
 [gc]
   auto = 256
 
