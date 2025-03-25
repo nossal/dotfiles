@@ -4,6 +4,13 @@ return {
   config = function()
     local fzf = require("fzf-lua")
     fzf.setup({
+      files = {
+        path_shorten = 3,
+        cwd_prompt_shorten_len = 12, -- shorten prompt beyond this length
+        cwd_prompt_shorten_val = 3, -- shortened path parts length },
+        cwd_prompt             = true,
+        prompt = 'UEpa',
+      },
       previewers = {
         builtin = {
           -- disable treesitter for files bigger than 100KB
@@ -54,27 +61,30 @@ return {
 
     local wk = require("which-key")
     wk.add({
-      { "<leader>ff", "<cmd>FzfLua files<CR>",                      desc = "Find Files" },
-      { "<leader>fb", "<cmd>FzfLua buffers<CR>",                    desc = "Find Buffers" },
-      { "<leader>ft", "<cmd>FzfLua live_grep<CR>",                  desc = "Find Text" },
+      { "<leader>ff", "<cmd>FzfLua files<CR>", desc = "Find Files" },
+      { "<leader>fb", "<cmd>FzfLua buffers<CR>", desc = "Find Buffers" },
+      { "<leader>ft", "<cmd>FzfLua live_grep<CR>", desc = "Find Text" },
       { "<leader>fs", "<cmd>FzfLua lsp_live_workspace_symbols<CR>", desc = "Find Workspace Symbol" },
-      { "<leader>fd",
+      {
+        "<leader>fd",
         function()
           require("fzf-lua").files({
+            prompt = "dotfiles❯ ",
             cwd = "~/.dotfiles",
-            prompt = "Files❯ ",
             winopts = {
               preview = { hidden = true },
               height = 0.35,
               width = 0.50,
-              title = " ~ dotfies ~ ",
+              title = " ~ dotfiles ~ ",
               title_flags = false,
               backdrop = 95,
             },
           })
         end,
-        desc = "Find Dotfiles" },
-      { "<leader>ca",
+        desc = "Find Dotfiles",
+      },
+      {
+        "<leader>ca",
         function()
           fzf.lsp_code_actions({
             prompt = "ca>",
