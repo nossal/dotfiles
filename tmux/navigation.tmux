@@ -23,3 +23,4 @@ tmux bind-key -T copy-mode-vi M-j select-pane -D
 tmux bind-key -T copy-mode-vi M-k select-pane -U
 tmux bind-key -T copy-mode-vi M-l select-pane -R
 tmux bind-key -T copy-mode-vi M-\\ select-pane -l
+
