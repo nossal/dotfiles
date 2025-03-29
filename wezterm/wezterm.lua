@@ -40,7 +40,7 @@ local PROFILES = {
   },
   RYZEN = {
     config = {
-      underline_position = -4,
+      underline_position = -3,
       window_decorations = "RESIZE",
       wsl_domains = {
         {
@@ -156,8 +156,14 @@ config.show_tabs_in_tab_bar = false
 config.show_tab_index_in_tab_bar = false
 config.show_new_tab_button_in_tab_bar = false
 
-config.font = wezterm.font_with_fallback({ "0xProto Nerd Font Propo", "Symbols Nerd Font Mono" })
-config.bold_brightens_ansi_colors = true
+config.hyperlink_rules = wezterm.default_hyperlink_rules()
+
+local font_family = "0xProto Nerd Font Propo"
+
+config.font = wezterm.font_with_fallback({
+  { family = font_family, stretch = "Expanded", weight = "Regular" },
+  "Fira Code",
+})
 config.font_rules = {
   {
     intensity = "Bold",
@@ -177,6 +183,7 @@ config.font_rules = {
 }
 config.font_size = 12
 config.line_height = 1.2
+config.bold_brightens_ansi_colors = true
 config.cursor_thickness = 2
 config.underline_thickness = 2
 config.underline_position = -2
