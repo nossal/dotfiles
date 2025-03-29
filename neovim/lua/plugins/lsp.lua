@@ -8,6 +8,7 @@ local get_java_home = function(version)
 end
 
 local lsp_servers = {
+  clangd = { type = "lsp" },
   cssls = { type = "lsp" },
   tailwindcss = { type = "lsp" },
   emmet_ls = { type = "lsp" },
