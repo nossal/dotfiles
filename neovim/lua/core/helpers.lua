@@ -12,4 +12,8 @@ M.map = function(mode, keys, func, desc, opts)
   vim.keymap.set(mode, keys, func, opts)
 end
 
+M.get_java_home = function(version)
+  return vim.fn.system("mise where java@" .. version):gsub("%s+", "")
+end
+
 return M
