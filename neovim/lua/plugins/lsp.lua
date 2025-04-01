@@ -121,10 +121,10 @@ return {
       local mason_lspconfig = require("mason-lspconfig")
       local mason_tool_installer = require("mason-tool-installer")
 
-      local only_lsp = {}
+      local to_install = {}
       for key, val in pairs(lsp_servers) do
-        if val.type == "lsp" then
-          table.insert(only_lsp, key)
+        if val.install then
+          table.insert(to_install, key)
         end
       end
 
@@ -132,7 +132,7 @@ return {
 
       mason_lspconfig.setup({
         -- list of servers for mason to install
-        ensure_installed = only_lsp,
+        ensure_installed = to_install,
         -- auto-install configured servers (with lspconfig)
         automatic_installation = true, -- not the same as ensure_installed
       })

@@ -1,17 +1,35 @@
 local get_java_home = require("core.helpers").get_java_home
 
 local lsp_servers = {
-  ltex = { name = "gram", type = "lsp" }, -- TODO: https://gist.github.com/lbiaggi/a3eb761ac2fdbff774b29c88844355b8
-  clangd = { name = "C", type = "lsp" },
-  cssls = { name = "css", type = "lsp" },
-  tailwindcss = { name = "tailwind", type = "lsp" },
-  emmet_ls = { name = "emmet", type = "lsp" },
-  html = { name = "HTML", type = "lsp" },
-  lua_ls = { name = "lua", type = "lsp" },
-  clojure_lsp = { name = "clojure", type = "lsp" },
+  ltex = {
+    name = "gram",
+    install = true,
+    setup = {
+      settings = {
+        ltex = {
+          enabled = { "markdown", "restructuredtext", "text" },
+          checkFrequency = "save",
+          language = "pt-BR",
+          diagnosticSeverity = "information",
+          setenceCacheSize = 5000,
+          additionalRules = {
+            enablePickyRules = true,
+            motherTongue = "pt-BR",
+          },
+        },
+      },
+    },
+  }, -- TODO: https://gist.github.com/lbiaggi/a3eb761ac2fdbff774b29c88844355b8
+  clangd = { name = "C", install = true },
+  cssls = { name = "css", install = true },
+  tailwindcss = { name = "tailwind", install = true },
+  emmet_ls = { name = "emmet", install = true },
+  html = { name = "HTML", install = true },
+  lua_ls = { name = "lua", install = true },
+  clojure_lsp = { name = "clojure", install = true },
   rust_analyzer = {
     name = "rust",
-    type = "lsp",
+    install = true,
     setup = {
       cargo = { all_features = true },
       check = {
@@ -20,15 +38,15 @@ local lsp_servers = {
       checkOnSave = true,
     },
   },
-  ts_ls = { name = "JS", type = "lsp" },
-  biome = { name = "biome", type = "lsp" },
-  basedpyright = { name = "python", type = "lsp" },
-  bashls = { name = "bash", type = "lsp" },
-  gradle_ls = { name = "gradle", type = "lsp" },
-  terraformls = { name = "terraform", type = "lsp" },
+  ts_ls = { name = "JS", install = true },
+  biome = { name = "biome", install = true },
+  basedpyright = { name = "python", install = true },
+  bashls = { name = "bash", install = true },
+  gradle_ls = { name = "gradle", install = true },
+  terraformls = { name = "terraform", install = true },
   yamlls = {
     name = "yaml",
-    type = "lsp",
+    install = true,
     setup = {
       filetypes = { "yaml", "yaml.butane", "yaml.ansible", "yaml.docker-compose", "yaml.gitlab" },
       settings = {
