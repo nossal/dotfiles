@@ -8,8 +8,7 @@ return {
         path_shorten = 3,
         cwd_prompt_shorten_len = 12, -- shorten prompt beyond this length
         cwd_prompt_shorten_val = 3, -- shortened path parts length },
-        cwd_prompt             = true,
-        prompt = 'UEpa',
+        cwd_prompt = true,
       },
       previewers = {
         builtin = {

@@ -16,7 +16,7 @@ return {
   opts = {
     workspaces = {
       {
-        name = "personal",
+        name = "second brain",
         path = "~/vaults/ob-vault",
       },
       -- {
@@ -25,7 +25,6 @@ return {
       -- },
     },
 
-    -- see below for full list of options 👇
     completion = {
       blink = {
         enabled = true,
