@@ -59,6 +59,9 @@
 [push]
   default = simple
 
+[rebase]
+  autostash = true
+
 [pull]
   rebase = true
 
