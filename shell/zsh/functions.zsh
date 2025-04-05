@@ -51,3 +51,24 @@ function zv() {
   __zoxide_zi "$@" && nvim
 }
 
+function o() {
+    case "$(uname -s)" in
+        Darwin)
+            open "$@"
+            ;;
+        Linux)
+            if command -v xdg-open > /dev/null; then
+                xdg-open "$@"
+            elif command -v wsl-open > /dev/null; then
+                wsl-open "$@"
+            else
+                echo "Neither xdg-open nor wsl-open are available"
+                return 1
+            fi
+            ;;
+        *)
+            echo "Unsupported operating system"
+            return 1
+            ;;
+    esac
+}
