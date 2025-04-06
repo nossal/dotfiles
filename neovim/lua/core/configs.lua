@@ -9,27 +9,24 @@ local lsp_servers = {
         ltex = {
           enabled = { "markdown", "restructuredtext", "text" },
           checkFrequency = "save",
-          language = "auto",
-          dictionary = {
-            ["en-US"] = { path = vim.fn.expand("~") .. "/.dotfiles/neovim/spell/dictionary-en-US.txt" },
-            ["pt-BR"] = { path = vim.fn.expand("~") .. "/.dotfiles/neovim/spell/dictionary-pt-BR.txt" },
-          },
+          language = "en-US",
+          checkSpelling = true,
           diagnosticSeverity = "information",
           sentenceCacheSize = 5000,
           additionalRules = {
             enablePickyRules = true,
             motherTongue = "pt-BR",
+            enableSpellingCheck = true,
           },
         },
       },
     },
     on_attach = function(client, bufnr)
-      require("ltex_extra").setup(
-        {
-          load_langs = { "en-US", "pt-BR" },
-          path =  vim.fn.expand("~") .. "/.dotfiles/neovim/spell"
-        }
-      )
+      require("ltex_extra").setup({
+        load_langs = { "pt-BR", "en-US" },
+        init_check = true,
+        path = vim.fn.expand("~") .. "/.dotfiles/neovim/spell",
+      })
     end,
   }, -- TODO: https://gist.github.com/lbiaggi/a3eb761ac2fdbff774b29c88844355b8
   clangd = { name = "C", install = true },
