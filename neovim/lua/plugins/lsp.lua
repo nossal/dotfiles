@@ -35,6 +35,7 @@ return {
       completionItem.resolveSupport = {
         properties = { "documentation", "detail", "additionalTextEdits" },
       }
+
       local capbs = require("blink.cmp").get_lsp_capabilities(capabilities)
 
       local on_attach = function(_, bufnr)
@@ -71,7 +72,12 @@ return {
       for key, value in pairs(lsp_servers) do
         local setup = value.setup or {}
         setup.capabilities = capbs
-        setup.on_attach = on_attach
+        setup.on_attach = function (client, bufnr)
+          if value.on_attach then
+            value.on_attach(client, bufnr)
+          end
+          on_attach(client, bufnr)
+        end
         -- setup.inlay_hint = { enabled = true }
 
         lspconfig[key].setup(setup)

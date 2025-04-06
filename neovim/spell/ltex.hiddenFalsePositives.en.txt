@@ -1,0 +1,2 @@
+{"rule":"REQUIREMENT","sentence":"^\\QRequirements\nzsh\\E$"}
+{"rule":"COPYRIGHT","sentence":"^\\QLicense\nCopyright (C) 2022 Rodrigo Nossal.\\E$"}
