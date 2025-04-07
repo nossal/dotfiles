@@ -50,7 +50,8 @@ opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
 -- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
+-- opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 
 -- split windows
 opt.splitright = true -- split vertical window to the right
@@ -109,6 +110,7 @@ opt.fillchars = list {
   "foldclose:",
   "foldopen:",
   "fold: ",
+  "foldsep: ",
   "msgsep:─",
   "eob:█",
 }
@@ -116,6 +118,11 @@ opt.showbreak = "⤷ "
 
 -- turn off swapfile
 opt.swapfile = false
+
+o.foldcolumn = '0' -- '0' is not bad
+o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+o.foldlevelstart = 99
+o.foldenable = true
 
 -- opt.foldmethod = "expr"
 -- -- opt.foldexpr = "nvim_treesitter#foldexpr()"
@@ -140,7 +147,6 @@ opt.showmode = false -- Do not show -- MODE -- in cmdline--
 opt.showcmd = true
 opt.showtabline = 0
 opt.cmdheight = 0
-o.cmdheight = 0
 opt.pumheight = 10
 
 opt.laststatus = 3

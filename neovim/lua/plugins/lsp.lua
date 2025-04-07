@@ -24,6 +24,10 @@ return {
     },
     config = function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true
+      }
       local completionItem = capabilities.textDocument.completion.completionItem
       completionItem.preselectSupport = true
       completionItem.insertReplaceSupport = true
@@ -82,6 +86,9 @@ return {
 
         lspconfig[key].setup(setup)
       end
+
+      require('ufo').setup()
+      -- vim.o.statuscolumn = require("heirline").eval_statuscolumn()
     end,
   },
   {
