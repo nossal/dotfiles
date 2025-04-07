@@ -133,7 +133,7 @@ return {
         end
         return filename
       end,
-      hl = { fg = utils.get_highlight("Directory").fg },
+      hl = { fg = utils.get_highlight("Directory").fg, italic = true },
     }
 
     local FileFlags = {
@@ -182,14 +182,14 @@ return {
       -- %L = number of lines in the buffer
       -- %c = column number
       -- %P = percentage through file of displayed window
-      provider = "%7(%l/%3L%):%2c %P",
+      provider = "%7(%l/%L%):%2c %P",
     }
     -- I take no credits for this! :lion:
     local ScrollBar = {
       static = {
-        sbar = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" },
+        -- sbar = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" },
         -- Another variant, because the more choice the better.
-        -- sbar = { '🭶', '🭷', '🭸', '🭹', '🭺', '🭻' }
+        sbar = { "🭶", "🭷", "🭸", "🭹", "🭺", "🭻" },
       },
       provider = function(self)
         local curr_line = vim.api.nvim_win_get_cursor(0)[1]
@@ -197,7 +197,7 @@ return {
         local i = math.floor((curr_line - 1) / lines * #self.sbar) + 1
         return string.rep(self.sbar[i], 2)
       end,
-      hl = { fg = "blue", bg = "white" },
+      hl = { fg = "#454545", bg = "black" },
     }
 
     local LSPActive = {
@@ -208,14 +208,14 @@ return {
         setmetatable(languages, {
           __index = function(table, key)
             return { name = key }
-          end
+          end,
         })
 
         local names = {}
         for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
           table.insert(names, languages[server.name].name)
         end
-        return " " .. table.concat(names, " ") .. ""
+        return " " .. table.concat(names, " ") .. ""
       end,
       hl = { fg = "green", bold = true },
     }
@@ -247,7 +247,7 @@ return {
       update = { "DiagnosticChanged", "BufEnter" },
 
       {
-        provider = "![",
+        provider = " ",
       },
       {
         provider = function(self)
@@ -275,7 +275,7 @@ return {
         hl = { fg = "green" },
       },
       {
-        provider = "]",
+        provider = " ",
       },
     }
 
@@ -291,44 +291,44 @@ return {
 
       { -- git branch name
         provider = function(self)
-          return " " .. self.status_dict.head
+          return "󰘬 " .. self.status_dict.head
         end,
-        hl = { bold = true },
+        -- hl = { bold = true },
       },
       -- You could handle delimiters, icons and counts similar to Diagnostics
-      {
-        condition = function(self)
-          return self.has_changes
-        end,
-        provider = "(",
-      },
-      {
-        provider = function(self)
-          local count = self.status_dict.added or 0
-          return count > 0 and ("+" .. count)
-        end,
-        hl = { fg = "green" },
-      },
-      {
-        provider = function(self)
-          local count = self.status_dict.removed or 0
-          return count > 0 and ("-" .. count)
-        end,
-        hl = { fg = "red" },
-      },
-      {
-        provider = function(self)
-          local count = self.status_dict.changed or 0
-          return count > 0 and ("~" .. count)
-        end,
-        hl = { fg = "orange" },
-      },
-      {
-        condition = function(self)
-          return self.has_changes
-        end,
-        provider = ")",
-      },
+      -- {
+      --   condition = function(self)
+      --     return self.has_changes
+      --   end,
+      --   provider = "(",
+      -- },
+      -- {
+      --   provider = function(self)
+      --     local count = self.status_dict.added or 0
+      --     return count > 0 and ("+" .. count)
+      --   end,
+      --   hl = { fg = "green" },
+      -- },
+      -- {
+      --   provider = function(self)
+      --     local count = self.status_dict.removed or 0
+      --     return count > 0 and ("-" .. count)
+      --   end,
+      --   hl = { fg = "red" },
+      -- },
+      -- {
+      --   provider = function(self)
+      --     local count = self.status_dict.changed or 0
+      --     return count > 0 and ("~" .. count)
+      --   end,
+      --   hl = { fg = "orange" },
+      -- },
+      -- {
+      --   condition = function(self)
+      --     return self.has_changes
+      --   end,
+      --   provider = ")",
+      -- },
     }
 
     local SearchCount = {
@@ -378,22 +378,38 @@ return {
     }
 
     local Align = { provider = "%=" }
-    local Space = { provider = " " }
+    local Space = { provider = "  " }
 
     ViMode = utils.surround({ "", "" }, "black", { MacroRec, ViMode, ShowCmd })
 
+    local FileType = {
+      provider = function ()
+        local tabchar = "Tab Size"
+        if vim.bo.expandtab then
+          tabchar = "Spaces"
+        end
+        local tabstop = tabchar .. " " .. vim.opt.tabstop:get()
+        local eol = string.upper(vim.bo.fileformat)
+        local filetype = vim.bo.filetype
+        local encoding = string.upper(vim.bo.fileencoding)
+
+        return filetype .. " " .. encoding .. " " .. tabstop .. " " .. eol
+     end
+    }
     local StatusLine = {
       { ViMode },
       { Space },
       -- { SearchCount },
-      { Git },
-      { Space },
       { FileNameBlock },
+      { Space },
+      { Git },
       { provider = "%<" },
       { Align },
-      { LSPActive },
-      { Space },
       { Diagnostics },
+      { Space },
+      { FileType },
+      { Space },
+      { LSPActive },
       { Space },
       { Ruler },
       { ScrollBar },
