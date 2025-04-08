@@ -141,8 +141,8 @@ return {
         condition = function()
           return vim.bo.modified
         end,
-        provider = "[+]",
-        hl = { fg = "green" },
+        provider = " 󰳼",
+        hl = { fg = "blue" },
       },
       {
         condition = function()
@@ -171,7 +171,8 @@ return {
     FileNameBlock = utils.insert(
       FileNameBlock,
       FileIcon,
-      utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
+      -- utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
+      FileName,
       FileFlags,
       { provider = "%<" } -- this means that the statusline is cut here when there's not enough space
     )
@@ -200,6 +201,33 @@ return {
       hl = { fg = "#454545", bg = "black" },
     }
 
+    local function tprint(tbl, indent)
+      if not indent then
+        indent = 0
+      end
+      local toprint = string.rep(" ", indent) .. "{\r\n"
+      indent = indent + 2
+      for k, v in pairs(tbl) do
+        toprint = toprint .. string.rep(" ", indent)
+        if type(k) == "number" then
+          toprint = toprint .. "[" .. k .. "] = "
+        elseif type(k) == "string" then
+          toprint = toprint .. k .. "= "
+        end
+        if type(v) == "number" then
+          toprint = toprint .. v .. ",\r\n"
+        elseif type(v) == "string" then
+          toprint = toprint .. '"' .. v .. '",\r\n'
+        elseif type(v) == "table" then
+          toprint = toprint .. tprint(v, indent + 2) .. ",\r\n"
+        else
+          toprint = toprint .. '"' .. tostring(v) .. '",\r\n'
+        end
+      end
+      toprint = toprint .. string.rep(" ", indent - 2) .. "}"
+      return toprint
+    end
+
     local LSPActive = {
       condition = conditions.lsp_attached,
       update = { "LspAttach", "LspDetach" },
@@ -214,6 +242,7 @@ return {
         local names = {}
         for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
           table.insert(names, languages[server.name].name)
+          vim.notify(tprint(server))
         end
         return " " .. table.concat(names, " ") .. ""
       end,
@@ -383,7 +412,7 @@ return {
     ViMode = utils.surround({ "", "" }, "black", { MacroRec, ViMode, ShowCmd })
 
     local FileType = {
-      provider = function ()
+      provider = function()
         local tabchar = "Tab Size"
         if vim.bo.expandtab then
           tabchar = "Spaces"
@@ -394,7 +423,7 @@ return {
         local encoding = string.upper(vim.bo.fileencoding)
 
         return filetype .. " " .. encoding .. " " .. tabstop .. " " .. eol
-     end
+      end,
     }
     local StatusLine = {
       { ViMode },
@@ -407,6 +436,7 @@ return {
       { Align },
       { Diagnostics },
       { Space },
+      { FileIcon },
       { FileType },
       { Space },
       { LSPActive },
