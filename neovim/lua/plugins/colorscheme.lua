@@ -28,6 +28,7 @@ return {
           -- hl.GitConflictIncomingLabel
           -- hl.GitConflictAncestorLabel
           --
+          hl.ColorColumn = { bg = util.lighten(c.bg, 0.99),}
           hl.ErrorMsg = { bg = c.red500, fg = "#cccccc" }
 
           hl.Whitespace = { fg = "#424250" }
