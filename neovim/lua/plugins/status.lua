@@ -201,23 +201,6 @@ return {
       hl = { fg = "#454545", bg = "black" },
     }
 
-    local function get_pyenv()
-      return os.getenv("VIRTUAL_ENV")
-    end
-
-    local function get_ini_prop(file_path, prop)
-      for line in assert(io.open(file_path)):lines() do
-        local key, value = line:match("^([%w_]+)%s-=%s-(.+)$")
-        if key == prop then
-          return vim.trim(value)
-        end
-      end
-    end
-    local function get_env(env_path)
-      local path = env_path .. "/pyvenv.cfg"
-      return get_ini_prop(path, "version_info"), get_ini_prop(path, "prompt")
-    end
-
     local LSPBlock = {
       condition = conditions.lsp_attached,
       update = { "LspAttach", "LspDetach" },
