@@ -201,37 +201,27 @@ return {
       hl = { fg = "#454545", bg = "black" },
     }
 
-    local function tprint(tbl, indent)
-      if not indent then
-        indent = 0
-      end
-      local toprint = string.rep(" ", indent) .. "{\r\n"
-      indent = indent + 2
-      for k, v in pairs(tbl) do
-        toprint = toprint .. string.rep(" ", indent)
-        if type(k) == "number" then
-          toprint = toprint .. "[" .. k .. "] = "
-        elseif type(k) == "string" then
-          toprint = toprint .. k .. "= "
-        end
-        if type(v) == "number" then
-          toprint = toprint .. v .. ",\r\n"
-        elseif type(v) == "string" then
-          toprint = toprint .. '"' .. v .. '",\r\n'
-        elseif type(v) == "table" then
-          toprint = toprint .. tprint(v, indent + 2) .. ",\r\n"
-        else
-          toprint = toprint .. '"' .. tostring(v) .. '",\r\n'
-        end
-      end
-      toprint = toprint .. string.rep(" ", indent - 2) .. "}"
-      return toprint
+    local function get_pyenv()
+      return os.getenv("VIRTUAL_ENV")
     end
 
-    local LSPActive = {
+    local function get_ini_prop(file_path, prop)
+      for line in assert(io.open(file_path)):lines() do
+        local key, value = line:match("^([%w_]+)%s-=%s-(.+)$")
+        if key == prop then
+          return vim.trim(value)
+        end
+      end
+    end
+    local function get_env(env_path)
+      local path = env_path .. "/pyvenv.cfg"
+      return get_ini_prop(path, "version_info"), get_ini_prop(path, "prompt")
+    end
+
+    local LSPBlock = {
       condition = conditions.lsp_attached,
       update = { "LspAttach", "LspDetach" },
-      provider = function()
+      init = function(self)
         local languages = require("core.configs").lsp_servers
         setmetatable(languages, {
           __index = function(table, key)
@@ -242,12 +232,29 @@ return {
         local names = {}
         for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
           table.insert(names, languages[server.name].name)
-          vim.notify(tprint(server))
         end
-        return " " .. table.concat(names, " ") .. ""
+        self.names = names
+      end,
+    }
+
+    local LSPActive = {
+      provider = function(self)
+        return " " .. table.concat(self.names, " ") .. ""
       end,
       hl = { fg = "green", bold = true },
     }
+
+    local PyEnv = {
+      condition = function(self)
+        return vim.tbl_contains(self.names, "python")
+      end,
+      provider = function()
+        local version, name = get_env(get_pyenv())
+        return " " .. name .. ":" .. version
+      end,
+    }
+
+    LSPBlock = utils.insert(LSPBlock, LSPActive, PyEnv)
 
     -- I personally use it only to display progress messages!
     -- See lsp-status/README.md for configuration options.
@@ -425,6 +432,7 @@ return {
         return filetype .. " " .. encoding .. " " .. tabstop .. " " .. eol
       end,
     }
+
     local StatusLine = {
       { ViMode },
       { Space },
@@ -439,7 +447,9 @@ return {
       { FileIcon },
       { FileType },
       { Space },
-      { LSPActive },
+      { LSPBlock },
+      -- { LSPActive },
+      -- { PyEnv },
       { Space },
       { Ruler },
       { ScrollBar },
@@ -456,4 +466,7 @@ return {
       opts = {},
     })
   end,
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+  },
 }
