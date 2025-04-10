@@ -1,24 +1,10 @@
-local source_icons = {
-  buffer = "",
-  path = "פּ",
-  snippets = "",
-  luasnip = "",
-  lsp = "",
-  nvim_lsp = "",
-  nvim_lua = "",
-  lazydev = "",
-  obsidian = "",
-  obsidian_tags = "",
-  obsidian_new = "",
-}
-
-
 return {
   {
     "saghen/blink.cmp",
     -- optional: provides snippets for the snippet source
     dependencies = {
       { "rafamadriz/friendly-snippets" },
+      -- { "Kaiser-Yang/blink-cmp-avante" }
     },
     -- use a release tag to download pre-built binaries
     version = "*",
@@ -81,7 +67,9 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { "lsp", "lazydev", "path", "snippets", "buffer" },
+        default = {
+          -- "avante",
+          "lsp", "lazydev", "path", "snippets", "buffer" },
         providers = {
           buffer = { score_offset = -100 },
           lazydev = {
@@ -90,6 +78,13 @@ return {
             -- make lazydev completions top priority (see `:h blink.cmp`)
             score_offset = 100,
           },
+          -- avante = {
+          --   module = "blink-cmp-avante",
+          --   name = "Avante",
+          --   -- opts = {
+          --   --   -- options for blink-cmp-avante
+          --   -- },
+          -- },
         },
       },
     },

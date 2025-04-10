@@ -1,6 +1,5 @@
 require("core.diagnostics")
 
-local wk = require("which-key")
 local border = require("core.ui").border
 local lsp_servers = require("core.configs").lsp_servers
 
@@ -42,6 +41,7 @@ return {
 
       local capbs = require("blink.cmp").get_lsp_capabilities(capabilities)
 
+      local wk = require("which-key")
       local on_attach = function(_, bufnr)
         wk.add({
           { "gD", vim.lsp.buf.declaration, desc = "[G]oto [D]eclaration" },
