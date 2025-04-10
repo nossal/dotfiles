@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+# Install Tmux Plugin Manager (TPM)
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
