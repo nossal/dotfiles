@@ -7,6 +7,7 @@ fd = "latest"
 lsd = "latest"
 zoxide = "latest"
 lazygit = "latest"
+gitleaks = "latest"
 node = "latest"
 go = "latest"
 
