@@ -153,60 +153,17 @@ function setup_dotfiles() {
     git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
 }
 
-function setup_neovim() {
-  if has nvim; then
-    echo "tem nvim"
-    return
-  fi
-
-  case "$(os_name)" in
-   "mac")
-     brew install neovim
-   ;;
-   "fedora")
-     sudo dnf install -y neovim
-   ;;
-   *)
-     local  local_share_dir tmp_dir
-     local_share_dir="$HOME/.local/share/"
-     tmp_dir="$(mktemp -d)"
-     curl -sSL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz -o "$tmp_dir/nvim.tar.gz"
-     tar -C "$local_share_dir" -xzf "$tmp_dir/nvim.tar.gz"
-     ln -s "$local_share_dir/nvim-linux-x86_64/bin/nvim" "$LOCAL_BIN_DIR/nvim"
-     rm -rf "$tmp_dir"
-   ;;
-  esac
-}
-
 function bootstrap() {
   [ ! -a "$LOCAL_BIN_DIR" ] && mkdir -p "$LOCAL_BIN_DIR"
   [[ ! "$PATH" == *"$LOCAL_BIN_DIR"* ]] && export PATH="$LOCAL_BIN_DIR:$PATH"
 
   install_gum 0.15.2 "$(uname -s)" "$(uname -m)"
 
-  export MISE_INSTALL_HELP=0
-  export MISE_QUIET=1
-  curl -sL https://mise.run | sh
-
-  if ! has starship; then
-    sh -c "$(curl -sS https://starship.rs/install.sh)" -- -y -b "$LOCAL_BIN_DIR"
-  fi
-
-  setup_neovim
-
   setup_dotfiles
 }
 
 echo "This os is: $(os_name)"
-# wsl
-# msys2
-# macos
-# server ssh (Linux)
-# server ssh dev (Linux)
-#
-
 bootstrap
-
 clean
 echo "---------"
 # run the default profile file with default tags
@@ -214,19 +171,3 @@ make_links
 make_links "" "$shell"
 echo "---------"
 
-# cp $DOTFILES_HOME/bin/\* $LOCAL_BIN_DIR
-
-# fzf
-# lsd
-# rg
-# fd
-# bat
-# jq
-# nvim
-# lazygit
-# yazi
-# zoxide
-# zenith
-# #
-# zh
-# procs
