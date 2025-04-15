@@ -27,8 +27,12 @@ return {
           -- hl.GitConflictCurrentLabel
           -- hl.GitConflictIncomingLabel
           -- hl.GitConflictAncestorLabel
-          --
-          hl.ColorColumn = { bg = util.lighten(c.bg, 0.99),}
+
+          hl.EndOfBuffer = {
+            fg = util.lighten("#000000", 0.93),
+            -- bg = util.lighten("#000000", 0.95),
+          }
+          hl.ColorColumn = { bg = util.lighten(c.bg, 0.99) }
           hl.ErrorMsg = { bg = c.red500, fg = "#cccccc" }
 
           hl.Whitespace = { fg = "#424250" }
@@ -36,7 +40,7 @@ return {
             bg = "#1B1D1C",
             fg = "#757575",
           }
-          hl.Constant = { fg = c.green, }
+          hl.Constant = { fg = c.green }
           hl.String = { fg = c.green }
 
           hl.LineNr = { fg = "#42352f" }

@@ -14,15 +14,17 @@ g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
 
 g.have_nerd_font = true
+
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
 opt.number = true -- shows absolute line number on cursor line (when relative number is on)
-opt.colorcolumn = "80"  -- Show column at character 80
+opt.colorcolumn = "80" -- Show column at character 80
 -- tabs & indentation
 opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
 opt.shiftwidth = 2 -- 2 spaces for indent width
 opt.expandtab = true -- expand tab to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
+opt.smartindent = true -- Insert indents automatically
 
 o.modeline = true
 -- line wrapping
@@ -37,8 +39,9 @@ opt.inccommand = "split" -- real time preview of substitution commands
 -- cursor line
 opt.cursorline = true -- highlight the current cursor line
 
-opt.virtualedit = "block"  -- Allow cursor to move where there is no text in visual block mode
-opt.formatoptions = "jcroqlnt"  -- Smart autoindent, comment handling, list formatting
+opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
+opt.formatoptions = "jcroqlnt" -- Smart autoindent, comment handling, list formatting
+
 -- appearance
 
 -- turn on termguicolors for nightfly colorscheme to work
@@ -60,19 +63,19 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 o.mousescroll = "ver:1,hor:1"
 o.mouse = "a"
-opt.scrolloff = 6  -- Keep 8 lines above/below cursor when scrolling
-opt.sidescrolloff = 6  -- Keep 8 columns to the sides when scrolling horizontally
+opt.scrolloff = 6 -- Keep 8 lines above/below cursor when scrolling
+opt.sidescrolloff = 6 -- Keep 8 columns to the sides when scrolling horizontally
 
-opt.sessionoptions = list {
+opt.sessionoptions = list({
   "blank",
   "buffers",
   "curdir",
   "folds",
   "help",
   "tabpages",
-  "winsize"
-}
-opt.diffopt = list {
+  "winsize",
+})
+opt.diffopt = list({
   "algorithm:histogram",
   "internal",
   "indent-heuristic",
@@ -81,35 +84,34 @@ opt.diffopt = list {
   "iwhite",
   "vertical",
   "linematch:100",
-}
+})
 opt.pyxversion = 3
-opt.shada = list {
+opt.shada = list({
   "!",
-  "'100",  -- Remember marks for 100 files
-  "\"500", -- Remember 500 lines in registers
-  "/100",  -- 100 search patterns
-  ":500",  -- 500 command-line items
-  "<50",   -- Remember 50 buffers
-  "@50",   -- 50 input line history items
-  "f1",    -- Store file marks
-  "h",     -- No hlsearch when starting
-  "s10",   -- Item size limit 10KB
-  "%"      -- Save and restore the buffer list
-}
+  "'100", -- Remember marks for 100 files
+  '"500', -- Remember 500 lines in registers
+  "/100", -- 100 search patterns
+  ":500", -- 500 command-line items
+  "<50", -- Remember 50 buffers
+  "@50", -- 50 input line history items
+  "f1", -- Store file marks
+  "h", -- No hlsearch when starting
+  "s10", -- Item size limit 10KB
+  "%", -- Save and restore the buffer list
+})
 
 -- Sets how neovim will display certain whitespace characters in the editor.
 opt.list = true
--- opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
-opt.listchars = list {
+opt.listchars = list({
   "tab: ──",
   "lead:·",
   "trail:•",
   "nbsp:␣",
   -- "eol:↵",
   "precedes:«",
-  "extends:»"
-}
-opt.fillchars = list {
+  "extends:»",
+})
+opt.fillchars = list({
   -- "vert:▏",
   "vert:│",
   "diff:╱",
@@ -119,13 +121,13 @@ opt.fillchars = list {
   "foldsep: ",
   "msgsep:─",
   "eob:█",
-}
+})
 opt.showbreak = "⤷ "
 
 -- turn off swapfile
 opt.swapfile = false
 
-o.foldcolumn = '0' -- '0' is not bad
+o.foldcolumn = "0" -- '0' is not bad
 o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 o.foldlevelstart = 99
 o.foldenable = true

@@ -24,7 +24,7 @@ return {
       --   path = "~/vaults/work",
       -- },
     },
-
+    ui = { enable = false },
     completion = {
       blink = {
         enabled = true,

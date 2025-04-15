@@ -385,7 +385,7 @@ return {
       { provider = " " },
     }
 
-    vim.opt.showcmdloc = "statusline"
+    -- vim.opt.showcmdloc = "statusline"
     local ShowCmd = {
       condition = function()
         return vim.o.cmdheight == 0
@@ -437,9 +437,20 @@ return {
       { Ruler },
       { ScrollBar },
     }
-    local StatusColumn = {}
-    local Winbar = {}
-    local Tabline = {}
+
+    local Sign = { provider = "%s" }
+    local Number = {
+      provider = "%=%4{v:virtnum ? '' : &nu ? (&rnu && v:relnum ? v:relnum : v:lnum) . ' ' : ''}",
+    }
+    local Fold = { provider = "%{% &fdc ? '%C ' : '' %}" }
+
+    local StatusColumn = {
+      { Sign },
+      { Number },
+      { Fold },
+    }
+    -- local Winbar = {}
+    -- local Tabline = {}
 
     require("heirline").setup({
       statusline = StatusLine,
@@ -448,6 +459,7 @@ return {
       -- tabline = Tabline,
       opts = {},
     })
+    -- vim.o.statuscolumn = require("heirline").eval_statuscolumn()
   end,
   dependencies = {
     "nvim-lua/plenary.nvim",

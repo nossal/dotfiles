@@ -1,6 +1,6 @@
 return {
   { "sindrets/diffview.nvim", lazy = true },
-  { "akinsho/git-conflict.nvim", lazy = true, version = "*", config = true },
+  { "akinsho/git-conflict.nvim", version = "*", config = true },
   {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
