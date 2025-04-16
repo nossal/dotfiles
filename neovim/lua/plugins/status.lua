@@ -129,11 +129,11 @@ return {
         -- space, we trim the file path to its initials
         -- See Flexible Components section below for dynamic truncation
         if not conditions.width_percent_below(#filename, 0.25) then
-          filename = vim.fn.pathshorten(filename)
+          filename = vim.fn.pathshorten(filename, 3)
         end
         return filename
       end,
-      hl = { fg = utils.get_highlight("Directory").fg, italic = true },
+      hl = { fg = "#888888", italic = true },
     }
 
     local FileFlags = {
