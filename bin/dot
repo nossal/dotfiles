@@ -171,3 +171,14 @@ make_links
 make_links "" "$shell"
 echo "---------"
 
+
+# 1. check and install the base (OS)
+#    dnf install -y git zsh tmux
+# 1.1 use zsh
+#    sudo chsh nossal -s /bin/zsh
+# 2. clone the dotfiles
+# 3. make the config file links
+# 4. install prompt (starship)
+# 5. install tools
+# 6. then reload the shell
+

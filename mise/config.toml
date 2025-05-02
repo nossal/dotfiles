@@ -4,6 +4,7 @@ yq = "latest"
 jq = "latest"
 rg = "latest"
 fd = "latest"
+gh = "latest"
 lsd = "latest"
 zoxide = "latest"
 lazygit = "latest"
@@ -12,6 +13,8 @@ gitleaks = "latest"
 node = "latest"
 go = "latest"
 trivy = "latest"
+kubectl = "latest"
+helm = "latest"
 
 [settings]
 experimental = true
