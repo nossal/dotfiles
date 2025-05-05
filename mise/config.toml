@@ -15,6 +15,7 @@ go = "latest"
 trivy = "latest"
 kubectl = "latest"
 helm = "latest"
+jj = "latest"
 
 [settings]
 experimental = true

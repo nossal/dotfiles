@@ -19,3 +19,4 @@ shell/bash/bashrc       .bashrc
 [default,git]
 git/config              .config/git/config
 git/config.yml          .config/lazygit/config.yml
+jj/config.toml          .config/jj/config.toml
