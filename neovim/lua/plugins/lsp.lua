@@ -16,6 +16,9 @@ return {
           require("java").setup({
             jdk = { auto_install = false },
             notifications = { dap = false },
+            java_test = { version = "0.43.0" },
+            spring_boot_tools = { version = "1.56.0" },
+            -- java_debug_adapter = { version = "0.58.2"},
           })
         end,
       },
@@ -25,7 +28,7 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
-        lineFoldingOnly = true
+        lineFoldingOnly = true,
       }
       local completionItem = capabilities.textDocument.completion.completionItem
       completionItem.preselectSupport = true
@@ -76,7 +79,7 @@ return {
       for key, value in pairs(lsp_servers) do
         local setup = value.setup or {}
         setup.capabilities = capbs
-        setup.on_attach = function (client, bufnr)
+        setup.on_attach = function(client, bufnr)
           if value.on_attach then
             value.on_attach(client, bufnr)
           end
@@ -87,7 +90,7 @@ return {
         lspconfig[key].setup(setup)
       end
 
-      require('ufo').setup()
+      require("ufo").setup()
       -- vim.o.statuscolumn = require("heirline").eval_statuscolumn()
     end,
   },
@@ -158,6 +161,8 @@ return {
           "stylua", -- lua formatter
           "ruff", -- python formatter/linter
           "biome", -- javascript, json formatter/linter
+          "yamlfmt",b-- YAML formatteer
+          "superhtml", -- HTML formatter/linter
 
           -- "luacheck",     -- lua linter
           -- "stylelint", -- css linter
@@ -166,7 +171,6 @@ return {
           "markdownlint", -- markdown linter
           "vale", -- markdown linter
           "yamllint", -- yaml linter
-          "prettier",
 
           -- "ast_grep", -- linter/formater
         },

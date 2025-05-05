@@ -33,7 +33,7 @@ local lsp_servers = {
   cssls = { name = "css", install = true },
   tailwindcss = { name = "tailwind", install = true },
   emmet_ls = { name = "emmet", install = true },
-  html = { name = "HTML", install = true },
+  superhtml = { name = "HTML", install = true },
   lua_ls = { name = "lua", install = true },
   clojure_lsp = { name = "clojure", install = true },
   rust_analyzer = {

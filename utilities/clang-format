@@ -1,0 +1,17 @@
+# vi: ft=yaml.clang
+BasedOnStyle: LLVM
+ColumnLimit: 100
+UseTab: Never
+---
+Language: Java
+IndentWidth: 4
+BinPackArguments: false
+BinPackParameters: false
+AlignAfterOpenBracket: Align
+AllowAllArgumentsOnNextLine: false
+BreakAfterJavaFieldAnnotations: true
+SpaceAfterCStyleCast: true
+SortIncludes: false
+---
+Language: JavaScript
+IndentWidth: 2

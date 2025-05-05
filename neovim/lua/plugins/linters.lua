@@ -72,12 +72,12 @@ return {
           javascript = { "biome" },
           json = { "biome" },
           css = { "biome" },
-          -- yaml = { "prettier" },
+          yaml = { "yamlfmt" },
           python = { "ruff_format" },
           java = { "clang-format" },
           shell = { "shfmt" },
           rust = { "rustfmt" },
-          html = { "prettier", lsp_format = "fallback" },
+          html = { "superhtml", lsp_format = "fallback" },
         },
         formatters = {
           biome = {
