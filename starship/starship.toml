@@ -113,3 +113,6 @@ style = "fg:#2443b5 bg:lang_bg italic"
 
 [gcloud]
 disabled = true
+
+[terraform]
+disabled = true
