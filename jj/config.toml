@@ -11,3 +11,4 @@ sign-on-push = true
 
 [ui]
 default-command = "log"
+editor = "giteditor"
