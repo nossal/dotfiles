@@ -111,6 +111,7 @@ return {
   {
     "williamboman/mason.nvim",
     lazy = true,
+    version = "1.11.0",
     opts = {
       ui = {
         border = border,
@@ -127,6 +128,7 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     lazy = true,
+    version = "1.32.0",
     cmd = { "MasonToolsInstall", "MasonToolsUpdate", "MasonToolsClean" },
     dependencies = {
       "WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -161,7 +163,7 @@ return {
           "stylua", -- lua formatter
           "ruff", -- python formatter/linter
           "biome", -- javascript, json formatter/linter
-          "yamlfmt",b-- YAML formatteer
+          "yamlfmt",-- YAML formatteer
           "superhtml", -- HTML formatter/linter
 
           -- "luacheck",     -- lua linter
