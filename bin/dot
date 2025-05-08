@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
-
+set -euo pipefail
 # autoinstall: sh "$(curl -fsL https://noss.al/dot)"
+
+# 1. check and install the base (OS)
+#    dnf install -y git zsh tmux
+# 1.1 use zsh
+#    sudo chsh nossal -s /bin/zsh
+# 2. clone the dotfiles
+# 3. make the config file links
+# 4. install prompt (starship)
+# 5. install tools
+# 6. then reload the shell
 
 DOTFILES_HOME="$HOME/.dotfiles"
 LOCAL_BIN_DIR="$HOME/.local/bin"
@@ -162,23 +172,48 @@ function bootstrap() {
   setup_dotfiles
 }
 
-echo "This os is: $(os_name)"
-bootstrap
-clean
-echo "---------"
-# run the default profile file with default tags
-make_links
-make_links "" "$shell"
-echo "---------"
+function main() {
 
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -h|--help)
+        echo "HELP"
+        exit 0
+        ;;
+      -*)
+        error "No option: $1"
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
 
-# 1. check and install the base (OS)
-#    dnf install -y git zsh tmux
-# 1.1 use zsh
-#    sudo chsh nossal -s /bin/zsh
-# 2. clone the dotfiles
-# 3. make the config file links
-# 4. install prompt (starship)
-# 5. install tools
-# 6. then reload the shell
+  if [[ $# -eq 0 ]]; then
+    echo "bootstrap "
+    exit 0
+  fi
+
+  local command="$1"
+  shift
+
+  case "${command}" in
+    update)
+      update
+      ;;
+    clean)
+      clean
+      ;;
+    links)
+      make_links "$@"
+      ;;
+    *)
+      bootstrap
+      ;;
+  esac
+
+  echo "main"
+}
+
+main "$@"
 
