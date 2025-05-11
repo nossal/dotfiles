@@ -6,10 +6,12 @@
   path = user.conf
 
 [alias]
-  l = "log --pretty=format:'%<|(4)%Cgreen %h %C(brightblack)│%Cblue%<(8,trunc) %an %Creset%C(brightblack) %G? │%C(reset) %s' --graph --no-merges -15"
+  ; l = "log --pretty=format:'%<|(4)%Cgreen %h %C(brightblack)│%Cblue%<(8,rrunc) %an %Creset%C(brightblack) %G? │%C(reser) %s' --graph --no-merges -15"
+  l = "log --all --graph --no-merges -10 --pretty=format:'%C(magenta)%h %C(white black) %G? %Creset%C(italic green) %an  %ar%C(auto)  %D%n%s%n'"
   s = status -s
   c = clone --recursive
   dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+  df = diff --output-indicator-new=' ' --output-indicator-old=' '
 
 [core]
   editor = ~/.dotfiles/git/giteditor
@@ -17,9 +19,23 @@
   hooksPath = ~/.dotfiles/git/hooks
   fscache = true
   preloadindex = true
+  compression = 9
+  whitespace = error
+
+[url "git@github.com"]
+  unsteadOf = "gh:"
+
+[diff]
+  context = 3
+  renames = copies
+  interHunkContext = 10
 
 [commit]
   gpgsign = true
+
+[interactive]
+  #difffilter = pager --patch
+  singlekey = true
 
 [gc]
   auto = 256
@@ -31,7 +47,14 @@
   helper = cache
 
 [advice]
+  addEmptyPathspec = false
+  pushNonFastFoward = false
   statusHints = false
+
+[status]
+  branch = true
+  showStash = true
+  showUntrackedFiles = all
 
 [color]
   diff = auto
@@ -40,10 +63,16 @@
   ui = true
 
 [color "diff"]
-  meta = yellow bold
-  frag = magenta bold
-  old = red bold
-  new = green bold
+  meta = black bold
+  frag = magenta
+  context = white
+  whitespace = yellow reverse
+  old = red
+
+  ; meta = yellow bold
+  ; frag = magenta bold
+  ; old = red bold
+  ; new = green bold
 
 [color "status"]
   header = white normal dim
@@ -58,18 +87,24 @@
   remote = magenta
 
 [push]
-  default = simple
+  autoSetupRemote = true
+  default = current
+  followTafs = true
+
+[pull]
+  default = current
+  rebase = true
 
 [rebase]
   autostash = true
-
-[pull]
-  rebase = true
+  missingConnitsCheck = warn
 
 [grep]
   extendRegexp = true
   lineNumber = true
 
 [log]
+  abbrevCommit = true
   date = local
+  graphColors = blue,yellow,cyan,magenta,green,red
 

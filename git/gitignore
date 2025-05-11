@@ -1,8 +1,6 @@
-#/* vim: set filetype=gitconfig : */
+# vi: ft=gitconfig
 !.gitignore
 !.editorconfig
-
-.vscode
 
 # Generic
 *.log
@@ -35,9 +33,12 @@ Desktop.ini
 *.rdb
 
 # Dev
+.vscode
+.idea
 .project
 *.rpm
 *.deb
+/.env
 ~*
 
 # nodejs/JavaScript
@@ -57,7 +58,6 @@ target/
 *.jar
 *.war
 /.gradle
-/.env
 /.lein-env
 /.lein-repl-history
 /.lein-deps-sum
@@ -68,4 +68,4 @@ target/
 *.pyc
 *.egg
 .apt_generated
-
+.venv
