@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+P="$(mise where lazygit)"
+tmux display-popup -BE -b rounded -S "bg=#1a1b26 fg=#34364c" -s "bg=#111111" -d "$(pwd)" -h 90% -w 80% "$P/lazygit log -sm half"
