@@ -4,6 +4,6 @@ set -e
 
 git l -5 --color=always "$@" | sed -e 's/|/│/g' -e 's/\*/●/g' -e 's/\\/─┐/g' -e 's/\/\(.\[m\)/─┘\1/g';
 
-echo ""
+echo -e "\n~"
 
 exit 0
