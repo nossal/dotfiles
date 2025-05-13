@@ -2,8 +2,13 @@
 
 set -e
 
-git l -5 --color=always "$@" | sed -e 's/|/│/g' -e 's/\*/●/g' -e 's/\\/─┐/g' -e 's/\/\(.\[m\)/─┘\1/g';
+format="%C(#f54d27)%h  %C(bold #0091da)%G?  %Creset%C(italic green)%an  %C(dim white)%ar  %C(auto)%D%n%C(white)%s"
 
+echo -e " \e[2m 󱂅\e[0m"
+git log --graph --pretty=format:"$format" -5 --color=always "$@" | \
+  sed -e 's/|/│/g' -e 's/\*//g' -e 's/\\/─┐/g' -e 's/\/\(.\[m\)/─┘\1/g';
+
+# echo -e "\n~ \e[2m\e[0m"
 echo -e "\n~"
 
 exit 0

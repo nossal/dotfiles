@@ -6,8 +6,7 @@
   path = user.conf
 
 [alias]
-  ; l = "log --pretty=format:'%<|(4)%Cgreen %h %C(brightblack)│%Cblue%<(8,rrunc) %an %Creset%C(brightblack) %G? │%C(reset) %s' --graph --no-merges -15"
-  l = "log --graph -5 --pretty=format:'%C(#f54d27)%h  %C(bold yellow)%G?  %Creset%C(italic green)%an  %C(dim white)%ar  %C(auto)%D%n%C(white)%s '"
+  l = "log --pretty=format:'%<|(4)%Cgreen %h %C(brightblack)│%Cblue%<(8,trunc) %an %Creset%C(brightblack) %G? │%C(reset) %s' --graph --no-merges -15"
   s = status -s
   c = clone --recursive
   dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
