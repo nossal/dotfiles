@@ -3,10 +3,12 @@
 source "$DOTDIR/lib/installer.sh"
 
 setup() {
-  MISE_INSTALL_HELP=0
-  MISE_QUIET=1
+  export MISE_INSTALL_HELP=0
+  export MISE_QUIET=1
 
-  curl -sL https://mise.run | sh && mise tools up
+  curl -sL https://mise.run | sh && \
+    mise tools up && \
+    mise completion "$SHELL_NAME" > "$DOTDIR/shell/$SHELL_NAME/completions/_mise"
 }
 
 update=setup

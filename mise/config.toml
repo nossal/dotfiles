@@ -1,22 +1,22 @@
 [tools]
+usage = "latest"
 fzf = "latest"
 yq = "latest"
 jq = "latest"
 rg = "latest"
 fd = "latest"
-gh = "latest"
 lsd = "latest"
 zoxide = "latest"
-lazygit = "latest"
 btop = "latest"
+gh = "latest"
+lazygit = "latest"
+delta = "latest"
+jj = "latest"
 gitleaks = "latest"
-node = "latest"
-go = "latest"
 trivy = "latest"
 kubectl = "latest"
 helm = "latest"
-jj = "latest"
-delta = "latest"
+node = "latest"
 
 [settings]
 experimental = true
