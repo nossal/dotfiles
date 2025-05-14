@@ -16,6 +16,7 @@ trivy = "latest"
 kubectl = "latest"
 helm = "latest"
 jj = "latest"
+delta = "latest"
 
 [settings]
 experimental = true

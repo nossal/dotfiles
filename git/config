@@ -21,21 +21,32 @@
   compression = 9
   whitespace = error
   autocrlf = input
+  pager = delta
 
 [url "git@github.com"]
   unsteadOf = "gh:"
 
 [diff]
-  context = 3
+  context = 2
   renames = copies
   interHunkContext = 10
 
+[merge]
+  conflictStyle = zdiff3
+
+[delta]
+  true-color = always
+  navigate = true
+  line-numbers = true
+  hunk-header-decoration-style = none
+
 [commit]
+  template = ~/.dotfiles/git/template
   gpgsign = true
 
 [interactive]
-  #difffilter = pager --patch
   singlekey = true
+  diffFilter = delta --color-only
 
 [gc]
   auto = 256
@@ -77,7 +88,6 @@
   abbrevCommit = true
   date = local
   graphColors = brightblue,yellow,cyan,magenta,green,red
-	graphChars = "│ ─┐ ─┘"
 
 [color]
   diff = auto
@@ -91,7 +101,6 @@
   context = white
   whitespace = yellow reverse
   old = red
-
   ; meta = yellow bold
   ; frag = magenta bold
   ; old = red bold
@@ -108,4 +117,3 @@
   current = green
   local = cyan
   remote = magenta
-
