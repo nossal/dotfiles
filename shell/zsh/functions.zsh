@@ -19,14 +19,14 @@ function load_plugins() {
 
 function zsh_add_completion() {
     plugin_name=$(echo $1 | cut -d "/" -f 2)
-    if [ -d "$ZSHDOTDIR/plugins/$plugin_name" ]; then
+    if [ -d "$ZSHDOTDIR/completions/$plugin_name" ]; then
         # For completions
-        completion_file_path=$(ls $ZSHDOTDIR/plugins/$plugin_name/_*)
+        completion_file_path=$(ls $ZSHDOTDIR/completions/$plugin_name/*/_*)
         fpath+="$(dirname "${completion_file_path}")"
-        zsh_add_file "plugins/$plugin_name/$plugin_name.plugin.zsh"
+        source_file "completions/$plugin_name/$plugin_name.plugin.zsh"
     else
-        git clone "https://github.com/$1.git" "$ZSHDOTDIR/plugins/$plugin_name"
-        fpath+=$(ls $ZSHDOTDIR/plugins/$plugin_name/_*)
+        git clone "https://github.com/$1.git" "$ZSHDOTDIR/completions/$plugin_name"
+        fpath+=$(ls $ZSHDOTDIR/completions/$plugin_name/*/_*)
         [ -f $ZSHDOTDIR/.zccompdump ] && $ZSHDOTDIR/.zccompdump
     fi
     completion_file="$(basename "${completion_file_path}")"

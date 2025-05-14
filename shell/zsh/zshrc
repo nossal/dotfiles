@@ -5,7 +5,7 @@
 
 source $ZSHDOTDIR/functions.zsh
 source $ZSHDOTDIR/editor.zsh
-source $ZSHDOTDIR/../mappings
+source $ZSHDOTDIR/../aliases
 
 #allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
@@ -52,24 +52,25 @@ unsetopt CLOBBER            # Do not overwrite existing files with > and >>.
 ## disable mail checking
 MAILCHECK=0
 
-# completions=(
-#   "$NVM_DIR/bash_completion"
-# )
+completions=(
+  "zsh-users/zsh-completions"
+)
 for completion in $completions; do
   zsh_add_completion $completion
 done
 
-autoload -U colors
+fpath+="$ZSHDOTDIR/completions"
 
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
+
+autoload -U colors
 
 # Plugins
 plugins=(
   "Aloxaf/fzf-tab"
   "z-shell/F-Sy-H"
   "zsh-users/zsh-autosuggestions"
-  "zsh-users/zsh-completions"
   "hlissner/zsh-autopair"
 )
 load_plugins $plugins;
@@ -89,8 +90,9 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 # https://github.com/junegunn/fzf/wiki/Color-schemes
 
 # The Prompt
-eval "$($HOME/.local/bin/mise activate zsh)"
 eval "$(starship init zsh)"
+
+eval "$($HOME/.local/bin/mise activate zsh)"
 eval "$(zoxide init zsh)"
 
 # Set up fzf key bindings and fuzzy completion

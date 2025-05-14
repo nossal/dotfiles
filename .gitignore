@@ -3,6 +3,7 @@
 !bin/dot
 
 shell/zsh/plugins
+shell/zsh/completions
 work/
 lazy-lock.json
 
