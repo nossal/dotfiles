@@ -15,6 +15,7 @@ set -euo pipefail
 DOTFILES_HOME="$HOME/.dotfiles"
 LOCAL_BIN_DIR="$HOME/.local/bin"
 
+REPO="https://github.com/nossal/dotfiles"
 
 function has() {
   command -v "$1" 1>/dev/null 2>&1
@@ -107,6 +108,7 @@ function filter() {
 }
 
 function make_links() {
+  echo "LINKS"
   local profile=$1
   local tag="${2:-default}"
 
@@ -134,6 +136,7 @@ function make_links() {
 }
 
 function clean() {
+  echo "FIX"
   broken_links=$(find "$HOME" -maxdepth 2 -type l ! -exec test -e {} \; -print 2> /dev/null)
   if [ -n "$broken_links" ]; then
     echo  -e "Removing broken synlinks:\n$broken_links"
@@ -158,50 +161,59 @@ function fonts() {
     cp -rf "$DOTFILES_HOME/fonts/*" "$target/"
 }
 
-function setup_dotfiles() {
-  [ ! -d "$DOTFILES_HOME" ] && \
-    git clone https://github.com/nossal/dotfiles "$DOTFILES_HOME"
-}
-
 function bootstrap() {
+  echo "BOOT"
+  return
   [ ! -a "$LOCAL_BIN_DIR" ] && mkdir -p "$LOCAL_BIN_DIR"
   [[ ! "$PATH" == *"$LOCAL_BIN_DIR"* ]] && export PATH="$LOCAL_BIN_DIR:$PATH"
 
   install_gum 0.15.2 "$(uname -s)" "$(uname -m)"
 
-  setup_dotfiles
+  [ ! -d "$DOTFILES_HOME" ] && \
+    git clone "$REPO" "$DOTFILES_HOME"
+}
+
+function usage() {
+  echo "dot"
 }
 
 function main() {
+  local command=""
+  if [[ $# -eq 0 ]]; then
+    command="bootstrap"
+  fi
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
       -h|--help)
-        echo "HELP"
+        usage
         exit 0
+        ;;
+      -r|--repo)
+        REPO="$2"
+        shift 2
         ;;
       -*)
         error "No option: $1"
         ;;
       *)
-        break
+        if [[ -z "$command" ]]; then
+          command="$1"
+        else
+          echo "Unexpected argument: $1"
+          exit 1
+        fi
+        shift
         ;;
     esac
   done
-
-  if [[ $# -eq 0 ]]; then
-    echo "bootstrap "
-    exit 0
-  fi
-
-  local command="$1"
-  shift
+  echo "$REPO"
 
   case "${command}" in
     update)
       update
       ;;
-    clean)
+    fix)
       clean
       ;;
     links)
@@ -211,8 +223,6 @@ function main() {
       bootstrap
       ;;
   esac
-
-  echo "main"
 }
 
 main "$@"
