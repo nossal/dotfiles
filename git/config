@@ -5,10 +5,14 @@
 [include]
   path = user.conf
 
+[includeIf "gitdir:~/workspace/WORK/"]
+  path = ~/.dotfiles-work/git/config
+
 [alias]
   l = "log --pretty=format:'%<|(4)%Cgreen %h %C(brightblack)│%Cblue%<(8,trunc) %an %Creset%C(brightblack) %G? │%C(reset) %s' --graph --no-merges -15"
   s = status -s
   c = clone --recursive
+  pf = push --force-with-lease
   dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
   df = diff --output-indicator-new=' ' --output-indicator-old=' '
 
@@ -27,12 +31,15 @@
   unsteadOf = "gh:"
 
 [diff]
-  context = 2
-  renames = copies
-  interHunkContext = 10
+  context = 3
+  interHunkContext = 6
+  renames = true
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
 
 [merge]
-  conflictStyle = zdiff3
+  conflictStyle = diff3
 
 [delta]
   true-color = always
@@ -70,14 +77,16 @@
 [push]
   autoSetupRemote = true
   default = current
-  followTafs = true
+  followTags = true
 
 [pull]
   default = current
   rebase = true
 
 [rebase]
-  autostash = true
+  autoStash = true
+  autoSquash = true
+  updateRefs = true
   missingConnitsCheck = warn
 
 [grep]
@@ -88,6 +97,15 @@
   abbrevCommit = true
   date = local
   graphColors = brightblue,yellow,cyan,magenta,green,red
+
+[column]
+  ui = auto
+
+[tag]
+  sort = version:refname
+
+[help]
+  autocorrect = prompt
 
 [color]
   diff = auto
