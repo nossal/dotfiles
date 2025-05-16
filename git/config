@@ -105,7 +105,7 @@
   sort = version:refname
 
 [help]
-  autocorrect = prompt
+  autocorrect = 10
 
 [color]
   diff = auto
