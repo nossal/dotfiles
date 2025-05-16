@@ -76,6 +76,8 @@ return {
           python = { "ruff_format" },
           java = { "clang-format" },
           shell = { "shfmt" },
+          bash = { "shfmt" },
+          zsh = { "shfmt" },
           rust = { "rustfmt" },
           html = { "superhtml", lsp_format = "fallback" },
         },
