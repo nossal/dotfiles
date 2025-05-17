@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -e
+
+ME="$(whoami)"
+
+sudo dnf -y install \
+  https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm
+
+sudo dnf -y install \
+  https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
+
+sudo dnf update
+
+sudo dnf -y install zsh git neovim tmux
+
+sudo chsh -s /bin/zsh "$ME"
