@@ -1,6 +1,13 @@
 local get_java_home = require("core.helpers").get_java_home
 
 local lsp_servers = {
+  sourcekit = {
+    name = "iOS",
+    install = true,
+    setup = {
+      cmd = vim.trim(vim.fn.system("xcrun -f sourcekit-lsp")),
+    }
+  },
   ltex = {
     name = "gram",
     install = true,
