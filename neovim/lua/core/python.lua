@@ -1,6 +1,6 @@
 local M = {}
 
-local function get_pyenv()
+function M.get_pyenv()
   return os.getenv("VIRTUAL_ENV")
 end
 
@@ -12,7 +12,8 @@ local function get_ini_prop(file_path, prop)
     end
   end
 end
-local function get_env(env_path)
+
+function M.get_env(env_path)
   local path = env_path .. "/pyvenv.cfg"
   return get_ini_prop(path, "version_info"), get_ini_prop(path, "prompt")
 end
@@ -28,3 +29,5 @@ function M.hook(_, venv_python)
   end
   client.notify("workspace/didChangeConfiguration", { settings = nil })
 end
+
+return M

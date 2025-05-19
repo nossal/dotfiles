@@ -128,7 +128,7 @@ return {
         -- now, if the filename would occupy more than 1/4th of the available
         -- space, we trim the file path to its initials
         -- See Flexible Components section below for dynamic truncation
-        if not conditions.width_percent_below(#filename, 0.25) then
+        if not conditions.width_percent_below(#filename, 0.10) then
           filename = vim.fn.pathshorten(filename, 3)
         end
         return filename
@@ -222,7 +222,13 @@ return {
 
     local LSPActive = {
       provider = function(self)
-        return " " .. table.concat(self.names, " ") .. ""
+        return
+          -- " "
+          -- " "
+          -- " "
+          -- "󱠡 "
+          "󱠢 "
+          .. table.concat(self.names, " ") .. ""
       end,
       hl = { fg = "green", bold = true },
     }
@@ -232,7 +238,8 @@ return {
         return vim.tbl_contains(self.names, "python")
       end,
       provider = function()
-        local version, name = get_env(get_pyenv())
+        local py = require("core.python")
+        local version, name = py.get_env(py.get_pyenv())
         return " " .. name .. ":" .. version
       end,
     }
