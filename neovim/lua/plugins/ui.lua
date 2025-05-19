@@ -11,6 +11,9 @@ return {
           col = 0,
           width = 30,
         },
+        ccompact = {
+          title_pos = "right",
+        },
       },
       dashboard = {
         sections = {
@@ -33,15 +36,14 @@ return {
         -- }
       },
       notifier = {
-        -- your notifier configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-        --     render = "wrapped-compact",
-        style = "compact",
-        --     max_height = 6,
-        --     max_width = 60,
-        --     stages = "fade",
-        --     fps = 60,
+        style = function(buf, notif, ctx)
+          local title = vim.trim(notif.icon .. " " .. (notif.title or ""))
+          if title ~= "" then
+            ctx.opts.title = { { " " .. title .. " ", ctx.hl.title } }
+            ctx.opts.title_pos = "right"
+          end
+          vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(notif.msg, "\n"))
+        end,
       },
       image = {},
     },
