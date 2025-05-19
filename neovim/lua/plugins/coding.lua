@@ -2,6 +2,7 @@ return {
   -- https://github.com/wojciech-kulik/xcodebuild.nvim/wiki
   {
     "wojciech-kulik/xcodebuild.nvim",
+    lazy = true,
     dependencies = {
       "nvim-telescope/telescope.nvim",
       "MunifTanjim/nui.nvim",
@@ -21,5 +22,4 @@ return {
       require("crates").setup()
     end,
   },
-
 }
