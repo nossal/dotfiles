@@ -27,4 +27,26 @@ return {
       },
     },
   },
+  {
+    "folke/zen-mode.nvim",
+    ft = { "markdown" },
+    config = function()
+      local opts = {
+        window = {
+          width = 88,
+        },
+      }
+
+      require("zen-mode").setup(opts)
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "markdown",
+        callback = function()
+          vim.defer_fn(function()
+            vim.cmd("ZenMode")
+          end, 100) -- 100ms delay
+        end,
+      })
+    end,
+  },
 }
