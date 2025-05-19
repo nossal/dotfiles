@@ -11,6 +11,8 @@ return {
       { "<leader>L", ":Lazy<CR>", desc = "Lazy" },
       { "<leader>M", ":Mason<CR>", desc = "Mason" },
 
+      { "<leader>lw", ":set wrap!<CR>", desc = "Toggle Line Wrap" },
+
       { "<leader>ch", ":nohl<CR>", desc = "Clear Search Highlights" },
 
       { "<leader>sv", "<C-w>v", desc = "Split window vertically" },

@@ -1,14 +1,16 @@
+local function list(items, sep)
+  return table.concat(items, sep or ",")
+end
+
 local g = vim.g
 local o = vim.o
 local opt = vim.opt
 local fn = vim.fn
 
+local textwidth = 80
+
 g.mapleader = " "
 g.maplocalleader = " "
-
-local function list(items, sep)
-  return table.concat(items, sep or ",")
-end
 
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
@@ -16,9 +18,9 @@ g.loaded_netrwPlugin = 1
 g.have_nerd_font = true
 
 -- line numbers
-opt.relativenumber = true -- show relative line numbers
 opt.number = true -- shows absolute line number on cursor line (when relative number is on)
-opt.colorcolumn = "80" -- Show column at character 80
+opt.relativenumber = true -- show relative line numbers
+opt.colorcolumn = tostring(textwidth) -- Show column at character 80
 -- tabs & indentation
 opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
 opt.shiftwidth = 2 -- 2 spaces for indent width
@@ -27,8 +29,14 @@ opt.autoindent = true -- copy indent from current line when starting new one
 opt.smartindent = true -- Insert indents automatically
 
 o.modeline = true
+
 -- line wrapping
 opt.wrap = false -- disable line wrapping
+opt.showbreak = "⤷ "
+opt.breakindent = true
+opt.linebreak = true
+-- opt.breakindentopt = "shift:2"
+-- opt.textwidth = textwidth
 
 -- search settings
 opt.ignorecase = true -- ignore case when searching
@@ -59,8 +67,9 @@ opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 
 -- split windows
 opt.splitright = true -- split vertical window to the right
-opt.splitbelow = true -- split horizontal window to the bottom
+opt.splitbelow = false -- split horizontal window to the bottom
 
+-- mouse & scroll
 o.mousescroll = "ver:1,hor:1"
 o.mouse = "a"
 opt.scrolloff = 6 -- Keep 8 lines above/below cursor when scrolling
@@ -85,7 +94,6 @@ opt.diffopt = list({
   "vertical",
   "linematch:100",
 })
-opt.pyxversion = 3
 opt.shada = list({
   "!",
   "'100", -- Remember marks for 100 files
@@ -122,11 +130,11 @@ opt.fillchars = list({
   "msgsep:─",
   "eob:█",
 })
-opt.showbreak = "⤷ "
 
 -- turn off swapfile
 opt.swapfile = false
 
+-- Folding
 o.foldcolumn = "0" -- '0' is not bad
 o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 o.foldlevelstart = 99
@@ -149,7 +157,6 @@ opt.encoding = "utf-8"
 opt.title = true
 
 opt.conceallevel = 2
-opt.breakindent = true
 
 opt.showmode = false -- Do not show -- MODE -- in cmdline--
 opt.showcmd = true
@@ -162,6 +169,7 @@ opt.laststatus = 3
 opt.updatetime = 250 -- Decrease update time
 opt.timeoutlen = 300 -- Decrease mapped sequence wait time; Displays which-key popup sooner
 
+opt.pyxversion = 3
 -- Undercurl
 -- vim.cmd([[let &t_Cs = "\e[4:3m"]])
 -- vim.cmd([[let &t_Ce = "\e[4:0m"]])
