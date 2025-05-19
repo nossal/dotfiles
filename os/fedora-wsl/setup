@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -e
+
+DOTFILES_HOME="$1"
+LOCAL_BIN_DIR="$2"
+
+# Herda de fedora/setup
+# shellcheck source=../fedora/setup
+source "$DOTFILES_HOME/os/fedora/setup"
+
+# wsl-open install
+bin="$LOCAL_BIN_DIR/wsl-open"
+if [[ ! -e "$bin" ]]; then
+  curl -o "$bin" \
+    https://raw.githubusercontent.com/4U6U57/wsl-open/master/wsl-open.sh
+
+  chmod u+x "$bin"
+fi
+
+# clipboard setup
+echo "Setup Clipboard"

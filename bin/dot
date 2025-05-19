@@ -148,6 +148,7 @@ function fonts() {
   local target os
 
   os="$(os_name)"
+  echo "$os"
 
   target="$HOME/.local/share/fonts"
 
@@ -162,6 +163,10 @@ function fonts() {
 }
 
 function bootstrap() {
+  # check os. requirements
+  "$DOTFILES_HOME/os/$(os_name)/setup" "$DOTFILES_HOME" "$LOCAL_BIN_DIR"
+
+
   echo "BOOT"
   return
   [ ! -a "$LOCAL_BIN_DIR" ] && mkdir -p "$LOCAL_BIN_DIR"
