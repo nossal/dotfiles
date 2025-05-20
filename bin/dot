@@ -162,24 +162,69 @@ function fonts() {
     cp -rf "$DOTFILES_HOME/fonts/*" "$target/"
 }
 
+function tools() {
+  echo "TOOLS"
+}
+
+function update() {
+  echo "UPDATE"
+  cd "$DOTFILES_HOME" && git pull
+
+  mise self-update
+  mise up
+}
+
+function install() {
+  echo "INSTALL"
+  # install_gum 0.15.2 "$(uname -s)" "$(uname -m)"
+  clean
+  make_links "$@"
+  fonts
+  tools
+}
+
 function bootstrap() {
   # check os. requirements
-  "$DOTFILES_HOME/os/$(os_name)/setup" "$DOTFILES_HOME" "$LOCAL_BIN_DIR"
+  if ! has git; then
+    echo "git is required to bootstrap the dotfiles."
+    exit 1
+  fi
 
+  # check if the dotfiles are already installed
+  if [ -d "$DOTFILES_HOME" ]; then
+    echo "Dotfiles already installed. Updating..."
+    update
+  else
+    git clone "$REPO" "$DOTFILES_HOME"
+  fi
+
+  [ ! -a "$LOCAL_BIN_DIR" ] && \
+    mkdir -p "$LOCAL_BIN_DIR"
+  [[ ! "$PATH" == *"$LOCAL_BIN_DIR"* ]] && \
+    export PATH="$LOCAL_BIN_DIR:$PATH"
+
+  local os_setup="$DOTFILES_HOME/os/$(os_name)/setup"
+
+  [ -f "$os_setup" ] && \
+    $("$os_setup") "$DOTFILES_HOME" "$LOCAL_BIN_DIR"
 
   echo "BOOT"
-  return
-  [ ! -a "$LOCAL_BIN_DIR" ] && mkdir -p "$LOCAL_BIN_DIR"
-  [[ ! "$PATH" == *"$LOCAL_BIN_DIR"* ]] && export PATH="$LOCAL_BIN_DIR:$PATH"
-
-  install_gum 0.15.2 "$(uname -s)" "$(uname -m)"
-
-  [ ! -d "$DOTFILES_HOME" ] && \
-    git clone "$REPO" "$DOTFILES_HOME"
+  install "$@"
 }
 
 function usage() {
-  echo "dot"
+  echo "Usage: dot [OPTIONS] [COMMAND]"
+  echo "Options:"
+  echo "  -h, --help      Show this help message"
+  echo "  -r, --repo      Specify the repository URL"
+  echo "Commands:"
+  echo "  bootstrap       Bootstrap the dotfiles"
+  echo "  update          Update the dotfiles"
+  echo "  fix             Fix broken links"
+  echo "  links           Show links"
+  echo "  install         Install the dotfiles"
+  echo "  fonts           Install fonts"
+  echo "  help            Show this help message"
 }
 
 function main() {
@@ -225,7 +270,7 @@ function main() {
       make_links "$@"
       ;;
     *)
-      bootstrap
+      bootstrap "$@"
       ;;
   esac
 }
