@@ -27,6 +27,7 @@ return {
           -- hl.GitConflictCurrentLabel
           -- hl.GitConflictIncomingLabel
           -- hl.GitConflictAncestorLabel
+          hl.llama_hl_hint = { bg = "#000000", fg = "#666666" }
 
           hl.EndOfBuffer = {
             fg = util.lighten("#000000", 0.93),

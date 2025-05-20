@@ -3,6 +3,14 @@ local OLLAMA_API_URL = "http://ai.local:11434/api"
 
 return {
   {
+    "ggml-org/llama.vim",
+    init = function()
+      vim.g.llama_config = {
+        show_info = false,
+      }
+    end,
+  },
+  {
     "meeehdi-dev/bropilot.nvim",
     enabled = false,
     event = "VeryLazy", -- preload model on start
@@ -60,9 +68,9 @@ return {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
-      "hrsh7th/nvim-cmp",            -- autocompletion for avante commands and mentions
+      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
       "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      "zbirenbaum/copilot.lua",      -- for providers='copilot'
+      "zbirenbaum/copilot.lua", -- for providers='copilot'
       {
         -- support for image pasting
         "HakonHarnes/img-clip.nvim",
@@ -98,7 +106,7 @@ return {
     end,
     opts = {
       disable_inline_completion = true, -- disables inline completion for use with cmp
-      disable_keymaps = true,           -- disables built in keymaps for more manual control
+      disable_keymaps = true, -- disables built in keymaps for more manual control
     },
   },
   {
