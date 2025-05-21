@@ -11,14 +11,10 @@ return {
     dependencies = {
       {
         "nvim-java/nvim-java",
-        event = { "BufEnter *.java" },
         config = function()
           require("java").setup({
             jdk = { auto_install = false },
             notifications = { dap = false },
-            java_test = { version = "0.43.0" },
-            spring_boot_tools = { version = "1.56.0" },
-            -- java_debug_adapter = { version = "0.58.2"},
           })
         end,
       },
@@ -109,9 +105,8 @@ return {
     },
   },
   {
-    "williamboman/mason.nvim",
-    lazy = true,
-    version = "1.11.0",
+    "mason-org/mason.nvim",
+    -- lazy = true,
     opts = {
       ui = {
         border = border,
@@ -126,13 +121,12 @@ return {
     },
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     lazy = true,
-    version = "1.32.0",
     cmd = { "MasonToolsInstall", "MasonToolsUpdate", "MasonToolsClean" },
     dependencies = {
       "WhoIsSethDaniel/mason-tool-installer.nvim",
-      "williamboman/mason.nvim",
+      "mason-org/mason.nvim",
       "jay-babu/mason-nvim-dap.nvim",
     },
     config = function()
@@ -145,8 +139,6 @@ return {
           table.insert(to_install, key)
         end
       end
-
-      require("mason").setup()
 
       mason_lspconfig.setup({
         -- list of servers for mason to install
