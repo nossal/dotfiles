@@ -109,7 +109,7 @@ function filter() {
 
 function make_links() {
   echo "LINKS"
-  local profile=$1
+  local profile="${1:-}"
   local tag="${2:-default}"
 
   [ -n "$profile" ] && profile="-$profile"
