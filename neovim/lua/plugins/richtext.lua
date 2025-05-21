@@ -29,7 +29,8 @@ return {
   },
   {
     "folke/zen-mode.nvim",
-    ft = { "markdown" },
+    enabled = false,
+    -- ft = { "markdown" },
     config = function()
       local opts = {
         window = {
