@@ -68,8 +68,12 @@ return {
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
         default = {
-          -- "avante",
-          "lsp", "lazydev", "path", "snippets", "buffer" },
+          "lazydev",
+          "lsp",
+          "path",
+          "snippets",
+          "buffer",
+        },
         providers = {
           buffer = { score_offset = -100 },
           lazydev = {
