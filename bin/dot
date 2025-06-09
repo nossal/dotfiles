@@ -2,39 +2,110 @@
 set -euo pipefail
 # autoinstall: sh "$(curl -fsL https://noss.al/dot)"
 
-# 1. check and install the base (OS)
-#    dnf install -y git zsh tmux
-# 1.1 use zsh
-#    sudo chsh nossal -s /bin/zsh
-# 2. clone the dotfiles
-# 3. make the config file links
-# 4. install prompt (starship)
-# 5. install tools
-# 6. then reload the shell
-
 DOTFILES_HOME="$HOME/.dotfiles"
 LOCAL_BIN_DIR="$HOME/.local/bin"
 
 REPO="https://github.com/nossal/dotfiles"
 
 function has() {
-  command -v "$1" 1>/dev/null 2>&1
+  local callable="$1"
+  shift
+
+  if declare -f "$callable" >/dev/null 2>&1; then
+    "$callable" "$@"
+    return $?
+  fi
+
+  command -v "$callable" 1>/dev/null 2>&1
 }
 
-function install_gum() {
-  local GUM_VERSION="$1"
-  local KERNEL="$2"
-  local ARCH="$3"
-  local URL TMP_DIR NAME
+function install_from_gh() {
+  # Downloads and installs a binary from GitHub releases
+  #
+  # This function downloads a release from GitHub, extracts it, and installs
+  # the binary to $LOCAL_BIN_DIR. It supports different naming conventions
+  # and archive formats commonly used in GitHub releases.
+  #
+  # Arguments:
+  #   $1 - GitHub repository (e.g., "charmbracelet/gum")
+  #   $2 - Version (e.g., "0.11.0")
+  #   $3 - Binary name (e.g., "gum")
+  #   $4 - Kernel (e.g., "darwin", "linux")
+  #   $5 - Architecture (e.g., "amd64", "arm64")
+  #   $6 - Archive format (optional, defaults to "tar.gz")
+  #
+  # Example:
+  #   install_from_gh "charmbracelet/gum" "0.11.0" "gum" "darwin" "arm64"
+  #
+  local repo="$1"
+  local version="$2"
+  local binary="$3"
+  local kernel="$4"
+  local arch="$5"
+  local format="${6:-tar.gz}"
 
-  NAME="gum_${GUM_VERSION}_${KERNEL}_${ARCH}"
-  URL="https://github.com/charmbracelet/gum/releases/download/v${GUM_VERSION}/${NAME}.tar.gz"
-  TMP_DIR="$(mktemp -d)"
+  local name="${binary}_${version}_${kernel}_${arch}"
+  local url="https://github.com/${repo}/releases/download/v${version}/${name}.${format}"
+  local tmp_dir="$(mktemp -d)"
+  local archive="$tmp_dir/${binary}.${format}"
 
-  curl -s -L "$URL" -o "$TMP_DIR/gum.tar.gz" &&
-  tar -xzf "$TMP_DIR/gum.tar.gz" -C "$TMP_DIR" &&
-  cp "$TMP_DIR/${NAME}/gum" "$LOCAL_BIN_DIR" &&
-  rm -rf "$TMP_DIR"
+  echo "Installing ${binary} v${version} for ${kernel}/${arch}..."
+
+  # Download the release
+  if ! curl -s -L "$url" -o "$archive"; then
+    echo "Failed to download from $url"
+    rm -rf "$tmp_dir"
+    return 1
+  fi
+
+  # Extract based on format
+  case "$format" in
+    "tar.gz"|"tgz")
+      if ! tar -xzf "$archive" -C "$tmp_dir"; then
+        echo "Failed to extract archive"
+        rm -rf "$tmp_dir"
+        return 1
+      fi
+      ;;
+    "zip")
+      if ! unzip -q "$archive" -d "$tmp_dir"; then
+        echo "Failed to extract archive"
+        rm -rf "$tmp_dir"
+        return 1
+      fi
+      ;;
+    *)
+      echo "Unsupported archive format: $format"
+      rm -rf "$tmp_dir"
+      return 1
+      ;;
+  esac
+
+  # Find and copy the binary
+  if [ -f "$tmp_dir/${name}/${binary}" ]; then
+    cp "$tmp_dir/${name}/${binary}" "$LOCAL_BIN_DIR/"
+  elif [ -f "$tmp_dir/${binary}" ]; then
+    cp "$tmp_dir/${binary}" "$LOCAL_BIN_DIR/"
+  else
+    echo "Could not find binary in extracted archive"
+    rm -rf "$tmp_dir"
+    return 1
+  fi
+
+  # Cleanup
+  rm -rf "$tmp_dir"
+  echo "${binary} v${version} installed successfully to $LOCAL_BIN_DIR"
+}
+
+function install() {
+  local cmd="$1"
+  local name="${2:-$cmd}"
+  has "$cmd" || {
+    echo "Installing $name..."
+    setup
+  } && {
+    echo "$name is already installed."
+  }
 }
 
 function _shell() {
@@ -107,32 +178,59 @@ function filter() {
   done < "$file"
 }
 
-function make_links() {
-  echo "LINKS"
+function symlink_configs() {
+  # Creates symbolic links for configuration files based on profile and category
+  #
+  # This function reads a configuration file (links.txt) and creates symbolic links
+  # from dotfiles to their target locations in the home directory. It supports:
+  #   - Different profiles (e.g., personal, work)
+  #   - Categories of configurations (e.g., default, shell, editor)
+  #   - Automatic creation of target directories
+  #
+  # Arguments:
+  #   $1 - Profile name (optional, e.g., "personal", "work")
+  #   $2 - Category name (optional, defaults to "default")
+  #
+  # Configuration file format (links.txt):
+  #   [default]
+  #   nvim/init.lua .config/nvim/init.lua
+  #   [shell]
+  #   zsh/zshrc .zshrc
+  #
+  echo "Setting up configuration links"
   local profile="${1:-}"
-  local tag="${2:-default}"
+  local category="${2:-default}"
 
+  # Construct config file path based on profile
   [ -n "$profile" ] && profile="-$profile"
+  local config_file="$DOTFILES_HOME/configs$profile.links"
+  echo "> Using config file: $config_file"
 
-  local links_file="$DOTFILES_HOME/links$profile.txt"
-  echo "> $links_file"
-
-  if [ ! -f "$links_file" ]; then
-    echo "File $links_file not found."
-    # exit 1
+  # Check if config file exists
+  if [ ! -f "$config_file" ]; then
+    echo "Configuration file not found: $config_file"
     return
   fi
 
+  # Process each line in the configuration file
   while IFS= read -r line; do
-    IFS=' ' read -r key value <<< "$line"
-    local target="$HOME/$value"
-    local target_dir="$(dirname $target)"
-    [ ! -L "$target_dir" ] && mkdir -p "$target_dir"
-    [ ! -L "$target" ] && ln -s "$DOTFILES_HOME/$key" "$target"
+    IFS=' ' read -r source_path target_path <<< "$line"
+    local target target_dir
 
-    echo "$target"
-    # echo "ln -s $DOTFILES_HOME/$key" "$HOME/$value"
-  done <<< "$(filter "$tag" "$links_file")"
+    target="$HOME/$target_path"
+    target_dir="$(dirname "$target")"
+
+    # Create target directory if it doesn't exist
+    [ ! -d "$target_dir" ] && mkdir -p "$target_dir"
+
+    # Create symbolic link if it doesn't exist
+    if [ ! -L "$target" ]; then
+      ln -s "$DOTFILES_HOME/$source_path" "$target"
+      echo "Created link: $target -> $DOTFILES_HOME/$source_path"
+    else
+      echo "Link already exists: $target"
+    fi
+  done <<< "$(filter "$category" "$config_file")"
 }
 
 function clean() {
@@ -144,46 +242,67 @@ function clean() {
   fi
 }
 
-function fonts() {
-  local target os
-
-  os="$(os_name)"
-  echo "$os"
-
-  target="$HOME/.local/share/fonts"
-
-  [ "$os" = "mac" ] && \
-    target="$HOME/Library/Fonts"
-
-  [ "$(is_wsl)" = true ] && \
-    target="/mnt/c/Users/$(username)/AppData/Local/Microsoft/Windows/Fonts"
-
-  [ -n "$target" ] && \
-    cp -rf "$DOTFILES_HOME/fonts/*" "$target/"
-}
-
 function tools() {
+  # Searches and executes setup files in dotfiles directory
+  #
+  # This function iterates through all first-level directories in $DOTFILES_HOME,
+  # searching for 'setup' files. When found, it ensures they are executable and
+  # runs them with two standard parameters:
+  #   $DOTFILES_HOME - The root directory of dotfiles
+  #   $LOCAL_BIN_DIR - The user's local bin directory
+  #
+  # Example setup file location:
+  #   $DOTFILES_HOME/
+  #   ├── neovim/
+  #   │   └── setup    # This will be executed
+  #   └── zsh/
+  #       └── setup    # This will be executed too
+  #
   echo "TOOLS"
+
+  while IFS= read -r setup_path; do
+    name="$(basename "$(dirname "$setup_path")")"
+    echo "Setup $name"
+    [ ! -x "$setup_path" ] && chmod u+x "$setup_path"
+
+    "$setup_path"
+
+  done <<< "$(find "$DOTFILES_HOME" -maxdepth 2 -type f -name "setup")"
 }
 
-function update() {
+function dot_update() {
   echo "UPDATE"
   cd "$DOTFILES_HOME" && git pull
-
-  mise self-update
-  mise up
+  dot_install
 }
 
-function install() {
+function dot_install() {
   echo "INSTALL"
-  # install_gum 0.15.2 "$(uname -s)" "$(uname -m)"
   clean
-  make_links "$@"
-  fonts
+  symlink_configs "$@"
   tools
 }
 
 function bootstrap() {
+  # Bootstraps the dotfiles installation process
+  #
+  # This function handles the initial setup and installation of dotfiles:
+  #   1. Checks if git is installed (required for cloning)
+  #   2. If dotfiles exist:
+  #      - Updates existing installation
+  #   3. If dotfiles don't exist:
+  #      - Clones the repository to $DOTFILES_HOME
+  #   4. Ensures $LOCAL_BIN_DIR exists and is in PATH
+  #   5. Executes OS-specific setup if available
+  #   6. Runs the installation process
+  #
+  # Arguments:
+  #   $@ - Additional arguments passed to dot_install
+  #
+  # Example:
+  #   bootstrap personal  # Installs dotfiles with 'personal' profile
+  #   bootstrap          # Installs dotfiles with default profile
+  #
   # check os. requirements
   if ! has git; then
     echo "git is required to bootstrap the dotfiles."
@@ -193,7 +312,7 @@ function bootstrap() {
   # check if the dotfiles are already installed
   if [ -d "$DOTFILES_HOME" ]; then
     echo "Dotfiles already installed. Updating..."
-    update
+    dot_update
   else
     git clone "$REPO" "$DOTFILES_HOME"
   fi
@@ -203,28 +322,47 @@ function bootstrap() {
   [[ ! "$PATH" == *"$LOCAL_BIN_DIR"* ]] && \
     export PATH="$LOCAL_BIN_DIR:$PATH"
 
-  local os_setup="$DOTFILES_HOME/os/$(os_name)/setup"
+  local os_setup
+  os_setup="$DOTFILES_HOME/os/$(os_name)/setup"
 
   [ -f "$os_setup" ] && \
-    $("$os_setup") "$DOTFILES_HOME" "$LOCAL_BIN_DIR"
+    "$os_setup" "$DOTFILES_HOME" "$LOCAL_BIN_DIR"
 
   echo "BOOT"
-  install "$@"
+  dot_install "$@"
 }
 
 function usage() {
-  echo "Usage: dot [OPTIONS] [COMMAND]"
-  echo "Options:"
-  echo "  -h, --help      Show this help message"
-  echo "  -r, --repo      Specify the repository URL"
-  echo "Commands:"
-  echo "  bootstrap       Bootstrap the dotfiles"
-  echo "  update          Update the dotfiles"
-  echo "  fix             Fix broken links"
-  echo "  links           Show links"
-  echo "  install         Install the dotfiles"
-  echo "  fonts           Install fonts"
-  echo "  help            Show this help message"
+  # Displays the help message with usage instructions
+  #
+  # This function prints a formatted help message that includes:
+  #   - Basic usage syntax
+  #   - Available options
+  #   - All available commands with descriptions
+  #   - Examples of common use cases
+  #
+  cat << 'EOF'
+    Usage: dot [OPTIONS] [COMMAND] [PROFILE]
+
+    Options:
+    -h, --help      Show this help message
+    -r, --repo      Specify the repository URL (default: $REPO)
+
+    Commands:
+    update          Update existing dotfiles installation
+    fix             Fix broken symbolic links
+    links [PROFILE] Create symbolic links for dotfiles (optionally with a profile)
+    tools           Search and execute setup files in dotfiles directories
+
+    Examples:
+    dot                # Bootstrap with default profile
+    dot personal       # Bootstrap with personal profile
+    dot -r <url>       # Bootstrap from a different repository
+    dot update         # Update existing installation
+    dot links work     # Create symbolic links for work profile
+
+    For more information, visit: https://github.com/nossal/dotfiles
+EOF
 }
 
 function main() {
@@ -261,13 +399,16 @@ function main() {
 
   case "${command}" in
     update)
-      update
+      dot_update
+      ;;
+    tools)
+      tools
       ;;
     fix)
       clean
       ;;
     links)
-      make_links "$@"
+      symlink_configs "$@"
       ;;
     *)
       bootstrap "$@"
@@ -275,5 +416,8 @@ function main() {
   esac
 }
 
-main "$@"
+# Only run main if script is executed directly (not sourced)
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
 

@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-if ! has starship; then
-  sh -c "$(curl -sS https://starship.rs/install.sh)" -- -y -b "$LOCAL_BIN_DIR"
-fi
+source "$DOTDIR/bin/dot"
 
+setup() {
+  sh -c "$(curl -sS https://starship.rs/install.sh)" -- -y -b "$LOCAL_BIN_DIR"
+}
+
+update=setup
+install "starship"

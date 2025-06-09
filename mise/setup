@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "$DOTDIR/lib/installer.sh"
+source "$DOTDIR/bin/dot"
 
 setup() {
   export MISE_INSTALL_HELP=0
@@ -11,6 +11,9 @@ setup() {
     mise completion "$SHELL_NAME" > "$DOTDIR/shell/$SHELL_NAME/completions/_mise"
 }
 
-update=setup
+update() {
+  mise self-update
+  mise tools up
+}
 
 install "mise"

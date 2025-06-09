@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+source "$DOTDIR/bin/dot"
+
+function setup() {
+  local target os
+
+  os="$(os_name)"
+  echo "$os"
+
+  target="$HOME/.local/share/fonts"
+
+  [ "$os" = "mac" ] && \
+    target="$HOME/Library/Fonts"
+
+  [ "$(is_wsl)" = true ] && \
+    target="/mnt/c/Users/$(username)/AppData/Local/Microsoft/Windows/Fonts"
+
+  [ -n "$target" ] && \
+    cp -rf "$DOTFILES_HOME/fonts/*" "$target/"
+}
+
+check() {
+  return 0
+}
+
+update=setup
+install "check" "Fonts"
