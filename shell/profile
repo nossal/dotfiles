@@ -16,12 +16,13 @@ expand_paths() {
 }
 
 # Initialize JAVA variable
-JAVA=$($HOME/.local/bin/mise where java)/bin
+JAVA=$("$HOME/.local/bin/mise where java")/bin
 
 # List of paths to be included in PATH
 path_list=(
     "$HOME/.local/bin"
     "$HOME/.dotfiles/bin"
+    "$HOME/.atuin/bin"
     "$HOME/bin" "$HOME/sbin"
     "/opt/homebrew/bin" "/opt/homebrew/sbin" "/opt/local/bin" "/opt/local/sbin"
     "/usr/local/bin" "/usr/local/sbin"

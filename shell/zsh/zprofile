@@ -1,17 +1,15 @@
 #/* vim: set filetype=zsh : */
 typeset -gU path
 
-JAVA=$($HOME/.local/bin/mise where java)/bin
-
 path=(
   $HOME/.local/bin(N)
   $HOME/.dotfiles/bin(N)
   $HOME/.cargo/bin(N)
+  $HOME/.atuin/bin(N)
   /opt/{homebrew,local}/{,s}bin(N)
   /usr/local{,s}bin(N)
   $HOME/go/bin(N)
-  $JAVA
+  $JAVA_HOME/bin
   $path
 )
 
-eval "$($HOME/.local/bin/mise activate zsh --shims)"

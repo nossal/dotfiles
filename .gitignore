@@ -7,3 +7,4 @@ shell/zsh/completions
 work/
 lazy-lock.json
 
+.aider*

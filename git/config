@@ -5,7 +5,7 @@
 [include]
   path = user.conf
 
-[includeIf "gitdir:~/workspace/WORK/"]
+[includeIf "gitdir:~/workspace/corp/"]
   path = ~/.dotfiles-work/git/config
 
 [alias]

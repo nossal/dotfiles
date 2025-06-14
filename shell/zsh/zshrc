@@ -1,4 +1,3 @@
-#
 # .zshrc is sourced in interactive shells.
 # It should contain commands to set up aliases,
 # functions, options, key bindings, etc.
@@ -72,6 +71,7 @@ autoload -U +X bashcompinit && bashcompinit
 autoload -U colors
 
 # Plugins
+source $ZSHDOTDIR/plug.zsh
 plugins=(
   "Aloxaf/fzf-tab"
   "z-shell/F-Sy-H"
@@ -92,7 +92,9 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 eval "$(starship init zsh)"
 
 eval "$($HOME/.local/bin/mise activate zsh)"
+eval "$($HOME/.local/bin/mise activate zsh --shims)"
 eval "$(zoxide init zsh)"
+eval "$(atuin init zsh)"
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
