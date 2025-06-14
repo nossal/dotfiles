@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+source "$DOTDIR/bin/dot"
+
+setup() {
+  curl --proto '=https' --tlsv1.2 -LsSf https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh | sh
+}
+update() {
+  atuin-update
+}
+
+install "atuin"
