@@ -92,7 +92,7 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 eval "$(starship init zsh)"
 
 eval "$($HOME/.local/bin/mise activate zsh)"
-eval "$($HOME/.local/bin/mise activate zsh --shims)"
+# eval "$($HOME/.local/bin/mise activate zsh --shims)"
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
 

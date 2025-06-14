@@ -3,14 +3,48 @@ BasedOnStyle: LLVM
 ColumnLimit: 100
 UseTab: Never
 ---
+BasedOnStyle: LLVM
 Language: Java
+LineEnding: LF
+MaxEmptyLinesToKeep: 1
+
+# indendação e largura de linha
 IndentWidth: 4
+ColumnLimit: 100
+UseTab: Never
+
+# Alinhamento e agrupamento
+AlignAfterOpenBracket: Align
 BinPackArguments: false
 BinPackParameters: false
-AlignAfterOpenBracket: Align
-AllowAllArgumentsOnNextLine: false
-BreakAfterJavaFieldAnnotations: true
+AllowAllArgumentsOnNextLine: true
+PackConstructorInitializers: CurrentLine
+
+# Estilo de chaves e blocos
+BraceWrapping:
+  AfterClass: false
+  AfterFunction: false
+  AfterControlStatement: false
+  BeforeElse: true
+  IndentBraces: false
+AllowShortBlocksOnASingleLine: false
+AllowShortLambdasOnASingleLine: Inline
+InsertBraces: true
+
+# Estilo de espaços
+SpacesInParentheses: false
 SpaceAfterCStyleCast: true
+
+# Preferências para anotações
+BreakAfterJavaFieldAnnotations: true
+
+AllowShortIfStatementsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeTernaryOperators: true
+BreakFunctionDefinitionParameters: true
+
 SortIncludes: false
 ---
 Language: JavaScript

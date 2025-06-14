@@ -3,6 +3,14 @@ function source_file() {
   [ -f "$ZSHDOTDIR/$1" ] && source "$ZSHDOTDIR/$1"
 }
 
+function update_plugins() {
+  for plugin in $@; do
+    plugin_name=$(echo $plugin | cut -d "/" -f 2)
+    cd "$ZSHDOTDIR/plugins/$plugin_name" &&  git pull --ff-only 2>/dev/null;
+    cd - > /dev/null
+  done
+}
+
 function load_plugins() {
   for plugin in $@; do
     plugin_name=$(echo $plugin | cut -d "/" -f 2)

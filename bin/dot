@@ -280,6 +280,7 @@ function dot_install() {
   echo "INSTALL"
   clean
   symlink_configs "$@"
+  symlink_configs "$@" "$shell"
   tools
 }
 
