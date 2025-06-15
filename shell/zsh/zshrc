@@ -93,9 +93,10 @@ eval "$(starship init zsh)"
 
 eval "$($HOME/.local/bin/mise activate zsh)"
 # eval "$($HOME/.local/bin/mise activate zsh --shims)"
+
 eval "$(zoxide init zsh)"
-eval "$(atuin init zsh)"
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
+eval "$(atuin init zsh)"

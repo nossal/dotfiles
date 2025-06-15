@@ -127,4 +127,5 @@ return {
       -- options
     },
   },
+  { "yorickpeterse/nvim-pqf" },
 }

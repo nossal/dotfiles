@@ -25,6 +25,7 @@ trusted_config_paths = [
   "$HOME/workspace",
   "$HOME/.dotfiles"
 ]
+idiomatic_version_file_enable_tools = ["python"]
 
 [settings.python]
 uv_venv_auto = true

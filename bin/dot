@@ -225,7 +225,7 @@ function symlink_configs() {
 
     # Create symbolic link if it doesn't exist
     if [ ! -L "$target" ]; then
-      ln -s "$DOTFILES_HOME/$source_path" "$target"
+      ln -sf "$DOTFILES_HOME/$source_path" "$target"
       echo "Created link: $target -> $DOTFILES_HOME/$source_path"
     else
       echo "Link already exists: $target"
