@@ -13,7 +13,7 @@ return {
 
       { "<leader>lw", ":set wrap!<CR>", desc = "Toggle Line Wrap" },
 
-      { "<leader>ch", ":nohl<CR>", desc = "Clear Search Highlights" },
+      -- { "<leader>ch", ":nohl<CR>", desc = "Clear Search Highlights" },
 
       { "<leader>sv", "<C-w>v", desc = "Split window vertically" },
       { "<leader>sh", "<C-w>s", desc = "Split window horizontally" },

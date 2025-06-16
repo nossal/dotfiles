@@ -2,6 +2,7 @@ require("core.diagnostics")
 
 local border = require("core.ui").border
 local lsp_servers = require("core.configs").lsp_servers
+local h = require("core.helpers")
 
 return {
   {
@@ -11,6 +12,15 @@ return {
     dependencies = {
       {
         "nvim-java/nvim-java",
+        -- ft = "java",
+        cond = function()
+          local root = vim.fn.getcwd()
+          local files = {
+            "build.gradle",
+            "pom.xml",
+          }
+          return h.is_project(root, files)
+        end,
         config = function()
           require("java").setup({
             jdk = { auto_install = false },
@@ -51,8 +61,6 @@ return {
           { "gt", "<cmd>FzfLua lsp_type_definitions<CR>", desc = "Show LSP type definitions" },
           { "<leader>D", "<cmd>FzfLua diagnostics bufnr=0<CR>", desc = "Show buffer diagnostics" },
           { "<leader>d", vim.diagnostic.open_float, desc = "Show line diagnostics" },
-          { "[d", vim.diagnostic.goto_prev, desc = "Go to previous diagnostic" },
-          { "]d", vim.diagnostic.goto_next, desc = "Go to next diagnostic" },
           { "<leader>rs", ":LspRestart<CR>", desc = "Restart LSP" },
           -- { "<leader>ca", vim.lsp.buf.code_action,                desc = "See available code actions", mode = { "n", "v" } },
           -- { "<leader>ca", "<cmd>FzfLua lsp_code_actions<CR>",     desc = "See available code actions", mode ={ "n", "v" } },
@@ -61,7 +69,8 @@ return {
           -- Workspaces
           { "<leader>wa", vim.lsp.buf.add_workspace_folder, desc = "[W]orkspace [A]dd Folder" },
           { "<leader>wr", vim.lsp.buf.remove_workspace_folder, desc = "[W]orkspace [R]emove Folder" },
-          { "<leader>wl",
+          {
+            "<leader>wl",
             function()
               print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
             end,
@@ -126,8 +135,8 @@ return {
     cmd = { "MasonToolsInstall", "MasonToolsUpdate", "MasonToolsClean" },
     dependencies = {
       "WhoIsSethDaniel/mason-tool-installer.nvim",
-      "mason-org/mason.nvim",
-      "jay-babu/mason-nvim-dap.nvim",
+      -- "mason-org/mason.nvim",
+      -- "jay-babu/mason-nvim-dap.nvim",
     },
     config = function()
       local mason_lspconfig = require("mason-lspconfig")
@@ -155,7 +164,7 @@ return {
           "stylua", -- lua formatter
           "ruff", -- python formatter/linter
           "biome", -- javascript, json formatter/linter
-          "yamlfmt",-- YAML formatteer
+          "yamlfmt", -- YAML formatteer
           "superhtml", -- HTML formatter/linter
 
           -- "luacheck",     -- lua linter
