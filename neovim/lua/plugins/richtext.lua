@@ -6,6 +6,7 @@ return {
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
+      file_types = { "markdown", "Avante" },
       completions = { blink = { enabled = true } },
       code = { width = "block", position = "right", left_pad = 1, right_pad = 1, language_pad = 1 },
       heading = {

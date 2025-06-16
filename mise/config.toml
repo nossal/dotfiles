@@ -17,6 +17,7 @@ trivy = "latest"
 kubectl = "latest"
 helm = "latest"
 node = "latest"
+bun = "latest"
 
 [settings]
 experimental = true

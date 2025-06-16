@@ -12,7 +12,6 @@ return {
     dependencies = {
       {
         "nvim-java/nvim-java",
-        -- ft = "java",
         cond = function()
           local root = vim.fn.getcwd()
           local files = {
@@ -153,7 +152,7 @@ return {
         -- list of servers for mason to install
         ensure_installed = to_install,
         -- auto-install configured servers (with lspconfig)
-        automatic_installation = true, -- not the same as ensure_installed
+        -- automatic_installation = true, -- not the same as ensure_installed
       })
 
       mason_tool_installer.setup({
