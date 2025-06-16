@@ -1,7 +1,7 @@
 return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    ft = { "markdown" },
+    ft = { "markdown", "Avante" },
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
@@ -26,28 +26,5 @@ return {
         },
       },
     },
-  },
-  {
-    "folke/zen-mode.nvim",
-    enabled = false,
-    -- ft = { "markdown" },
-    config = function()
-      local opts = {
-        window = {
-          width = 88,
-        },
-      }
-
-      require("zen-mode").setup(opts)
-
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "markdown",
-        callback = function()
-          vim.defer_fn(function()
-            vim.cmd("ZenMode")
-          end, 100) -- 100ms delay
-        end,
-      })
-    end,
   },
 }
