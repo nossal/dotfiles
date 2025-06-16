@@ -399,7 +399,7 @@ function main() {
   echo "$REPO"
 
   case "${command}" in
-    update)
+    up|update)
       dot_update
       ;;
     tools)
