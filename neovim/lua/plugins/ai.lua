@@ -1,6 +1,7 @@
 return {
   {
     "ggml-org/llama.vim",
+    enabled = false,
     init = function()
       vim.g.llama_config = {
         show_info = false,
@@ -84,7 +85,7 @@ return {
   },
   {
     "supermaven-inc/supermaven-nvim",
-    enabled = false,
+    enabled = true,
     config = function()
       require("supermaven-nvim").setup({})
     end,

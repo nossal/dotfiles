@@ -11,13 +11,12 @@ btop = "latest"
 gh = "latest"
 lazygit = "latest"
 delta = "latest"
-jj = "latest"
 gitleaks = "latest"
 trivy = "latest"
 kubectl = "latest"
 helm = "latest"
 node = "latest"
-bun = "latest"
+python = "latest"
 
 [settings]
 experimental = true

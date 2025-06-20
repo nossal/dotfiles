@@ -3,5 +3,5 @@ PROJECT_NAME = "{{ config_root | basename }}"
 _.python.venv = { path = ".venv" }
 
 [tools]
-python = "{{ get_env(name='PYTHON_VERSION', default='3.12') }}"
+python = "{{ get_env(name='PYTHON_VERSION', default='3.13') }}"
 ruff = "latest"
