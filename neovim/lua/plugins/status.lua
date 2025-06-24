@@ -205,7 +205,8 @@ return {
       condition = conditions.lsp_attached,
       update = { "LspAttach", "LspDetach" },
       init = function(self)
-        local languages = require("core.configs").lsp_servers
+        local langs = require("core.configs")
+        local languages = vim.tbl_extend("force", langs.lsp_servers, langs.other_lsp_servers)
         setmetatable(languages, {
           __index = function(table, key)
             return { name = key }

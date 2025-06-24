@@ -44,18 +44,14 @@ return {
     end,
   },
   {
-    "danarth/sonarlint.nvim",
-    enabled = false,
+    "https://gitlab.com/schrieveslaach/sonarlint.nvim",
+    -- enabled = false,
+    event = "BufReadPost",
     config = function()
-      local get_java_home = function(version)
-        return vim.fn.system("mise where java@" .. version):gsub("%s+", "")
-      end
       require("sonarlint").setup({
         server = {
           cmd = {
-            "" .. get_java_home("17") .. "/bin/java",
-            "-jar",
-            vim.fn.expand("$MASON/packages/sonarlint-language-server/extension/server/sonarlint-ls.jar"),
+            "sonarlint-language-server",
             -- Ensure that sonarlint-language-server uses stdio channel
             "-stdio",
             "-analyzers",
@@ -78,7 +74,6 @@ return {
         filetypes = {
           "python",
           "javascript",
-          -- Requires nvim-jdtls, otherwise an error message will be printed
           "java",
         },
       })

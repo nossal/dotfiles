@@ -117,7 +117,7 @@ vim.diagnostic.config({
 
       return string.format("%s [%s]", diagnostic.message, diagnostic.source)
     end,
-    header = { "Cursor Diagnostics:", "DiagnosticHeader" },
+    header = { "Diagnostics:", "DiagnosticHeader" },
     prefix = function(diagnostic, i, total)
       local icon, highlight
       if diagnostic.severity == 1 then

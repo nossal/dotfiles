@@ -26,6 +26,7 @@ return {
         formatters_by_ft = {
           lua = { "stylua" },
           javascript = { "biome" },
+          typescript = { "biome" },
           json = { "biome" },
           css = { "biome" },
           yaml = { "yamlfmt" },

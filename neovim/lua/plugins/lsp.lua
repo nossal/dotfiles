@@ -173,6 +173,7 @@ return {
           "markdownlint", -- markdown linter
           "vale", -- markdown linter
           "yamllint", -- yaml linter
+          "sonarlint-language-server",
 
           -- "ast_grep", -- linter/formater
         },

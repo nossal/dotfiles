@@ -13,7 +13,7 @@ local lsp_servers = {
     setup = {
       settings = {
         ltex = {
-          enabled = { "markdown", "restructuredtext", "text" },
+          enabled = { "markdown", "restructuredtext" },
           checkFrequency = "save",
           language = "en-US",
           checkSpelling = true,
@@ -138,6 +138,10 @@ local lsp_servers = {
   },
 }
 
+local other_lsp_servers = {
+  ["sonarlint.nvim"] = { name = "sonar" },
+}
 return {
   lsp_servers = lsp_servers,
+  other_lsp_servers = other_lsp_servers,
 }
