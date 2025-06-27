@@ -18,8 +18,8 @@ M.get_java_home = function(version)
   return vim.fn.system("mise where java@" .. version):gsub("%s+", "")
 end
 
-M.is_project = function(root, files)
-  for _, pattern in ipairs(files) do
+M.is_project = function(root, root_markers)
+  for _, pattern in ipairs(root_markers) do
     local match = vim.fs.find(pattern, { path = root, type = "file", upward = false })
     if #match > 0 then
       return true

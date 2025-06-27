@@ -14,11 +14,11 @@ return {
         "nvim-java/nvim-java",
         cond = function()
           local root = vim.fn.getcwd()
-          local files = {
+          local root_markers = {
             "build.gradle",
             "pom.xml",
           }
-          return h.is_project(root, files)
+          return h.is_project(root, root_markers)
         end,
         config = function()
           require("java").setup({

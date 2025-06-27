@@ -17,6 +17,7 @@ kubectl = "latest"
 helm = "latest"
 node = "latest"
 python = "latest"
+bun = "latest"
 
 [settings]
 experimental = true

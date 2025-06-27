@@ -27,6 +27,7 @@ return {
           lua = { "stylua" },
           javascript = { "biome" },
           typescript = { "biome" },
+          svelte = { "biome" },
           json = { "biome" },
           css = { "biome" },
           yaml = { "yamlfmt" },

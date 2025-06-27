@@ -74,6 +74,8 @@ return {
         filetypes = {
           "python",
           "javascript",
+          "typescript",
+          "svelte",
           "java",
         },
       })

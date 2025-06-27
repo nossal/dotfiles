@@ -1,6 +1,13 @@
 local get_java_home = require("core.helpers").get_java_home
 
 local lsp_servers = {
+  svelte = {
+    name = "svelte",
+    install = true,
+    setup = {
+      filetypes = { "svelte", "typescript.svelte", "svelte.ts" },
+    },
+  },
   sourcekit = {
     name = "iOS",
     setup = {
@@ -53,7 +60,21 @@ local lsp_servers = {
       checkOnSave = true,
     },
   },
-  ts_ls = { name = "JS", install = true },
+  ts_ls = {
+    name = "JS",
+    install = true,
+    setup = {
+      filetypes = {
+        "javascript",
+        "javascriptreact",
+        "javascript.jsx",
+        "typescript",
+        "typescriptreact",
+        "typescript.tsx",
+        "typescript.vue",
+      },
+    },
+  },
   biome = { name = "biome", install = true },
   basedpyright = { name = "python", install = true },
   bashls = { name = "bash", install = true },
