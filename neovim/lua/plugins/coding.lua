@@ -5,16 +5,17 @@ return {
   {
     "wojciech-kulik/xcodebuild.nvim",
     lazy = true,
-    cond = function()
+    enabled = function()
       local root = vim.fn.getcwd()
-      local files = {
+      local root_markers = {
         "*.xcodeproj",
         "*.xcworkspace",
         "Podfile",
         "ios/Runner.xcodeproj",
         "ios/Info.plist",
       }
-      return h.is_project(root, files)
+      -- Use the optimized version (Option 2 recommended)
+      return h.is_project(root, root_markers)
     end,
     dependencies = {
       "nvim-telescope/telescope.nvim",

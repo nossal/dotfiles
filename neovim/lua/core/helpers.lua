@@ -18,17 +18,47 @@ M.get_java_home = function(version)
   return vim.fn.system("mise where java@" .. version):gsub("%s+", "")
 end
 
+-- M.is_project = function(root, root_markers)
+--   for _, pattern in ipairs(root_markers) do
+--     local match = vim.fs.find(pattern, { path = root, type = "file", upward = false })
+--     if #match > 0 then
+--       return true
+--     end
+--   end
+--   return false
+-- end
+
 M.is_project = function(root, root_markers)
   for _, pattern in ipairs(root_markers) do
-    local match = vim.fs.find(pattern, { path = root, type = "file", upward = false })
-    if #match > 0 then
+    -- Only checks the *current* directory (no recursion)
+    local file = root .. "/" .. pattern
+    if vim.fn.filereadable(file) == 1 then
       return true
     end
   end
   return false
 end
 
-local function tprint(tbl, indent)
+-- M.is_project = function(root, root_markers)
+--   local max_depth = 3  -- Only check 3 parent dirs max
+--   local current = root
+--
+--   for _ = 1, max_depth do
+--     for _, pattern in ipairs(root_markers) do
+--       local file = current .. "/" .. pattern
+--       if vim.fn.filereadable(file) == 1 then
+--         return true
+--       end
+--     end
+--     -- Move up one directory
+--     local parent = vim.fs.dirname(current)
+--     if parent == current then break end  -- Reached filesystem root
+--     current = parent
+--   end
+--   return false
+-- end
+--
+M.tprint = function (tbl, indent)
   if not indent then
     indent = 0
   end
@@ -55,4 +85,8 @@ local function tprint(tbl, indent)
   return toprint
 end
 
+M.module_exists = function(name)
+    local ok, _ = pcall(vim.api.nvim_get_runtime_file, "lua/" .. name:gsub("%.", "/") .. ".lua", false)
+    return ok
+end
 return M

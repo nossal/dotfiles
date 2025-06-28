@@ -10,7 +10,7 @@ return {
   },
   {
     "yetone/avante.nvim",
-    -- enabled = false,
+    enabled = false,
     event = "VeryLazy",
     lazy = true,
     version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
@@ -19,12 +19,13 @@ return {
       providers = {
         ollama = {
           endpoint = "http://localhost:11434",
+          -- endpoint = "http://pc.local:11434",
           -- disable_tools = true,
           -- mode = "legacy",
-          model = "devstral",
+          -- model = "devstral",
           -- model = "qwen2.5-coder:7b",
           -- model = "hf.co/bartowski/Qwen2.5.1-Coder-7B-Instruct-GGUF:Q5_K_S",
-          -- model = "deepseek-coder-v2",
+          model = "deepseek-coder-v2",
         },
       },
       selector = {
@@ -86,6 +87,7 @@ return {
   {
     "supermaven-inc/supermaven-nvim",
     enabled = true,
+    event = "VeryLazy",
     config = function()
       require("supermaven-nvim").setup({})
     end,

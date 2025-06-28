@@ -12,12 +12,10 @@ return {
     dependencies = {
       {
         "nvim-java/nvim-java",
-        cond = function()
+        enabled = function()
           local root = vim.fn.getcwd()
-          local root_markers = {
-            "build.gradle",
-            "pom.xml",
-          }
+          local root_markers = { "build.gradle", "pom.xml" }
+          -- Use the optimized version (Option 2 recommended)
           return h.is_project(root, root_markers)
         end,
         config = function()
