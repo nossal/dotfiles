@@ -14,8 +14,15 @@ M.map = function(mode, keys, func, desc, opts)
   vim.keymap.set(mode, keys, func, opts)
 end
 
+local java_home_cache = {}
 M.get_java_home = function(version)
-  return vim.fn.system("mise where java@" .. version):gsub("%s+", "")
+  if java_home_cache[version] then
+    return java_home_cache[version]
+  end
+
+  local path = vim.fn.system("mise where java@" .. version):gsub("%s+", "")
+  java_home_cache[version] = path
+  return path
 end
 
 -- M.is_project = function(root, root_markers)
@@ -58,7 +65,7 @@ end
 --   return false
 -- end
 --
-M.tprint = function (tbl, indent)
+M.tprint = function(tbl, indent)
   if not indent then
     indent = 0
   end
@@ -86,7 +93,7 @@ M.tprint = function (tbl, indent)
 end
 
 M.module_exists = function(name)
-    local ok, _ = pcall(vim.api.nvim_get_runtime_file, "lua/" .. name:gsub("%.", "/") .. ".lua", false)
-    return ok
+  local ok, _ = pcall(vim.api.nvim_get_runtime_file, "lua/" .. name:gsub("%.", "/") .. ".lua", false)
+  return ok
 end
 return M

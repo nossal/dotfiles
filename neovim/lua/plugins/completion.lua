@@ -4,7 +4,7 @@ return {
     -- optional: provides snippets for the snippet source
     dependencies = {
       { "rafamadriz/friendly-snippets" },
-      { "Kaiser-Yang/blink-cmp-avante" }
+      -- { "Kaiser-Yang/blink-cmp-avante" }
     },
     -- use a release tag to download pre-built binaries
     version = "*",
@@ -68,7 +68,7 @@ return {
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
         default = {
-          "avante",
+          -- "avante",
           "lazydev",
           "lsp",
           "path",
@@ -83,13 +83,13 @@ return {
             -- make lazydev completions top priority (see `:h blink.cmp`)
             score_offset = 100,
           },
-          avante = {
-            module = "blink-cmp-avante",
-            name = "Avante",
-            -- opts = {
-            --   -- options for blink-cmp-avante
-            -- },
-          },
+          -- avante = {
+          --   module = "blink-cmp-avante",
+          --   name = "Avante",
+          --   -- opts = {
+          --   --   -- options for blink-cmp-avante
+          --   -- },
+          -- },
         },
       },
     },

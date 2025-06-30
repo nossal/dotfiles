@@ -14,34 +14,34 @@ local lsp_servers = {
       cmd = { vim.trim(vim.fn.system("xcrun -f sourcekit-lsp")) },
     },
   },
-  ltex = {
-    name = "gram",
-    install = true,
-    setup = {
-      settings = {
-        ltex = {
-          enabled = { "markdown", "restructuredtext" },
-          checkFrequency = "save",
-          language = "en-US",
-          checkSpelling = true,
-          diagnosticSeverity = "information",
-          sentenceCacheSize = 5000,
-          additionalRules = {
-            enablePickyRules = true,
-            motherTongue = "pt-BR",
-            enableSpellingCheck = true,
-          },
-        },
-      },
-    },
-    on_attach = function(client, bufnr)
-      require("ltex_extra").setup({
-        load_langs = { "pt-BR", "en-US" },
-        init_check = true,
-        path = vim.fn.expand("~") .. "/.dotfiles/neovim/spell",
-      })
-    end,
-  }, -- TODO: https://gist.github.com/lbiaggi/a3eb761ac2fdbff774b29c88844355b8
+  -- ltex = {
+  --   name = "gram",
+  --   install = true,
+  --   setup = {
+  --     settings = {
+  --       ltex = {
+  --         enabled = { "markdown", "restructuredtext" },
+  --         checkFrequency = "save",
+  --         language = "en-US",
+  --         checkSpelling = true,
+  --         diagnosticSeverity = "information",
+  --         sentenceCacheSize = 5000,
+  --         additionalRules = {
+  --           enablePickyRules = true,
+  --           motherTongue = "pt-BR",
+  --           enableSpellingCheck = true,
+  --         },
+  --       },
+  --     },
+  --   },
+  --   on_attach = function(client, bufnr)
+  --     require("ltex_extra").setup({
+  --       load_langs = { "pt-BR", "en-US" },
+  --       init_check = true,
+  --       path = vim.fn.expand("~") .. "/.dotfiles/neovim/spell",
+  --     })
+  --   end,
+  -- }, -- TODO: https://gist.github.com/lbiaggi/a3eb761ac2fdbff774b29c88844355b8
   clangd = { name = "C", install = true },
   cssls = { name = "css", install = true },
   tailwindcss = { name = "tailwind", install = true },
@@ -52,6 +52,7 @@ local lsp_servers = {
   rust_analyzer = {
     name = "rust",
     install = true,
+    root_markers = { "Cargo.toml" },
     setup = {
       cargo = { all_features = true },
       check = {
@@ -103,6 +104,7 @@ local lsp_servers = {
   },
   jdtls = {
     name = "java",
+    root_markers = { "build.gradle", "pom.xml" },
     setup = {
       handlers = {
         -- By assigning an empty function, you can remove the notifications

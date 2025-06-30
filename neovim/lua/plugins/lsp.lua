@@ -78,18 +78,25 @@ return {
 
       local lspconfig = require("lspconfig")
 
-      for key, value in pairs(lsp_servers) do
-        local setup = value.setup or {}
+      local root = vim.fn.getcwd()
+      for server_name, server in pairs(lsp_servers) do
+        if server.root_markers and not h.is_project(root, server.root_markers) then
+          goto continue
+        end
+
+        local setup = server.setup or {}
         setup.capabilities = capbs
         setup.on_attach = function(client, bufnr)
-          if value.on_attach then
-            value.on_attach(client, bufnr)
+          if server.on_attach then
+            server.on_attach(client, bufnr)
           end
           on_attach(client, bufnr)
         end
         -- setup.inlay_hint = { enabled = true }
 
-        lspconfig[key].setup(setup)
+        lspconfig[server_name].setup(setup)
+
+        ::continue::
       end
 
       require("ufo").setup()
