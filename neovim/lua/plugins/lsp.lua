@@ -10,21 +10,6 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "LspInfo", "LspInstall", "LspUninstall" },
     dependencies = {
-      {
-        "nvim-java/nvim-java",
-        enabled = function()
-          local root = vim.fn.getcwd()
-          local root_markers = { "build.gradle", "pom.xml" }
-          -- Use the optimized version (Option 2 recommended)
-          return h.is_project(root, root_markers)
-        end,
-        config = function()
-          require("java").setup({
-            jdk = { auto_install = false },
-            notifications = { dap = false },
-          })
-        end,
-      },
       { "saghen/blink.cmp" },
     },
     config = function()
