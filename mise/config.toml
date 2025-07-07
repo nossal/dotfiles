@@ -18,6 +18,7 @@ helm = "latest"
 node = "latest"
 python = "latest"
 bun = "latest"
+java = "21"
 
 [settings]
 experimental = true
