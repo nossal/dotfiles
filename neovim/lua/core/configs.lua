@@ -103,6 +103,7 @@ local lsp_servers = {
     },
   },
   jdtls = {
+    install = true,
     name = "java",
     root_markers = { "build.gradle", "pom.xml" },
     setup = {
