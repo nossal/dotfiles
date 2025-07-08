@@ -229,7 +229,8 @@ return {
           -- " "
           -- "󱠡 "
           "󱠢 "
-          .. table.concat(self.names, " ") .. ""
+            .. table.concat(self.names, " ")
+            .. ""
       end,
       hl = { fg = "green", bold = true },
     }
@@ -254,14 +255,16 @@ return {
     -- 	provider = require("lsp-status").status,
     -- 	hl = { fg = "gray" },
     -- }
+
+    local signs = require("core.ui").diagnostic_icons
     local Diagnostics = {
       condition = conditions.has_diagnostics,
 
       static = {
-        error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
-        warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
-        info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
-        hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
+        error_icon = signs.Error,
+        warn_icon = signs.Warn,
+        hint_icon = signs.Hint,
+        info_icon = signs.Info,
       },
 
       init = function(self)

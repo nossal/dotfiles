@@ -11,4 +11,6 @@ M.border = {
   { "│", "FloatBorder" },
 }
 
+M.diagnostic_icons = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+
 return M

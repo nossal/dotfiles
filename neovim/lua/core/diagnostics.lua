@@ -1,24 +1,17 @@
-local border = require("core.ui").border
+local ui = require("core.ui")
 
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   opts = opts or {}
   opts.max_width = 70
   opts.max_height = 15
-  opts.border = opts.border or border or "rounded"
+  opts.border = opts.border or ui.border or "rounded"
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
-end
-
--- Change the Diagnostic symbols in the sign column (gutter)
-local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
 local codes = {
   no_matching_function = {
-    message = " Can't find a matching function",
+    message = "  Can't find a matching function",
     "redundant-parameter",
     "ovl_no_viable_function_in_call",
   },
@@ -31,7 +24,7 @@ local codes = {
     "miss-symbol",
   },
   expected_semi_colon = {
-    message = " Remember the `;` or `,`",
+    message = "  Remember the `;` or `,`",
     "expected_semi_declaration",
     "miss-sep-in-table",
     "invalid_token_after_toplevel_declarator",
@@ -42,7 +35,7 @@ local codes = {
     "redefined-local",
   },
   no_matching_variable = {
-    message = " Can't find that variable",
+    message = "  Can't find that variable",
     "undefined-global",
     "reportUndefinedVariable",
   },
@@ -52,11 +45,11 @@ local codes = {
     "trailing-space",
   },
   unused_variable = {
-    message = "󰂭 Don't define variables you don't use",
+    message = "󰂭  Don't define variables you don't use",
     "unused-local",
   },
   unused_function = {
-    message = "󰂭 Don't define functions you don't use",
+    message = "󰂭  Don't define functions you don't use",
     "unused-function",
   },
   useless_symbols = {
@@ -78,7 +71,23 @@ local codes = {
 }
 
 vim.diagnostic.config({
-  signs = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = ui.diagnostic_icons.Error,
+      [vim.diagnostic.severity.WARN] = ui.diagnostic_icons.Warn,
+      [vim.diagnostic.severity.HINT] = ui.diagnostic_icons.Hint,
+      [vim.diagnostic.severity.INFO] = ui.diagnostic_icons.Info,
+    },
+    -- linehl = {
+    --   [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+    -- },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+    },
+  },
   underline = true,
   update_in_insert = false,
   virtual_text = false,
