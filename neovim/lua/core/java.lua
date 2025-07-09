@@ -333,7 +333,24 @@ local function spring_boot_config()
   }))
 end
 
+local function setup()
+  -- -- local is_java_project = vim.fn.exists("pom.xml") > 0 or vim.fn.exists("build.gradle") > 0
+  -- -- if is_java_project then
+  config.capabilities = require("core.lsp").capabilities()
+  require("jdtls").start_or_attach(config, {
+    dap = { config_overrides = {}, hotcodereplace = "auto" },
+  })
+
+  require("core.diagnostics")
+  require("core.lsp").on_attach(nil, 0)
+  require("ufo").setup()
+  -- local sc = java.spring_boot_config
+  -- require("spring_boot.launch").start(sc)
+  -- -- end
+end
+
 return {
   spring_boot_config = spring_boot_config(),
   config = config,
+  setup = setup,
 }

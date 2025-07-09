@@ -46,18 +46,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "java", "kotlin", "groovy" }, -- for build.gradle
   callback = function()
     local java = require("core.java")
-    -- -- local is_java_project = vim.fn.exists("pom.xml") > 0 or vim.fn.exists("build.gradle") > 0
-    -- -- if is_java_project then
-    java.config.capabilities = require("core.lsp").capabilities()
-    require("jdtls").start_or_attach(java.config, {
-      dap = { config_overrides = {}, hotcodereplace = "auto" },
-    })
-
-    require("core.diagnostics")
-    require("core.lsp").on_attach(nil, 0)
-    require("ufo").setup()
-    -- local sc = java.spring_boot_config
-    -- require("spring_boot.launch").start(sc)
-    -- -- end
+    java.setup()
   end,
 })
