@@ -13,9 +13,10 @@ return {
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_instqlled = {
+        ensure_installed = {
           "bash",
           "html",
+          "java",
           "javascript",
           "css",
           "json",

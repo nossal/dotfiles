@@ -429,11 +429,11 @@ return {
 
     local StatusLine = {
       { ViMode },
-      { Space },
       -- { SearchCount },
+      { Git },
+      { Space },
       { FileNameBlock },
       { Space },
-      { Git },
       { provider = "%<" },
       { Align },
       { Diagnostics },

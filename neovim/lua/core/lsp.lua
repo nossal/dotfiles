@@ -3,7 +3,31 @@ local wk = require("which-key")
 local on_attach = function(_, bufnr)
   wk.add({
     { "gD", vim.lsp.buf.declaration, desc = "[G]oto [D]eclaration" },
-    { "gd", vim.lsp.buf.definition, desc = "Show LSP definitions" },
+    -- { "gd", vim.lsp.buf.definition, desc = "Show LSP definitions" },
+    {
+      "gd",
+      function()
+        require("fzf-lua").lsp_definitions({
+          jump1 = true,
+          winopts = {
+            height = 0.35,
+            width = 0.50,
+            title = " Definitions ",
+            title_flags = false,
+            backdrop = 95,
+            preview = {
+              -- hidden = true,
+              vertical = "down:55%",
+              layout = "vertical",
+              -- border = "none",
+              title = false,
+              title_pos = "left",
+            },
+          },
+        })
+      end,
+      desc = "Show LSP definitions",
+    },
     { "K", vim.lsp.buf.hover, desc = "Show documentation under cursor" },
     { "<leader>rn", vim.lsp.buf.rename, desc = "Smart rename" },
     { "gR", "<cmd>FzfLua lsp_references<CR>", desc = "Show LSP references" },

@@ -1,6 +1,9 @@
 return {
   "folke/which-key.nvim",
-  event = "VeryLazy",
+  -- event = "VeryLazy",
+  dependencies = {
+    "ibhagwan/fzf-lua",
+  },
   init = function()
     local wk = require("which-key")
     wk.add({
