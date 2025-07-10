@@ -1,8 +1,6 @@
 require("core.diagnostics")
 
 local border = require("core.ui").border
-local lsp_servers = require("core.configs").lsp_servers
-local h = require("core.helpers")
 
 return {
   {
@@ -13,30 +11,21 @@ return {
       { "saghen/blink.cmp" },
     },
     config = function()
-      local capabilities = require("core.lsp").capabilities()
-      local on_attach = require("core.lsp").on_attach
-
       local lspconfig = require("lspconfig")
+      local lsp = require("core.lsp")
 
-      local root = vim.fn.getcwd()
-      for server_name, server in pairs(lsp_servers) do
-        if server.root_markers and not h.is_project(root, server.root_markers) then
-          goto continue
-        end
-
+      for server_name, server in pairs(lsp.lsp_servers) do
         local setup = server.setup or {}
-        setup.capabilities = capabilities
+        setup.capabilities = lsp.capabilities()
         setup.on_attach = function(client, bufnr)
           if server.on_attach then
             server.on_attach(client, bufnr)
           end
-          on_attach(client, bufnr)
+          lsp.on_attach(client, bufnr)
         end
         -- setup.inlay_hint = { enabled = true }
 
         lspconfig[server_name].setup(setup)
-
-        ::continue::
       end
 
       require("ufo").setup()
@@ -85,9 +74,10 @@ return {
     config = function()
       local mason_lspconfig = require("mason-lspconfig")
       local mason_tool_installer = require("mason-tool-installer")
+      local lsp = require("core.lsp")
 
       local to_install = {}
-      for key, val in pairs(lsp_servers) do
+      for key, val in pairs(lsp.all_lsp_servers) do
         if val.install then
           table.insert(to_install, key)
         end
