@@ -91,9 +91,9 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 # The Prompt
 eval "$(starship init zsh)"
 
-eval "$($HOME/.local/bin/mise activate zsh)"
-# eval "$($HOME/.local/bin/mise activate zsh --shims)"
-
+export _ZO_FZF_OPTS="
+  --height 15% --layout reverse --border
+"
 eval "$(zoxide init zsh)"
 
 # Set up fzf key bindings and fuzzy completion

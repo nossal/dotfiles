@@ -1,4 +1,8 @@
 #/* vim: set filetype=zsh : */
+
+export EDITOR="$(command -v nvim || command -v vi)"
+export JAVA_HOME=$($HOME/.local/bin/mise where java)
+
 typeset -gU path
 
 path=(
@@ -14,4 +18,5 @@ path=(
   $path
 )
 
-export EDITOR="$(command -v nvim || command -v vi)"
+eval "$($HOME/.local/bin/mise activate zsh)"
+# eval "$($HOME/.local/bin/mise activate zsh --shims)"
