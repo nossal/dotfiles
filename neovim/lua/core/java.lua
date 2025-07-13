@@ -142,6 +142,10 @@ local config = {
   cmd = jdtls_launcher(),
   filetypes = { "java" },
   root_dir = root_dir(),
+  handlers = {
+		-- By assigning an empty function, you can remove the notifications
+		["$/progress"] = function(_, result, ctx) end,
+	},
 
   -- Here you can configure eclipse.jdt.ls specific settings
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
@@ -336,13 +340,17 @@ end
 local function setup()
   -- -- local is_java_project = vim.fn.exists("pom.xml") > 0 or vim.fn.exists("build.gradle") > 0
   -- -- if is_java_project then
-  config.capabilities = require("core.lsp").capabilities()
+  local lsp = require("core.lsp")
+
+  config.capabilities = lsp.capabilities()
+
   require("jdtls").start_or_attach(config, {
     dap = { config_overrides = {}, hotcodereplace = "auto" },
   })
 
+  lsp.on_attach(nil, 0)
+
   require("core.diagnostics")
-  require("core.lsp").on_attach(nil, 0)
   require("ufo").setup()
   -- local sc = java.spring_boot_config
   -- require("spring_boot.launch").start(sc)

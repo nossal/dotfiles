@@ -1,4 +1,3 @@
-local wk = require("which-key")
 
 local lsp_servers = {
   svelte = {
@@ -113,9 +112,10 @@ local other_lsp_servers = {
   },
 }
 
-local all_lsp_server = {} --vim.tbl_extend("force", lsp_servers, other_lsp_servers)
+local all_lsp_server = vim.tbl_extend("force", lsp_servers, other_lsp_servers)
 
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
+  local wk = require("which-key")
   wk.add({
     { "gD", vim.lsp.buf.declaration, desc = "[G]oto [D]eclaration" },
     -- { "gd", vim.lsp.buf.definition, desc = "Show LSP definitions" },
