@@ -97,23 +97,26 @@ return {
     local FileNameBlock = {
       -- let's first set up some attributes needed by this component and it's children
       init = function(self)
-        self.filename = vim.api.nvim_buf_get_name(0)
+        self.absolute_path = vim.api.nvim_buf_get_name(0)
+        self.file_extension = vim.fn.fnamemodify(self.absolute_path, ":e")
+        self.filename = vim.fn.fnamemodify(self.absolute_path, ":.")
       end,
     }
     -- We can now define some children separately and add them later
 
     local FileIcon = {
       init = function(self)
-        local filename = self.filename
+        local filename = vim.api.nvim_buf_get_name(0)
         local extension = vim.fn.fnamemodify(filename, ":e")
-        self.icon, self.icon_color =
-          require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
+
+        self.icon = require("nvim-web-devicons")
+          .get_icon(filename, extension, { default = true })
       end,
       provider = function(self)
         return self.icon and (self.icon .. " ")
       end,
       hl = function(self)
-        return { fg = self.icon_color }
+        return { fg = "#888888" }
       end,
     }
 
@@ -121,9 +124,23 @@ return {
       provider = function(self)
         -- first, trim the pattern relative to the current directory. For other
         -- options, see :h filename-modifers
-        local filename = vim.fn.fnamemodify(self.filename, ":.")
+        local filename = self.filename
         if filename == "" then
           return "[No Name]"
+        end
+
+        local function java_package_from(filepath)
+          local package_path = filepath:match("src/main/java/(.+)")
+          return package_path and package_path:gsub("/", ".") or ""
+        end
+
+        if self.file_extension == "java" then
+          -- path to package
+          local path = vim.fn.fnamemodify(filename, ":h")
+          local name = vim.fn.fnamemodify(filename, ":t")
+          local package = java_package_from(path)
+
+          return package .. "/" .. name
         end
         -- now, if the filename would occupy more than 1/4th of the available
         -- space, we trim the file path to its initials
@@ -170,7 +187,6 @@ return {
     -- let's add the children to our FileNameBlock component
     FileNameBlock = utils.insert(
       FileNameBlock,
-      FileIcon,
       -- utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
       FileName,
       FileFlags,
