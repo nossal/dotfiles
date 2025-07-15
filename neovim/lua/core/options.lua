@@ -65,13 +65,15 @@ opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or 
 -- opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
 opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 
+opt.iskeyword:append("-") -- Treat dash as part of word
+
 -- split windows
 opt.splitright = true -- split vertical window to the right
 opt.splitbelow = false -- split horizontal window to the bottom
 
 -- mouse & scroll
-o.mousescroll = "ver:1,hor:1"
-o.mouse = "a"
+opt.mousescroll = "ver:1,hor:1"
+opt.mouse = "a"
 opt.scrolloff = 6 -- Keep 8 lines above/below cursor when scrolling
 opt.sidescrolloff = 6 -- Keep 8 columns to the sides when scrolling horizontally
 
@@ -131,8 +133,20 @@ opt.fillchars = list({
   "eob:█",
 })
 
--- turn off swapfile
+-- File Handling
+opt.encoding = "utf-8"
+opt.backup = false
+opt.writebackup = false
 opt.swapfile = false
+opt.undofile = true
+opt.undodir = fn.stdpath("cache") .. "/undo"
+opt.undolevels = 100
+opt.undoreload = 100
+opt.updatetime = 250 -- Decrease update time
+opt.timeoutlen = 300 -- Decrease mapped sequence wait time; Displays which-key popup sooner
+opt.autoread = true  -- Auto reload files changed outside vim
+opt.autowrite = false -- Don't auto save
+
 
 -- Folding
 o.foldcolumn = "0" -- '0' is not bad
@@ -145,14 +159,15 @@ o.foldenable = true
 -- opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 
+-- Cursor settings
 -- opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
--- opt.guicursor = list {
---   "n-v-c-sm:block-Cursor/lCursor",
---   "i-ci-ve:ver25-Cursor/lCursor",
---   "r-cr-o:hor20",
--- }
+-- opt.guicursor = "n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+opt.guicursor = list {
+  "n-v-c-sm:block-Cursor/lCursor",
+  "i-ci-ve:ver25-Cursor/lCursor",
+  "r-cr-o:hor20",
+}
 
-opt.encoding = "utf-8"
 
 opt.title = true
 
@@ -166,13 +181,11 @@ opt.pumheight = 10
 
 opt.laststatus = 3
 
-opt.updatetime = 250 -- Decrease update time
-opt.timeoutlen = 300 -- Decrease mapped sequence wait time; Displays which-key popup sooner
-
 opt.pyxversion = 3
--- Undercurl
--- vim.cmd([[let &t_Cs = "\e[4:3m"]])
--- vim.cmd([[let &t_Ce = "\e[4:0m"]])
+
+-- Performance improvements
+opt.redrawtime = 10000
+opt.maxmempattern = 20000
 
 -- if os.getenv 'SSH_CLIENT' ~= nil or os.getenv 'SSH_TTY' ~= nil then
 --   local function paste()

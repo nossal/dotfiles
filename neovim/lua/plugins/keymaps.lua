@@ -7,6 +7,20 @@ return {
   init = function()
     local wk = require("which-key")
     wk.add({
+      {
+        mode = "v",
+        { "<", "<gv", desc = "Indent left and reselect" },
+        { ">", ">gv", desc = "Indent right and reselect" },
+      },
+
+      { "N", "Nzzzv", desc = "Previous search result (centered)" },
+      { "n", "nzzzv", desc = "Next search result (centered)" },
+      { "<C-d>", "<C-d>zz", desc = "Half page down (centered)" },
+      { "<C-u>", "<C-u>zz", desc = "Half page up (centered)" },
+
+      { "lp", ":normal o<ESC>p==", desc = "Paste After current line" },
+      { "lP", ":normal O<ESC>p==", desc = "Past Before current line" },
+
       { "<leader>f", group = "file/find", icon = "󰈞" },
       { "<leader>h", group = "Git" },
       { "<leader>e", group = "Explorer Oil", icon = "󰙅" },
@@ -22,9 +36,6 @@ return {
       { "<leader>sh", "<C-w>s", desc = "Split window horizontally" },
       { "<leader>se", "<C-w>=", desc = "Make splits equal size" },
       { "<leader>sx", "<cmd>close<CR>", desc = "Close current split" },
-
-      { "lp", ":normal o<ESC>p==", desc = "Paste After current line" },
-      { "lP", ":normal O<ESC>p==", desc = "Past Before current line" },
 
       --  FZF --
       { "<leader>ff", "<cmd>FzfLua files<CR>", desc = "Find Files" },
