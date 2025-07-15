@@ -109,8 +109,7 @@ return {
         local filename = vim.api.nvim_buf_get_name(0)
         local extension = vim.fn.fnamemodify(filename, ":e")
 
-        self.icon = require("nvim-web-devicons")
-          .get_icon(filename, extension, { default = true })
+        self.icon = require("nvim-web-devicons").get_icon(filename, extension, { default = true })
       end,
       provider = function(self)
         return self.icon and (self.icon .. " ")
@@ -333,6 +332,13 @@ return {
       end,
 
       hl = { fg = "orange" },
+
+      {
+        provider = function(self)
+          return vim.trim(vim.fn.system({ "git", "repo-name" })) .. " "
+        end,
+        hl = { fg = "blue" },
+      },
 
       { -- git branch name
         provider = function(self)
