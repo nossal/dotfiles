@@ -38,8 +38,8 @@ return {
 
           hl.Whitespace = { fg = "#424250" }
           hl.StatusLine = {
-            bg = "#1B1D1C",
-            fg = "#757575",
+            bg = "#121212",
+            fg = "#444444",
           }
           hl.Constant = { fg = c.green }
           hl.String = { fg = c.green }
