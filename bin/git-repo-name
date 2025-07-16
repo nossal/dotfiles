@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
-repo_dor="$(git rev-parse --show-toplevel)"
+repo_dir="$(git rev-parse --show-toplevel)"
 
 if git rev-parse --is-inside-work-tree &>/dev/null; then
 
   if [[ -d "$(git rev-parse --git-common-dir)/worktrees" ]]; then
     # In a linked worktree → use parent dir
-    basename "$(dirname "$repo_dor")"
+    basename "$(dirname "$repo_dir")"
   else
     # In main worktree or non-worktree repo
-    basename "$repo_dor"
+    basename "$repo_dir"
   fi
 else
   echo "Not inside a Git repository"

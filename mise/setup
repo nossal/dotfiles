@@ -12,7 +12,7 @@ setup() {
 }
 
 update() {
-  mise self-update
+  mise self-update -y
   mise tools up
 }
 
