@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+echo "Running SSH setup"
+source "$DOTDIR/bin/dot"
+
+setup() {
+  echo "Setting up SSH"
+  mkdir -p "$HOME/.ssh/control"
+}
+
+update=setup
+install "ssh"

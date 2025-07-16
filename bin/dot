@@ -105,7 +105,9 @@ function install() {
     setup
   } && {
     echo "$name is already installed."
+    has update && update
   }
+  return 0
 }
 
 function _shell() {
