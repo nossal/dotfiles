@@ -112,4 +112,17 @@ M.os_type = function()
   return t
 end
 
+M.memoize = function(fn)
+  local cache = {}
+  return function(...)
+    local args = { ... }
+    local key = #args == 0 and "no_args" or table.concat(args, "\0")
+
+    if cache[key] == nil then
+      cache[key] = fn(...)
+    end
+    return cache[key]
+  end
+end
+
 return M

@@ -4,6 +4,7 @@ return {
   config = function()
     local conditions = require("heirline.conditions")
     local utils = require("heirline.utils")
+    local helpers = require("core.helpers")
 
     local ViMode = {
       -- get vim current mode, this information will be required by the provider
@@ -323,10 +324,15 @@ return {
       },
     }
 
+    local get_project_name = helpers.memoize(function(cwd)
+      return vim.trim(vim.fn.system({ "git", "-C", cwd, "repo-name" }))
+    end)
+
     local Git = {
       condition = conditions.is_git_repo,
 
       init = function(self)
+        self.project_name = get_project_name(vim.fn.getcwd())
         self.status_dict = vim.b.gitsigns_status_dict
         self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
       end,
@@ -335,7 +341,7 @@ return {
 
       {
         provider = function(self)
-          return vim.trim(vim.fn.system({ "git", "repo-name" })) .. " "
+          return self.project_name .. " "
         end,
         hl = { fg = "blue" },
       },
