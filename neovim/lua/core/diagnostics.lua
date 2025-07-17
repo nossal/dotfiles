@@ -78,15 +78,6 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.HINT] = ui.diagnostic_icons.Hint,
       [vim.diagnostic.severity.INFO] = ui.diagnostic_icons.Info,
     },
-    -- linehl = {
-    --   [vim.diagnostic.severity.ERROR] = "ErrorMsg",
-    -- },
-    numhl = {
-      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-    },
   },
   underline = true,
   update_in_insert = false,
