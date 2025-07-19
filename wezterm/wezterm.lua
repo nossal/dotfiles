@@ -164,6 +164,10 @@ config.font = wezterm.font_with_fallback({
   { family = font_family, stretch = "Expanded", weight = "Regular" },
   "Fira Code",
 })
+
+config.term = "xterm-256color"
+config.bold_brightens_ansi_colors = true
+
 config.font_rules = {
   {
     intensity = "Bold",
@@ -183,26 +187,26 @@ config.font_rules = {
 }
 config.font_size = 12
 config.line_height = 1.2
-config.bold_brightens_ansi_colors = true
-config.cursor_thickness = 2
+
 config.underline_thickness = 2
 config.underline_position = -2
 
-config.term = "xterm-256color"
-
-config.visual_bell = {
-  fade_in_function = "EaseIn",
-  fade_in_duration_ms = 75,
-  fade_out_function = "EaseOut",
-  fade_out_duration_ms = 75,
-  target = "CursorColor",
-}
-config.cursor_blink_rate = 300
-config.cursor_blink_ease_in = "EaseIn"
-config.cursor_blink_ease_out = "EaseOut"
-config.animation_fps = 120
+config.cursor_thickness = 2
 config.default_cursor_style = "BlinkingBar"
-config.max_fps = 120
+config.cursor_blink_rate = 500
+config.cursor_blink_ease_in = "Linear"
+config.cursor_blink_ease_out = "EaseIn"
+
+config.animation_fps = 120
+-- config.max_fps = 120
+
+-- config.visual_bell = {
+--   fade_in_function = "EaseIn",
+--   fade_in_duration_ms = 75,
+--   fade_out_function = "EaseOut",
+--   fade_out_duration_ms = 75,
+--   target = "CursorColor",
+-- }
 
 -- config.win32_system_backdrop = "Tabbed"
 config.window_decorations = "RESIZE"

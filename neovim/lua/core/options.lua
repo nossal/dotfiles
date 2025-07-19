@@ -150,8 +150,8 @@ opt.autowrite = false -- Don't auto save
 
 -- Folding
 o.foldcolumn = "0" -- '0' is not bad
-o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-o.foldlevelstart = 99
+o.foldlevel = 20 -- Using ufo provider need a large value, feel free to decrease the value
+o.foldlevelstart = 20
 o.foldenable = true
 
 -- opt.foldmethod = "expr"
@@ -160,12 +160,32 @@ o.foldenable = true
 -- opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 
 -- Cursor settings
--- opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
--- opt.guicursor = "n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+vim.api.nvim_set_hl(0, 'VisualCursor', { bg = '#ff6b6b', fg = '#ffffff' })
+vim.api.nvim_set_hl(0, 'InsertCursor', { bg = '#4ecdc4', fg = '#000000' })
+vim.api.nvim_set_hl(0, 'ReplaceCursor', { bg = '#ffe66d', fg = '#000000' })
+vim.api.nvim_set_hl(0, 'CommandCursor', { bg = '#a8e6cf', fg = '#000000' })
+vim.api.nvim_set_hl(0, 'OperatorCursor', { bg = '#ff8b94', fg = '#ffffff' })
+
 opt.guicursor = list {
-  "n-v-c-sm:block-Cursor/lCursor",
-  "i-ci-ve:ver25-Cursor/lCursor",
-  "r-cr-o:hor20",
+    -- Normal, Visual, Command modes
+  "n:block-Cursor/lCursor",
+  "v:block-VisualCursor/lVisualCursor",
+  "c:ver25-CommandCursor/lCommandCursor",
+
+  -- Insert and related modes
+  "i:ver25-InsertCursor/lInsertCursor",
+  "ci:ver25-InsertCursor/lInsertCursor",
+  "ve:ver25-InsertCursor/lInsertCursor",
+
+  -- Replace modes
+  "r:hor20-ReplaceCursor/lReplaceCursor",
+  "cr:hor20-ReplaceCursor/lReplaceCursor",
+
+  -- Operator pending and others
+  "o:hor50-OperatorCursor/lOperatorCursor",
+  "sm:block-Cursor/lCursor",
+
+  "a:blinkwait700-blinkoff150-blinkon450",
 }
 
 
