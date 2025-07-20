@@ -2,8 +2,10 @@
 [init]
   defaultBranch = main
 
-[include]
-  path = user.conf
+[user]
+  name = nossal
+  email = rodrigo@noss.al
+  signingkey = nossal@gmail.com
 
 [includeIf "gitdir:~/workspace/corp/"]
   path = ~/.dotfiles-work/git/config
