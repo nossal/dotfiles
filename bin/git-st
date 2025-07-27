@@ -6,7 +6,7 @@ set -e
 printf " \e[2m status\e[0m  "
 awk -vOFS='' '
     {
-      if ($0 ~ /↳/) {
+      if ($0 ~ /󱞩/) {
         summary_line = $0;
       }
     }
@@ -36,6 +36,6 @@ awk -vOFS='' '
         }
     }
   ' \
-    <(git diff --color --stat=$(($(tput cols) - 3)) HEAD | sed "s/^ //; $ s/^/"$'\e'"\[2;3m ↳ /; $ s/$/"$'\e'"\[0m/") \
+    <(git diff --color --stat=$(($(tput cols) - 3)) HEAD | sed "s/^ //; $ s/^/"$'\e'"\[2;3m 󱞩 /; $ s/$/"$'\e'"\[0m/") \
     <(git -c color.status=always status -sb | sed "s/## / /")
-  # echo -e " 󱖫\r"
+  # echo -e " 󱖫\r"󱞩
