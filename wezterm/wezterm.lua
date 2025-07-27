@@ -66,7 +66,7 @@ local PROFILES = {
         left = 505,
       },
       video = {
-        width = 1450,
+        width = 1600,
         height = 1026,
         top = 5,
         left = 10,
