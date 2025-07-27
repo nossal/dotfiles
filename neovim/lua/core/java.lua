@@ -105,7 +105,6 @@ local settings = {
           path = helpers.get_java_home("21"),
           default = true,
         },
-
         {
           name = "JavaSE-24",
           path = helpers.get_java_home("24"),
@@ -275,33 +274,40 @@ end
 
 local function bootls_user_command(buf)
   local create_command = vim.api.nvim_buf_create_user_command
+  local commands = {
+    Annotations = {
+      symbol = "@",
+      prompt = "show all Spring annotations in the code",
+    },
+    Beans = {
+      symbol = "@+",
+      prompt = "show all defined beans",
+    },
+    RequestMappings = {
+      symbol = "@/",
+      prompt = "show all defined request mappings",
+    },
+    Prototype = {
+      symbol = "@>",
+      prompt = "show all functions (prototype implementation)",
+    },
+  }
+  local commands_name = {}
+  for key, _ in pairs(commands) do
+    table.insert(commands_name, key)
+  end
+
   create_command(buf, "SpringBoot", function(opt)
     local on_choice = function(choice)
-      if choice == "Annotations" then
-        vim.lsp.buf.workspace_symbol("@")
-      elseif choice == "Beans" then
-        vim.lsp.buf.workspace_symbol("@+")
-      elseif choice == "RequestMappings" then
-        vim.lsp.buf.workspace_symbol("@/")
-      elseif choice == "Prototype" then
-        vim.lsp.buf.workspace_symbol("@>")
-      end
+      vim.lsp.buf.workspace_symbol(commands[choice].symbol)
     end
     if opt.args and opt.args ~= "" then
       on_choice(opt.args)
     else
-      vim.ui.select({ "Annotations", "Beans", "RequestMappings", "Prototype" }, {
+      vim.ui.select(commands_name, {
         prompt = "Spring Symbol:",
         format_item = function(item)
-          if item == "Annotations" then
-            return "shows all Spring annotations in the code"
-          elseif item == "Beans" then
-            return "shows all defined beans"
-          elseif item == "RequestMappings" then
-            return "shows all defined request mappings"
-          elseif item == "Prototype" then
-            return "shows all functions (prototype implementation)"
-          end
+          return commands[item].prompt
         end,
       }, on_choice)
     end
@@ -310,7 +316,7 @@ local function bootls_user_command(buf)
     nargs = "?",
     range = false,
     complete = function()
-      return { "Annotations", "Beans", "RequestMappings", "Prototype" }
+      return commands_name
     end,
   })
 end
