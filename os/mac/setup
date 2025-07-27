@@ -2,4 +2,4 @@
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-brew install pinentry-mac
+brew install git pinentry-mac

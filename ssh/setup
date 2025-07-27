@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-echo "Running SSH setup"
 source "$DOTDIR/bin/dot"
 
 setup() {
