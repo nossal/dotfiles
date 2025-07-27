@@ -305,8 +305,8 @@ function bootstrap() {
   # Example:
   #   bootstrap personal  # Installs dotfiles with 'personal' profile
   #   bootstrap          # Installs dotfiles with default profile
-  #
-  # check os. requirements
+
+  # check basic os. requirements
   if ! has git; then
     echo "git is required to bootstrap the dotfiles."
     exit 1
@@ -420,7 +420,7 @@ function main() {
 }
 
 # Only run main if script is executed directly (not sourced)
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+if [[ -n "${BASH_SOURCE:-}" && "${BASH_SOURCE[0]}" == "${0}" ]]; then
   main "$@"
 fi
 
