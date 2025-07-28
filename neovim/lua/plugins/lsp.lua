@@ -5,13 +5,12 @@ local border = require("core.ui").border
 return {
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPost", "BufNewFile" },
-    cmd = { "LspInfo", "LspInstall", "LspUninstall" },
+    -- event = { "BufReadPost", "BufNewFile" },
+    -- cmd = { "LspInfo", "LspInstall", "LspUninstall" },
     dependencies = {
       { "saghen/blink.cmp" },
     },
     config = function()
-      local lspconfig = require("lspconfig")
       local lsp = require("core.lsp")
 
       for server_name, server in pairs(lsp.lsp_servers) do
@@ -25,7 +24,8 @@ return {
         end
         -- setup.inlay_hint = { enabled = true }
 
-        lspconfig[server_name].setup(setup)
+        vim.lsp.config(server_name, setup)
+        vim.lsp.enable(server_name)
       end
 
       require("ufo").setup()
