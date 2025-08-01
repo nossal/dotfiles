@@ -35,3 +35,9 @@ function o() {
     ;;
   esac
 }
+
+function reload() {
+    source ~/.zprofile
+    source ~/.zshrc
+    echo "Zsh config reloaded!"
+}
