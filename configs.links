@@ -9,8 +9,8 @@ wezterm/config          .config/wezterm/wezterm.lua
 utilities/yamlfmt.yaml  .config/yamlfmt/yamlfmt.yaml
 atuin/config.toml       .config/atuin/config.toml
 ssh/config              .ssh/config
-gpg/gpg-agent.conf      .gnugp/gpg-agent.conf
-gpg/gpg.conf            .gnugp/gpg.conf
+gpg/gpg-agent.conf      .gnupg/gpg-agent.conf
+gpg/gpg.conf            .gnupg/gpg.conf
 [zsh]
 shell/zsh/zlogin        .zlogin
 shell/zsh/zprofile      .zprofile
