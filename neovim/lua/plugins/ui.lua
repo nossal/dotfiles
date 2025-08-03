@@ -1,4 +1,6 @@
 return {
+  { "nvim-tree/nvim-web-devicons" },
+  { "yorickpeterse/nvim-pqf" },
   {
     "folke/snacks.nvim",
     ---@type snacks.Config
@@ -48,7 +50,6 @@ return {
       image = {},
     },
   },
-  { "nvim-tree/nvim-web-devicons" },
   {
     "folke/noice.nvim",
     event = "VeryLazy",
@@ -123,9 +124,6 @@ return {
   {
     "j-hui/fidget.nvim",
     enabled = true,
-    opts = {
-      -- options
-    },
+    opts = {},
   },
-  { "yorickpeterse/nvim-pqf" },
 }

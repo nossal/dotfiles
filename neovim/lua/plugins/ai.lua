@@ -88,12 +88,12 @@ return {
     "supermaven-inc/supermaven-nvim",
     enabled = true,
     event = "VeryLazy",
-    config = function()
-      require("supermaven-nvim").setup({})
-    end,
     opts = {
-      disable_inline_completion = true, -- disables inline completion for use with cmp
-      disable_keymaps = true, -- disables built in keymaps for more manual control
+      keymaps = {
+        accept_suggestion = "<Right>",
+        clear_suggestion = "<C-]>",
+        accept_word = "<C-j>",
+      },
     },
   },
 }

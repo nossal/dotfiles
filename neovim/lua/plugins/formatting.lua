@@ -22,32 +22,30 @@ return {
         desc = "Format Code",
       },
     },
-    config = function()
-      require("conform").setup({
-        formatters_by_ft = {
-          lua = { "stylua" },
-          javascript = { "biome" },
-          typescript = { "biome" },
-          svelte = { "biome" },
-          json = { "biome" },
-          css = { "biome" },
-          yaml = { "yamlfmt" },
-          python = { "ruff_format" },
-          java = { "clang-format" },
-          bash = { "shfmt" },
-          sh = { "shfmt" },
-          shell = { "shfmt" },
-          zsh = { "shfmt" },
-          rust = { "rustfmt" },
-          html = { "superhtml", lsp_format = "fallback" },
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        javascript = { "biome" },
+        typescript = { "biome" },
+        svelte = { "biome" },
+        json = { "biome" },
+        css = { "biome" },
+        yaml = { "yamlfmt" },
+        python = { "ruff_format" },
+        java = { "clang-format" },
+        bash = { "shfmt" },
+        sh = { "shfmt" },
+        shell = { "shfmt" },
+        zsh = { "shfmt" },
+        rust = { "rustfmt" },
+        html = { "superhtml", lsp_format = "fallback" },
+      },
+      formatters = {
+        biome = {
+          args = { "format", "--config-path", vim.fn.expand("$HOME/.dotfiles"), "--stdin-file-path", "$FILENAME" },
         },
-        formatters = {
-          biome = {
-            args = { "format", "--config-path", vim.fn.expand("$HOME/.dotfiles"), "--stdin-file-path", "$FILENAME" },
-          },
-        },
-      })
-    end,
+      },
+    },
     init = function()
       -- If you want the formatexpr, here is the place to set it
       vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"

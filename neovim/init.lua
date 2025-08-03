@@ -36,6 +36,20 @@ require("lazy").setup("plugins", {
     title = " Lazy Plugin Manager ",
     title_pos = "left",
   },
-})
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+ })
 
 require("oil").setup()

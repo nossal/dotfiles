@@ -1,26 +1,29 @@
-require("core.diagnostics")
 
 local border = require("core.ui").border
 
 return {
   {
     "neovim/nvim-lspconfig",
-    -- event = { "BufReadPost", "BufNewFile" },
-    -- cmd = { "LspInfo", "LspInstall", "LspUninstall" },
+    event = "BufEnter",
     dependencies = {
       { "saghen/blink.cmp" },
     },
     config = function()
-      local lsp = require("core.lsp")
+      require("core.diagnostics").setup()
 
-      for server_name, server in pairs(lsp.lsp_servers) do
+      local lsp = require("core.lsp")
+      local lsp_servers = lsp.lsp_servers
+      local capabilities = lsp.capabilities()
+      local on_attach = lsp.on_attach
+
+      for server_name, server in pairs(lsp_servers) do
         local setup = server.setup or {}
-        setup.capabilities = lsp.capabilities()
+        setup.capabilities = capabilities
         setup.on_attach = function(client, bufnr)
           if server.on_attach then
             server.on_attach(client, bufnr)
           end
-          lsp.on_attach(client, bufnr)
+          on_attach(client, bufnr)
         end
         -- setup.inlay_hint = { enabled = true }
 

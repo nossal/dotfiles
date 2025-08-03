@@ -15,8 +15,6 @@ return {
   {
     "JavaHello/java-deps.nvim",
     lazy = true,
-    config = function()
-      require("java-deps").setup({})
-    end,
+    opts = {},
   },
 }

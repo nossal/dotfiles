@@ -70,72 +70,77 @@ local codes = {
   },
 }
 
-vim.diagnostic.config({
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = ui.diagnostic_icons.Error,
-      [vim.diagnostic.severity.WARN] = ui.diagnostic_icons.Warn,
-      [vim.diagnostic.severity.HINT] = ui.diagnostic_icons.Hint,
-      [vim.diagnostic.severity.INFO] = ui.diagnostic_icons.Info,
+local setup = function()
+  vim.diagnostic.config({
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = ui.diagnostic_icons.Error,
+        [vim.diagnostic.severity.WARN] = ui.diagnostic_icons.Warn,
+        [vim.diagnostic.severity.HINT] = ui.diagnostic_icons.Hint,
+        [vim.diagnostic.severity.INFO] = ui.diagnostic_icons.Info,
+      },
     },
-  },
-  underline = true,
-  update_in_insert = false,
-  virtual_text = false,
-  -- virtual_text = {
-  --   spacing = 4,
-  --   source = "if_many",
-  --   prefix = " ●",
-  -- },
-  -- virtual_lines = true,
-  severity_sort = true,
-  -- float = true,
-  float = {
-    source = false,
-    format = function(diagnostic)
-      local code = diagnostic and diagnostic.user_data and diagnostic.user_data.lsp.code
+    underline = true,
+    update_in_insert = false,
+    virtual_text = false,
+    -- virtual_text = {
+    --   spacing = 4,
+    --   source = "if_many",
+    --   prefix = " ●",
+    -- },
+    -- virtual_lines = true,
+    severity_sort = true,
+    -- float = true,
+    float = {
+      source = false,
+      format = function(diagnostic)
+        local code = diagnostic and diagnostic.user_data and diagnostic.user_data.lsp.code
 
-      if not diagnostic.source or not code then
-        return string.format("%s", diagnostic.message)
-      end
+        if not diagnostic.source or not code then
+          return string.format("%s", diagnostic.message)
+        end
 
-      if diagnostic.source == "eslint" then
+        if diagnostic.source == "eslint" then
+          for _, table in pairs(codes) do
+            if vim.tbl_contains(table, code) then
+              return string.format("%s [%s]", table.icon .. diagnostic.message, code)
+            end
+          end
+
+          return string.format("%s [%s]", diagnostic.message, code)
+        end
+
         for _, table in pairs(codes) do
           if vim.tbl_contains(table, code) then
-            return string.format("%s [%s]", table.icon .. diagnostic.message, code)
+            return table.message
           end
         end
 
-        return string.format("%s [%s]", diagnostic.message, code)
-      end
-
-      for _, table in pairs(codes) do
-        if vim.tbl_contains(table, code) then
-          return table.message
+        return string.format("%s [%s]", diagnostic.message, diagnostic.source)
+      end,
+      header = { "Diagnostics:", "DiagnosticHeader" },
+      prefix = function(diagnostic, i, total)
+        local icon, highlight
+        if diagnostic.severity == 1 then
+          icon = "󰅙"
+          highlight = "DiagnosticError"
+        elseif diagnostic.severity == 2 then
+          icon = ""
+          highlight = "DiagnosticWarn"
+        elseif diagnostic.severity == 3 then
+          icon = ""
+          highlight = "DiagnosticInfo"
+        elseif diagnostic.severity == 4 then
+          icon = ""
+          highlight = "DiagnosticHint"
         end
-      end
-
-      return string.format("%s [%s]", diagnostic.message, diagnostic.source)
-    end,
-    header = { "Diagnostics:", "DiagnosticHeader" },
-    prefix = function(diagnostic, i, total)
-      local icon, highlight
-      if diagnostic.severity == 1 then
-        icon = "󰅙"
-        highlight = "DiagnosticError"
-      elseif diagnostic.severity == 2 then
-        icon = ""
-        highlight = "DiagnosticWarn"
-      elseif diagnostic.severity == 3 then
-        icon = ""
-        highlight = "DiagnosticInfo"
-      elseif diagnostic.severity == 4 then
-        icon = ""
-        highlight = "DiagnosticHint"
-      end
-      return i .. "/" .. total .. " " .. icon .. "  ", highlight
-    end,
-  },
-})
+        return i .. "/" .. total .. " " .. icon .. "  ", highlight
+      end,
+    },
+  })
+end
 
 -- vim.cmd([[au CursorHold  * lua vim.diagnostic.open_float()]])
+return {
+  setup = setup,
+}

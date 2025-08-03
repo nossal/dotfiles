@@ -12,8 +12,9 @@ local textwidth = 80
 g.mapleader = " "
 g.maplocalleader = " "
 
-g.loaded_netrw = 1
-g.loaded_netrwPlugin = 1
+-- g.loaded_netrw = 1
+-- g.loaded_netrwPlugin = 1
+-- g.tutor_is_loaded = 1
 
 g.have_nerd_font = true
 

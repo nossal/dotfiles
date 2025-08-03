@@ -3,18 +3,17 @@ return {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      require("nvim-surround").setup({
-        -- Configuration here, or leave empty to use defaults
-      })
-    end,
+    opts = {}
   },
   {
     "RRethy/vim-illuminate",
     event = { "BufReadPre", "BufNewFile" },
+    keys = {
+      { "<C-n>", "<cmd>lua require('illuminate').goto_next_reference{wrap=true}<CR>", desc = "Move to next reference" },
+      { "<C-p>", "<cmd>lua require('illuminate').goto_prev_reference{wrap=true}<CR>", desc = "Move to previous reference" },
+    },
     config = function()
-      local illu = require("illuminate")
-      illu.configure({
+      require("illuminate").configure({
         providers = {
           "lsp",
           "treesitter",
@@ -36,17 +35,12 @@ return {
           "DiffviewFileHistory",
         },
       })
-      vim.keymap.set("n", "<C-n>", require("illuminate").goto_next_reference, { desc = "Move to next reference" })
-      vim.keymap.set("n", "<C-p>", require("illuminate").goto_prev_reference, { desc = "Move to previous reference" })
     end,
   },
   {
     "NvChad/nvim-colorizer.lua",
     event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      -- local c = hsl(20, 20, 20)
-      -- #990000 Red blue hsl(120deg 75% 25%)
-      require("colorizer").setup({
+    opts = {
         user_default_options = {
           names = false,
           hsl_fn = true,
@@ -54,7 +48,6 @@ return {
           mode = "virtualtext",
           virtualtext = " ",
         },
-      })
-    end,
+    },
   },
 }
