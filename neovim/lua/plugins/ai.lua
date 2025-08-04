@@ -1,5 +1,48 @@
 return {
   {
+    "github/copilot.vim",
+  },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    dependencies = {
+      { "nvim-lua/plenary.nvim", branch = "master" },
+    },
+    build = "make tiktoken",
+    config = function()
+      local ui = vim.api.nvim_list_uis()[1]
+      local width = 50
+      local col = math.floor(ui.width * 0.98) - width
+      local opts = {
+        window = {
+          layout = "float",
+          width = width,
+          height = 0.9,
+          col = col,
+          border = "rounded", -- 'single', 'double', 'rounded', 'solid'
+          title = "🤖 AI Assistant",
+          zindex = 100, -- Ensure window stays on top
+        },
+
+        headers = {
+          user = "👤 You: ",
+          assistant = "🤖 Copilot: ",
+          tool = "🔧 Tool: ",
+        },
+        separator = "━━",
+        show_folds = false, -- Disable folding for cleaner look
+      }
+
+      require("CopilotChat").setup(opts)
+
+      vim.api.nvim_set_keymap(
+        "n",
+        "<leader>C",
+        "<cmd>CopilotChatToggle<cr>",
+        { noremap = true, silent = true, desc = "AI Chat" }
+      )
+    end,
+  },
+  {
     "ggml-org/llama.vim",
     enabled = false,
     init = function()
@@ -86,7 +129,7 @@ return {
   },
   {
     "supermaven-inc/supermaven-nvim",
-    enabled = true,
+    enabled = false,
     event = "VeryLazy",
     opts = {
       keymaps = {
