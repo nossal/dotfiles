@@ -69,6 +69,12 @@ local codes = {
     "lowercase-global",
   },
 }
+local highlights = {
+  { icon = ui.diagnostic_icons.Error, highlight = "DiagnosticError" },
+  { icon = ui.diagnostic_icons.Warn, highlight = "DiagnosticWarn" },
+  { icon = ui.diagnostic_icons.Info, highlight = "DiagnosticInfo" },
+  { icon = ui.diagnostic_icons.Hint, highlight = "DiagnosticHint" },
+}
 
 local setup = function()
   vim.diagnostic.config({
@@ -88,9 +94,11 @@ local setup = function()
     --   source = "if_many",
     --   prefix = " ●",
     -- },
-    -- virtual_lines = true,
+    virtual_lines = {
+      severity = vim.diagnostic.severity.ERROR,
+      current_line = true,
+    },
     severity_sort = true,
-    -- float = true,
     float = {
       source = false,
       format = function(diagnostic)
@@ -120,21 +128,9 @@ local setup = function()
       end,
       header = { "Diagnostics:", "DiagnosticHeader" },
       prefix = function(diagnostic, i, total)
-        local icon, highlight
-        if diagnostic.severity == 1 then
-          icon = "󰅙"
-          highlight = "DiagnosticError"
-        elseif diagnostic.severity == 2 then
-          icon = ""
-          highlight = "DiagnosticWarn"
-        elseif diagnostic.severity == 3 then
-          icon = ""
-          highlight = "DiagnosticInfo"
-        elseif diagnostic.severity == 4 then
-          icon = ""
-          highlight = "DiagnosticHint"
-        end
-        return i .. "/" .. total .. " " .. icon .. "  ", highlight
+        local h = highlights[diagnostic.severity]
+
+        return i .. "/" .. total .. " " .. h.icon .. "  ", h.highlight
       end,
     },
   })
