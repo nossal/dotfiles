@@ -88,52 +88,6 @@ local function jdtls_launcher()
   return cmd
 end
 
-local settings = {
-  java = {
-    configuration = {
-      runtimes = {
-        {
-          name = "JavaSE-1.8",
-          path = helpers.get_java_home("8"),
-        },
-        {
-          name = "JavaSE-17",
-          path = helpers.get_java_home("17"),
-        },
-        {
-          name = "JavaSE-21",
-          path = helpers.get_java_home("21"),
-          default = true,
-        },
-        {
-          name = "JavaSE-24",
-          path = helpers.get_java_home("24"),
-        },
-      },
-    },
-    eclipse = {
-      downloadSources = true,
-    },
-    maven = {
-      downloadSources = true,
-    },
-    referencesCodeLens = {
-      enabled = true,
-    },
-    references = {
-      includeDecompiledSources = true,
-    },
-    inlayHints = {
-      parameterNames = {
-        enabled = "none", -- literals, all, none
-      },
-    },
-    format = {
-      enabled = false,
-    },
-  },
-  signatureHelp = { enabled = true },
-}
 
 local config = {
   -- The command that starts the language server
@@ -142,9 +96,9 @@ local config = {
   filetypes = { "java" },
   root_dir = root_dir(),
   handlers = {
-		-- By assigning an empty function, you can remove the notifications
-		["$/progress"] = function(_, result, ctx) end,
-	},
+    -- By assigning an empty function, you can remove the notifications
+    ["$/progress"] = function(_, result, ctx) end,
+  },
 
   -- Here you can configure eclipse.jdt.ls specific settings
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
@@ -178,6 +132,9 @@ local config = {
       },
       referenceCodeLens = { enabled = true },
       implementationsCodeLens = { enabled = true },
+      references = {
+        includeDecompiledSources = true,
+      },
       templates = {
         typeComment = {
           "/**",
@@ -245,7 +202,25 @@ local config = {
         --   -- userSettings = maven.get_maven_settings(),
         --   -- globalSettings = maven.get_maven_settings(),
         -- },
-        runtimes = settings.java.configuration.runtimes,
+        runtimes = {
+          {
+            name = "JavaSE-1.8",
+            path = helpers.get_java_home("8"),
+          },
+          {
+            name = "JavaSE-17",
+            path = helpers.get_java_home("17"),
+          },
+          {
+            name = "JavaSE-21",
+            path = helpers.get_java_home("21"),
+            default = true,
+          },
+          {
+            name = "JavaSE-24",
+            path = helpers.get_java_home("24"),
+          },
+        },
       },
     },
   },
