@@ -158,18 +158,46 @@ local on_attach = function(client, bufnr)
     { "<leader>rn", vim.lsp.buf.rename, desc = "Smart rename" },
     { "gR", "<cmd>FzfLua lsp_references<CR>", desc = "Show LSP references" },
     { "gt", "<cmd>FzfLua lsp_type_definitions<CR>", desc = "Show LSP type definitions" },
+    { "<leader>fs", "<cmd>FzfLua lsp_live_workspace_symbols<CR>", desc = "Find Workspace Symbol" },
     { "<leader>D", "<cmd>FzfLua diagnostics bufnr=0<CR>", desc = "Show buffer diagnostics" },
     { "<leader>d", vim.diagnostic.open_float, desc = "Show line diagnostics" },
     { "<leader>rs", ":LspRestart<CR>", desc = "Restart LSP" },
+    { "<leader>ca",
+      function()
+        require("fzf-lua").lsp_code_actions({
+          prompt = "ca>",
+          winopts = {
+            height = 0.55,
+            width = 0.50,
+            preview = {
+              hidden = true,
+              vertical = "down:55%",
+              layout = "vertical",
+              -- border = "none",
+              title = false,
+              title_pos = "left",
+            },
+          },
+        })
+      end,
+      desc = "See the Code Actions",
+      mode = { "n", "v" },
+    },
     -- { "<leader>ca", vim.lsp.buf.code_action,                desc = "See available code actions", mode = { "n", "v" } },
     -- { "<leader>ca", "<cmd>FzfLua lsp_code_actions<CR>",     desc = "See available code actions", mode ={ "n", "v" } },
     -- { "<leader>gf", vim.lsp.buf.format,                     desc = "Format buffer" },
 
+    -- { "gK", function ()
+    --   local new_config = not vim.diagnostic.config().virtual_lines
+    --   vim.diagnostic.config({ virtual_lines = new_config })
+    -- end, desc = "Toggle diagnostic virtual_lines" },
+
+    { "<leader>S", vim.lsp.buf.signature_help, desc = "[S]ignature Help" },
+
     -- Workspaces
     { "<leader>wa", vim.lsp.buf.add_workspace_folder, desc = "[W]orkspace [A]dd Folder" },
     { "<leader>wr", vim.lsp.buf.remove_workspace_folder, desc = "[W]orkspace [R]emove Folder" },
-    {
-      "<leader>wl",
+    { "<leader>wl",
       function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
       end,

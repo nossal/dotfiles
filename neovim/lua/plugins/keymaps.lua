@@ -41,7 +41,6 @@ return {
       { "<leader>ff", "<cmd>FzfLua files<CR>", desc = "Find Files" },
       { "<leader>fb", "<cmd>FzfLua buffers<CR>", desc = "Find Buffers" },
       { "<leader>ft", "<cmd>FzfLua live_grep<CR>", desc = "Find Text" },
-      { "<leader>fs", "<cmd>FzfLua lsp_live_workspace_symbols<CR>", desc = "Find Workspace Symbol" },
       {
         "<leader>fd",
         function()
@@ -59,28 +58,6 @@ return {
           })
         end,
         desc = "Find Dotfiles",
-      },
-      {
-        "<leader>ca",
-        function()
-          require("fzf-lua").lsp_code_actions({
-            prompt = "ca>",
-            winopts = {
-              height = 0.55,
-              width = 0.50,
-              preview = {
-                hidden = true,
-                vertical = "down:55%",
-                layout = "vertical",
-                -- border = "none",
-                title = false,
-                title_pos = "left",
-              },
-            },
-          })
-        end,
-        desc = "See the Code Actions",
-        mode = { "n", "v" },
       },
     })
   end,
