@@ -1,4 +1,3 @@
-
 local lsp_servers = {
   svelte = {
     name = "svelte",
@@ -46,7 +45,19 @@ local lsp_servers = {
   tailwindcss = { name = "tailwind", install = true },
   emmet_ls = { name = "emmet", install = true },
   superhtml = { name = "HTML", install = true },
-  lua_ls = { name = "lua", install = true },
+  lua_ls = {
+    name = "lua",
+    install = true,
+    setup = {
+      settings = {
+        Lua = {
+          codeLens = {
+            enable = true,
+          },
+        },
+      },
+    },
+  },
   clojure_lsp = { name = "clojure", install = true },
   rust_analyzer = {
     name = "rust",
@@ -161,7 +172,7 @@ local on_attach = function(client, bufnr)
       "<leader>wl",
       function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-     end,
+      end,
       desc = "[W]orkspace [L]ist Folders",
     },
   })
