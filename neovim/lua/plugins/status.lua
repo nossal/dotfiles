@@ -159,7 +159,7 @@ return {
           return vim.bo.modified
         end,
         provider = " 󰳼",
-        hl = { fg = "blue" },
+        hl = { fg = "#dd9944" },
       },
       {
         condition = function()
@@ -229,10 +229,17 @@ return {
         })
 
         local names = {}
+        local ai = {}
         for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
-          table.insert(names, languages[server.name].name)
+          local cfg = languages[server.name]
+          if cfg.ai then
+            table.insert(ai, cfg.name)
+          else
+            table.insert(names, cfg.name)
+          end
         end
         self.names = names
+        self.ai = ai
       end,
     }
 
@@ -250,6 +257,17 @@ return {
       hl = { fg = "green", bold = true },
     }
 
+    local LSAPAi = {
+      condition = function(self)
+        return #self.ai > 0
+      end,
+      provider = function(self)
+        -- return " " .. table.concat(self.ai, " ") .. " "
+        return " "
+      end,
+      hl = { fg = "#4488dd", bg = "#232323", italic = true },
+    }
+
     local PyEnv = {
       condition = function(self)
         return vim.tbl_contains(self.names, "python")
@@ -261,7 +279,7 @@ return {
       end,
     }
 
-    LSPBlock = utils.insert(LSPBlock, LSPActive, PyEnv)
+    LSPBlock = utils.insert(LSPBlock, LSPActive, { provider = " "}, LSAPAi, PyEnv)
 
     -- I personally use it only to display progress messages!
     -- See lsp-status/README.md for configuration options.
@@ -336,14 +354,13 @@ return {
         self.status_dict = vim.b.gitsigns_status_dict
         self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
       end,
-
-      hl = { fg = "orange" },
+      hl = { fg = "#FF5D30" },
 
       {
         provider = function(self)
-          return self.project_name .. " "
+          return self.project_name .. "  "
         end,
-        hl = { fg = "blue" },
+        hl = { fg = "#0022ee" },
       },
 
       { -- git branch name

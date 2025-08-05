@@ -1,6 +1,19 @@
 return {
   {
     "github/copilot.vim",
+    config = function()
+      vim.g.copilot_filetypes = {
+        ["*"] = true,
+        ["copilot-chat"] = false,
+      }
+      vim.g.copilot_no_tab_map = true -- Disable default tab mapping
+      vim.api.nvim_set_keymap(
+        "i",
+        "<C-j>",
+        'copilot#Accept("<CR>")',
+        { expr = true, silent = true, noremap = true }
+      )
+    end,
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
@@ -11,13 +24,13 @@ return {
     config = function()
       local ui = vim.api.nvim_list_uis()[1]
       local width = 50
-      local col = math.floor(ui.width * 0.98) - width
       local opts = {
         window = {
           layout = "float",
           width = width,
-          height = 0.9,
-          col = col,
+          height = ui.height - 3,
+          row = 2,
+          col = math.floor(ui.width * 0.98) - width,
           border = "rounded", -- 'single', 'double', 'rounded', 'solid'
           title = "🤖 AI Assistant",
           zindex = 100, -- Ensure window stays on top

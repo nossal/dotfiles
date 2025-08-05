@@ -115,6 +115,7 @@ local lsp_servers = {
 }
 
 local other_lsp_servers = {
+  ["GitHub Copilot"] = { name = "copilot", ai = true },
   ["sonarlint.nvim"] = { name = "sonar" },
   jdtls = {
     install = true,
