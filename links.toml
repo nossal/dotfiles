@@ -1,0 +1,28 @@
+[default]
+"neovim" =                 ".config/nvim"
+"neovim-git" =             ".config/nvim-git"
+"starship/starship.toml" = ".config/starship.toml"
+"shell/lsd.yaml" =         ".config/lsd/config.yaml"
+"tmux/tmux.conf" =         ".config/tmux/tmux.conf"
+"mise/config.toml" =       ".config/mise/config.toml"
+"wezterm/config" =         ".config/wezterm/wezterm.lua"
+"utilities/yamlfmt.yaml" = ".config/yamlfmt/yamlfmt.yaml"
+"atuin/config.toml" =      ".config/atuin/config.toml"
+"ssh/config" =             ".ssh/config"
+"gpg/gpg-agent.conf" =     ".gnupg/gpg-agent.conf"
+"gpg/gpg.conf" =           ".gnupg/gpg.conf"
+
+[zsh]
+"shell/zsh/zlogin" =       ".zlogin"
+"shell/zsh/zprofile" =     ".zprofile"
+"shell/zsh/zshenv" =       ".zshenv"
+"shell/zsh/zshrc" =        ".zshrc"
+
+[bash]
+"shell/bash/bashrc" =      ".bashrc"
+
+[default,git]
+"git/config" =             ".config/git/config"
+"git/config.yml" =         ".config/lazygit/config.yml"
+"git/giteditor" =          ".local/bin/giteditor"
+"jj/config.toml" =         ".config/jj/config.toml"

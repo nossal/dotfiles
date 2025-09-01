@@ -9,6 +9,12 @@ export DOTDIR="$DOTFILES_HOME"
 
 REPO="https://github.com/nossal/dotfiles"
 
+# declare -A CONFIG=(
+#   ["os_manage"]=1
+#   ["shell"]="Shell configuration files"
+#   ["editor"]="Editor configuration files"
+# )
+
 function has() {
   local callable="$1"
   shift
@@ -114,7 +120,7 @@ function install() {
 
 function _shell() {
   if command -v zsh &> /dev/null; then
-    [[ ! $SHELL == *"/zsh" ]] && chsh -s /bin/zsh
+    # [[ ! $SHELL == *"/zsh" ]] && chsh -s /bin/zsh
     echo "zsh"
   else
     echo "bash"
@@ -159,6 +165,164 @@ function os_name() {
   esac
 }
 
+function config_get() {
+  # Get a specific key value from a TOML section
+  #
+  # Arguments:
+  #   $1 - TOML file path
+  #   $2 - Section name
+  #   $3 - Key name
+  #
+  # Returns:
+  #   The value of the key (without quotes), or empty if not found
+  #
+  local file="$1"
+  local section="$2"
+  local key="$3"
+
+  [ ! -f "$file" ] && return 1
+
+  awk -v section="$section" -v key="$key" '
+    BEGIN { in_section = 0; found = 0 }
+
+    # Skip comments and empty lines
+    /^[[:space:]]*#/ || /^[[:space:]]*$/ { next }
+
+    # Section headers
+    /^\[.*\]$/ {
+      gsub(/^\[|\]$/, "")
+      in_section = ($0 == section)
+      next
+    }
+
+    # Key-value pairs in target section
+    in_section && /=/ {
+      eq_pos = index($0, "=")
+      current_key = substr($0, 1, eq_pos - 1)
+      value = substr($0, eq_pos + 1)
+
+      # Clean key and value
+      gsub(/^[[:space:]]*"|"[[:space:]]*$/, "", current_key)
+      gsub(/^[[:space:]]*"|"[[:space:]]*$/, "", value)
+      gsub(/^[[:space:]]*|[[:space:]]*$/, "", current_key)
+      gsub(/^[[:space:]]*|[[:space:]]*$/, "", value)
+
+      if (current_key == key) {
+        print value
+        found = 1
+        exit
+      }
+    }
+
+    END { exit (found ? 0 : 1) }
+  ' "$file"
+}
+
+function config_set() {
+  # Set a key-value pair in a TOML section
+  # Creates the section if it doesn't exist
+  # Updates the key if it exists, adds it if it doesn't
+  #
+  # Arguments:
+  #   $1 - TOML file path
+  #   $2 - Section name
+  #   $3 - Key name
+  #   $4 - Value
+  #
+  local file="$1"
+  local section="$2"
+  local key="$3"
+  local value="$4"
+  local temp_file
+
+  # Create file if it doesn't exist
+  [ ! -f "$file" ] && touch "$file"
+
+  temp_file="$(mktemp)"
+
+  awk -v section="$section" -v key="$key" -v value="$value" '
+    BEGIN {
+      in_section = 0
+      section_found = 0
+      key_updated = 0
+      section_ended = 0
+    }
+
+    # Section headers
+    /^\[.*\]$/ {
+      current_section = $0
+      gsub(/^\[|\]$/, "", current_section)
+
+      if (current_section == section) {
+        in_section = 1
+        section_found = 1
+        section_ended = 0
+        print $0
+      } else {
+        if (in_section && !key_updated) {
+          # Add key before leaving section
+          printf "\"%s\" = \"%s\"\n", key, value
+          key_updated = 1
+        }
+        in_section = 0
+        section_ended = 1
+        print $0
+      }
+      next
+    }
+
+    # Key-value pairs
+    /=/ {
+      if (in_section) {
+        eq_pos = index($0, "=")
+        current_key = substr($0, 1, eq_pos - 1)
+
+        # Clean current key
+        gsub(/^[[:space:]]*"|"[[:space:]]*$/, "", current_key)
+        gsub(/^[[:space:]]*|[[:space:]]*$/, "", current_key)
+
+        if (current_key == key) {
+          printf "\"%s\" = \"%s\"\n", key, value
+          key_updated = 1
+        } else {
+          print $0
+        }
+      } else {
+        print $0
+      }
+      next
+    }
+
+    # All other lines
+    {
+      if (in_section && /^[[:space:]]*$/ && !key_updated) {
+        # Empty line in section, good place to add key
+        printf "\"%s\" = \"%s\"\n", key, value
+        key_updated = 1
+        print $0
+      } else {
+        print $0
+      }
+    }
+
+    END {
+      # If section was never found, create it
+      if (!section_found) {
+        if (NR > 0) print ""  # Add blank line before new section
+        printf "[%s]\n", section
+        printf "\"%s\" = \"%s\"\n", key, value
+      }
+      # If section was found but key was never added
+      else if (!key_updated) {
+        printf "\"%s\" = \"%s\"\n", key, value
+      }
+    }
+  ' "$file" > "$temp_file"
+
+  mv "$temp_file" "$file"
+}
+
+
 function filter() {
   local section=$1
   local file=$2
@@ -180,6 +344,45 @@ function filter() {
       echo "$line"
     fi
   done < "$file"
+}
+
+function config_list_keys() {
+  # List all keys in a specific TOML section
+  #
+  # Arguments:
+  #   $1 - TOML file path
+  #   $2 - Section name
+  #
+  local file="$1"
+  local section="$2"
+
+  [ ! -f "$file" ] && return 1
+
+  awk -v section="$section" '
+    BEGIN { in_section = 0 }
+
+    # Skip comments and empty lines
+    /^[[:space:]]*#/ || /^[[:space:]]*$/ { next }
+
+    # Section headers
+    /^\[.*\]$/ {
+      gsub(/^\[|\]$/, "")
+      in_section = ($0 == section)
+      next
+    }
+
+    # Key-value pairs in target section
+    in_section && /=/ {
+      eq_pos = index($0, "=")
+      key = substr($0, 1, eq_pos - 1)
+
+      # Clean key
+      gsub(/^[[:space:]]*"|"[[:space:]]*$/, "", key)
+      gsub(/^[[:space:]]*|[[:space:]]*$/, "", key)
+
+      print key
+    }
+  ' "$file"
 }
 
 function symlink_configs() {
@@ -207,7 +410,7 @@ function symlink_configs() {
 
   # Construct config file path based on profile
   [ -n "$profile" ] && profile="-$profile"
-  local config_file="$DOTFILES_HOME/configs$profile.links"
+  local config_file="$DOTFILES_HOME/links$profile.toml"
   echo "> Using config file: $config_file"
 
   # Check if config file exists
@@ -217,10 +420,14 @@ function symlink_configs() {
   fi
 
   # Process each line in the configuration file
-  while IFS= read -r line; do
-    IFS=' ' read -r source_path target_path <<< "$line"
-    local target target_dir
+  while IFS= read -r source_path; do
+    # IFS=' ' read -r source_path target_path <<< "$line"
+    local target_path
+    target_path=$(config_get "$config_file" "$category" "$source_path")
 
+    [ -z "$target_path" ] && continue
+
+    local target target_dir
     target="$HOME/$target_path"
     target_dir="$(dirname "$target")"
 
@@ -234,7 +441,8 @@ function symlink_configs() {
     else
       echo "Link already exists: $target"
     fi
-  done <<< "$(filter "$category" "$config_file")"
+  # done <<< "$(filter "$category" "$config_file")"
+  done <<< "$(config_list_keys "$config_file" "$category")"
 }
 
 function clean() {
@@ -315,20 +523,31 @@ function bootstrap() {
   fi
 
   # check if the dotfiles are already installed
-  if [ -d "$DOTFILES_HOME" ]; then
-    echo "Dotfiles already installed. Updating..."
-    dot_update
-  else
-    git clone "$REPO" "$DOTFILES_HOME"
-  fi
+  # if [ -d "$DOTFILES_HOME" ]; then
+  #   echo "Dotfiles already installed. Updating..."
+  #   dot_update
+  # else
+  #   git clone "$REPO" "$DOTFILES_HOME"
+  # fi
 
   [ ! -e "$LOCAL_BIN_DIR" ] && \
     mkdir -p "$LOCAL_BIN_DIR"
   [[ ! "$PATH" == *"$LOCAL_BIN_DIR"* ]] && \
     export PATH="$LOCAL_BIN_DIR:$PATH"
 
+  local os
+  os="$(os_name)"
+
+  # install charmbracelet/gum if not present
+  install_from_gh "charmbracelet/gum" "0.16.2" "gum" "$(uname -o)" "$(uname -m)" "tar.gz"
+
+  # ask to manage the OS
+  # read -r -p "Do you want to manage the OS ($os)? [y/N] " response
+  # if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+  #   os_setup="$DOTFILES_HOME/os/$os/setup
+  #
   local os_setup
-  os_setup="$DOTFILES_HOME/os/$(os_name)/setup"
+  os_setup="$DOTFILES_HOME/os/$os/setup"
 
   [ -f "$os_setup" ] && \
     "$os_setup" "$DOTFILES_HOME" "$LOCAL_BIN_DIR"
