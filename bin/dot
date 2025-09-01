@@ -5,6 +5,8 @@ set -euo pipefail
 DOTFILES_HOME="$HOME/.dotfiles"
 LOCAL_BIN_DIR="$HOME/.local/bin"
 
+export DOTDIR="$DOTFILES_HOME"
+
 REPO="https://github.com/nossal/dotfiles"
 
 function has() {
@@ -190,8 +192,8 @@ function symlink_configs() {
   #   - Automatic creation of target directories
   #
   # Arguments:
-  #   $1 - Profile name (optional, e.g., "personal", "work")
   #   $2 - Category name (optional, defaults to "default")
+  #   $2 - Profile name (optional, e.g., "personal", "work")
   #
   # Configuration file format (links.txt):
   #   [default]
@@ -200,8 +202,8 @@ function symlink_configs() {
   #   zsh/zshrc .zshrc
   #
   echo "Setting up configuration links"
-  local profile="${1:-}"
-  local category="${2:-default}"
+  local category="${1:-default}"
+  local profile="${2:-}"
 
   # Construct config file path based on profile
   [ -n "$profile" ] && profile="-$profile"
@@ -320,7 +322,7 @@ function bootstrap() {
     git clone "$REPO" "$DOTFILES_HOME"
   fi
 
-  [ ! -a "$LOCAL_BIN_DIR" ] && \
+  [ ! -e "$LOCAL_BIN_DIR" ] && \
     mkdir -p "$LOCAL_BIN_DIR"
   [[ ! "$PATH" == *"$LOCAL_BIN_DIR"* ]] && \
     export PATH="$LOCAL_BIN_DIR:$PATH"
