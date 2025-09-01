@@ -2,9 +2,12 @@
 
 source "$DOTDIR/bin/dot"
 
+export NO_MODIFY_PATH=1
+
 setup() {
   curl --proto '=https' --tlsv1.2 -LsSf https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh | sh
 }
+
 update() {
   atuin-update
 }
