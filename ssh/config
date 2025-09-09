@@ -1,5 +1,6 @@
 # vi: ft=sshconfig
-Include ~/.dotfiles-work/ssh-config
+match exec "[[ $WORK_SSH_CONFIG ]]"
+  Include ${WORK_SSH_CONFIG}  # ~/.dotfiles-work/ssh-config
 
 Host *
   SendEnv LANG LC_*
@@ -10,6 +11,7 @@ Host *
   ControlPath ~/.ssh/control/%C
   ControlMaster auto
   ControlPersist 10m
+  Compression yes
 
 # GitHub, GitLab,
 Host *github.com *.gitlab.com
