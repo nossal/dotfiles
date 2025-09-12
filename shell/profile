@@ -26,8 +26,6 @@ path_list=(
     "$HOME/bin" "$HOME/sbin"
     "/opt/homebrew/bin" "/opt/homebrew/sbin" "/opt/local/bin" "/opt/local/sbin"
     "/usr/local/bin" "/usr/local/sbin"
-    "$HOME/go/bin"
-    "$JAVA"
 )
 
 # Expand paths and set PATH
@@ -35,5 +33,5 @@ expanded_paths=$(expand_paths path_list)
 export PATH=$(echo "$expanded_paths" | tr ' ' ':')
 
 # Optionally, you can add existing PATH at the end
-export PATH="$PATH:$(echo "$path" | tr ' ' ':')"
+export PATH="$PATH:$(echo "$expanded_paths" | tr ' ' ':')"
 

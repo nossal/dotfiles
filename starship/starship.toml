@@ -74,7 +74,7 @@ disabled = true
 
 [java]
 format = "[ ${symbol} ](bg:lang_icon_bg)[ (${version} )]($style)"
-version_format ="${raw}"
+version_format ="${major}"
 style = "fg:#2443b5 bg:lang_bg italic"
 symbol = ""
 

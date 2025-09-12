@@ -11,10 +11,6 @@ path=(
   $HOME/.local/bin(N)
   $HOME/.dotfiles/bin(N)
   $HOME/.atuin/bin(N)
-  $HOME/.bun/bin(N)
-  $HOME/go/bin(N)
-  $HOME/.cargo/bin(N)
-  $JAVA_HOME/bin
   $path
 )
 
