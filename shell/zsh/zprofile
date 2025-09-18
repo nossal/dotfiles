@@ -1,4 +1,4 @@
-#/* vim: set filetype=zsh : */
+# vi: ft=zsh
 
 export EDITOR="$(command -v nvim || command -v vi)"
 export JAVA_HOME=$($HOME/.local/bin/mise where java)

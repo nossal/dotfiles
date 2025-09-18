@@ -37,6 +37,7 @@ function o() {
 }
 
 function reload() {
+    source ~/.zshenv
     source ~/.zprofile
     source ~/.zshrc
     echo "Zsh config reloaded!"

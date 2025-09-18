@@ -163,7 +163,8 @@ local on_attach = function(client, bufnr)
     { "<leader>D", "<cmd>FzfLua diagnostics bufnr=0<CR>", desc = "Show buffer diagnostics" },
     { "<leader>d", vim.diagnostic.open_float, desc = "Show line diagnostics" },
     { "<leader>rs", ":LspRestart<CR>", desc = "Restart LSP" },
-    { "<leader>ca",
+    {
+      "<leader>ca",
       function()
         require("fzf-lua").lsp_code_actions({
           prompt = "ca>",
@@ -198,7 +199,8 @@ local on_attach = function(client, bufnr)
     -- Workspaces
     { "<leader>wa", vim.lsp.buf.add_workspace_folder, desc = "[W]orkspace [A]dd Folder" },
     { "<leader>wr", vim.lsp.buf.remove_workspace_folder, desc = "[W]orkspace [R]emove Folder" },
-    { "<leader>wl",
+    {
+      "<leader>wl",
       function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
       end,

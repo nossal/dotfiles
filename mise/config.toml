@@ -17,10 +17,11 @@ kubectl = "latest"
 helm = "latest"
 # --- languages ---
 rust = { version = "1.89.0", profile = "default" }
-java = "21"
+java = "25"
 python = "latest"
 go = "latest"
 deno = "latest"
+nodejs = "latest"
 
 [settings]
 experimental = true
