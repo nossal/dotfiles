@@ -27,7 +27,7 @@ local function get_lombok_jar()
 end
 
 local function java_home()
-  return helpers.get_java_home(21)
+  return helpers.get_java_home(25)
 end
 
 local function root_dir()
@@ -212,13 +212,8 @@ local config = {
             path = helpers.get_java_home("17"),
           },
           {
-            name = "JavaSE-21",
-            path = helpers.get_java_home("21"),
-            default = true,
-          },
-          {
-            name = "JavaSE-24",
-            path = helpers.get_java_home("24"),
+            name = "JavaSE-25",
+            path = helpers.get_java_home("25"),
           },
         },
       },

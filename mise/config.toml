@@ -38,7 +38,6 @@ uv_venv_auto = true
 [alias.java.versions]
 8 = "corretto-8"
 17 = "corretto-17"
-21 = "corretto-21"
-24 = "corretto-24"
-lts = "corretto-21"
-latest = "corretto-24"
+25 = "corretto-25"
+lts = "corretto-25"
+latest = "corretto-25"
