@@ -158,31 +158,33 @@ config.show_new_tab_button_in_tab_bar = false
 
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
 
-local font_family = "0xProto Nerd Font Propo"
-
-config.font = wezterm.font_with_fallback({
-  { family = font_family, stretch = "Expanded", weight = "Regular" },
-  "Fira Code",
-})
-
 config.term = "xterm-256color"
 config.bold_brightens_ansi_colors = true
 
+config.font = wezterm.font_with_fallback({
+  { family = "0xProto Nerd Font Propo",
+    weight = "Regular",
+    harfbuzz_features = {"zero" , "ss01", "cv05"}
+  },
+  "Fira Code",
+})
+
+local font_family = "Maple Mono NF"
 config.font_rules = {
   {
     intensity = "Bold",
     italic = true,
-    font = wezterm.font({ family = "Maple Mono NF", weight = "Bold", style = "Italic" }),
+    font = wezterm.font({ family = font_family, weight = "Bold", style = "Italic" }),
   },
   {
     intensity = "Normal",
     italic = true,
-    font = wezterm.font({ family = "Maple Mono NF", style = "Italic" }),
+    font = wezterm.font({ family = font_family, style = "Italic" }),
   },
   {
     intensity = "Half",
     italic = true,
-    font = wezterm.font({ family = "Maple Mono NF", weight = "Thin", style = "Italic" }),
+    font = wezterm.font({ family = font_family, weight = "Thin", style = "Italic" }),
   },
 }
 config.font_size = 12
@@ -197,7 +199,7 @@ config.cursor_blink_rate = 500
 config.cursor_blink_ease_in = "Linear"
 config.cursor_blink_ease_out = "EaseIn"
 
-config.animation_fps = 120
+config.animation_fps = 60
 -- config.max_fps = 120
 
 -- config.visual_bell = {

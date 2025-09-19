@@ -23,6 +23,6 @@ Host 3d-printer
   User pi
   IdentityFile ~/.ssh/mainsail
 
-Host 192.168.* node-* *.local
+Host 192.168.* node-* *.local *.lan
   User nossal
   IdentityFile ~/.ssh/nossal
