@@ -87,7 +87,17 @@ local lsp_servers = {
     },
   },
   biome = { name = "biome", install = true },
-  basedpyright = { name = "python", install = true },
+  basedpyright = {
+    name = "python",
+    install = true,
+    setup = {
+      settings = {
+        basedpyright = {
+          typeCheckingMode = "standard",
+        },
+      },
+    },
+  },
   bashls = { name = "bash", install = true },
   gradle_ls = { name = "gradle", install = true },
   terraformls = { name = "terraform", install = true },
