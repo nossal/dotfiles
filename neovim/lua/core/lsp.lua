@@ -93,7 +93,9 @@ local lsp_servers = {
     setup = {
       settings = {
         basedpyright = {
-          typeCheckingMode = "standard",
+          analysis = {
+            typeCheckingMode = "standard", -- off, basic, standard, strict, recommended, all
+          },
         },
       },
     },

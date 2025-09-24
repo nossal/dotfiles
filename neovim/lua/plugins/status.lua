@@ -456,7 +456,7 @@ return {
 
     ViMode = utils.surround({ "", "" }, "black", { MacroRec, ViMode, ShowCmd })
 
-    local FileType = {
+    local FileInfo = {
       provider = function()
         local tabchar = "Tab Size"
         if vim.bo.expandtab then
@@ -464,10 +464,9 @@ return {
         end
         local tabstop = tabchar .. " " .. vim.opt.tabstop:get()
         local eol = string.upper(vim.bo.fileformat)
-        local filetype = vim.bo.filetype
         local encoding = string.upper(vim.bo.fileencoding)
 
-        return filetype .. " " .. encoding .. " " .. tabstop .. " " .. eol
+        return encoding .. " " .. tabstop .. " " .. eol
       end,
     }
 
@@ -476,14 +475,14 @@ return {
       -- { SearchCount },
       { Git },
       { Space },
+      { FileIcon },
       { FileNameBlock },
       { Space },
       { provider = "%<" },
       { Align },
       { Diagnostics },
       { Space },
-      { FileIcon },
-      { FileType },
+      { FileInfo },
       { Space },
       { LSPBlock },
       -- { LSPActive },
