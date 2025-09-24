@@ -32,6 +32,7 @@ return {
 
       -- { "<leader>ch", ":nohl<CR>", desc = "Clear Search Highlights" },
 
+      { "<leader>s", group = "Splits"},
       { "<leader>sv", "<C-w>v", desc = "Split window vertically" },
       { "<leader>sh", "<C-w>s", desc = "Split window horizontally" },
       { "<leader>se", "<C-w>=", desc = "Make splits equal size" },

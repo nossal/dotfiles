@@ -69,6 +69,7 @@ local codes = {
     "lowercase-global",
   },
 }
+
 local highlights = {
   { icon = ui.diagnostic_icons.Error, highlight = "DiagnosticError" },
   { icon = ui.diagnostic_icons.Warn, highlight = "DiagnosticWarn" },
@@ -129,7 +130,6 @@ local setup = function()
       header = { "Diagnostics:", "DiagnosticHeader" },
       prefix = function(diagnostic, i, total)
         local h = highlights[diagnostic.severity]
-
         return i .. "/" .. total .. " " .. h.icon .. "  ", h.highlight
       end,
     },

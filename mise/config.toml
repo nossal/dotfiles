@@ -27,8 +27,8 @@ nodejs = "latest"
 experimental = true
 
 trusted_config_paths = [
-  "$HOME/workspace",
-  "$HOME/.dotfiles"
+  "~/workspace",
+  "~/.dotfiles"
 ]
 idiomatic_version_file_enable_tools = ["python"]
 

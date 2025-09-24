@@ -32,14 +32,14 @@ return {
           row = 2,
           col = math.floor(ui.width * 0.98) - width,
           border = "rounded", -- 'single', 'double', 'rounded', 'solid'
-          title = "🤖 AI Assistant",
-          zindex = 100, -- Ensure window stays on top
+          title = " AI Assistant",
+          zindex = 99, -- Ensure window stays on top
         },
 
         headers = {
-          user = "👤 You: ",
-          assistant = "🤖 Copilot: ",
-          tool = "🔧 Tool: ",
+          user = " You: ",
+          assistant = " Copilot: ",
+          tool = " Tool: ",
         },
         separator = "━━",
         show_folds = false, -- Disable folding for cleaner look

@@ -14,7 +14,7 @@ local lsp_servers = {
   },
   -- ltex = {
   --   name = "gram",
-  --   install = true,
+  -- k install = true,
   --   setup = {
   --     settings = {
   --       ltex = {
@@ -208,6 +208,7 @@ local on_attach = function(client, bufnr)
 
     { "<leader>S", vim.lsp.buf.signature_help, desc = "[S]ignature Help" },
 
+    { "<leader>w", group = "Workspaces", icon = "󰥟" },
     -- Workspaces
     { "<leader>wa", vim.lsp.buf.add_workspace_folder, desc = "[W]orkspace [A]dd Folder" },
     { "<leader>wr", vim.lsp.buf.remove_workspace_folder, desc = "[W]orkspace [R]emove Folder" },

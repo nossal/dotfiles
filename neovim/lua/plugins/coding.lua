@@ -30,6 +30,24 @@ return {
   {
     "saecki/crates.nvim",
     event = { "BufRead Cargo.toml" },
-    opts = {}
+    opts = {
+      lsp = {
+        enabled = true,
+        name = "crates.nvim",
+        completion = true,
+        hover = true,
+      },
+    },
+    keys = {
+      { "<leader>rc", "<cmd>Crates reload<cr>", desc = "Reload crates" },
+      { "<leader>rv", "<cmd>Crates show-version<cr>", desc = "Show crate version" },
+      { "<leader>rf", "<cmd>Crates show-features<cr>", desc = "Show crate features" },
+      { "<leader>rd", "<cmd>Crates show-dependencies<cr>", desc = "Show crate dependencies" },
+      { "<leader>ru", "<cmd>Crates update_crate<cr>", desc = "Update crate" },
+      { "<leader>rU", "<cmd>Crates upgrade_crate<cr>", desc = "Upgrade crate" },
+      { "<leader>ra", "<cmd>Crates update-all<cr>", desc = "Update all crates" },
+      { "<leader>ro", "<cmd>Crates open<cr>", desc = "Open crate page" },
+      { "<leader>rD", "<cmd>Crates delete<cr>", desc = "Delete crate" },
+    },
   }
 }
