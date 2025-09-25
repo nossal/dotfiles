@@ -32,7 +32,7 @@ return {
 
       -- { "<leader>ch", ":nohl<CR>", desc = "Clear Search Highlights" },
 
-      { "<leader>s", group = "Splits"},
+      { "<leader>s", group = "Splits" },
       { "<leader>sv", "<C-w>v", desc = "Split window vertically" },
       { "<leader>sh", "<C-w>s", desc = "Split window horizontally" },
       { "<leader>se", "<C-w>=", desc = "Make splits equal size" },
@@ -60,6 +60,7 @@ return {
         end,
         desc = "Find Dotfiles",
       },
+      { "<leader>C", "<cmd>CopilotChatToggle<cr>", desc = "AI Chat" },
     })
   end,
   opts = {

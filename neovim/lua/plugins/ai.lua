@@ -1,6 +1,7 @@
 return {
   {
     "github/copilot.vim",
+    event = "BufReadPost",
     config = function()
       vim.g.copilot_filetypes = {
         ["*"] = true,
@@ -17,6 +18,7 @@ return {
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
+    cmd = { "CopilotChat", "CopilotChatToggle", "CopilotChatOpen" },
     dependencies = {
       { "nvim-lua/plenary.nvim", branch = "master" },
     },
@@ -47,12 +49,6 @@ return {
 
       require("CopilotChat").setup(opts)
 
-      vim.api.nvim_set_keymap(
-        "n",
-        "<leader>C",
-        "<cmd>CopilotChatToggle<cr>",
-        { noremap = true, silent = true, desc = "AI Chat" }
-      )
     end,
   },
   {

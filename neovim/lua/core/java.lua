@@ -13,12 +13,8 @@ local function get_jdtls_config_path()
   return table.concat({ vim.fn.stdpath("cache"), "jdtls", "config" })
 end
 
-local function get_package(name)
-  return vim.fn.expand("$MASON/packages/" .. name)
-end
-
 local function get_jdtls_path()
-  return get_package("jdtls")
+  return helpers.get_mason_package("jdtls")
 end
 
 local function get_lombok_jar()
@@ -27,7 +23,7 @@ local function get_lombok_jar()
 end
 
 local function java_home()
-  return helpers.get_java_home(25)
+  return helpers.get_java_home("lts")
 end
 
 local function root_dir()

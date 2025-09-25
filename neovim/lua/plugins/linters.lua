@@ -1,3 +1,4 @@
+local helpers = require("core.helpers")
 return {
   {
     "mfussenegger/nvim-lint",
@@ -44,39 +45,40 @@ return {
     end,
   },
   {
-    "https://gitlab.com/schrieveslaach/sonarlint.nvim",
-    -- enabled = false,
+    "iamkarasik/sonarqube.nvim",
+    enabled = true,
     event = "BufReadPost",
     config = function()
-      require("sonarlint").setup({
-        server = {
+      local java = helpers.get_java_home(17) .. "/bin/java"
+      local extension_path = helpers.get_mason_package("sonarlint-language-server") .. "/extension"
+      local analyzers_path = extension_path .. "/analyzers"
+
+      require("sonarqube").setup({
+        lsp = {
           cmd = {
-            "sonarlint-language-server",
-            -- Ensure that sonarlint-language-server uses stdio channel
+            java,
+            "-jar",
+            extension_path .. "/server/sonarlint-ls.jar",
             "-stdio",
             "-analyzers",
-            vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
-            vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
+            analyzers_path .. "/sonarjava.jar",
+            analyzers_path .. "/sonarjavasymbolicexecution.jar",
+            analyzers_path .. "/sonarpython.jar",
+            analyzers_path .. "/sonargo.jar",
+            analyzers_path .. "/sonarjs.jar",
+            analyzers_path .. "/sonarhtml.jar",
+            analyzers_path .. "/sonariac.jar",
+            analyzers_path .. "/sonartext.jar",
+            analyzers_path .. "/sonarxml.jar",
           },
-          -- All settings are optional
-          settings = {
-            -- The default for sonarlint is {}, this is just an example
-            sonarlint = {
-              rules = {
-                ["typescript:S101"] = { level = "on", parameters = { format = "^[A-Z][a-zA-Z0-9]*$" } },
-                ["typescript:S103"] = { level = "on", parameters = { maximumLineLength = 180 } },
-                ["typescript:S106"] = { level = "on" },
-                ["typescript:S107"] = { level = "on", parameters = { maximumFunctionParameters = 2 } },
-              },
-            },
-          },
+          capabilities = vim.lsp.protocol.make_client_capabilities(),
         },
-        filetypes = {
-          "python",
-          "javascript",
-          "typescript",
-          "svelte",
-          "java",
+        rules = {
+          enabled = true,
+        },
+        java = {
+          enabled = true,
+          await_jdtls = true,
         },
       })
     end,
