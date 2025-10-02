@@ -17,6 +17,7 @@ local Profile = {
   RYZEN = "RYZEN",
   XONE = "XONE",
   MACPRO = "MACPRO",
+  FEDORA = "FEDORA",
 }
 
 local PROFILES = {
@@ -93,13 +94,36 @@ local PROFILES = {
       },
     },
   },
+  FEDORA = {
+    config = {
+      underline_position = -3,
+      window_decorations = "NONE",
+    },
+    win_presets = {
+      normal = {
+        width = 1790,
+        height = 1032,
+      },
+      mdev = {
+        width = 1700,
+        height = 1032,
+      },
+      video = {
+        width = 1600,
+        height = 1032,
+      },
+    },
+  },
 }
 
 local function get_profile_name()
   local hostname = wezterm.hostname():lower()
 
-  if string.find(hostname, "ryzen") then
+  if string.find(hostname, "ryzenbox") then
     return Profile.RYZEN
+  end
+  if string.find(hostname, "ryzen") then
+    return Profile.FEDORA
   end
   if string.find(hostname, "one") then
     return Profile.XONE
@@ -162,10 +186,7 @@ config.term = "xterm-256color"
 config.bold_brightens_ansi_colors = true
 
 config.font = wezterm.font_with_fallback({
-  { family = "0xProto Nerd Font Propo",
-    weight = "Regular",
-    harfbuzz_features = {"zero" , "ss01", "cv05"}
-  },
+  { family = "0xProto Nerd Font Propo", weight = "Regular", harfbuzz_features = { "zero", "ss01", "cv05" } },
   "Fira Code",
 })
 
@@ -234,7 +255,9 @@ local function window_to_size(preset)
   local gui = wezterm.gui.gui_windows()[1]
 
   gui:set_inner_size(preset.width, preset.height)
-  gui:set_position(preset.left, preset.top)
+  if preset.top then
+    gui:set_position(preset.left, preset.top)
+  end
 end
 
 local function to_size(name)

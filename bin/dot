@@ -539,7 +539,7 @@ function bootstrap() {
   os="$(os_name)"
 
   # install charmbracelet/gum if not present
-  install_from_gh "charmbracelet/gum" "0.16.2" "gum" "$(uname -o)" "$(uname -m)" "tar.gz"
+  #install_from_gh "charmbracelet/gum" "0.16.2" "gum" "$(uname -o)" "$(uname -m)" "tar.gz"
 
   # ask to manage the OS
   # read -r -p "Do you want to manage the OS ($os)? [y/N] " response
