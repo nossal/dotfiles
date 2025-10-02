@@ -1,7 +1,7 @@
 return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    ft = { "markdown", "Avante" },
+    ft = { "markdown" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
@@ -9,9 +9,15 @@ return {
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
-      file_types = { "markdown", "Avante" },
+      file_types = { "markdown" },
       completions = { blink = { enabled = true } },
-      code = { width = "block", position = "right", left_pad = 1, right_pad = 1, language_pad = 1 },
+      code = {
+        width = "block",
+        position = "right",
+        left_pad = 1,
+        right_pad = 1,
+        language_pad = 1,
+      },
       heading = {
         width = "block",
         right_pad = 1,

@@ -240,9 +240,7 @@ local capabilities = function()
     properties = { "documentation", "detail", "additionalTextEdits" },
   }
 
-  local capbs = require("blink.cmp").get_lsp_capabilities(capabilities)
-
-  return capbs
+  return capabilities
 end
 
 return {

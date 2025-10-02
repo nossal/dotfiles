@@ -5,9 +5,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = "BufEnter",
-    dependencies = {
-      { "saghen/blink.cmp" },
-    },
     config = function()
       require("core.diagnostics").setup()
 
