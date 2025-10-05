@@ -23,19 +23,23 @@ local Profile = {
 local PROFILES = {
   XONE = {
     config = {
-      font_size = 14,
+      font_size = 13,
       underline_position = -6,
       enable_wayland = true,
       window_decorations = "NONE",
-      window_frame = {
-        border_left_width = "0.5cell",
-        border_right_width = "0.5cell",
-        border_bottom_height = "0.5cell",
-        border_top_height = "0.5cell",
-        border_left_color = "#010a23",
-        border_right_color = "#010a23",
-        border_bottom_color = "#010a23",
-        border_top_color = "#010a23",
+    },
+    win_presets = {
+      normal = {
+        width = 2837,
+        height = 1699,
+      },
+      mdev = {
+        width = 1937,
+        height = 1699,
+      },
+      video = {
+        width = 1437,
+        height = 1699,
       },
     },
   },
@@ -269,11 +273,7 @@ wezterm.on("gui-startup", function(cmd)
   local tab, pane, window = mux.spawn_window(cmd or {})
   local win = window:gui_window()
 
-  if get_profile_name() == Profile.XONE then
-    win:maximize()
-  else
-    to_size("normal")
-  end
+  to_size("normal")
 end)
 
 -- wezterm.on('window-config-reloaded', function(window, pane)
