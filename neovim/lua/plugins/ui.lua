@@ -18,8 +18,9 @@ return {
         },
       },
       dashboard = {
+        width = 68,
         sections = {
-          { section = "terminal", cmd = "cat ~/.dotfiles/neovim/neo.txt", height = 8, padding = 1 },
+          { section = "terminal", cmd = "cat ~/.dotfiles/neovim/neo.txt", height = 9, padding = 0 },
           { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
           { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
           -- { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
@@ -50,8 +51,8 @@ return {
       image = {},
       bigfile = {
         notify = true,
-        size = 2 * 1024 * 1024
-      }
+        size = 2 * 1024 * 1024,
+      },
     },
   },
   {
@@ -75,7 +76,16 @@ return {
           enabled = false,
         },
         documentation = {
-          enabled = false,
+          -- enabled = true,
+          view = "hover",
+          ---@type NoiceViewOptions
+          opts = {
+            lang = "markdown",
+            replace = true,
+            render = "plain",
+            format = { "{message}" },
+            win_options = { concealcursor = "n", conceallevel = 3 },
+          },
         },
       },
       cmdline = {
