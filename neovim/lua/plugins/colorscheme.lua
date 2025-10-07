@@ -17,8 +17,12 @@ return {
           colors.green = "#0aaf27"
           colors.bg = "#121119"
           colors.bg_float = "#121119"
+          colors.fg_float = "#42352f"
         end,
         on_highlights = function(hl, c)
+          hl.FloatBorder = { fg = c.fg_float }
+
+          hl.SnacksIndent= { fg = util.lighten(c.bg, 0.97) }
           -- hl.GitConflictCurrent = {
           --   bg =
           -- }
@@ -27,6 +31,10 @@ return {
           -- hl.GitConflictCurrentLabel
           -- hl.GitConflictIncomingLabel
           -- hl.GitConflictAncestorLabel
+          hl.GitSignsAdd    = { fg = "#219500" }
+          hl.GitSignsChange = { fg = "#ff6600"}
+          hl.GitSignsDelete = { fg = c.red500 }
+
           hl.llama_hl_hint = { bg = "#000000", fg = "#666666" }
 
           hl.EndOfBuffer = {
@@ -44,7 +52,7 @@ return {
           hl.Constant = { fg = c.green }
           hl.String = { fg = c.green }
 
-          hl.LineNr = { fg = "#42352f" }
+          hl.LineNr = { fg = "#4b4c4e" }
           hl.CursorLineNr = { fg = "#aa4400" }
           hl.CursorLine = {
             -- bg = util.darken(c.bg, 0.1),
