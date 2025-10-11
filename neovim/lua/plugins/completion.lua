@@ -26,6 +26,7 @@ return {
         nerd_font_variant = "mono",
       },
       completion = {
+        trigger = { show_on_keyword = true },
         menu = {
           -- border = "rounded",
           draw = {

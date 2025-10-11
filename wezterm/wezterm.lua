@@ -148,6 +148,11 @@ end
 --   end
 -- end
 -- config.front_end = "WebGpu"
+config.max_fps = 120
+config.prefer_egl = true
+
+config.animation_fps = 60
+
 config.color_schemes = {
   ["nossal"] = {
     background = "#1e1e1e",
@@ -177,6 +182,7 @@ config.color_schemes = {
   },
 }
 config.color_scheme = "nossal"
+config.bold_brightens_ansi_colors = true
 
 config.enable_tab_bar = false
 config.use_fancy_tab_bar = false
@@ -187,7 +193,6 @@ config.show_new_tab_button_in_tab_bar = false
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
 
 config.term = "xterm-256color"
-config.bold_brightens_ansi_colors = true
 
 config.font = wezterm.font_with_fallback({
   { family = "0xProto Nerd Font Propo", weight = "Regular", harfbuzz_features = { "zero", "ss01", "cv05" } },
@@ -224,8 +229,6 @@ config.cursor_blink_rate = 500
 config.cursor_blink_ease_in = "Linear"
 config.cursor_blink_ease_out = "EaseIn"
 
-config.animation_fps = 60
--- config.max_fps = 120
 
 -- config.visual_bell = {
 --   fade_in_function = "EaseIn",
