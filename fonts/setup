@@ -16,8 +16,14 @@ function setup() {
   [ "$(is_wsl)" = true ] && \
     target="/mnt/c/Users/$(username)/AppData/Local/Microsoft/Windows/Fonts"
 
-  [ -n "$target" ] && \
-    cp -rf "$DOTFILES_HOME/fonts/*" "$target/"
+  [ ! -e "$target" ] && \
+    mkdir -p "$target"
+
+  echo "$target"
+  cp -rf "$DOTDIR/fonts/fonts/." "$target"
+
+  [ "$os" = "mac" ] && \
+  fc-cache -v &>/dev/null
 }
 
 check() {

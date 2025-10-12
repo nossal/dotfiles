@@ -29,6 +29,7 @@ return {
       },
       input = {},
       indent = {
+        enabled = true,
         animate = {
           duration = {
             total = 300,

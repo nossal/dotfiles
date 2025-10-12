@@ -32,7 +32,7 @@ return {
         css = { "biome" },
         yaml = { "yamlfmt" },
         python = { "ruff_format" },
-        java = { "clang-format" },
+        -- java = { "clang-format" },
         bash = { "shfmt" },
         sh = { "shfmt" },
         shell = { "shfmt" },

@@ -84,7 +84,6 @@ local function jdtls_launcher()
   return cmd
 end
 
-
 local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
@@ -191,6 +190,13 @@ local config = {
         organizeImports = {
           starThreshold = 9999,
           staticStarThreshold = 9999,
+        },
+      },
+      format = {
+        enabled = true,
+        settings = {
+          path = vim.fn.expand("~/.dotfiles") .. "/java-format.xml",
+          profile = "CustomJavaStyle",
         },
       },
       configuration = {
@@ -313,7 +319,6 @@ local function setup()
   -- -- local is_java_project = vim.fn.exists("pom.xml") > 0 or vim.fn.exists("build.gradle") > 0
   -- -- if is_java_project then
   local lsp = require("core.lsp")
-
   config.capabilities = lsp.capabilities()
 
   require("jdtls").start_or_attach(config, {
@@ -322,8 +327,8 @@ local function setup()
 
   lsp.on_attach(nil, 0)
 
-  require("core.diagnostics")
-  require("ufo").setup()
+  -- require("core.diagnostics")
+  -- require("ufo").setup()
   -- local sc = java.spring_boot_config
   -- require("spring_boot.launch").start(sc)
   -- -- end
