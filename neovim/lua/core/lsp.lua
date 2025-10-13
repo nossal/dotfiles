@@ -103,6 +103,13 @@ local lsp_servers = {
   bashls = { name = "bash", install = true },
   gradle_ls = { name = "gradle", install = true },
   terraformls = { name = "terraform", install = true },
+  jdtls = {
+    install = true,
+    name = "java",
+    root_markers = { "build.gradle", "pom.xml" },
+    setup = require("core.java").config,
+    on_attach = require("core.java").on_attach,
+  },
   yamlls = {
     name = "yaml",
     install = true,
@@ -129,11 +136,6 @@ local lsp_servers = {
 local other_lsp_servers = {
   ["GitHub Copilot"] = { name = "copilot", ai = true },
   ["sonarlint.nvim"] = { name = "sonar" },
-  jdtls = {
-    install = true,
-    name = "java",
-    root_markers = { "build.gradle", "pom.xml" },
-  },
 }
 
 local all_lsp_server = vim.tbl_extend("force", lsp_servers, other_lsp_servers)

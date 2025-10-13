@@ -48,10 +48,10 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
   nested = true,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "java", "kotlin", "groovy" }, -- for build.gradle
-  callback = function()
-    local java = require("core.java")
-    java.setup()
-  end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "java", "kotlin", "groovy" }, -- for build.gradle
+--   callback = function()
+--     local java = require("core.java")
+--     java.setup()
+--   end,
+-- })

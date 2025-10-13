@@ -1,5 +1,5 @@
 local helpers = require("core.helpers")
-local mason, _ = pcall(require, "mason-registry")
+-- local mason, _ = pcall(require, "mason-registry")
 
 local function get_workspace_path()
   local project_path = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h")
@@ -100,9 +100,6 @@ local config = {
   -- for a list of options
   settings = {
     java = {
-      -- format = {
-      --   settings = fmt_config(),
-      -- },
       autobuild = { enabled = false },
       maxConcurrentBuilds = 1,
       home = java_home(),
@@ -153,6 +150,9 @@ local config = {
         },
       },
       contentProvider = { preferred = "fernflower" },
+      saveActions = {
+        organizeImports = true,
+      },
       completion = {
         favoriteStaticMembers = {
           "org.junit.Assert.*",
@@ -195,7 +195,7 @@ local config = {
       format = {
         enabled = true,
         settings = {
-          path = vim.fn.expand("~/.dotfiles") .. "/java-format.xml",
+          url = vim.fn.expand("~/.dotfiles") .. "/java-format.xml",
           profile = "CustomJavaStyle",
         },
       },
@@ -221,7 +221,9 @@ local config = {
       },
     },
   },
-
+  init_options = {
+    bundles = require("spring_boot").java_extensions(),
+  },
   -- Language server `initializationOptions`
   -- You need to extend the `bundles` with paths to jar files
   -- if you want to use additional eclipse.jdt.ls plugins.
@@ -231,11 +233,12 @@ local config = {
   -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
   -- init_options = {
   --   bundles = {
-  --     vim.fn.glob("/opt/software/lsp/java/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-0.35.0.jar")
-  --   },
-  --   workspace = workspace_dir
+  -- vim.fn.glob("/opt/software/lsp/java/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-0.35.0.jar")
+  -- },
+  -- workspace = workspace_dir
   -- },
 }
+
 local function ls_path()
   local path = vim.env["JDTLS_SPRING_TOOLS_PATH"]
   if path == nil or path == "" then
@@ -293,27 +296,6 @@ local function bootls_user_command(buf)
   })
 end
 
-local function spring_boot_config()
-  local lspath = ls_path()
-  if lspath == nil then
-    return nil
-  end
-
-  return require("spring_boot.launch").update_ls_config(require("spring_boot").setup({
-    ls_path = lspath,
-    server = {
-      on_attach = function(client, bufnr)
-        require("core.lsp").on_attach(client, bufnr)
-        bootls_user_command(bufnr)
-      end,
-      on_init = function(client, ctx)
-        client.server_capabilities.documentHighlightProvider = false
-      end,
-      capabilities = require("core.lsp").capabilities(),
-    },
-    autocmd = false,
-  }))
-end
 
 local function setup()
   -- -- local is_java_project = vim.fn.exists("pom.xml") > 0 or vim.fn.exists("build.gradle") > 0
@@ -334,8 +316,20 @@ local function setup()
   -- -- end
 end
 
+local function on_attach(client, bufnr)
+  if client.name == "jdtls" then
+    -- require("spring_boot.launch").start({}) -- with default config
+    require('spring_boot').init_lsp_commands()
+
+    -- require("jdtls").setup_dap({ hotcodereplace = "auto" })
+    -- require("jdtls").setup_dap_main_class_configs()
+    -- require("jdtls").setup_additional_commands()
+    bootls_user_command(bufnr)
+  end
+end
+
 return {
-  spring_boot_config = spring_boot_config(),
+  on_attach = on_attach,
   config = config,
   setup = setup,
 }
