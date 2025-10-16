@@ -343,7 +343,11 @@ return {
     }
 
     local get_project_name = helpers.memoize(function(cwd)
-      return vim.trim(vim.fn.system({ "git", "-C", cwd, "repo-name" }))
+      local result = vim.fn.system({ "git", "-C", cwd, "repo-name"})
+      if vim.api.nvim_get_vvar("shell_error") == 0 then
+        return vim.trim(result)
+      end
+      return ""
     end)
 
     local Git = {
