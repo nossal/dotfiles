@@ -65,6 +65,10 @@ return {
           hl.BlinkCmpMenuSelection = {
             bg = util.lighten(c.bg, 0.85),
           }
+          hl.BlinkCmpSignatureHelpActiveParameter = {
+            bg = util.lighten(c.bg, 0.9),
+            underline = true,
+          }
         end,
       })
       vim.cmd([[colorscheme solarized-osaka]])

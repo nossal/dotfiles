@@ -319,12 +319,12 @@ end
 local function on_attach(client, bufnr)
   if client.name == "jdtls" then
     -- require("spring_boot.launch").start({}) -- with default config
-    require('spring_boot').init_lsp_commands()
+    -- require('spring_boot').init_lsp_commands()
 
     -- require("jdtls").setup_dap({ hotcodereplace = "auto" })
     -- require("jdtls").setup_dap_main_class_configs()
     -- require("jdtls").setup_additional_commands()
-    bootls_user_command(bufnr)
+    -- bootls_user_command(bufnr)
   end
 end
 
