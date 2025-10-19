@@ -93,6 +93,9 @@ local lsp_servers = {
     setup = {
       settings = {
         basedpyright = {
+          autoImportCompletions = true,
+          disableOrganizeImports = true,
+          diagnosticMode = "workspace", -- openFilesOnly, workspace
           analysis = {
             typeCheckingMode = "standard", -- off, basic, standard, strict, recommended, all
           },
@@ -100,6 +103,7 @@ local lsp_servers = {
       },
     },
   },
+  ruff = { name = "ruff", install = true },
   bashls = { name = "bash", install = true },
   gradle_ls = { name = "gradle", install = true },
   terraformls = { name = "terraform", install = true },
