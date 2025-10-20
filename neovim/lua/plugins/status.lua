@@ -232,15 +232,18 @@ return {
         local ai = {}
         for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
           local cfg = languages[server.name]
-          if cfg.ai then
-            table.insert(ai, cfg.name)
-          else
-            table.insert(names, cfg.name)
+          if not cfg.hidden then
+            local n = names
+            if cfg.ai then
+              n = ai
+            end
+            table.insert(n, cfg.name)
           end
         end
         self.names = names
         self.ai = ai
       end,
+      hl = { fg = "#4488dd", bg = "#191919", italic = true },
     }
 
     local LSPActive = {
@@ -265,29 +268,23 @@ return {
         -- return " " .. table.concat(self.ai, " ") .. " "
         return " "
       end,
-      hl = { fg = "#4488dd", bg = "#232323", italic = true },
     }
 
     local PyEnv = {
+      init =  function (self)
+        self.py = require("core.python")
+      end,
       condition = function(self)
         return vim.tbl_contains(self.names, "python")
       end,
-      provider = function()
-        local py = require("core.python")
-        local version, name = py.get_env(py.get_pyenv())
-        return " " .. name .. ":" .. version
+      provider = function(self)
+        local version, name = self.py.get_env(self.py.get_pyenv())
+        return name .. ":" .. version
       end,
+      hl = { fg = "#666666"},
     }
 
-    LSPBlock = utils.insert(LSPBlock, LSPActive, { provider = " "}, LSAPAi, PyEnv)
-
-    -- I personally use it only to display progress messages!
-    -- See lsp-status/README.md for configuration options.
-
-    -- local LSPMessages = {
-    -- 	provider = require("lsp-status").status,
-    -- 	hl = { fg = "gray" },
-    -- }
+    LSPBlock = utils.insert(LSPBlock, PyEnv, { provider = " " }, LSPActive, { provider = " "}, LSAPAi)
 
     local signs = require("core.ui").diagnostic_icons
     local Diagnostics = {
@@ -309,9 +306,6 @@ return {
 
       update = { "DiagnosticChanged", "BufEnter" },
 
-      {
-        provider = " ",
-      },
       {
         provider = function(self)
           -- 0 is just another output, we can decide to print it or not!
@@ -337,9 +331,7 @@ return {
         end,
         hl = { fg = "green" },
       },
-      {
-        provider = " ",
-      },
+      { provider = " " },
     }
 
     local get_project_name = helpers.memoize(function(cwd)
@@ -360,16 +352,22 @@ return {
       end,
       hl = { fg = "#FF5D30" },
 
-      {
+      { -- project name
+        condition = function(self)
+          return self.project_name and #self.project_name > 0
+        end,
         provider = function(self)
-          return self.project_name .. "  "
+          return self.project_name
         end,
         hl = { fg = "#0022ee" },
       },
 
       { -- git branch name
+        condition = function(self)
+          return self.status_dict.head and #self.status_dict.head > 0
+        end,
         provider = function(self)
-          return "󰘬 " .. self.status_dict.head
+          return " 󰘬 " .. self.status_dict.head
         end,
         -- hl = { bold = true },
       },
@@ -481,16 +479,14 @@ return {
       { Space },
       { FileIcon },
       { FileNameBlock },
-      { Space },
+      -- { Space },
       { provider = "%<" },
       { Align },
       { Diagnostics },
+      -- { Space },
+      { LSPBlock },
       { Space },
       { FileInfo },
-      { Space },
-      { LSPBlock },
-      -- { LSPActive },
-      -- { PyEnv },
       { Space },
       { Ruler },
       { ScrollBar },

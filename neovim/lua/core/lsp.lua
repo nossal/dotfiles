@@ -103,7 +103,7 @@ local lsp_servers = {
       },
     },
   },
-  ruff = { name = "ruff", install = true },
+  ruff = { name = "ruff", install = true, hidden = true },
   bashls = { name = "bash", install = true },
   gradle_ls = { name = "gradle", install = true },
   terraformls = { name = "terraform", install = true },
@@ -139,7 +139,7 @@ local lsp_servers = {
 
 local other_lsp_servers = {
   ["GitHub Copilot"] = { name = "copilot", ai = true },
-  ["sonarlint.nvim"] = { name = "sonar" },
+  ["sonarqube"] = { name = "sonar" },
 }
 
 local all_lsp_server = vim.tbl_extend("force", lsp_servers, other_lsp_servers)
