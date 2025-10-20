@@ -48,8 +48,10 @@ return {
       }
 
       require("CopilotChat").setup(opts)
-
     end,
+    keys = {
+      { "<leader>C", "<cmd>CopilotChatToggle<cr>", desc = "AI Chat" },
+    },
   },
   {
     "ggml-org/llama.vim",

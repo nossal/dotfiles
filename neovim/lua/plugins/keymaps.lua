@@ -60,7 +60,6 @@ return {
         end,
         desc = "Find Dotfiles",
       },
-      { "<leader>C", "<cmd>CopilotChatToggle<cr>", desc = "AI Chat" },
     })
   end,
   opts = {

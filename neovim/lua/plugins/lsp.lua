@@ -1,4 +1,3 @@
-
 local border = require("core.ui").border
 
 return {
@@ -93,7 +92,7 @@ return {
       mason_tool_installer.setup({
         run_on_start = false,
         ensure_installed = {
-          "clang-format", -- java formatter
+          "clang-format", -- C/C++ formatter
           "shfmt", -- shell formatter
           "stylua", -- lua formatter
           "ruff", -- python formatter/linter
