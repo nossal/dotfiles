@@ -1,26 +1,54 @@
 return {
   {
     "stevearc/oil.nvim",
+    lazy = false,
+    ---@module 'oil'
+    ---@type oil.SetupOpts
     opts = {
       default_file_explorer = true,
-      float = {
-        -- Padding around the floating window
-        padding = 2,
-        max_width = 0,
-        max_height = 0,
-        border = "rounded",
-        win_options = {
-          winblend = 0,
-        },
-        -- This is the config that will be passed to nvim_open_win.
-        -- Change values here to customize the layout
-        override = function(conf)
-          return conf
-        end,
+      skip_confirm_for_simple_edits = true,
+      columns = {
+        "icon",
+        -- "permissions",
+        -- "size",
+        -- "mtime",
       },
+      confirmation = {
+        border = "rounded",
+      },
+      float = {
+        max_width = 0.25, -- Values are percentages relative to window size
+        max_height = 32,
+        border = "rounded",
+        override = function(cfg)
+          local ui = vim.api.nvim_list_uis()[1]
+          cfg["col"] = 7
+          cfg["row"] = 1
+          cfg["height"] = ui.height - 4
+
+          return cfg
+        end,
+        get_win_title = function()
+          return "FILES"
+        end,
+        win_options = {
+          colorcolumn = "",
+          cursorcolumn = false,
+        },
+      },
+      keymaps = {
+        ["q"] = { "actions.close", mode = "n" },
+      }
     },
     keys = {
-      { "<Leader>e", vim.cmd.Oil },
+      { "<Leader>E", vim.cmd.Oil, desc = "Open File Explorer" },
+      {
+        "<Leader>e",
+        function()
+          require("oil").toggle_float()
+        end,
+        desc = "Toggle File Explorer",
+      },
     },
   },
   {

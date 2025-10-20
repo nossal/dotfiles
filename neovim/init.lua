@@ -50,4 +50,3 @@ require("lazy").setup("plugins", {
   },
  })
 
-require("oil").setup()
