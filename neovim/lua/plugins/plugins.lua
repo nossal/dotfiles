@@ -1,17 +1,10 @@
 return {
-  { "barreiroleo/ltex_extra.nvim", lazy = true },
   {
-    "chipsenkbeil/distant.nvim",
-    enabled = false,
-    cmd = { "DistantConnect", "DistantLaunch", "DistantInstall", "DistantOpen" },
-    branch = "v0.3",
-    config = function()
-      require("distant"):setup({
-        ["network.private"] = true,
-        ["network.unix_socket"] = "/tmp/distant.sock",
-      })
-    end,
+    "nossal/cleantext.nvim",
+    dir = "~/workspace/cleantext.nvim",
+    cmd = "CleanText",
   },
+  { "barreiroleo/ltex_extra.nvim", lazy = true },
   {
     "alexghergh/nvim-tmux-navigation",
     event = "VeryLazy",

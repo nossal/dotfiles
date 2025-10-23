@@ -48,8 +48,6 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
   nested = true,
 })
 
-require("core.textcleaner")
-
 -- vim.api.nvim_create_autocmd("FileType", {
 --   pattern = { "java", "kotlin", "groovy" }, -- for build.gradle
 --   callback = function()
