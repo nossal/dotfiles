@@ -27,83 +27,6 @@ function has() {
   command -v "$callable" 1>/dev/null 2>&1
 }
 
-function install_from_gh() {
-  # Downloads and installs a binary from GitHub releases
-  #
-  # This function downloads a release from GitHub, extracts it, and installs
-  # the binary to $LOCAL_BIN_DIR. It supports different naming conventions
-  # and archive formats commonly used in GitHub releases.
-  #
-  # Arguments:
-  #   $1 - GitHub repository (e.g., "charmbracelet/gum")
-  #   $2 - Version (e.g., "0.11.0")
-  #   $3 - Binary name (e.g., "gum")
-  #   $4 - Kernel (e.g., "darwin", "linux")
-  #   $5 - Architecture (e.g., "amd64", "arm64")
-  #   $6 - Archive format (optional, defaults to "tar.gz")
-  #
-  # Example:
-  #   install_from_gh "charmbracelet/gum" "0.11.0" "gum" "darwin" "arm64"
-  #
-  local repo="$1"
-  local version="$2"
-  local binary="$3"
-  local kernel="$4"
-  local arch="$5"
-  local format="${6:-tar.gz}"
-
-  local name="${binary}_${version}_${kernel}_${arch}"
-  local url="https://github.com/${repo}/releases/download/v${version}/${name}.${format}"
-  local tmp_dir="$(mktemp -d)"
-  local archive="$tmp_dir/${binary}.${format}"
-
-  echo "Installing ${binary} v${version} for ${kernel}/${arch}..."
-
-  # Download the release
-  if ! curl -s -L "$url" -o "$archive"; then
-    echo "Failed to download from $url"
-    rm -rf "$tmp_dir"
-    return 1
-  fi
-
-  # Extract based on format
-  case "$format" in
-    "tar.gz"|"tgz")
-      if ! tar -xzf "$archive" -C "$tmp_dir"; then
-        echo "Failed to extract archive"
-        rm -rf "$tmp_dir"
-        return 1
-      fi
-      ;;
-    "zip")
-      if ! unzip -q "$archive" -d "$tmp_dir"; then
-        echo "Failed to extract archive"
-        rm -rf "$tmp_dir"
-        return 1
-      fi
-      ;;
-    *)
-      echo "Unsupported archive format: $format"
-      rm -rf "$tmp_dir"
-      return 1
-      ;;
-  esac
-
-  # Find and copy the binary
-  if [ -f "$tmp_dir/${name}/${binary}" ]; then
-    cp "$tmp_dir/${name}/${binary}" "$LOCAL_BIN_DIR/"
-  elif [ -f "$tmp_dir/${binary}" ]; then
-    cp "$tmp_dir/${binary}" "$LOCAL_BIN_DIR/"
-  else
-    echo "Could not find binary in extracted archive"
-    rm -rf "$tmp_dir"
-    return 1
-  fi
-
-  # Cleanup
-  rm -rf "$tmp_dir"
-  echo "${binary} v${version} installed successfully to $LOCAL_BIN_DIR"
-}
 
 function install() {
   local cmd="$1"
@@ -537,9 +460,6 @@ function bootstrap() {
 
   local os
   os="$(os_name)"
-
-  # install charmbracelet/gum if not present
-  #install_from_gh "charmbracelet/gum" "0.16.2" "gum" "$(uname -o)" "$(uname -m)" "tar.gz"
 
   # ask to manage the OS
   # read -r -p "Do you want to manage the OS ($os)? [y/N] " response
