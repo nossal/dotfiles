@@ -8,15 +8,13 @@ gui:
     activeBorderColor:
       - green
       - bold
-
     # Border color of non-focused windows
     inactiveBorderColor:
       - "#555"
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never
-
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never
 customCommands:
   - key: '<c-l>'
     context: 'reflogCommits'

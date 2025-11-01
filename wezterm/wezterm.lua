@@ -64,6 +64,12 @@ local PROFILES = {
         top = 10,
         left = 350,
       },
+      left = {
+        width = 1790,
+        height = 1002,
+        top = 10,
+        left = 10,
+      },
       mdev = {
         width = 1700,
         height = 1026,
@@ -285,7 +291,7 @@ end)
 
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 config.keys = {
-  { key = "L", mods = "LEADER", action = wezterm.action.ShowDebugOverlay },
+  { key = "D", mods = "LEADER", action = wezterm.action.ShowDebugOverlay },
   {
     key = "v",
     mods = "LEADER",
@@ -305,6 +311,13 @@ config.keys = {
     mods = "LEADER",
     action = wezterm.action_callback(function(win, pane)
       to_size("mdev")
+    end),
+  },
+  {
+    key = "l",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(win, pane)
+      to_size("left")
     end),
   },
   { key = "a", mods = "LEADER|CTRL", action = wezterm.action.SendKey({ key = "a", mods = "CTRL" }) },
