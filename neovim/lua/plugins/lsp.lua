@@ -1,4 +1,4 @@
-local border = require("core.ui").border
+local core_ui = require("core.ui")
 
 return {
   {
@@ -50,7 +50,7 @@ return {
     -- lazy = true,
     opts = {
       ui = {
-        border = border,
+        border = core_ui.border,
         height = 0.8,
         width = 0.6,
         icons = {

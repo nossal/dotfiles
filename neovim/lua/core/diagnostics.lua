@@ -1,11 +1,11 @@
-local ui = require("core.ui")
+local core_ui = require("core.ui")
 
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   opts = opts or {}
   opts.max_width = 70
   opts.max_height = 15
-  opts.border = opts.border or ui.border or "rounded"
+  opts.border = opts.border or core_ui.border or "rounded"
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
@@ -71,20 +71,20 @@ local codes = {
 }
 
 local highlights = {
-  { icon = ui.diagnostic_icons.Error, highlight = "DiagnosticError" },
-  { icon = ui.diagnostic_icons.Warn, highlight = "DiagnosticWarn" },
-  { icon = ui.diagnostic_icons.Info, highlight = "DiagnosticInfo" },
-  { icon = ui.diagnostic_icons.Hint, highlight = "DiagnosticHint" },
+  { icon = core_ui.diagnostic_icons.Error, highlight = "DiagnosticError" },
+  { icon = core_ui.diagnostic_icons.Warn, highlight = "DiagnosticWarn" },
+  { icon = core_ui.diagnostic_icons.Info, highlight = "DiagnosticInfo" },
+  { icon = core_ui.diagnostic_icons.Hint, highlight = "DiagnosticHint" },
 }
 
 local setup = function()
   vim.diagnostic.config({
     signs = {
       text = {
-        [vim.diagnostic.severity.ERROR] = ui.diagnostic_icons.Error,
-        [vim.diagnostic.severity.WARN] = ui.diagnostic_icons.Warn,
-        [vim.diagnostic.severity.HINT] = ui.diagnostic_icons.Hint,
-        [vim.diagnostic.severity.INFO] = ui.diagnostic_icons.Info,
+        [vim.diagnostic.severity.ERROR] = core_ui.diagnostic_icons.Error,
+        [vim.diagnostic.severity.WARN] = core_ui.diagnostic_icons.Warn,
+        [vim.diagnostic.severity.HINT] = core_ui.diagnostic_icons.Hint,
+        [vim.diagnostic.severity.INFO] = core_ui.diagnostic_icons.Info,
       },
     },
     underline = true,

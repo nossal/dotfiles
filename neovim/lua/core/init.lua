@@ -1,4 +1,5 @@
 require("core.options")
+require("core.gpg")
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)

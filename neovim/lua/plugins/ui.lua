@@ -141,4 +141,12 @@ return {
     enabled = true,
     opts = {},
   },
+  {
+    "mboyov/pane-resizer.nvim",
+    config = function()
+      require("pane_resizer").setup({
+        FOCUSED_WIDTH_PERCENTAGE = 0.6, -- Optional: focused window width (default: 0.7)
+      })
+    end,
+  },
 }

@@ -1,6 +1,6 @@
 require("core")
 
-local border = require("core.ui").border
+local core_ui = require("core.ui")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -30,7 +30,7 @@ require("lazy").setup("plugins", {
     frequency = 604800,
   },
   ui = {
-    border = border,
+    border = core_ui.border,
     size = { width = 0.5, height = 0.8 },
     backdrop = 95,
     title = " Lazy Plugin Manager ",

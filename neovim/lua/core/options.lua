@@ -74,8 +74,9 @@ opt.splitbelow = false -- split horizontal window to the bottom
 -- mouse & scroll
 opt.mousescroll = "ver:1,hor:1"
 opt.mouse = "a"
-opt.scrolloff = 6 -- Keep 8 lines above/below cursor when scrolling
-opt.sidescrolloff = 6 -- Keep 8 columns to the sides when scrolling horizontally
+opt.scrolloff = 6 -- Keep 6 lines above/below cursor when scrolling
+opt.sidescrolloff = 6 -- Keep 6 columns to the sides when scrolling horizontally
+opt.sidescroll = 3
 
 opt.sessionoptions = list({
   "blank",

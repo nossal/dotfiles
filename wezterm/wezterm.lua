@@ -200,6 +200,7 @@ config.hyperlink_rules = wezterm.default_hyperlink_rules()
 
 config.term = "xterm-256color"
 
+config.adjust_window_size_when_changing_font_size = false
 config.font = wezterm.font_with_fallback({
   { family = "0xProto Nerd Font Propo", weight = "Regular", harfbuzz_features = { "zero", "ss01", "cv05" } },
   "Fira Code",
@@ -292,6 +293,10 @@ end)
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 config.keys = {
   { key = "D", mods = "LEADER", action = wezterm.action.ShowDebugOverlay },
+  { key = "P", mods = "LEADER", action = wezterm.action_callback(function(win, pane)
+    wezterm.action.font_size(32)
+  end),
+  },
   {
     key = "v",
     mods = "LEADER",
