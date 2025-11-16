@@ -20,7 +20,9 @@ end
 
 --- @type VenvChangedHook
 function M.hook(_, venv_python)
-  local client = (vim.lsp.get_clients or vim.lsp.get_active_clients)({ name = "basedpyright" })[1]
+  -- local client = (vim.lsp.get_clients or vim.lsp.get_active_clients)({ name = "basedpyright" })[1]
+  local client = vim.lsp.get_clients({ name = "pyrefly" })[1]
+  vim.notify("Setting Python path to: " .. venv_python, vim.log.levels.INFO, { title = "LSP" })
   if client.settings then
     client.settings = vim.tbl_deep_extend("force", client.settings, { python = { pythonPath = venv_python } })
   else

@@ -1,4 +1,5 @@
 local lsp_servers = {
+  ocamllsp = { name = "ocaml", install = true },
   svelte = {
     name = "svelte",
     install = true,
@@ -87,22 +88,7 @@ local lsp_servers = {
     },
   },
   biome = { name = "biome", install = true },
-  basedpyright = {
-    name = "python",
-    install = true,
-    setup = {
-      settings = {
-        basedpyright = {
-          autoImportCompletions = true,
-          disableOrganizeImports = true,
-          diagnosticMode = "workspace", -- openFilesOnly, workspace
-          analysis = {
-            typeCheckingMode = "standard", -- off, basic, standard, strict, recommended, all
-          },
-        },
-      },
-    },
-  },
+  pyrefly = { name = "python", install = true},
   ruff = { name = "ruff", install = true, hidden = true },
   bashls = { name = "bash", install = true },
   gradle_ls = { name = "gradle", install = true },
@@ -178,7 +164,7 @@ local on_attach = function(client, bufnr)
     { "gR", "<cmd>FzfLua lsp_references<CR>", desc = "Show LSP references" },
     { "gt", "<cmd>FzfLua lsp_type_definitions<CR>", desc = "Show LSP type definitions" },
     { "<leader>fs", "<cmd>FzfLua lsp_live_workspace_symbols<CR>", desc = "Find Workspace Symbol" },
-    { "<leader>D", "<cmd>FzfLua diagnostics bufnr=0<CR>", desc = "Show buffer diagnostics" },
+    { "<leader>D", "<cmd>FzfLua diagnostics_document ufnr=0<CR>", desc = "Show buffer diagnostics" },
     { "<leader>d", vim.diagnostic.open_float, desc = "Show line diagnostics" },
     { "<leader>rs", ":LspRestart<CR>", desc = "Restart LSP" },
     {
