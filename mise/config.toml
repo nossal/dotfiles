@@ -22,6 +22,7 @@ python = "latest"
 go = "latest"
 deno = "latest"
 nodejs = "latest"
+opam = "latest"
 
 [settings]
 experimental = true

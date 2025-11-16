@@ -99,15 +99,15 @@ return {
           "biome", -- javascript, json formatter/linter
           "yamlfmt", -- YAML formatteer
           "superhtml", -- HTML formatter/linter
+          "ocamlformat", -- OCaml formatter
 
           -- "luacheck",     -- lua linter
           -- "stylelint", -- css linter
           "selene", -- Lua linter
           "shellcheck", -- shell linter
           "markdownlint", -- markdown linter
-          "vale", -- markdown linter
           "yamllint", -- yaml linter
-          "sonarlint-language-server",
+          "sonarlint-language-server", -- multi-language linter
 
           -- "ast_grep", -- linter/formater
         },
