@@ -105,6 +105,10 @@ version_format ="${raw}"
 symbol = " "
 style = "fg:#2443b5 bg:lang_bg italic"
 
+[ocaml]
+format = "[ ${symbol}(${version} )]($style)"
+style = "fg:#ee8800 bg:lang_bg italic"
+
 [c]
 format = "[ ${symbol}(${version} )]($style)"
 version_format ="${raw}"

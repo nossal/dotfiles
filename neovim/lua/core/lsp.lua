@@ -1,5 +1,23 @@
 local lsp_servers = {
-  ocamllsp = { name = "ocaml", install = true },
+  ocamllsp = {
+    name = "ocaml",
+    install = true,
+    setup = {
+      settings = {
+        extendedHover = { enable = true },
+        standardHover = { enable = true },
+        codelens = { enable = true },
+        duneDiagnostics = { enable = true },
+        inlayHints = {
+          hintPatternVariables = true,
+          hintLetBindings = true,
+          hintFunctionParams = true,
+        },
+        syntaxDocumentation = { enable = true },
+        merlinJumpCodeActions = { enable = true },
+      },
+    },
+  },
   svelte = {
     name = "svelte",
     install = true,
@@ -88,7 +106,7 @@ local lsp_servers = {
     },
   },
   biome = { name = "biome", install = true },
-  pyrefly = { name = "python", install = true},
+  pyrefly = { name = "python", install = true },
   ruff = { name = "ruff", install = true, hidden = true },
   bashls = { name = "bash", install = true },
   gradle_ls = { name = "gradle", install = true },
