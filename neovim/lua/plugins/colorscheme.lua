@@ -10,19 +10,21 @@ return {
       require("solarized-osaka").setup({
         transparent = false,
         styles = {
-          dim_inactive = true,
           floats = "dark",
         },
+        ---@param colors ColorScheme
         on_colors = function(colors)
           colors.green = "#0aaf27"
           colors.bg = "#121119"
           colors.bg_float = "#121119"
           colors.fg_float = "#42352f"
         end,
-        on_highlights = function(hl, c)
-          hl.FloatBorder = { fg = c.fg_float }
+        ---@param hls Highlights
+        ---@param colors ColorScheme
+        on_highlights = function(hls, colors)
+          hls.FloatBorder = { fg = colors.fg_float }
 
-          hl.SnacksIndent= { fg = util.lighten(c.bg, 0.97) }
+          hls.SnacksIndent = { fg = util.lighten(colors.bg, 0.97) }
           -- hl.GitConflictCurrent = {
           --   bg =
           -- }
@@ -31,42 +33,44 @@ return {
           -- hl.GitConflictCurrentLabel
           -- hl.GitConflictIncomingLabel
           -- hl.GitConflictAncestorLabel
-          hl.GitSignsAdd    = { fg = "#219500" }
-          hl.GitSignsChange = { fg = "#ff6600"}
-          hl.GitSignsDelete = { fg = c.red500 }
+          hls.LspCodeLens = { fg = util.lighten(colors.bg, 0.85) }
 
-          hl.llama_hl_hint = { bg = "#000000", fg = "#666666" }
+          hls.GitSignsAdd = { fg = "#219500" }
+          hls.GitSignsChange = { fg = "#ff6600" }
+          hls.GitSignsDelete = { fg = colors.red500 }
 
-          hl.EndOfBuffer = {
+          hls.llama_hl_hint = { bg = "#000000", fg = "#666666" }
+
+          hls.EndOfBuffer = {
             fg = util.lighten("#000000", 0.93),
             -- bg = util.lighten("#000000", 0.95),
           }
-          hl.ColorColumn = { bg = util.lighten(c.bg, 0.99) }
-          hl.ErrorMsg = { bg = c.red500, fg = "#cccccc" }
+          hls.ColorColumn = { bg = util.lighten(colors.bg, 0.99) }
+          hls.ErrorMsg = { bg = colors.red500, fg = "#cccccc" }
 
-          hl.Whitespace = { fg = "#424250" }
-          hl.StatusLine = {
+          hls.Whitespace = { fg = "#424250" }
+          hls.StatusLine = {
             bg = "#121212",
             fg = "#444444",
           }
-          hl.Constant = { fg = c.green }
-          hl.String = { fg = c.green }
+          hls.Constant = { fg = colors.green }
+          hls.String = { fg = colors.green }
 
-          hl.LineNr = { fg = "#4b4c4e" }
-          hl.CursorLineNr = { fg = "#aa4400" }
-          hl.CursorLine = {
+          hls.LineNr = { fg = "#4b4c4e" }
+          hls.CursorLineNr = { fg = "#aa4400" }
+          hls.CursorLine = {
             -- bg = util.darken(c.bg, 0.1),
-            bg = util.lighten(c.bg, 0.97),
+            bg = util.lighten(colors.bg, 0.97),
           }
-          hl.BlinkCmpMenu = {
-            bg = util.lighten(c.bg, 0.95),
-            fg = c.fg,
+          hls.BlinkCmpMenu = {
+            bg = util.lighten(colors.bg, 0.95),
+            fg = colors.fg,
           }
-          hl.BlinkCmpMenuSelection = {
-            bg = util.lighten(c.bg, 0.85),
+          hls.BlinkCmpMenuSelection = {
+            bg = util.lighten(colors.bg, 0.85),
           }
-          hl.BlinkCmpSignatureHelpActiveParameter = {
-            bg = util.lighten(c.bg, 0.9),
+          hls.BlinkCmpSignatureHelpActiveParameter = {
+            bg = util.lighten(colors.bg, 0.9),
             underline = true,
           }
         end,
