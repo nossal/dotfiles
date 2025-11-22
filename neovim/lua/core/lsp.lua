@@ -1,7 +1,7 @@
 local lsp_servers = {
   ocamllsp = {
     name = "ocaml",
-    install = true,
+    install = false,
     setup = {
       settings = {
         extendedHover = { enable = true },

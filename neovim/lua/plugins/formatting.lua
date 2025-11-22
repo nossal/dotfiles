@@ -39,6 +39,7 @@ return {
         zsh = { "shfmt" },
         rust = { "rustfmt" },
         html = { "superhtml", lsp_format = "fallback" },
+        ocaml = { "ocamlformat" },
       },
       formatters = {
         biome = {
