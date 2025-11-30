@@ -21,7 +21,7 @@ return {
         delay = 400,
         ignore_whitespace = false,
       },
-      current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
+      current_line_blame_formatter = "\t\t\t\t<author>, <author_time:%R> - <summary>",
       preview_config = {
         -- Options passed to nvim_open_win
         border = "rounded",
@@ -40,12 +40,11 @@ return {
             "]c",
             function()
               if vim.wo.diff then
-                return "]c"
+                vim.cmd.normal({ "]c", bang = true })
               end
               vim.schedule(function()
                 gs.next_hunk()
               end)
-              return "<Ignore>"
             end,
             desc = "Next Hunk",
           },
@@ -53,12 +52,11 @@ return {
             "[c",
             function()
               if vim.wo.diff then
-                return "[c"
+                vim.cmd.normal({ "[c", bang = true })
               end
               vim.schedule(function()
                 gs.prev_hunk()
               end)
-              return "<Ignore>"
             end,
             desc = "Prev Hunk",
           },
@@ -125,6 +123,7 @@ return {
     cmd = "Neogit",
     keys = {
       { "<leader>gg", "<cmd>Neogit<cr>", desc = "Show Neogit UI" },
+      { "<leader>gl", "<cmd>NeogitLogCurrent<cr>", desc = "Git log" },
     },
   },
 }

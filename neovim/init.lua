@@ -15,7 +15,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out,                            "WarningMsg" },
+      { out, "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -48,5 +48,17 @@ require("lazy").setup("plugins", {
       },
     },
   },
- })
+})
 
+require("fzf-lua").register_ui_select(function(opts, items)
+  local min_h, max_h = 0.15, 0.45
+  local h = (#items + 4) / vim.o.lines
+  if h < min_h then
+    h = min_h
+  elseif h > max_h then
+    h = max_h
+  end
+  opts.title = opts.title or "Select"
+
+  return { winopts = { title = opts.title, height = h, width = 0.40, row = 0.40 } }
+end)

@@ -7,9 +7,7 @@ return {
     -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
     event = {
       -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-      "BufReadPre "
-        .. vim.fn.expand("~")
-        .. "/Documents/Notes/*",
+      "BufReadPre " .. vim.fn.expand("~") .. "/Documents/Notes/*",
       "BufNewFile " .. vim.fn.expand("~") .. "/Documents/Notes/*",
     },
     dependencies = {
@@ -68,6 +66,8 @@ return {
     },
     event = "VeryLazy",
     config = function()
+      require("org-bullets").setup()
+
       local Menu = require("org-modern.menu")
       require("orgmode").setup({
         org_agenda_files = "~/orgfiles/**/*",
@@ -80,7 +80,7 @@ return {
           },
         },
       })
-      require("org-bullets").setup()
+
       require("blink.cmp").setup({
         sources = {
           per_filetype = {

@@ -1,6 +1,6 @@
 return {
   "ibhagwan/fzf-lua",
-  lazy = true,
+  -- lazy = true,
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     local fzf = require("fzf-lua")
@@ -45,18 +45,5 @@ return {
         },
       },
     })
-
-    fzf.register_ui_select(function(opts, items)
-      local min_h, max_h = 0.15, 0.45
-      local h = (#items + 4) / vim.o.lines
-      if h < min_h then
-        h = min_h
-      elseif h > max_h then
-        h = max_h
-      end
-      opts.title = opts.title or "Select"
-
-      return { winopts = { title = opts.title, height = h, width = 0.40, row = 0.40 } }
-    end)
   end,
 }
