@@ -9,7 +9,7 @@ eval "$($HOME/.local/bin/mise activate zsh)"
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
 
-source <(fzf --zsh)
+zsource <(fzf --zsh)
 
 _sources=(
     "$HOME/.opam/opam-init/init.zsh"
@@ -17,5 +17,5 @@ _sources=(
 )
 
 for src in "${_sources[@]}"; do
-    [[ -r "$src" ]] && source "$src" >/dev/null 2>&1
+    [[ -r "$src" ]] && zsource "$src" >/dev/null 2>&1
 done

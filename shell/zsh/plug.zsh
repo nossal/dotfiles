@@ -1,6 +1,6 @@
 # Function to source files if they exist
 function source_file() {
-  [ -f "$ZSHDOTDIR/$1" ] && source "$ZSHDOTDIR/$1"
+  [ -f "$ZSHDOTDIR/$1" ] && zsource "$ZSHDOTDIR/$1"
 }
 
 function update_plugins() {

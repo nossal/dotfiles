@@ -1,3 +1,12 @@
+zsource() {
+  local file=$1
+  local zwc="${file}.zwc"
+  if [[ -f "$file" && (! -f "$zwc" || "$file" -nt "$file") ]]; then
+    zcompile "$file"
+  fi
+  source "$file"
+}
+
 _priv_func() {
   echo "Private Function"
 }

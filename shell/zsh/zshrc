@@ -2,33 +2,31 @@
 # .zshrc is sourced in interactive shells.
 # It should contain commands to set up aliases,
 # functions, options, key bindings, etc.
+
 # zmodload zsh/zprof
+
 source $ZSHDOTDIR/functions.zsh
 source $ZSHDOTDIR/editor.zsh
 source $ZSHDOTDIR/../aliases
 
-#allow tab completion in the middle of a word
-setopt COMPLETE_IN_WORD
-
-## keep background processes at full speed
-setopt NOBGNICE
-## restart running processes on exit
-#setopt HUP
+setopt COMPLETE_IN_WORD         # allow tab completion in the middle of a word
+setopt NOBGNICE                 # keep background processes at full speed
+#setopt HUP                     # restart running processes on exit
 
 ## history
-setopt APPEND_HISTORY
-setopt INC_APPEND_HISTORY
-setopt BANG_HIST                 # Treat the '!' character specially during expansion.
-setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
-setopt SHARE_HISTORY             # Share history between all sessions.
-setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history.
-setopt HIST_IGNORE_DUPS          # Do not record an event that was just recorded again.
-setopt HIST_IGNORE_ALL_DUPS      # Delete an old recorded event if a new event is a duplicate.
-setopt HIST_FIND_NO_DUPS         # Do not display a previously found event.
-setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
-setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
-setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
-setopt HIST_BEEP                 # Beep when accessing non-existent history.
+setopt APPEND_HISTORY           # Append to the history file, don't overwrite it.
+setopt INC_APPEND_HISTORY       # Add commands to the history file immediately.
+setopt BANG_HIST                # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY         # Write the history file in the ':start:elapsed;command' format.
+setopt SHARE_HISTORY            # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST   # Expire a duplicate event first when trimming history.
+setopt HIST_IGNORE_DUPS         # Do not record an event that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS     # Delete an old recorded event if a new event is a duplicate.
+setopt HIST_FIND_NO_DUPS        # Do not display a previously found event.
+setopt HIST_IGNORE_SPACE        # Do not record an event starting with a space.
+setopt HIST_SAVE_NO_DUPS        # Do not write a duplicate event to the history file.
+setopt HIST_VERIFY              # Do not execute immediately upon history expansion.
+setopt HIST_BEEP                # Beep when accessing non-existent history.
 
 HISTFILE="${HISTFILE:-${ZDOTDIR:-$HOME}/.zsh_history}"
 HISTSIZE=10000
@@ -48,22 +46,25 @@ setopt MULTIOS              # Write to multiple descriptors.
 setopt EXTENDED_GLOB        # Use extended globbing syntax.
 unsetopt CLOBBER            # Do not overwrite existing files with > and >>.
                             # Use >! and >>! to bypass.
-## disable mail checking
-MAILCHECK=0
+                            # or set the NO_CLOBBER option to override this.
 
-zstyle ':completion:*:git-checkout:*' sort false
-zstyle ':completion:*:descriptions' format '[%d]'
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu no
+MAILCHECK=0                 # disable mail checking
+
+zstyle ':completion:*:git-checkout:*' sort false            # do not sort branches in git checkout
+zstyle ':completion:*' use-cache on                         # cache completions
+zstyle ':completion:*:descriptions' format '[%d]'           # description format
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'      # case insensitive completion
+zstyle ':completion:*' group-name ''                        # no group names
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"     # use LS_COLORS for completion colors
+zstyle ':completion:*' menu no                              # do not use a menu for completion
 
 # Plugins
 source $ZSHDOTDIR/plug.zsh
 plugins=(
   "Aloxaf/fzf-tab"
-  "z-shell/F-Sy-H"
   "zsh-users/zsh-autosuggestions"
   "hlissner/zsh-autopair"
+  "z-shell/F-Sy-H"
 )
 load_plugins $plugins;
 
@@ -89,8 +90,6 @@ done
 
 fpath+="$ZSHDOTDIR/completions"
 
-autoload -U colors
-
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#444"
 
 # zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
@@ -104,4 +103,5 @@ eval "$(starship init zsh)"
 
 # Inits
 source "$DOTDIR/shell/inits"
+
 # zprof
