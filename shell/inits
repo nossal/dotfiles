@@ -1,21 +1,19 @@
 # vi: ft=bash
 
-eval "$($HOME/.local/bin/mise activate zsh)"
-# eval "$($HOME/.local/bin/mise activate zsh --shims)"
-
 export _ZO_FZF_OPTS="
   --height 15% --layout reverse --border
 "
+
+# eval "$($HOME/.local/bin/mise activate zsh --shims)"
+eval "$($HOME/.local/bin/mise activate zsh)"
 eval "$(zoxide init zsh)"
-
-# Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh)
-
 eval "$(atuin init zsh)"
 
- _sources=(
+source <(fzf --zsh)
+
+_sources=(
     "$HOME/.opam/opam-init/init.zsh"
-    "$HOME/.local/share/dune/env/env.zsh"
+    # "$HOME/.local/share/dune/env/env.zsh"
 )
 
 for src in "${_sources[@]}"; do

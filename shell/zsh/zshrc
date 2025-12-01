@@ -1,8 +1,8 @@
-# vi: ft=bash
+# vi: ft=zsh
 # .zshrc is sourced in interactive shells.
 # It should contain commands to set up aliases,
 # functions, options, key bindings, etc.
-
+# zmodload zsh/zprof
 source $ZSHDOTDIR/functions.zsh
 source $ZSHDOTDIR/editor.zsh
 source $ZSHDOTDIR/../aliases
@@ -51,25 +51,11 @@ unsetopt CLOBBER            # Do not overwrite existing files with > and >>.
 ## disable mail checking
 MAILCHECK=0
 
-# completions=(
-#   "zsh-users/zsh-completions"
-# )
-for completion in $completions; do
-  zsh_add_completion $completion
-done
-
-fpath+="$ZSHDOTDIR/completions"
-
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
-
-autoload -U +X compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
-
-autoload -U colors
 
 # Plugins
 source $ZSHDOTDIR/plug.zsh
@@ -80,6 +66,30 @@ plugins=(
   "hlissner/zsh-autopair"
 )
 load_plugins $plugins;
+
+# autoload -U +X compinit && compinit
+# autoload -U +X bashcompinit && bashcompinit
+
+autoload -Uz compinit
+# Regenerate compdump if it's older than 24 hours
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
+
+# autoload -Uz bashcompinit && bashcompinit
+
+# completions=(
+#   "zsh-users/zsh-completions"
+# )
+for completion in $completions; do
+  zsh_add_completion $completion
+done
+
+fpath+="$ZSHDOTDIR/completions"
+
+autoload -U colors
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#444"
 
@@ -94,3 +104,4 @@ eval "$(starship init zsh)"
 
 # Inits
 source "$DOTDIR/shell/inits"
+# zprof
