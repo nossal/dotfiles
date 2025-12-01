@@ -1,17 +1,16 @@
+local notes_dir = vim.fn.expand("~/Documents/Notes")
+
 return {
   {
     "obsidian-nvim/obsidian.nvim",
     version = "*", -- recommended, use latest release instead of latest commit
     lazy = true,
     -- ft = "markdown",
-    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
     event = {
-      -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-      "BufReadPre " .. vim.fn.expand("~") .. "/Documents/Notes/*",
-      "BufNewFile " .. vim.fn.expand("~") .. "/Documents/Notes/*",
+      "BufReadPre " .. notes_dir .. "/**/*",
+      "BufNewFile " .. notes_dir .. "/**/*",
     },
     dependencies = {
-      -- Required.
       "nvim-lua/plenary.nvim",
     },
     ---@module 'obsidian'
@@ -20,7 +19,7 @@ return {
       workspaces = {
         {
           name = "Notes",
-          path = vim.fn.expand("~/Documents/Notes"),
+          path = notes_dir,
         },
         -- {
         --   name = "work",
@@ -70,8 +69,8 @@ return {
 
       local Menu = require("org-modern.menu")
       require("orgmode").setup({
-        org_agenda_files = "~/orgfiles/**/*",
-        org_default_notes_file = "~/orgfiles/refile.org",
+        org_agenda_files = notes_dir .. "/org/**/*",
+        org_default_notes_file = notes_dir .. "/org/refile.org",
         ui = {
           menu = {
             handler = function(data)
