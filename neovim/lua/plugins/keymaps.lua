@@ -60,6 +60,12 @@ return {
         end,
         desc = "Find Dotfiles",
       },
+      { "<leader>ft",
+        mode = "v",
+        function()
+          require("fzf-lua").grep_visual()
+        end,
+        desc = "Find Selected Text" },
     })
   end,
   opts = {
