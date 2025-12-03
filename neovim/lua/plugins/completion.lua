@@ -69,6 +69,9 @@ return {
           "snippets",
           "buffer",
         },
+        per_filetype = {
+          org = { "orgmode", "buffer" },
+        },
         providers = {
           buffer = { score_offset = -100 },
           lazydev = {
@@ -76,6 +79,11 @@ return {
             module = "lazydev.integrations.blink",
             -- make lazydev completions top priority (see `:h blink.cmp`)
             score_offset = 100,
+          },
+          orgmode = {
+            name = "Orgmode",
+            module = "orgmode.org.autocompletion.blink",
+            fallbacks = { "buffer" },
           },
         },
       },

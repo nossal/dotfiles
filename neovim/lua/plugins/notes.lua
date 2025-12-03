@@ -5,13 +5,14 @@ return {
     "obsidian-nvim/obsidian.nvim",
     version = "*", -- recommended, use latest release instead of latest commit
     lazy = true,
-    -- ft = "markdown",
+    ft = "markdown",
     event = {
       "BufReadPre " .. notes_dir .. "/**/*",
       "BufNewFile " .. notes_dir .. "/**/*",
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
+      "hamidi-dev/org-list.nvim",
     },
     ---@module 'obsidian'
     ---@type obsidian.config
@@ -26,21 +27,10 @@ return {
         --   path = "~/vaults/work",
         -- },
       },
+      legacy_commands = false,
       -- ui = { enable = false },
       completion = {
-        blink = {
-          enabled = true,
-          obsidian = { score_offset = 10 },
-          obsidian_tags = {
-            score_offset = 10,
-            transform_items = function(_, items)
-              for _, item in ipairs(items) do
-                item.kind = 10
-              end
-              return items
-            end,
-          },
-        },
+        blonk = true,
         nvum_cmp = false,
         min_chars = 2,
       },
@@ -58,10 +48,9 @@ return {
   {
     "nvim-orgmode/orgmode",
     dependencies = {
-      "nvim-orgmode/org-bullets.nvim",
       "danilshvalov/org-modern.nvim",
       "nvim-orgmode/org-bullets.nvim",
-      "saghen/blink.cmp",
+      "hamidi-dev/org-list.nvim",
     },
     event = "VeryLazy",
     config = function()
@@ -80,24 +69,29 @@ return {
         },
       })
 
-      require("blink.cmp").setup({
-        sources = {
-          per_filetype = {
-            org = { "orgmode" },
-          },
-          providers = {
-            orgmode = {
-              name = "Orgmode",
-              module = "orgmode.org.autocompletion.blink",
-              fallbacks = { "buffer" },
-            },
-          },
-        },
-      })
-
       -- vim.keymap.set("n", "<leader>r", require("telescope").extensions.orgmode.refile_heading)
       -- vim.keymap.set("n", "<leader>fh", require("telescope").extensions.orgmode.search_headings)
       -- vim.keymap.set("n", "<leader>li", require("telescope").extensions.orgmode.insert_link)
     end,
+  },
+  {
+    "hamidi-dev/org-list.nvim",
+    dependencies = {
+      "tpope/vim-repeat", -- for repeatable actions with '.'
+    },
+    opts = {
+      mapping = {
+        key = "<leader>lt", -- nvim-orgmode users: you might want to change this to <leader>olt
+        desc = "Toggle: Cycle through list types",
+      },
+      checkbox_toggle = {
+        enabled = true,
+        -- NOTE: for nvim-orgmode users, you should change the following mapping OR change the one from orgmode.
+        -- If both mapping stay the same, the one from nvim-orgmode will "win"
+        key = "<leader>lc",
+        desc = "Toggle checkbox state",
+        filetypes = { "org", "markdown" }, -- Add more filetypes as needed
+      },
+    },
   },
 }
