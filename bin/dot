@@ -318,7 +318,7 @@ function symlink_configs() {
   #   - Automatic creation of target directories
   #
   # Arguments:
-  #   $2 - Category name (optional, defaults to "default")
+  #   $1 - Category name (optional, defaults to "default")
   #   $2 - Profile name (optional, e.g., "personal", "work")
   #
   # Configuration file format (links.txt):
@@ -341,6 +341,7 @@ function symlink_configs() {
     echo "Configuration file not found: $config_file"
     return
   fi
+  echo "> Category: $category"
 
   # Process each line in the configuration file
   while IFS= read -r source_path; do
@@ -369,8 +370,10 @@ function symlink_configs() {
 }
 
 function clean() {
-  echo "FIX"
-  broken_links=$(find "$HOME" -maxdepth 2 -type l ! -exec test -e {} \; -print 2> /dev/null)
+  echo "CLEAN BROKEN LINKS"
+  # Find and remove broken symbolic links in the home directory (max depth 2)
+  local broken_links
+  broken_links=$(find "$HOME" -maxdepth 2 -type l ! -exec test -e {} \; -print 2> /dev/null || true)
   if [ -n "$broken_links" ]; then
     echo  -e "Removing broken synlinks:\n$broken_links"
     echo "$broken_links" | xargs rm
@@ -412,10 +415,10 @@ function dot_update() {
 }
 
 function dot_install() {
-  echo "INSTALL"
+  echo "--INSTALL--"
   clean
   symlink_configs "$@"
-  symlink_configs "$@" "$shell"
+  symlink_configs "$shell"
   tools
 }
 
@@ -511,6 +514,7 @@ EOF
 
 function main() {
   local command=""
+  local arguments=""
   if [[ $# -eq 0 ]]; then
     command="bootstrap"
   fi
@@ -532,9 +536,11 @@ function main() {
         if [[ -z "$command" ]]; then
           command="$1"
         else
-          echo "Unexpected argument: $1"
-          exit 1
+          echo " command: $command"
+          # echo "Unexpected argument: $1"
+          # exit 1
         fi
+        arguments="$1 "
         shift
         ;;
     esac
@@ -552,7 +558,7 @@ function main() {
       clean
       ;;
     links)
-      symlink_configs "$@"
+      symlink_configs "$arguments"
       ;;
     *)
       bootstrap "$@"
