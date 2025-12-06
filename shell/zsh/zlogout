@@ -1,0 +1,4 @@
+#!/bin/zsh
+# This runs when a login shell exits
+echo "SSH session ended: $(date) from $SSH_CONNECTION" >> ~/ssh_sessions.log
+echo "Client: $SSH_CLIENT"
