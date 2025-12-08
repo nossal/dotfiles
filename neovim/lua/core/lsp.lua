@@ -62,10 +62,15 @@ local lsp_servers = {
   clangd = { name = "C", install = true },
   cssls = { name = "css", install = true },
   tailwindcss = { name = "tailwind", install = true },
-  emmet_ls = { name = "emmet", install = true },
+  emmet_language_server = { name = "emmet", install = true,
+    setup = {
+      filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte", "vue" },
+    },
+  },
   superhtml = { name = "HTML", install = true },
   lua_ls = {
     name = "lua",
+    version = "3.15.0", -- specify version due to recent breaking changes
     install = true,
     setup = {
       settings = {

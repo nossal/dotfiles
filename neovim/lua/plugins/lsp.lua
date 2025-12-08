@@ -78,6 +78,9 @@ return {
       local to_install = {}
       for key, val in pairs(lsp.all_lsp_servers) do
         if val.install then
+          if val.version then
+            key = key .. "@" .. val.version
+          end
           table.insert(to_install, key)
         end
       end
@@ -99,7 +102,6 @@ return {
           "biome", -- javascript, json formatter/linter
           "yamlfmt", -- YAML formatteer
           "superhtml", -- HTML formatter/linter
-          "ocamlformat", -- OCaml formatter
 
           -- "luacheck",     -- lua linter
           -- "stylelint", -- css linter
@@ -107,7 +109,7 @@ return {
           "shellcheck", -- shell linter
           "markdownlint", -- markdown linter
           "yamllint", -- yaml linter
-          "sonarlint-language-server", -- multi-language linter
+          "sonarlint-language-server", -- sonarqube linter
 
           -- "ast_grep", -- linter/formater
         },
