@@ -52,7 +52,7 @@ style = "red italic"
 
 [hostname]
 ssh_only = true
-ssh_symbol = "󰌘 "
+ssh_symbol = "󰌘 " # 
 format = ' [$ssh_symbol](bg:#351513 fg:#ffb400 bold italic)[ $hostname ](bg:#351513 fg:#f54d27 bold italic)'
 # trim_at = '.local'
 aliases = { "MacBook Pro" = "MACADMWT64WH0" }
@@ -65,13 +65,13 @@ style = "bg:git_br_bg fg:#f54d27 italic"
 [git_status]
 format ="[ $all_status$ahead_behind]($style)"
 behind = " ${count}"
-ahead = " ${count}"
+ahead = " ${count} "
 diverged = " ⇡${ahead_count}⇣${behind_count}"
-modified = " ${count} "# " "
-untracked = "[ ${count}](bg:git_br_bg fg:#535367 italic)" #  
-deleted = " ${count} " #""#"✘"
+modified = " ${count} "# " " 
+untracked = "[${count}](bg:git_br_bg fg:#d31f00 italic) " #  A
+deleted = " ${count} " # ""#"✘"
 stashed = " ${count} "
-up_to_date = "[  ](bg:git_br_bg fg:green italic)"#"" #"" #"" #""
+up_to_date = "[ ](bg:git_br_bg fg:green italic)"#"" #"" #"" #""
 staged = '[++$count](bg:git_br_bg fg:green italic) '
 style = "bg:git_br_bg 208 italic"
 
@@ -111,7 +111,8 @@ style = "fg:#2443b5 bg:lang_bg italic"
 
 [ocaml]
 format = " [($switch_indicator:$switch_name) ${symbol}(${version} )]($style)"
-style = "fg:#ee8800 bg:lang_bg italic"
+symbol = " "
+style = "fg:#ef7f06 bg:#2e1407 italic"
 version_format = '${raw}'
 
 [c]
