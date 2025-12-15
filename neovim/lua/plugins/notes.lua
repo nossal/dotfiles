@@ -7,8 +7,8 @@ return {
     lazy = true,
     ft = "markdown",
     event = {
-      "BufReadPre " .. notes_dir .. "/**/*",
-      "BufNewFile " .. notes_dir .. "/**/*",
+      "BufReadPre " .. notes_dir .. "/**/*.md",
+      "BufNewFile " .. notes_dir .. "/**/*.md",
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -53,6 +53,7 @@ return {
       "hamidi-dev/org-list.nvim",
     },
     event = "VeryLazy",
+    ft = { "org" },
     config = function()
       require("org-bullets").setup()
 
@@ -60,6 +61,26 @@ return {
       require("orgmode").setup({
         org_agenda_files = notes_dir .. "/org/**/*",
         org_default_notes_file = notes_dir .. "/org/refile.org",
+        org_startup_folded = "overview",
+        org_hide_emphasis_markers = true,
+        -- org_indent_mode = "indent",
+        org_ellipsis = "  ",
+        org_priority_highest = 1,
+        org_priority_lowest = 5,
+        org_priority_default = 3,
+        org_log_done = "time",
+        org_capture_templates = {
+          t = {
+            description = "Task",
+            template = "* TODO %?\n  %u",
+            target = notes_dir .. "/org/tasks.org",
+          },
+          j = {
+            description = "Journal",
+            template = "* %?\n  %u",
+            target = notes_dir .. "/org/journal/%<%Y-%m>.org",
+          },
+        },
         ui = {
           menu = {
             handler = function(data)

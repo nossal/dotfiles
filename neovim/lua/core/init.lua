@@ -30,6 +30,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+-- auto command on org file types on buff enter
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*.org",
+  callback = function()
+    vim.cmd([[UfoDetach]])
+    vim.cmd([[e!]])
+  end,
+})
+
 vim.api.nvim_create_autocmd("User", {
   pattern = "OilActionsPost",
   callback = function(event)
