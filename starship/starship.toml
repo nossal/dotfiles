@@ -1,7 +1,7 @@
 
 # A minimal left prompt
 format = """
-$directory\
+$directory
 $character
 """
 
@@ -27,7 +27,7 @@ add_newline = false
 palette = "nsl"
 
 [palettes.nsl]
-git_br_bg = "#1e1e2e"
+git_br_bg = "#25120c"
 lang_bg = "#1e1e2e"
 lang_icon_bg = "#28283d"
 
@@ -35,6 +35,11 @@ lang_icon_bg = "#28283d"
 truncation_length = 1
 fish_style_pwd_dir_length = 1
 style = "066"
+
+[character]
+success_symbol = "[󰞷 ](fg:green bold bg:#000000)" # 󰞷 
+error_symbol = "[](fg:red bold bg:#000000)"
+vicmd_symbol = "[ ](fg:#ffaa00 bold bg:#000000)"
 
 [battery]
 full_symbol = "l "
@@ -47,9 +52,10 @@ style = "red italic"
 
 [hostname]
 ssh_only = true
-ssh_symbol = ""
-format = '[ $ssh_symbol](bg:#610808 fg:#41ff03 bold italic)[ $hostname ](bg:#610808 fg:white bold italic) '
-trim_at = '.local'
+ssh_symbol = "󰌘 "
+format = ' [$ssh_symbol](bg:#351513 fg:#ffb400 bold italic)[ $hostname ](bg:#351513 fg:#f54d27 bold italic)'
+# trim_at = '.local'
+aliases = { "MacBook Pro" = "MACADMWT64WH0" }
 
 [git_branch]
 format = "[ $symbol$branch(:$remote_branch)]($style)"
@@ -65,7 +71,7 @@ modified = " ${count} "# " "
 untracked = "[ ${count}](bg:git_br_bg fg:#535367 italic)" #  
 deleted = " ${count} " #""#"✘"
 stashed = " ${count} "
-up_to_date = "[  ](bg:git_br_bg fg:green italic)"#"" #"" #"" #""
+up_to_date = "[  ](bg:git_br_bg fg:green italic)"#"" #"" #"" #""
 staged = '[++$count](bg:git_br_bg fg:green italic) '
 style = "bg:git_br_bg 208 italic"
 
