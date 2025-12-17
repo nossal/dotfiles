@@ -6,6 +6,7 @@ $character
 """
 
 continuation_prompt = "[▶](242) "
+add_newline = false
 
 # move the rest of the prompt to the right
 right_format = """
@@ -22,7 +23,6 @@ $c\
 $battery\
 $hostname
 """
-add_newline = false
 
 palette = "nsl"
 
@@ -31,15 +31,24 @@ git_br_bg = "#25120c"
 lang_bg = "#1e1e2e"
 lang_icon_bg = "#28283d"
 
+
 [directory]
-truncation_length = 1
-fish_style_pwd_dir_length = 1
+truncation_length = 10
+truncation_symbol = "…/"
+truncate_to_repo = false
+fish_style_pwd_dir_length = 5
+repo_root_style = "bold yellow"
 style = "066"
+
+[directory.substitutions]
+"~/workspace/corp/" = "[corpo]/" # 
+"~/.dotfiles" = "[dotfiles]/"
+
 
 [character]
 success_symbol = "[󰞷 ](fg:green bold bg:#000000)" # 󰞷 
 error_symbol = "[](fg:red bold bg:#000000)"
-vicmd_symbol = "[ ](fg:#ffaa00 bold bg:#000000)"
+vicmd_symbol = "[ ](fg:green bold bg:#000000)"
 
 [battery]
 full_symbol = "l "
@@ -80,9 +89,9 @@ format = '[\($state( $progress_current of $progress_total)\)]($style) '
 cherry_pick = "[  PICKING](italic red)" # 🍒
 
 [java]
-format = "[ ${symbol} ](bg:lang_icon_bg)[ (${version} )]($style)"
-version_format ="${major}"
-style = "fg:#2443b5 bg:lang_bg italic"
+format = " [ ${symbol} ](bg:#171936 fg:#e76f00)[ (${version} )]($style)"
+version_format ="${major}.${minor}"
+style = "fg:#437291 bg:#111429 italic"
 symbol = ""
 
 [python]
