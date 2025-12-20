@@ -17,10 +17,23 @@ g.maplocalleader = " "
 -- g.tutor_is_loaded = 1
 
 g.have_nerd_font = true
--- line numbers
+
+-- lines & numbering
 opt.number = true -- shows absolute line number on cursor line (when relative number is on)
 opt.relativenumber = true -- show relative line numbers
-opt.colorcolumn = tostring(textwidth) -- Show column at character 80
+opt.colorcolumn = tostring(textwidth) -- Show column at character number textwidth
+
+-- line wrapping
+opt.wrap = false -- disable line wrapping
+opt.showbreak = "⤷ "
+opt.breakindent = true
+opt.linebreak = true -- Wrap lines at convenient points
+-- opt.textwidth = textwidth -- maximum width of text that is being inserted
+-- opt.breakindentopt = "shift:2"
+
+-- cursor line
+opt.cursorline = true -- highlight the current cursor line
+
 -- tabs & indentation
 opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
 opt.shiftwidth = 2 -- 2 spaces for indent width
@@ -30,22 +43,11 @@ opt.smartindent = true -- Insert indents automatically
 
 o.modeline = true
 
--- line wrapping
-opt.wrap = false -- disable line wrapping
-opt.showbreak = "⤷ "
-opt.breakindent = true
-opt.linebreak = true
--- opt.breakindentopt = "shift:2"
--- opt.textwidth = textwidth
-
 -- search settings
 opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
 opt.hlsearch = true -- highlight search terms
 opt.inccommand = "split" -- real time preview of substitution commands
-
--- cursor line
-opt.cursorline = true -- highlight the current cursor line
 
 opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 opt.formatoptions = "jcroqlnt" -- Smart autoindent, comment handling, list formatting

@@ -36,7 +36,7 @@ idiomatic_version_file_enable_tools = ["python"]
 [settings.python]
 uv_venv_auto = true
 
-[alias.java.versions]
+[tool_alias.java.versions]
 8 = "corretto-8"
 17 = "corretto-17"
 25 = "corretto-25"
