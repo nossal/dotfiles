@@ -2,7 +2,7 @@ return {
   {
     "nossal/cleantext.nvim",
     dir = "~/workspace/cleantext.nvim",
-    cmd = "CleanText",
+    cmd = { "CleanText", "CleanTextAnalyze" },
   },
   { "barreiroleo/ltex_extra.nvim", lazy = true },
   {

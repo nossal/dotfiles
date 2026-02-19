@@ -27,7 +27,7 @@ return {
           { section = "startup" },
         },
       },
-      input = {},
+      input = { enabled = true },
       indent = {
         enabled = true,
         animate = {
@@ -49,11 +49,12 @@ return {
           vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(notif.msg, "\n"))
         end,
       },
-      image = {},
+      image = { enabled = true },
       bigfile = {
         notify = true,
         size = 2 * 1024 * 1024,
       },
+      words = { enabled = true },
     },
   },
   {

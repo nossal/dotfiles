@@ -457,7 +457,7 @@ return {
     local Space = { provider = "  " }
 
     ViMode = utils.surround({ "", "" }, "black", { MacroRec, ViMode, ShowCmd })
-
+    -- ViMode = utils.surround({  "", "" }, "white", { MacroRec, ViMode, ShowCmd })
     local FileInfo = {
       provider = function()
         local tabchar = "Tab Size"
