@@ -60,7 +60,7 @@ local PROFILES = {
     win_presets = {
       normal = {
         width = 1790,
-        height = 1002,
+        height = 2002,
         top = 10,
         left = 350,
       },
@@ -111,8 +111,8 @@ local PROFILES = {
     },
     win_presets = {
       normal = {
-        width = 1790,
-        height = 1032,
+        width = 3780,
+        height = 2773,
       },
       mdev = {
         width = 1700,
@@ -157,7 +157,7 @@ end
 config.max_fps = 120
 config.prefer_egl = true
 
-config.animation_fps = 60
+config.animation_fps = 120
 
 config.color_schemes = {
   ["nossal"] = {
