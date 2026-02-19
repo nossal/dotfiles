@@ -1,20 +1,39 @@
 return {
+  -- {
+  --   "github/copilot.vim",
+  --   enabled = false,
+  --   config = function()
+  --     vim.g.copilot_filetypes = {
+  --       ["*"] = true,
+  --       ["copilot-chat"] = false,
+  --     }
+  --     vim.g.copilot_no_tab_map = true -- Disable default tab mapping
+  --     vim.api.nvim_set_keymap(
+  --       "i",
+  --       "<C-j>",
+  --       'copilot#Accept("<CR>")',
+  --       { expr = true, silent = true, noremap = true }
+  --     )
+  --   end
+  -- },
   {
-    "github/copilot.vim",
-    event = "BufReadPost",
-    config = function()
-      vim.g.copilot_filetypes = {
-        ["*"] = true,
-        ["copilot-chat"] = false,
-      }
-      vim.g.copilot_no_tab_map = true -- Disable default tab mapping
-      vim.api.nvim_set_keymap(
-        "i",
-        "<C-j>",
-        'copilot#Accept("<CR>")',
-        { expr = true, silent = true, noremap = true }
-      )
-    end,
+    "zbirenbaum/copilot.lua",
+    enabled = true,
+    event = "InsertEnter",
+    opts = {
+      suggestion = {
+        auto_trigger = true,
+        keymap = {
+          accept = "<C-j>",
+          accept_word = "<Tab>",
+          accept_line = "J",
+          next = "<M-]>",
+          prev = "<M-[>",
+          dismiss = "<C-]>",
+          -- toggle_auto_trigger = false,
+        },
+      },
+    },
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
@@ -34,7 +53,7 @@ return {
           row = 2,
           col = math.floor(ui.width * 0.98) - width,
           border = "rounded", -- 'single', 'double', 'rounded', 'solid'
-          title = " AI Assistant",
+          title = "  AI Assistant",
           zindex = 99, -- Ensure window stays on top
         },
 

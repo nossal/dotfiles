@@ -61,10 +61,12 @@ local lsp_servers = {
   -- }, -- TODO: https://gist.github.com/lbiaggi/a3eb761ac2fdbff774b29c88844355b8
   clangd = { name = "C", install = true },
   cssls = { name = "css", install = true },
-  tailwindcss = { name = "tailwind", install = true },
-  emmet_language_server = { name = "emmet", install = true,
+  -- tailwindcss = { name = "tailwind", install = true },
+  emmet_language_server = {
+    name = "emmet",
+    install = true,
     setup = {
-      filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte", "vue" },
+      filetypes = { "html", "css", "sass", "scss", "less", "svelte", "vue" },
     },
   },
   superhtml = { name = "HTML", install = true },
@@ -95,21 +97,29 @@ local lsp_servers = {
       checkOnSave = true,
     },
   },
-  ts_ls = {
-    name = "JS",
+  denols = {
+    name = "Deno",
     install = true,
     setup = {
-      filetypes = {
-        "javascript",
-        "javascriptreact",
-        "javascript.jsx",
-        "typescript",
-        "typescriptreact",
-        "typescript.tsx",
-        "typescript.vue",
-      },
+      -- cmd = { "/home/nossal/.local/share/mise/shims/deno", "lsp" },
+      -- root_dir = require("lspconfig.util").root_pattern("deno.json"),
     },
   },
+  -- ts_ls = {
+  --   name = "JS",
+  --   install = true,
+  --   setup = {
+  --     filetypes = {
+  --       "javascript",
+  --       "javascriptreact",
+  --       "javascript.jsx",
+  --       "typescript",
+  --       "typescriptreact",
+  --       "typescript.tsx",
+  --       "typescript.vue",
+  --     },
+  --   },
+  -- },
   biome = { name = "biome", install = true },
   pyrefly = { name = "python", install = true },
   ruff = { name = "ruff", install = true, hidden = true },
