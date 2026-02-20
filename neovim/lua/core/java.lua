@@ -206,8 +206,8 @@ local config = {
         -- },
         runtimes = {
           {
-            name = "JavaSE-1.8",
-            path = helpers.get_java_home("8"),
+            name = "JavaSE-11",
+            path = helpers.get_java_home("11"),
           },
           {
             name = "JavaSE-17",

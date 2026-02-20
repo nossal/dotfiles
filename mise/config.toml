@@ -31,6 +31,7 @@ trusted_config_paths = [
   "~/workspace",
   "~/.dotfiles"
 ]
+
 idiomatic_version_file_enable_tools = ["python"]
 
 [settings.python]
@@ -38,6 +39,7 @@ uv_venv_auto = true
 
 [tool_alias.java.versions]
 8 = "corretto-8"
+11 = "corretto-11"
 17 = "corretto-17"
 25 = "corretto-25"
 lts = "corretto-25"
