@@ -49,3 +49,21 @@ function reload() {
     exec "$SHELL" -l
     echo "Zsh config reloaded!"
 }
+
+function auto_venv() {
+  if [[ -n "$VIRTUAL_ENV" && ! -f "$VIRTUAL_ENV/bin/activate" ]]; then
+    deactivate
+  fi
+
+  [[ -n "$VIRTUAL_ENV" ]] && return
+
+  local dir="$PWD"
+  while [[ "$dir" != "/" ]]; do
+    if [[ -f "$dir/.venv/bin/activate" ]]; then
+      source "$dir/.venv/bin/activate"
+      echo ".venv activated"
+      return
+    fi
+    dir="${dir:h}"
+  done
+}

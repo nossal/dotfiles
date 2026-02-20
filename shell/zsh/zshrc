@@ -104,4 +104,6 @@ eval "$(starship init zsh)"
 # Inits
 source "$DOTDIR/shell/inits"
 
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd auto_venv
 # zprof
