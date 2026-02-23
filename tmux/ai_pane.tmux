@@ -2,25 +2,13 @@
 
 set -uo pipefail
 
-FLOAT_TERM="${1:-}"
-LIST_PANES="$(tmux list-panes -F '#F')"
-PANE_ZOOMED="$(echo "${LIST_PANES}" | grep Z)"
-PANE_COUNT="$(echo "${LIST_PANES}" | wc -l | bc)"
 CMD="$HOME/.opencode/bin/opencode"
+dir_id=$(tmux display-message -p -F "#{pane_current_path}" | sed 's/\.//' | awk -F'/' '{print $(NF-1)"_"$NF}')
+session_name="ai-popup-$dir_id"
 
-if [ -n "${FLOAT_TERM}" ]; then
-    if [ "$(tmux display-message -p -F "#{session_name}")" = "ai-popup" ]; then
-        tmux detach-client
-    else
-        tmux popup -d '#{pane_current_path}' -S "bg=#0a0a0a,fg=#1c3762" -x110% -yC -w40% -h95% -E \
-            "tmux attach -t ai-popup || tmux new -s ai-popup -c '#{pane_current_path}' -E '$CMD' \; set status off"
-    fi
+if [ "$(tmux display-message -p -F "#{session_name}")" = "$session_name" ]; then
+    tmux detach-client
 else
-    if [ "${PANE_COUNT}" = 1 ]; then
-        tmux split-window -c "#{pane_current_path}"
-    elif [ -n "${PANE_ZOOMED}" ]; then
-        tmux select-pane -t:.-
-    else
-        tmux resize-pane -Z -t1
-    fi
+    tmux popup -d '#{pane_current_path}' -s "bg=#0a0a0a" -S "bg=#0a0a0a,fg=#1c3762" -x112% -yC -w40% -h98% -E \
+        "tmux attach -t $session_name || tmux new -s $session_name -c '#{pane_current_path}' -E '$CMD' \; set status off"
 fi
