@@ -20,6 +20,10 @@ return {
     "zbirenbaum/copilot.lua",
     enabled = true,
     event = "InsertEnter",
+    cmd = "Copilot",
+    dependencies = {
+      "copilotlsp-nvim/copilot-lsp",
+    },
     opts = {
       suggestion = {
         auto_trigger = true,
@@ -32,6 +36,9 @@ return {
           dismiss = "<C-]>",
           -- toggle_auto_trigger = false,
         },
+        nes = {
+          enabled = true,
+        }
       },
     },
   },

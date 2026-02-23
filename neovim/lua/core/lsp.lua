@@ -157,7 +157,7 @@ local lsp_servers = {
 }
 
 local other_lsp_servers = {
-  ["GitHub Copilot"] = { name = "copilot", ai = true },
+  ["copilot"] = { name = "copilot", ai = true },
   ["sonarqube"] = { name = "sonar" },
 }
 
