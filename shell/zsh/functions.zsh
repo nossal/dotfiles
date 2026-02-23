@@ -12,7 +12,11 @@ _priv_func() {
 }
 
 function ssht() {
-  ssh -t "$1" "/usr/local/bin/tmux new -A -s $2"
+    local host=$1
+    local session="${2:-my-session}"
+    shift 2
+    # ssh -t "$1" "/usr/local/bin/tmux new -A -s $2"
+    TERM=xterm-256color ssh -t "$host" "TERM=screen-256color /usr/local/bin/tmux new -A -s $session $@"
 }
 
 function hostname() {

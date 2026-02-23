@@ -2,7 +2,11 @@
 export LANG=en_US.UTF-8
 export DOTDIR=$HOME/.dotfiles
 export ZSHDOTDIR=$DOTDIR/shell/zsh
+
 export GPG_TTY=$(tty)
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+
+gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 
 WORK_DOTDIR="$DOTDIR-work"
 export WORK_SSH_CONFIG=0
