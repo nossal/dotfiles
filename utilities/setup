@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+source "$DOTDIR/bin/dot"
+setup() {
+    # Opencode CLI installation script
+    echo "Installing Opencode CLI..."
+    curl -fsSL https://opencode.ai/install | bash -s -- --no-modify-path
+
+    # yt-dlp installation script
+    echo "Installing yt-dlp..."
+    curl https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -L -o "$HOME/.local/bin/yt-dlp"
+    chmod +x "$HOME/.local/bin/yt-dlp"
+}
+
+update=setup
+install "utilities"
