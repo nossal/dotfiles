@@ -3,11 +3,14 @@ export LANG=en_US.UTF-8
 export DOTDIR=$HOME/.dotfiles
 export ZSHDOTDIR=$DOTDIR/shell/zsh
 
-export GPG_TTY=$(tty)
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+# Macos spedcific environment variables
+export HOMEBREW_BIN="/opt/homebrew/bin"
 
 gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+export GPG_TTY=$(tty)
+export SSH_AUTH_SOCK=$("$HOMEBREW_BIN/gpgconf" --list-dirs agent-ssh-socket)
 
+# Work specific environment variables
 WORK_DOTDIR="$DOTDIR-work"
 export WORK_SSH_CONFIG=0
 [ -e "$WORK_DOTDIR" ] && source "$WORK_DOTDIR/env.sh"
