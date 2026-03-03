@@ -27,6 +27,47 @@ function has() {
   command -v "$callable" 1>/dev/null 2>&1
 }
 
+LOG_BUFFER=()
+DISPLAY_BUFFER=("" "" "" "")
+
+log() {
+    # Add all passed lines to buffer, shifting display up
+    for line in "$@"; do
+        LOG_BUFFER+=("$line")
+
+        # Shift display buffer up and add new line at bottom
+        DISPLAY_BUFFER=("${DISPLAY_BUFFER[@]:1}" "$line")
+    done
+
+    # Move up 4 lines and clear display
+    printf "\033[4A\033[J"
+
+    local bg=$'\e[48;2;30;30;30m'
+    local reset=$'\e[0m'
+    printf "${bg} %-80s ${reset}\n" "${DISPLAY_BUFFER[0]}"
+    printf "${bg} %-80s ${reset}\n" "${DISPLAY_BUFFER[1]}"
+    printf "${bg} %-80s ${reset}\n" "${DISPLAY_BUFFER[2]}"
+    printf "${bg} %-80s ${reset}\n" "${DISPLAY_BUFFER[3]}"
+
+    sleep 0.1s
+}
+
+start_log() {
+    # Hide cursor
+    printf "\033[?25l"
+    # Create 4 empty lines
+    printf "\n\n\n\n"
+}
+end_log() {
+    # Move to start of first line and clear to end of display
+    # printf "\033[3A\033[J"
+    # # Show cursor again
+    # printf "\033[?25h" >&4
+
+    LOG_BUFFER=()
+    DISPLAY_BUFFER=("" "" "" "")
+    printf "\033[?25h\n"  # Show cursor and add newline
+}
 
 function install() {
   local cmd="$1"
@@ -245,30 +286,6 @@ function config_set() {
   mv "$temp_file" "$file"
 }
 
-
-function filter() {
-  local section=$1
-  local file=$2
-  local found=false
-
-  while IFS= read -r line; do
-    # Check if the line contains the section name
-    if [[ "$line" == "["*"$section"*"]" ]]; then
-      found=true
-      continue  # Skip printing the section name
-    fi
-    if [[ "$line" != "["*"$section"*"]" && "$line" == "["* ]]; then
-      found=false
-      continue  # Skip printing the section name
-    fi
-
-    # If the section is found, print the line
-    if [ "$found" = true ]; then
-      echo "$line"
-    fi
-  done < "$file"
-}
-
 function config_list_keys() {
   # List all keys in a specific TOML section
   #
@@ -331,17 +348,18 @@ function symlink_configs() {
   local category="${1:-default}"
   local profile="${2:-}"
 
+  start_log
   # Construct config file path based on profile
   [ -n "$profile" ] && profile="-$profile"
   local config_file="$DOTFILES_HOME/links$profile.toml"
-  echo "> Using config file: $config_file"
+  log "> Using config file: $config_file"
 
   # Check if config file exists
   if [ ! -f "$config_file" ]; then
-    echo "Configuration file not found: $config_file"
+    log "Configuration file not found: $config_file"
     return
   fi
-  echo "> Category: $category"
+  log "> Category: $category"
 
   # Process each line in the configuration file
   while IFS= read -r source_path; do
@@ -361,12 +379,12 @@ function symlink_configs() {
     # Create symbolic link if it doesn't exist
     if [ ! -L "$target" ]; then
       ln -sf "$DOTFILES_HOME/$source_path" "$target"
-      echo "Created link: $target -> $DOTFILES_HOME/$source_path"
+      log "Created link: $target -> $DOTFILES_HOME/$source_path"
     else
-      echo "Link already exists: $target"
+      log "Link already exists: $target"
     fi
-  # done <<< "$(filter "$category" "$config_file")"
   done <<< "$(config_list_keys "$config_file" "$category")"
+  end_log
 }
 
 function clean() {
@@ -397,15 +415,17 @@ function tools() {
   #       └── setup    # This will be executed too
   #
   echo "TOOLS"
+  start_log
 
   while IFS= read -r setup_path; do
     name="$(basename "$(dirname "$setup_path")")"
-    echo "Setup $name"
+    log "Setup $name"
     [ ! -x "$setup_path" ] && chmod u+x "$setup_path"
 
-    "$setup_path"
+    "$setup_path" >&2 log
 
   done <<< "$(find "$DOTFILES_HOME" -maxdepth 2 -type f -name "setup")"
+  end_log
 }
 
 function dot_update() {
@@ -415,7 +435,6 @@ function dot_update() {
 }
 
 function dot_install() {
-  echo "--INSTALL--"
   clean
   symlink_configs "$@"
   symlink_configs "$shell"
@@ -511,6 +530,8 @@ function usage() {
     For more information, visit: https://github.com/nossal/dotfiles
 EOF
 }
+
+trap end_log EXIT
 
 function main() {
   local command=""
