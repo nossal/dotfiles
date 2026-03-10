@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-
 set -uo pipefail
 
 CMD="$HOME/.opencode/bin/opencode"
+
 dir_id=$(tmux display-message -p -F "#{pane_current_path}" | sed 's/\.//' | awk -F'/' '{print $(NF-1)"_"$NF}')
 session_name="ai-popup-$dir_id"
 

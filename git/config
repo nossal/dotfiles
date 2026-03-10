@@ -21,7 +21,7 @@
   amend = commit --amend
   fixup = commit --fixup
   squash = commit --squa:w
-  br = branch
+  br = branch --no-column
   s = status -s
   c = clone --recursive
   pf = push --force-with-lease

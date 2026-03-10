@@ -12,7 +12,6 @@ path=(
   $HOME/.dotfiles/bin(N)
   $HOME/.atuin/bin(N)
   $HOME/.cargo/bin(N)
-  $HOME/.opencode/bin(N)
   $path
 )
 

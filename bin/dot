@@ -398,6 +398,8 @@ function clean() {
   fi
 }
 
+source "$DOTFILES_HOME/bin/dot-log"
+
 function tools() {
   # Searches and executes setup files in dotfiles directory
   #
@@ -422,7 +424,21 @@ function tools() {
     log "Setup $name"
     [ ! -x "$setup_path" ] && chmod u+x "$setup_path"
 
-    "$setup_path" >&2 log
+    # Capture output and display with logging formatting
+    {
+      if [ -t 1 ]; then
+        # If stdout is a terminal, redirect to both terminal and log buffer
+        "$setup_path" 2>&1 | while IFS= read -r line; do
+          # echo "$line"
+          log "$line"
+        done
+      else
+        # If stdout is not a terminal, just capture for logging
+        "$setup_path" 2>&1 | while IFS= read -r line; do
+          log "$line"
+        done
+      fi
+    }
 
   done <<< "$(find "$DOTFILES_HOME" -maxdepth 2 -type f -name "setup")"
   end_log

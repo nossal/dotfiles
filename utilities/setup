@@ -3,11 +3,16 @@
 source "$DOTDIR/bin/dot"
 setup() {
     # Opencode CLI installation script
-    echo "Installing Opencode CLI..."
+    echo "Installing/Uprading Opencode CLI..."
     curl -fsSL https://opencode.ai/install | bash -s -- --no-modify-path
+    ln -s "$HOME/.opencode/bin/opencode" "$HOME/.local/bin/opencode" &> /dev/null
+
+    echo "Installing/Uprading LM Studio..."
+    curl -fsSL https://lmstudio.ai/install.sh | bash -s -- --no-modify-path
+    ln -s "$HOME/.lmstudio/bin/lms" "$HOME/.local/bin/lms" &> /dev/null
 
     # yt-dlp installation script
-    echo "Installing yt-dlp..."
+    echo "Installing/Uprading yt-dlp..."
     curl https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -L -o "$HOME/.local/bin/yt-dlp"
     chmod +x "$HOME/.local/bin/yt-dlp"
 }

@@ -21,5 +21,8 @@ setup() {
   esac
 }
 
-update=setup
+update() {
+  nvim --headless "+Lazy! sync" +qa > /dev/null
+}
+
 install "nvim"

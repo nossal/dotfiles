@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+LOG_LINES=()
+LOG_MAX_LINES=4
+
+function log_init() {
+  if [[ -t 1 ]]; then
+    printf '\033[?25l'
+    for ((i = 0; i < LOG_MAX_LINES; i++)); do
+      printf '\n'
+    done
+    printf '\033[%dA' "$LOG_MAX_LINES"
+  fi
+}
+
+function log_write() {
+  local line="$1"
+
+  LOG_LINES+=("$line")
+
+  if (( ${#LOG_LINES[@]} > LOG_MAX_LINES )); then
+    LOG_LINES=("${LOG_LINES[@]:1}")
+  fi
+
+  if [[ -t 1 ]]; then
+    for ((i = 0; i < LOG_MAX_LINES; i++)); do
+      printf '\033[2K\r'
+      if [[ -n "${LOG_LINES[i]:-}" ]]; then
+        printf '%s' "${LOG_LINES[i]}"
+      fi
+      if (( i < LOG_MAX_LINES - 1 )); then
+        printf '\n'
+      fi
+    done
+  fi
+}
+
+function log_end() {
+  if [[ -t 1 ]]; then
+    printf '\033[?25h'
+  else
+    if (( ${#LOG_LINES[@]} > 0 )); then
+      printf '\n\033[33m» Last %d lines:\033[0m\n' "$LOG_MAX_LINES"
+      for line in "${LOG_LINES[@]}"; do
+        printf '  %s\n' "$line"
+      done
+    fi
+  fi
+  LOG_LINES=()
+}
+
+if [[ -n "${BASH_SOURCE[0]}" && "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  log_init
+  while IFS= read -r line; do
+    log_write "$line"
+  done
+  log_end
+fi
