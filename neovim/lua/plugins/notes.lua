@@ -58,22 +58,78 @@ return {
       require("org-bullets").setup()
 
       local Menu = require("org-modern.menu")
+
       require("orgmode").setup({
         org_agenda_files = notes_dir .. "/org/**/*",
-        org_default_notes_file = notes_dir .. "/org/refile.org",
+        org_default_notes_file = notes_dir .. "/org/index.org",
+
         org_startup_folded = "overview",
         org_hide_emphasis_markers = true,
-        -- org_indent_mode = "indent",
         org_ellipsis = "  ",
         org_priority_highest = 1,
         org_priority_lowest = 5,
         org_priority_default = 3,
         org_log_done = "time",
+        -- org_indent_mode = "indent",
+
+        -- Mapeamentos de Teclas (Dentro de buffers org)
+        mappings = {
+          disable = false,
+          global = {
+            org_agenda = "<leader>oa",
+            org_capture = "<leader>oc",
+            org_cycle_global = "<leader>ol",
+          },
+          org = {
+            org_toggle_checkbox = "<C-Space>",
+            org_toggle_heading = "<Tab>",
+            org_shift_heading = "<S-Tab>",
+          },
+          -- config = {
+          --   -- Navegação e Edição
+          --   ["<CR>"] = "org_timestamp_up",
+          --   ["<S-CR>"] = "org_timestamp_down",
+          --   ["<C-CR>"] = "org_timestamp_up_day",
+          --   ["<S-C-CR>"] = "org_timestamp_down_day",
+          --   ["<C-up>"] = "org_todo_prev",
+          --   ["<C-down>"] = "org_todo_next",
+          --   ["<C-left>"] = "org_priority_down",
+          --   ["<C-right>"] = "org_priority_up",
+          -- },
+        },
+
+        -- Palavras-chave de Tarefas (TODO States)
+        org_todo_keywords = {
+          "TODO", -- Precisa ser feito
+          "DOING", -- Em andamento agora
+          "WAITING", -- Dependendo de terceiros
+          "DONE", -- Concluído
+          "CANCELLED", -- Não será feito
+        },
+
+        -- Tags para separar Contextos (Crucial para Trabalho vs Pessoal)
+        org_tags = {
+          "work", -- Tarefas do emprego 9-5
+          "personal", -- Seus projetos promissores
+          "urgent", -- Prioridade máxima
+          "review", -- Para revisão semanal
+        },
+
         org_capture_templates = {
           t = {
             description = "Task",
-            template = "* TODO %?\n  %u",
+            template = "* TODO %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:",
             target = notes_dir .. "/org/tasks.org",
+          },
+          p = {
+            description = "Projeto",
+            template = "* TODO Projeto: %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n** Detalhes\n",
+            target = notes_dir .. "/org/projects/index.org",
+          },
+          n = {
+            description = "Nota Rápida",
+            template = "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:",
+            target = notes_dir .. "/org/inbox.org",
           },
           j = {
             description = "Journal",
@@ -81,6 +137,30 @@ return {
             target = notes_dir .. "/org/journal/%<%Y-%m>.org",
           },
         },
+
+        win_split_mode = function(name)
+          -- Make sure it's not a scratch buffer by passing false as 2nd argument
+          local bufnr = vim.api.nvim_create_buf(false, false)
+          --- Setting buffer name is required
+          vim.api.nvim_buf_set_name(bufnr, name)
+
+          local fill = 0.5
+          local width = math.floor((vim.o.columns * fill))
+          local height = math.floor((vim.o.lines * fill))
+          local row = math.floor((((vim.o.lines - height) / 2) - 1))
+          local col = math.floor(((vim.o.columns - width) / 2))
+
+          vim.api.nvim_open_win(bufnr, true, {
+            relative = "editor",
+            width = width,
+            height = height,
+            row = row,
+            col = col,
+            style = "minimal",
+            border = "rounded",
+          })
+        end,
+
         ui = {
           menu = {
             handler = function(data)
@@ -90,6 +170,7 @@ return {
         },
       })
 
+      vim.lsp.enable('org')
       -- vim.keymap.set("n", "<leader>r", require("telescope").extensions.orgmode.refile_heading)
       -- vim.keymap.set("n", "<leader>fh", require("telescope").extensions.orgmode.search_headings)
       -- vim.keymap.set("n", "<leader>li", require("telescope").extensions.orgmode.insert_link)

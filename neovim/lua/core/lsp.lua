@@ -154,6 +154,7 @@ local lsp_servers = {
       },
     },
   },
+  ["codebook"] = { name = "spell" },
 }
 
 local other_lsp_servers = {

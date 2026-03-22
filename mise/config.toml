@@ -1,20 +1,20 @@
 [tools]
 usage = "latest"
-fzf = "latest"
-yq = "latest"
-jq = "latest"
-rg = "latest"
-fd = "latest"
-lsd = "latest"
-zoxide = "latest"
-btop = "latest"
-gh = "latest"
-lazygit = "latest"
-delta = "latest"
-gitleaks = "latest"
-trivy = "latest"
-kubectl = "latest"
-helm = "latest"
+fzf = "latest" # fuzy finder
+jq = "latest" # json processor
+yq = "latest" # yaml processor, similar to jq
+rg = "latest" # ripgrep, a line-oriented search tool, similar to grep
+fd = "latest" # simple, fast and user-friendly alternative to find
+lsd = "latest" # modern replacement for ls written in Rust
+zoxide = "latest" # smarter cd command, inspired by z and autojump
+btop = "latest" # resource monitor
+gh = "latest" # GitHub CLI tool
+lazygit = "latest" # simple terminal UI for git commands
+delta = "latest" # syntax-highlighting pager for git and diff output
+gitleaks = "latest" # audit git repos for secrets and sensitive data
+trivy = "latest" # vulnerability scanner for containers and other artifacts
+kubectl = "latest" # Kubernetes command-line tool
+helm = "latest" # The Kubernetes package manager
 # --- languages ---
 rust = { version = "1.89.0", profile = "default" }
 java = "25"

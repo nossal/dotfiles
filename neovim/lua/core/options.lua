@@ -138,6 +138,7 @@ opt.fillchars = list({
 
 -- File Handling
 opt.encoding = "utf-8"
+opt.fileformats = "unix,dos,mac"
 opt.backup = false
 opt.writebackup = false
 opt.swapfile = false
