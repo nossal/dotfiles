@@ -69,7 +69,8 @@ local lsp_servers = {
       filetypes = { "html", "css", "sass", "scss", "less", "svelte", "vue" },
     },
   },
-  superhtml = { name = "HTML", install = true },
+  -- superhtml = { name = "HTML", install = true },
+  html = { name = "HTML", install = true },
   lua_ls = {
     name = "lua",
     version = "3.15.0", -- specify version due to recent breaking changes
@@ -121,7 +122,8 @@ local lsp_servers = {
   --   },
   -- },
   biome = { name = "biome", install = true },
-  pyrefly = { name = "python", install = true },
+  -- pyrefly = { name = "python", install = true },
+  ty = { name = "python", install = true },
   ruff = { name = "ruff", install = true, hidden = true },
   bashls = { name = "bash", install = true },
   gradle_ls = { name = "gradle", install = true },
