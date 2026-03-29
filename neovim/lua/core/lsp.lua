@@ -121,7 +121,7 @@ local lsp_servers = {
   --     },
   --   },
   -- },
-  biome = { name = "biome", install = true },
+  -- biome = { name = "biome", install = true },
   -- pyrefly = { name = "python", install = true },
   ty = { name = "python", install = true },
   ruff = { name = "ruff", install = true, hidden = true },
@@ -156,7 +156,14 @@ local lsp_servers = {
       },
     },
   },
-  ["codebook"] = { name = "spell" },
+  oxlint = {
+    name = "oxlint",
+    install = true,
+    setup = {
+      root_markers = { "package.json", "deno.json" },
+    },
+  },
+  codebook = { name = "spl", install = true },
 }
 
 local other_lsp_servers = {

@@ -25,7 +25,7 @@ return {
         python = { "ruff" },
         css = { "stylelint" },
         lua = { "selene" },
-        javascript = { "biomejs" },
+        -- javascript = { "biomejs" },
         yaml = { "yamllint" },
         rust = { "clippy" },
       }

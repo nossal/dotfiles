@@ -1,21 +1,4 @@
 return {
-  -- {
-  --   "github/copilot.vim",
-  --   enabled = false,
-  --   config = function()
-  --     vim.g.copilot_filetypes = {
-  --       ["*"] = true,
-  --       ["copilot-chat"] = false,
-  --     }
-  --     vim.g.copilot_no_tab_map = true -- Disable default tab mapping
-  --     vim.api.nvim_set_keymap(
-  --       "i",
-  --       "<C-j>",
-  --       'copilot#Accept("<CR>")',
-  --       { expr = true, silent = true, noremap = true }
-  --     )
-  --   end
-  -- },
   {
     "zbirenbaum/copilot.lua",
     enabled = true,

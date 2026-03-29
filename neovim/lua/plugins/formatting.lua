@@ -25,12 +25,13 @@ return {
     opts = {
       formatters_by_ft = {
         lua = { "stylua" },
-        javascript = { "biome" },
-        typescript = { "biome" },
-        svelte = { "biome", lsp_format = "fallback" },
-        json = { "biome" },
-        css = { "biome" },
-        yaml = { "yamlfmt" },
+        javascript = { "oxfmt" },
+        typescript = { "oxfmt" },
+        typescriptreact = { "oxfmt" },
+        svelte = { "oxfmt", lsp_format = "fallback" },
+        json = { "oxfmt" },
+        css = { "oxfmt" },
+        yaml = { "oxfmt" },
         python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
         java = { "lsp" },
         bash = { "shfmt" },
@@ -38,14 +39,9 @@ return {
         shell = { "shfmt" },
         zsh = { "shfmt" },
         rust = { "rustfmt" },
-        html = { "superhtml", lsp_format = "fallback" },
+        html = { "oxfmt", lsp_format = "fallback" },
         xml = { "xmlformat", lsp_format = "fallback" },
         ocaml = { "ocamlformat" },
-      },
-      formatters = {
-        biome = {
-          args = { "format", "--config-path", vim.fn.expand("$HOME/.dotfiles"), "--stdin-file-path", "$FILENAME" },
-        },
       },
     },
     init = function()

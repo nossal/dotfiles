@@ -99,7 +99,8 @@ return {
           "shfmt", -- shell formatter
           "stylua", -- lua formatter
           "ruff", -- python formatter/linter
-          "biome", -- javascript, json formatter/linter
+          -- "biome", -- javascript, json formatter/linter
+          "oxfmt", -- JS formatter
           "yamlfmt", -- YAML formatteer
           "superhtml", -- HTML formatter/linter
 
@@ -110,6 +111,7 @@ return {
           "markdownlint", -- markdown linter
           "yamllint", -- yaml linter
           "sonarlint-language-server", -- sonarqube linter
+          "oxlint", -- JS linter
 
           -- "ast_grep", -- linter/formater
         },
