@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# Open the .dotfiles directory in nvim
-nvim -c "cd ~/.dotfiles | lua require('persistence').load()"
-

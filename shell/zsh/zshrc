@@ -58,16 +58,6 @@ zstyle ':completion:*' group-name ''                        # no group names
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"     # use LS_COLORS for completion colors
 zstyle ':completion:*' menu no                              # do not use a menu for completion
 
-# Plugins
-source $ZSHDOTDIR/plug.zsh
-plugins=(
-  "z-shell/F-Sy-H"
-  "Aloxaf/fzf-tab"
-  "zsh-users/zsh-autosuggestions"
-  "hlissner/zsh-autopair"
-)
-load_plugins $plugins;
-
 # autoload -U +X compinit && compinit
 # autoload -U +X bashcompinit && bashcompinit
 # autoload -Uz bashcompinit && bashcompinit
@@ -88,6 +78,16 @@ for completion in $completions; do
 done
 
 fpath+="$ZSHDOTDIR/completions"
+
+# Plugins
+source $ZSHDOTDIR/plug.zsh
+plugins=(
+  "zsh-users/zsh-autosuggestions"
+  "Aloxaf/fzf-tab"
+  "z-shell/F-Sy-H"
+  "hlissner/zsh-autopair"
+)
+load_plugins $plugins;
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#444"
 

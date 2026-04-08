@@ -548,6 +548,9 @@ EOF
 }
 
 trap end_log EXIT
+edit() {
+  nvim -c "cd ~/.dotfiles | lua require('persistence').load()"
+}
 
 function main() {
   local command=""
@@ -582,7 +585,6 @@ function main() {
         ;;
     esac
   done
-  echo "$REPO"
 
   case "${command}" in
     up|update)
@@ -596,6 +598,9 @@ function main() {
       ;;
     links)
       symlink_configs "$arguments"
+      ;;
+    ed|edit)
+      edit
       ;;
     *)
       bootstrap "$@"

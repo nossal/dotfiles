@@ -1,17 +1,4 @@
-# Function to source files if they exist
-function source_file() {
-  [ -f "$ZSHDOTDIR/$1" ] && zsource "$ZSHDOTDIR/$1"
-}
-
-function update_plugins() {
-  for plugin in $@; do
-    plugin_name=$(echo $plugin | cut -d "/" -f 2)
-    cd "$ZSHDOTDIR/plugins/$plugin_name" &&  git pull --ff-only 2>/dev/null;
-    cd - > /dev/null
-  done
-}
-
-# Global array to track deferred plugins
+# ~/.dotfiles/shell/zsh/plug.zsh
 typeset -gA _DEFERRED_PLUGINS
 
 function load_plugins() {
@@ -24,45 +11,54 @@ function load_plugins() {
     fi
   done
 
-  # Load sync plugins immediately
-  for p in $sync; do _source_plugin "$p"; done
-
-  # Defer lazy plugins
-  for p in $lazy; do _defer_plugin "$p"; done
+  for p in $sync; do _load_sync "$p"; done
+  for p in $lazy; do _load_defer "$p"; done
 }
 
-function _source_plugin() {
-  local repo=$1 name=${repo:t}
-  local dir="$ZSHDOTDIR/plugins/$name"
+function _check_plugin() {
+  local plugin=$1
+  local plugin_name=${plugin:t}
+  local plugin_dir="$ZSHDOTDIR/plugins/$plugin_name"
 
-  [[ -d "$dir" ]] || git clone --depth 1 --quiet "https://github.com/$repo.git" "$dir" 2>/dev/null || return 1
-
-  local f
-  if [[ -f "$dir/$name.plugin.zsh" ]]; then f="$dir/$name.plugin.zsh"
-  elif [[ -f "$dir/$name.zsh" ]]; then f="$dir/$name.zsh"
-  else return 1; fi
-
-  source "$f"
+  if [[ ! -d "$plugin_dir" ]]; then
+    git clone --depth 1 --quiet "https://github.com/$plugin.git" "$plugin_dir" 2>/dev/null || return 1
+  fi
 }
 
-function _defer_plugin() {
-  local repo=$1 name=${repo:t}
-  local dir="$ZSHDOTDIR/plugins/$name"
+function _load_sync() {
+  local plugin=$1
+  local plugin_name=${plugin:t}
 
-  [[ -d "$dir" ]] || git clone --depth 1 --quiet "https://github.com/$repo.git" "$dir" 2>/dev/null || return
+  _check_plugin "$plugin" || return 1
 
-  local f
-  if [[ -f "$dir/$name.plugin.zsh" ]]; then f="$dir/$name.plugin.zsh"
-  elif [[ -f "$dir/$name.zsh" ]]; then f="$dir/$name.zsh"
-  else return; fi
+  source_file "plugins/$plugin_name/$plugin_name.plugin.zsh" 2>/dev/null ||
+  source_file "plugins/$plugin_name/$plugin_name.zsh" 2>/dev/null
+}
 
-  _DEFERRED_PLUGINS["$name"]="$f"
+function _load_defer() {
+  local plugin=$1
+  local plugin_name=${plugin:t}
+  local plugin_dir="$ZSHDOTDIR/plugins/$plugin_name"
+
+  _check_plugin "$plugin" || return 1
+
+  # Resolve absolute path for precmd execution
+  local target=""
+  if [[ -f "$plugin_dir/$plugin_name.plugin.zsh" ]]; then
+    target="$plugin_dir/$plugin_name.plugin.zsh"
+  elif [[ -f "$plugin_dir/$plugin_name.zsh" ]]; then
+    target="$plugin_dir/$plugin_name.zsh"
+  else
+    return 1
+  fi
+
+  _DEFERRED_PLUGINS["$plugin_name"]="$target"
   autoload -Uz add-zsh-hook
-  add-zsh-hook precmd _load_deferred_plugins_once
+  add-zsh-hook precmd _flush_deferred_plugins
 }
 
-function _load_deferred_plugins_once() {
-  add-zsh-hook -d precmd _load_deferred_plugins_once
+function _flush_deferred_plugins() {
+  add-zsh-hook -d precmd _flush_deferred_plugins
   local f
   for f in "${_DEFERRED_PLUGINS[@]}"; do
     [[ -f "$f" ]] && source "$f"
@@ -70,6 +66,18 @@ function _load_deferred_plugins_once() {
   unset _DEFERRED_PLUGINS
 }
 
+# Function to source files if they exist
+function source_file() {
+  [ -f "$ZSHDOTDIR/$1" ] && zsource "$ZSHDOTDIR/$1"
+}
+
+function update_plugins() {
+  for plugin in $@; do
+    plugin_name=$(echo $plugin | cut -d "/" -f 2)
+    cd "$ZSHDOTDIR/plugins/$plugin_name" &&  git pull --ff-only 2>/dev/null;
+    cd - > /dev/null
+  done
+}
 
 function zsh_add_completion() {
   plugin_name=$(echo $1 | cut -d "/" -f 2)
