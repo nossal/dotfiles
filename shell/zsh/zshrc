@@ -61,25 +61,24 @@ zstyle ':completion:*' menu no                              # do not use a menu 
 # Plugins
 source $ZSHDOTDIR/plug.zsh
 plugins=(
+  "z-shell/F-Sy-H"
   "Aloxaf/fzf-tab"
   "zsh-users/zsh-autosuggestions"
   "hlissner/zsh-autopair"
-  "z-shell/F-Sy-H"
 )
 load_plugins $plugins;
 
 # autoload -U +X compinit && compinit
 # autoload -U +X bashcompinit && bashcompinit
+# autoload -Uz bashcompinit && bashcompinit
 
 autoload -Uz compinit
-# Regenerate compdump if it's older than 24 hours
-if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-  compinit
+local zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+if [[ -s "$zcompdump" ]]; then
+  compinit -C -d "$zcompdump"  # Skip compaudit, use cached dump (~15-20ms saved)
 else
-  compinit -C
+  compinit -d "$zcompdump"     # First run: full check & generate cache
 fi
-
-# autoload -Uz bashcompinit && bashcompinit
 
 # completions=(
 #   "zsh-users/zsh-completions"
@@ -106,4 +105,5 @@ source "$DOTDIR/shell/inits"
 
 autoload -Uz add-zsh-hook
 add-zsh-hook chpwd auto_venv
+
 # zprof

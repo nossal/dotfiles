@@ -12,96 +12,62 @@ function update_plugins() {
 }
 
 # Global array to track deferred plugins
-typeset -gA DEFERRED_PLUGINS
+typeset -gA _DEFERRED_PLUGINS
 
 function load_plugins() {
-  local -a sync_plugins=()
-  local -a lazy_plugins=()
-
-  # Parse arguments: prefix with "lazy:" to defer loading
-  for plugin in $@; do
-    if [[ $plugin == lazy:* ]]; then
-      lazy_plugins+=("${plugin#lazy:}")
+  local -a sync=() lazy=()
+  for p in "$@"; do
+    if [[ $p == lazy:* ]]; then
+      lazy+=("${p#lazy:}")
     else
-      sync_plugins+=("$plugin")
+      sync+=("$p")
     fi
   done
 
-  # Load sync plugins immediately (essential ones)
-  for plugin in $sync_plugins; do
-    _load_single_plugin "$plugin"
-  done
+  # Load sync plugins immediately
+  for p in $sync; do _source_plugin "$p"; done
 
-  # Defer lazy plugins until after prompt or first use
-  for plugin in $lazy_plugins; do
-    _defer_plugin "$plugin"
-  done
+  # Defer lazy plugins
+  for p in $lazy; do _defer_plugin "$p"; done
 }
 
-function _load_single_plugin() {
-  local plugin=$1
-  local plugin_name=${plugin:t}  # Get repo name from path (e.g., "fzf-tab" from "unixorn/fzf-tab")
-  local plugin_path="$ZSHDOTDIR/plugins/$plugin_name"
+function _source_plugin() {
+  local repo=$1 name=${repo:t}
+  local dir="$ZSHDOTDIR/plugins/$name"
 
-  # Clone if missing (only once per shell session)
-  if [[ ! -d "$plugin_path" ]]; then
-    git clone --depth 1 --quiet "https://github.com/$plugin.git" "$plugin_path" 2>/dev/null || return 1
-  fi
+  [[ -d "$dir" ]] || git clone --depth 1 --quiet "https://github.com/$repo.git" "$dir" 2>/dev/null || return 1
 
-  # Source the plugin file (try both conventions)
-  local plugin_file
-  if [[ -f "$plugin_path/$plugin_name.plugin.zsh" ]]; then
-    plugin_file="$plugin_path/$plugin_name.plugin.zsh"
-  elif [[ -f "$plugin_path/$plugin_name.zsh" ]]; then
-    plugin_file="$plugin_path/$plugin_name.zsh"
-  else
-    echo "⚠️  Plugin file not found for: $plugin_name" >&2
-    return 1
-  fi
+  local f
+  if [[ -f "$dir/$name.plugin.zsh" ]]; then f="$dir/$name.plugin.zsh"
+  elif [[ -f "$dir/$name.zsh" ]]; then f="$dir/$name.zsh"
+  else return 1; fi
 
-  # Source directly (bypass zsource wrapper for speed) or keep zsource if you need its features
-  source "$plugin_file"
+  source "$f"
 }
 
 function _defer_plugin() {
-  local plugin=$1
-  local plugin_name=${plugin:t}
-  local plugin_path="$ZSHDOTDIR/plugins/$plugin_name"
+  local repo=$1 name=${repo:t}
+  local dir="$ZSHDOTDIR/plugins/$name"
 
-  # Ensure plugin is cloned (but don't source yet)
-  if [[ ! -d "$plugin_path" ]]; then
-    git clone --depth 1 --quiet "https://github.com/$plugin.git" "$plugin_path" 2>/dev/null || return
-  fi
+  [[ -d "$dir" ]] || git clone --depth 1 --quiet "https://github.com/$repo.git" "$dir" 2>/dev/null || return
 
-  # Determine file path
-  local plugin_file
-  if [[ -f "$plugin_path/$plugin_name.plugin.zsh" ]]; then
-    plugin_file="$plugin_path/$plugin_name.plugin.zsh"
-  elif [[ -f "$plugin_path/$plugin_name.zsh" ]]; then
-    plugin_file="$plugin_path/$plugin_name.zsh"
-  else
-    return
-  fi
+  local f
+  if [[ -f "$dir/$name.plugin.zsh" ]]; then f="$dir/$name.plugin.zsh"
+  elif [[ -f "$dir/$name.zsh" ]]; then f="$dir/$name.zsh"
+  else return; fi
 
-  # Store for later loading
-  DEFERRED_PLUGINS["$plugin_name"]="$plugin_file"
-
-  # Load after prompt renders (non-blocking)
+  _DEFERRED_PLUGINS["$name"]="$f"
   autoload -Uz add-zsh-hook
   add-zsh-hook precmd _load_deferred_plugins_once
 }
 
 function _load_deferred_plugins_once() {
-  # Remove hook so this only runs once
   add-zsh-hook -d precmd _load_deferred_plugins_once
-
-  # Source all deferred plugins
-  for plugin_file in "${DEFERRED_PLUGINS[@]}"; do
-    [[ -f "$plugin_file" ]] && source "$plugin_file"
+  local f
+  for f in "${_DEFERRED_PLUGINS[@]}"; do
+    [[ -f "$f" ]] && source "$f"
   done
-
-  # Clear array to free memory
-  DEFERRED_PLUGINS=()
+  unset _DEFERRED_PLUGINS
 }
 
 
