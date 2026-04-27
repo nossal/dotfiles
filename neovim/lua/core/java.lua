@@ -9,10 +9,6 @@ local function get_workspace_path()
   return table.concat({ nvim_cache_path, "jdtls", "workspaces", project_path_hash })
 end
 
-local function get_jdtls_config_path()
-  return table.concat({ vim.fn.stdpath("cache"), "jdtls", "config" })
-end
-
 local function get_jdtls_path()
   return helpers.get_mason_package("jdtls")
 end
@@ -30,64 +26,30 @@ local function root_dir()
   return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
 end
 
-local function jdtls_launcher()
-  local jdtls_config = nil
-  if helpers.os_type() == helpers.Mac then
-    jdtls_config = "/config_mac"
-  elseif helpers.os_type() == helpers.Linux then
-    jdtls_config = "/config_linux"
-  elseif helpers.os_type() == helpers.Windows then
-    jdtls_config = "/config_win"
-  else
-    vim.notify("jdtls: unknown os", vim.log.levels.ERROR)
-    return nil
-  end
 
-  local lombok_jar = get_lombok_jar()
-  local jdtls_path = get_jdtls_path()
-  local jdtls_java = java_home() .. "/bin/java"
-
-  local cmd = {
-    jdtls_java,
-    "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-    "-Dosgi.bundles.defaultStartLevel=4",
-    "-Declipse.product=org.eclipse.jdt.ls.core.product",
-    "-Dosgi.checkConfiguration=true",
-    "-Dosgi.sharedConfiguration.area=" .. vim.fn.glob(jdtls_path .. jdtls_config),
-    "-Dosgi.sharedConfiguration.area.readOnly=true",
-    "-Dosgi.configuration.cascaded=true",
-    "-Dlog.protocol=true",
-    "-Dlog.level=ALL",
-    "-Xmx4g",
-    "-XX:+UseZGC",
-    "--enable-native-access=ALL-UNNAMED",
-    "--add-modules=ALL-SYSTEM",
-    "--add-opens",
-    "java.base/java.util=ALL-UNNAMED",
-    "--add-opens",
-    "java.base/java.lang=ALL-UNNAMED",
-    "--add-opens",
-    "java.base/sun.nio.fs=ALL-UNNAMED",
-  }
-  if lombok_jar ~= nil then
-    table.insert(cmd, "-javaagent:" .. lombok_jar)
-  end
-  table.insert(cmd, "-jar")
-  table.insert(cmd, vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar"))
-
-  table.insert(cmd, "-configuration")
-  table.insert(cmd, get_jdtls_config_path())
-
-  table.insert(cmd, "-data")
-  table.insert(cmd, get_workspace_path())
-
-  return cmd
-end
-
+local lombok_jar = get_lombok_jar()
 local config = {
-  -- The command that starts the language server
-  -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
-  cmd = jdtls_launcher(),
+  cmd = function(dispatchers, config)
+    local data_dir = get_workspace_path()
+    if config.root_dir then
+      data_dir = data_dir .. "/" .. vim.fn.fnamemodify(config.root_dir, ":p:h:t")
+    end
+
+    local config_cmd = {
+      "jdtls",
+      "-data",
+      data_dir,
+      "--java-executable",
+      java_home() .. "/bin/java",
+      '--jvm-arg=-javaagent:' .. lombok_jar,
+    }
+
+    return vim.lsp.rpc.start(config_cmd, dispatchers, {
+      cwd = config.cmd_cwd,
+      env = config.cmd_env,
+      detached = config.detached,
+    })
+  end,
   filetypes = { "java" },
   root_dir = root_dir(),
   handlers = {
@@ -100,8 +62,8 @@ local config = {
   -- for a list of options
   settings = {
     java = {
-      autobuild = { enabled = false },
-      maxConcurrentBuilds = 1,
+      autobuild = { enabled = true },
+      maxConcurrentBuilds = 2,
       home = java_home(),
       project = {
         encoding = "UTF-8",
@@ -199,6 +161,10 @@ local config = {
           profile = "CustomJavaStyle",
         },
       },
+
+      on_type_formatting = {
+        enabled = true,
+      },
       configuration = {
         -- maven = {
         --   -- userSettings = maven.get_maven_settings(),
@@ -295,7 +261,6 @@ local function bootls_user_command(buf)
     end,
   })
 end
-
 
 local function setup()
   -- -- local is_java_project = vim.fn.exists("pom.xml") > 0 or vim.fn.exists("build.gradle") > 0

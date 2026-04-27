@@ -33,7 +33,7 @@ return {
         css = { "oxfmt" },
         yaml = { "oxfmt" },
         python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
-        java = { "lsp" },
+        java = { "injected", lsp_format = "first" },
         bash = { "shfmt" },
         sh = { "shfmt" },
         shell = { "shfmt" },
@@ -47,6 +47,7 @@ return {
     init = function()
       -- If you want the formatexpr, here is the place to set it
       vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+      vim.o.indentexpr = "v:lua.require'conform'.formatexpr()"
     end,
   },
 }

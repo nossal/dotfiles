@@ -102,25 +102,23 @@ local lsp_servers = {
     name = "Deno",
     install = true,
     setup = {
+      single_file_support = true,
       -- cmd = { "/home/nossal/.local/share/mise/shims/deno", "lsp" },
       -- root_dir = require("lspconfig.util").root_pattern("deno.json"),
     },
   },
-  -- ts_ls = {
-  --   name = "JS",
-  --   install = true,
-  --   setup = {
-  --     filetypes = {
-  --       "javascript",
-  --       "javascriptreact",
-  --       "javascript.jsx",
-  --       "typescript",
-  --       "typescriptreact",
-  --       "typescript.tsx",
-  --       "typescript.vue",
-  --     },
-  --   },
-  -- },
+  ts_ls = {
+    name = "JS",
+    install = true,
+    setup = {
+      single_file_support = true,
+      filetypes = {
+        "javascript",
+        "javascriptreact",
+        "typescript",
+      },
+    },
+  },
   -- biome = { name = "biome", install = true },
   -- pyrefly = { name = "python", install = true },
   ty = { name = "python", install = true },
