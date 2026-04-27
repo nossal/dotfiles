@@ -129,7 +129,6 @@ local lsp_servers = {
   jdtls = {
     install = true,
     name = "java",
-    root_markers = { "build.gradle", "pom.xml" },
     setup = require("core.java").config,
     on_attach = require("core.java").on_attach,
   },
@@ -161,12 +160,13 @@ local lsp_servers = {
       root_markers = { "package.json", "deno.json" },
     },
   },
-  codebook = { name = "spl", install = true },
+  codebook = { name = "spl", install = true, setup = { settings = { globalConfigPath = "~/dotfiles/codebook.toml" } } },
 }
 
 local other_lsp_servers = {
   ["copilot"] = { name = "copilot", ai = true },
   ["sonarqube"] = { name = "sonar" },
+  ["spring-boot"] = { name = "sb", install = true },
 }
 
 local all_lsp_server = vim.tbl_extend("force", lsp_servers, other_lsp_servers)

@@ -26,7 +26,6 @@ local function root_dir()
   return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
 end
 
-
 local lombok_jar = get_lombok_jar()
 local config = {
   cmd = function(dispatchers, config)
@@ -41,7 +40,7 @@ local config = {
       data_dir,
       "--java-executable",
       java_home() .. "/bin/java",
-      '--jvm-arg=-javaagent:' .. lombok_jar,
+      "--jvm-arg=-javaagent:" .. lombok_jar,
     }
 
     return vim.lsp.rpc.start(config_cmd, dispatchers, {
@@ -186,85 +185,13 @@ local config = {
         },
       },
     },
+    init_options = {
+      bundles = require("spring_boot").java_extensions(),
+    },
   },
-  init_options = {
-    bundles = require("spring_boot").java_extensions(),
-  },
-  -- Language server `initializationOptions`
-  -- You need to extend the `bundles` with paths to jar files
-  -- if you want to use additional eclipse.jdt.ls plugins.
-  --
-  -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
-  --
-  -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
-  -- init_options = {
-  --   bundles = {
-  -- vim.fn.glob("/opt/software/lsp/java/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-0.35.0.jar")
-  -- },
-  -- workspace = workspace_dir
-  -- },
 }
 
-local function ls_path()
-  local path = vim.env["JDTLS_SPRING_TOOLS_PATH"]
-  if path == nil or path == "" then
-    return nil
-  end
-  return require("spring_boot").get_boot_ls(path .. "/language-server")
-end
-
-local function bootls_user_command(buf)
-  local create_command = vim.api.nvim_buf_create_user_command
-  local commands = {
-    Annotations = {
-      symbol = "@",
-      prompt = "show all Spring annotations in the code",
-    },
-    Beans = {
-      symbol = "@+",
-      prompt = "show all defined beans",
-    },
-    RequestMappings = {
-      symbol = "@/",
-      prompt = "show all defined request mappings",
-    },
-    Prototype = {
-      symbol = "@>",
-      prompt = "show all functions (prototype implementation)",
-    },
-  }
-  local commands_name = {}
-  for key, _ in pairs(commands) do
-    table.insert(commands_name, key)
-  end
-
-  create_command(buf, "SpringBoot", function(opt)
-    local on_choice = function(choice)
-      vim.lsp.buf.workspace_symbol(commands[choice].symbol)
-    end
-    if opt.args and opt.args ~= "" then
-      on_choice(opt.args)
-    else
-      vim.ui.select(commands_name, {
-        prompt = "Spring Symbol:",
-        format_item = function(item)
-          return commands[item].prompt
-        end,
-      }, on_choice)
-    end
-  end, {
-    desc = "Spring Boot",
-    nargs = "?",
-    range = false,
-    complete = function()
-      return commands_name
-    end,
-  })
-end
-
 local function setup()
-  -- -- local is_java_project = vim.fn.exists("pom.xml") > 0 or vim.fn.exists("build.gradle") > 0
-  -- -- if is_java_project then
   local lsp = require("core.lsp")
   config.capabilities = lsp.capabilities()
 
@@ -282,6 +209,7 @@ local function setup()
 end
 
 local function on_attach(client, bufnr)
+  require("spring_boot").init_lsp_commands()
   if client.name == "jdtls" then
     -- require("spring_boot.launch").start({}) -- with default config
     -- require('spring_boot').init_lsp_commands()

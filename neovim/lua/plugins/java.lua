@@ -5,13 +5,12 @@ return {
   },
   {
     "JavaHello/spring-boot.nvim",
-    ft = {"java", "yml", "yaml", "jproperties"},
-    -- lazy = true,
+    ft = { "java", "yml", "yaml", "jproperties", "properties" },
     dependencies = {
       "mfussenegger/nvim-jdtls",
-      "ibhagwan/fzf-lua",
     },
-    config = false,
+    ---@type bootls.Config
+    opts = {},
   },
   {
     "JavaHello/java-deps.nvim",
