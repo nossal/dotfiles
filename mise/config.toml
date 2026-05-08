@@ -23,6 +23,8 @@ go = "latest"
 deno = "latest"
 nodejs = "latest"
 opam = "latest"
+neovim = "0.11.7"
+pi = "latest"
 
 [settings]
 experimental = true
