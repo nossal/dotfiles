@@ -55,6 +55,14 @@ return {
         size = 2 * 1024 * 1024,
       },
       words = { enabled = true },
+      toggle = {
+        enabled = true,
+        animate = {
+          duration = {
+            total = 300,
+          },
+        },
+      },
     },
   },
   {
@@ -72,13 +80,14 @@ return {
           ["cmp.entry.get_documentation"] = false, -- requires hrsh7th/nvim-cmp
         },
         hover = {
-          enabled = false,
+          enabled = true,
+          silent = true, -- set to true to not have a hover popup show when lsp returns an error
         },
         signature = {
           enabled = false,
         },
         documentation = {
-          -- enabled = true,
+          enabled = true,
           view = "hover",
           ---@type NoiceViewOptions
           opts = {
@@ -119,7 +128,10 @@ return {
           opts = { skip = true },
         },
       },
-      -- add any options here
+      presets = {
+        lsp_doc_border = true, -- add a border to hover docs and signature help
+        long_message_to_split = true, -- long messages will be sent to a split
+      },
     },
     dependencies = {
       -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries

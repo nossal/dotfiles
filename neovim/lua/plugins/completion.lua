@@ -65,6 +65,7 @@ return {
         default = {
           "lazydev",
           "lsp",
+          "orgmode",
           "path",
           "snippets",
           "buffer",
