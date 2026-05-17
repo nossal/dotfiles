@@ -60,12 +60,21 @@ return {
         end,
         desc = "Find Dotfiles",
       },
-      { "<leader>ft",
+      {
+        "<leader>ft",
         mode = "v",
         function()
           require("fzf-lua").grep_visual()
         end,
-        desc = "Find Selected Text" },
+        desc = "Find Selected Text",
+      },
+      { "<leader>tc",
+        function()
+          vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled())
+        end,
+        desc = "Toggle CodeLens",
+      }
+
     })
   end,
   opts = {
