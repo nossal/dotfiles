@@ -7,6 +7,7 @@ return {
   },
   {
     "RRethy/vim-illuminate",
+    enabled = false,
     event = { "BufReadPre", "BufNewFile" },
     keys = {
       { "<C-n>", "<cmd>lua require('illuminate').goto_next_reference{wrap=true}<CR>", desc = "Move to next reference" },

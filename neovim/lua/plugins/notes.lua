@@ -199,7 +199,7 @@ return {
   {
     "hamidi-dev/org-super-agenda.nvim",
     event = "VeryLazy",
-    enable = false,
+    enabled = false, -- enable when ready to experiment with agenda views
     dependencies = {
       "nvim-orgmode/orgmode", -- required
       { "lukas-reineke/headlines.nvim", config = true }, -- optional nicety

@@ -8,6 +8,7 @@ export _ZO_FZF_OPTS="
 eval "$($HOME/.local/bin/mise activate zsh)"
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
+eval "$(tirith init --shell zsh)"
 
 zsource <(fzf --zsh)
 

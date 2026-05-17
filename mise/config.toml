@@ -15,6 +15,7 @@ gitleaks = "latest" # audit git repos for secrets and sensitive data
 trivy = "latest" # vulnerability scanner for containers and other artifacts
 kubectl = "latest" # Kubernetes command-line tool
 helm = "latest" # The Kubernetes package manager
+tirith = "latest"
 # --- languages ---
 rust = { version = "1.89.0", profile = "default" }
 java = "25"
@@ -23,7 +24,8 @@ go = "latest"
 deno = "latest"
 nodejs = "latest"
 opam = "latest"
-neovim = "0.11.7"
+
+neovim = "latest"
 pi = "latest"
 
 [settings]

@@ -18,7 +18,7 @@ return {
       },
       float = {
         max_width = 0.25, -- Values are percentages relative to window size
-        max_height = 32,
+        -- max_height = 32,
         border = "rounded",
         override = function(cfg)
           local ui = vim.api.nvim_list_uis()[1]
@@ -34,6 +34,8 @@ return {
         win_options = {
           colorcolumn = "",
           cursorcolumn = false,
+          conceallevel = 3,
+          concealcursor = "nvic",
         },
       },
       keymaps = {
