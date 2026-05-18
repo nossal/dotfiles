@@ -200,28 +200,47 @@ config.hyperlink_rules = wezterm.default_hyperlink_rules()
 
 config.term = "xterm-256color"
 
+local alt_font_family = "Maple Mono NF"
+local font_family = "0xProto Nerd Font Propo"
 config.adjust_window_size_when_changing_font_size = false
 config.font = wezterm.font_with_fallback({
-  { family = "0xProto Nerd Font Propo", weight = "Regular", harfbuzz_features = { "zero", "ss01", "cv05" } },
+  { family = font_family, weight = "Regular", harfbuzz_features = { "zero", "ss01", "cv05" } },
+  { family = font_family, weight = "Bold" },
+  { family = font_family, weight = "Thin" },
   "Fira Code",
+  alt_font_family,
 })
 
-local font_family = "Maple Mono NF"
 config.font_rules = {
+  -- Bold + Italic
   {
     intensity = "Bold",
     italic = true,
-    font = wezterm.font({ family = font_family, weight = "Bold", style = "Italic" }),
+    font = wezterm.font({ family = alt_font_family, weight = "Bold", style = "Italic" }),
   },
+  -- Bold only (non-italic)
+  {
+    intensity = "Bold",
+    italic = false,
+    font = wezterm.font({ family = font_family, weight = "Bold" }),
+  },
+  -- Normal + Italic
   {
     intensity = "Normal",
     italic = true,
-    font = wezterm.font({ family = font_family, style = "Italic" }),
+    font = wezterm.font({ family = alt_font_family, style = "Italic" }),
   },
+  -- Half + Italic (dim + italic)
   {
     intensity = "Half",
     italic = true,
-    font = wezterm.font({ family = font_family, weight = "Thin", style = "Italic" }),
+    font = wezterm.font({ family = alt_font_family, weight = "Thin", style = "Italic" }),
+  },
+  -- Half only (dim, non-italic)
+  {
+    intensity = "Half",
+    italic = false,
+    font = wezterm.font({ family = font_family, weight = "Thin" }),
   },
 }
 config.font_size = 12
@@ -236,7 +255,7 @@ config.cursor_blink_rate = 500
 config.cursor_blink_ease_in = "Linear"
 config.cursor_blink_ease_out = "EaseIn"
 
-
+config.enable_kitty_keyboard = true
 -- config.visual_bell = {
 --   fade_in_function = "EaseIn",
 --   fade_in_duration_ms = 75,
@@ -293,9 +312,12 @@ end)
 config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 config.keys = {
   { key = "D", mods = "LEADER", action = wezterm.action.ShowDebugOverlay },
-  { key = "P", mods = "LEADER", action = wezterm.action_callback(function(win, pane)
-    wezterm.action.font_size(32)
-  end),
+  {
+    key = "P",
+    mods = "LEADER",
+    action = wezterm.action_callback(function(win, pane)
+      wezterm.action.font_size(32)
+    end),
   },
   {
     key = "v",
