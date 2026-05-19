@@ -1,9 +1,10 @@
 return {
   {
-    "echasnovski/mini.ai",
+   "nvim-mini/mini.ai",
     version = "*",
-    event = { "BufReadPre", "BufNewFile" },
-    opts = {},
+    config = function()
+      require("mini.ai").setup()
+    end,
   },
   {
     "nvim-treesitter/nvim-treesitter",
