@@ -18,16 +18,19 @@ return {
       { "<C-d>", "<C-d>zz", desc = "Half page down (centered)" },
       { "<C-u>", "<C-u>zz", desc = "Half page up (centered)" },
 
+      { "<C-n>", "<cmd>lua Snacks.words.jump(1, true)<CR>", desc = "Move to next reference" },
+      { "<C-p>", "<cmd>lua Snacks.words.jump(-1, true)<CR>", desc = "Move to previous reference" },
+
       { "lp", ":normal o<ESC>p==", desc = "Paste After current line" },
       { "lP", ":normal O<ESC>p==", desc = "Past Before current line" },
 
-      { "<leader>h", group = "Git" },
-      { "<leader>e", group = "Explorer Oil", icon = "󰙅" },
+      { "<leader>g", group = "Git" },
+      { "<leader>gt", group = "Toggle" },
+      { "<leader>gh", group = "Hunks" },
 
+      { "<leader>e", group = "Explorer Oil", icon = "󰙅" },
       { "<leader>L", ":Lazy<CR>", desc = "Lazy" },
       { "<leader>M", ":Mason<CR>", desc = "Mason" },
-
-      { "<leader>lw", ":set wrap!<CR>", desc = "Toggle Line Wrap" },
 
       -- { "<leader>ch", ":nohl<CR>", desc = "Clear Search Highlights" },
 
@@ -69,9 +72,9 @@ return {
         end,
         desc = "Find Selected Text",
       },
-      { "<C-n>", "<cmd>lua Snacks.words.jump(1, true)<CR>", desc = "Move to next reference" },
-      { "<C-p>", "<cmd>lua Snacks.words.jump(-1, true)<CR>", desc = "Move to previous reference" },
+
       { "<leader>t", group = "Toggle" },
+      { "<leader>tw", ":set wrap!<CR>", desc = "Toggle Line Wrap" },
       {
         "<leader>tc",
         function()

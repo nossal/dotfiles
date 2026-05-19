@@ -61,10 +61,10 @@ return {
             desc = "Prev Hunk",
           },
           -- Actions
-          { "<leader>hs", gs.stage_hunk, desc = "Stage Hunk" },
-          { "<leader>hr", gs.reset_hunk, desc = "Reset Hunk" },
+          { "<leader>ghs", gs.stage_hunk, desc = "Stage Hunk" },
+          { "<leader>ghr", gs.reset_hunk, desc = "Reset Hunk" },
           {
-            "<leader>hs",
+            "<leader>ghs",
             function()
               gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
             end,
@@ -72,34 +72,34 @@ return {
             mode = "v",
           },
           {
-            "<leader>hr",
+            "<leader>ghr",
             function()
               gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
             end,
             desc = "Reset Hunk",
             mode = "v",
           },
-          { "<leader>hS", gs.stage_buffer, desc = "Stage Buffer" },
-          { "<leader>hu", gs.undo_stage_hunk, desc = "Undo Staged Hunk" },
-          { "<leader>hR", gs.reset_buffer, desc = "Reset Buffer" },
-          { "<leader>hp", gs.preview_hunk, desc = "Preview Hunk" },
+          { "<leader>ghS", gs.stage_buffer, desc = "Stage Buffer" },
+          { "<leader>ghu", gs.undo_stage_hunk, desc = "Undo Staged Hunk" },
+          { "<leader>ghR", gs.reset_buffer, desc = "Reset Buffer" },
+          { "<leader>ghp", gs.preview_hunk, desc = "Preview Hunk" },
+          { "<leader>gtb", gs.toggle_current_line_blame, desc = "Toggle Current Blame" },
           {
-            "<leader>hb",
+            "<leader>gtB",
             function()
               gs.blame_line({ full = true })
             end,
             desc = "Toggle Blame",
           },
-          { "<leader>tb", gs.toggle_current_line_blame, desc = "Toggle Current Blame" },
-          { "<leader>hd", gs.diffthis, desc = "Diff This" },
+          { "<leader>gd", gs.diffthis, desc = "Diff This" },
           {
-            "<leader>hD",
+            "<leader>gD",
             function()
               gs.diffthis("~")
             end,
             desc = "Diff All",
           },
-          { "<leader>td", gs.toggle_deleted, desc = "Toggle deleted" },
+          { "<leader>gtd", gs.toggle_deleted, desc = "Toggle deleted" },
           -- Text object
           { "ih", ":<C-U>Gitsigns select_hunk<CR>", desc = "Select Hunk", mode = "x" },
         })
