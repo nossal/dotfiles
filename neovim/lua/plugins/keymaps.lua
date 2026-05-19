@@ -21,7 +21,6 @@ return {
       { "lp", ":normal o<ESC>p==", desc = "Paste After current line" },
       { "lP", ":normal O<ESC>p==", desc = "Past Before current line" },
 
-      { "<leader>f", group = "file/find", icon = "󰈞" },
       { "<leader>h", group = "Git" },
       { "<leader>e", group = "Explorer Oil", icon = "󰙅" },
 
@@ -38,10 +37,12 @@ return {
       { "<leader>se", "<C-w>=", desc = "Make splits equal size" },
       { "<leader>sx", "<cmd>close<CR>", desc = "Close current split" },
 
+      { "<leader>f", group = "file/find", icon = "󰈞" },
       --  FZF --
       { "<leader>ff", "<cmd>FzfLua files<CR>", desc = "Find Files" },
       { "<leader>fb", "<cmd>FzfLua buffers<CR>", desc = "Find Buffers" },
       { "<leader>ft", "<cmd>FzfLua live_grep<CR>", desc = "Find Text" },
+      { "<leader>fw", "<cmd>FzfLua grep_cword<CR>", desc = "Find Word" },
       {
         "<leader>fd",
         function()
@@ -70,6 +71,7 @@ return {
       },
       { "<C-n>", "<cmd>lua Snacks.words.jump(1, true)<CR>", desc = "Move to next reference" },
       { "<C-p>", "<cmd>lua Snacks.words.jump(-1, true)<CR>", desc = "Move to previous reference" },
+      { "<leader>t", group = "Toggle" },
       {
         "<leader>tc",
         function()
