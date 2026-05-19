@@ -1,4 +1,14 @@
+local detail = false
 return {
+  {
+    "malewicz1337/oil-git.nvim",
+    dependencies = { "stevearc/oil.nvim" },
+    opts = {
+      show_file_highlights = true,
+      show_directory_highlights = false,
+      show_ignored_files = true,
+    },
+  },
   {
     "stevearc/oil.nvim",
     lazy = false,
@@ -8,16 +18,16 @@ return {
       default_file_explorer = true,
       skip_confirm_for_simple_edits = true,
       columns = {
+        -- "size",
         "icon",
         -- "permissions",
-        -- "size",
         -- "mtime",
       },
       confirmation = {
         border = "rounded",
       },
       float = {
-        max_width = 0.25, -- Values are percentages relative to window size
+        max_width = 0.25,
         -- max_height = 32,
         border = "rounded",
         override = function(cfg)
@@ -25,6 +35,7 @@ return {
           cfg["col"] = 7
           cfg["row"] = 1
           cfg["height"] = ui.height - 4
+          cfg["width"] = math.floor(ui.width * 0.2)
 
           return cfg
         end,
@@ -40,7 +51,18 @@ return {
       },
       keymaps = {
         ["q"] = { "actions.close", mode = "n" },
-      }
+        ["gd"] = {
+          desc = "Toggle file detail view",
+          callback = function()
+            detail = not detail
+            if detail then
+              require("oil").set_columns({ "icon", "permissions", "size", "mtime" })
+            else
+              require("oil").set_columns({ "icon" })
+            end
+          end,
+        },
+      },
     },
     keys = {
       { "<Leader>E", vim.cmd.Oil, desc = "Open File Explorer" },

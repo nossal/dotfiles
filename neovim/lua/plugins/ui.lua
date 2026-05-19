@@ -155,7 +155,9 @@ return {
     opts = {},
   },
   {
-    "mboyov/pane-resizer.nvim",
+    "nossal/pane-resizer.nvim",
+    -- dir = "~/workspace/pane-resizer.nvim",
+    -- enabled = false,
     config = function()
       require("pane_resizer").setup({
         FOCUSED_WIDTH_PERCENTAGE = 0.6, -- Optional: focused window width (default: 0.7)
