@@ -68,6 +68,8 @@ return {
         end,
         desc = "Find Selected Text",
       },
+      { "<C-n>", "<cmd>lua Snacks.words.jump(1, true)<CR>", desc = "Move to next reference" },
+      { "<C-p>", "<cmd>lua Snacks.words.jump(-1, true)<CR>", desc = "Move to previous reference" },
       {
         "<leader>tc",
         function()
@@ -75,8 +77,14 @@ return {
         end,
         desc = "Toggle CodeLens",
       },
-      { "<C-n>", "<cmd>lua Snacks.words.jump(1, true)<CR>", desc = "Move to next reference" },
-      { "<C-p>", "<cmd>lua Snacks.words.jump(-1, true)<CR>", desc = "Move to previous reference" },
+      {
+        "<leader>ti",
+        function()
+          local bufnr = vim.api.nvim_get_current_buf()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+        end,
+        desc = "Toggle Inlay Hints",
+      },
     })
   end,
   opts = {
