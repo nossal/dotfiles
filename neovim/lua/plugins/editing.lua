@@ -6,43 +6,6 @@ return {
     opts = {},
   },
   {
-    "RRethy/vim-illuminate",
-    enabled = false,
-    event = { "BufReadPre", "BufNewFile" },
-    keys = {
-      { "<C-n>", "<cmd>lua require('illuminate').goto_next_reference{wrap=true}<CR>", desc = "Move to next reference" },
-      {
-        "<C-p>",
-        "<cmd>lua require('illuminate').goto_prev_reference{wrap=true}<CR>",
-        desc = "Move to previous reference",
-      },
-    },
-    config = function()
-      require("illuminate").configure({
-        providers = {
-          "lsp",
-          "treesitter",
-          "regex",
-        },
-        filetypes_denylist = {
-          "oil",
-          "markdown",
-          "text",
-          "dirbuf",
-          "dirvish",
-          "fugitive",
-          "lazy",
-          "NeogitStatus",
-          "NeogitCommitView",
-          "TelescopePrompt",
-          "Trouble",
-          "DiffviewFiles",
-          "DiffviewFileHistory",
-        },
-      })
-    end,
-  },
-  {
     "NvChad/nvim-colorizer.lua",
     enabled = false,
     event = { "BufReadPre", "BufNewFile" },

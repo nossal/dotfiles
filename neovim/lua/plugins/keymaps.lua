@@ -68,13 +68,15 @@ return {
         end,
         desc = "Find Selected Text",
       },
-      { "<leader>tc",
+      {
+        "<leader>tc",
         function()
           vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled())
         end,
         desc = "Toggle CodeLens",
-      }
-
+      },
+      { "<C-n>", "<cmd>lua Snacks.words.jump(1, true)<CR>", desc = "Move to next reference" },
+      { "<C-p>", "<cmd>lua Snacks.words.jump(-1, true)<CR>", desc = "Move to previous reference" },
     })
   end,
   opts = {
