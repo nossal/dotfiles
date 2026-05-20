@@ -27,6 +27,7 @@ opam = "latest"
 
 neovim = "latest"
 pi = "latest"
+tree-sitter = "latest"
 
 [settings]
 experimental = true
