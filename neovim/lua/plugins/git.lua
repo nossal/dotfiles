@@ -21,7 +21,7 @@ return {
         delay = 400,
         ignore_whitespace = false,
       },
-      current_line_blame_formatter = "\t\t\t\t<author>, <author_time:%R> - <summary>",
+      current_line_blame_formatter = "\t\t\t<author>, <author_time:%R> - <summary>",
       preview_config = {
         -- Options passed to nvim_open_win
         border = "rounded",

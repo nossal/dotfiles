@@ -13,9 +13,12 @@ return {
     init = function()
       local ensureInstalled = {
         "bash",
-        "html",
         "java",
+        "html",
         "javascript",
+        "tsx",
+        "typescript",
+        "svelte",
         "css",
         "json",
         "lua",
@@ -24,9 +27,6 @@ return {
         "python",
         "query",
         "regex",
-        "tsx",
-        "typescript",
-        "svelte",
         "vim",
         "yaml",
         "gitcommit",
