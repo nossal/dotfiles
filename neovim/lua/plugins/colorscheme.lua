@@ -38,8 +38,12 @@ return {
           hls.GitSignsAdd = { fg = "#219500" }
           hls.GitSignsChange = { fg = "#ff6600" }
           hls.GitSignsDelete = { fg = colors.red500 }
+          hls.GitSignsCurrentLineBlame = {
+            fg = util.lighten(colors.bg, 0.8),
+            italic = true,
+          }
 
-          hls.llama_hl_hint = { bg = "#000000", fg = "#666666" }
+          hls.llama_hl_fim_hint = { bg = "#000000", fg = "#666666" }
 
           hls.EndOfBuffer = {
             fg = util.lighten("#000000", 0.93),

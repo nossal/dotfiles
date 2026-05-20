@@ -1,7 +1,7 @@
 return {
   {
     "zbirenbaum/copilot.lua",
-    enabled = true,
+    enabled = false,
     event = "InsertEnter",
     cmd = "Copilot",
     dependencies = {
@@ -21,50 +21,13 @@ return {
         },
         nes = {
           enabled = true,
-        }
+        },
       },
     },
   },
   {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    cmd = { "CopilotChat", "CopilotChatToggle", "CopilotChatOpen" },
-    dependencies = {
-      { "nvim-lua/plenary.nvim", branch = "master" },
-    },
-    build = "make tiktoken",
-    config = function()
-      local ui = vim.api.nvim_list_uis()[1]
-      local width = 50
-      local opts = {
-        window = {
-          layout = "float",
-          width = width,
-          height = ui.height - 3,
-          row = 2,
-          col = math.floor(ui.width * 0.98) - width,
-          border = "rounded", -- 'single', 'double', 'rounded', 'solid'
-          title = "  AI Assistant",
-          zindex = 99, -- Ensure window stays on top
-        },
-
-        headers = {
-          user = " You: ",
-          assistant = " Copilot: ",
-          tool = " Tool: ",
-        },
-        separator = "━━",
-        show_folds = false, -- Disable folding for cleaner look
-      }
-
-      require("CopilotChat").setup(opts)
-    end,
-    keys = {
-      { "<leader>C", "<cmd>CopilotChatToggle<cr>", desc = "AI Chat" },
-    },
-  },
-  {
     "ggml-org/llama.vim",
-    enabled = false,
+    enabled = true,
     init = function()
       vim.g.llama_config = {
         show_info = false,

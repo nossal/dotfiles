@@ -13,12 +13,12 @@ g.have_nerd_font = true
 
 -- line numbers
 opt.relativenumber = false -- show relative line numbers
-opt.number = false         -- shows absolute line number on cursor line (when relative number is on)
+opt.number = false -- shows absolute line number on cursor line (when relative number is on)
 
 -- tabs & indentation
-opt.tabstop = 2       -- 2 spaces for tabs (prettier default)
-opt.shiftwidth = 2    -- 2 spaces for indent width
-opt.expandtab = true  -- expand tab to spaces
+opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
+opt.shiftwidth = 2 -- 2 spaces for indent width
+opt.expandtab = true -- expand tab to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
 
 o.modeline = true
@@ -26,9 +26,9 @@ o.modeline = true
 opt.wrap = false -- disable line wrapping
 
 -- search settings
-opt.ignorecase = true    -- ignore case when searching
-opt.smartcase = true     -- if you include mixed case in your search, assumes you want case-sensitive
-opt.hlsearch = true      -- highlight search terms
+opt.ignorecase = true -- ignore case when searching
+opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
+opt.hlsearch = true -- highlight search terms
 opt.inccommand = "split" -- real time preview of substitution commands
 
 -- cursor line
@@ -40,7 +40,7 @@ opt.cursorline = true -- highlight the current cursor line
 -- (have to use iterm2 or any other true color terminal)
 opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-opt.signcolumn = "yes"  -- show sign column so that text doesn't shift
+opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
@@ -139,7 +139,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out,                            "WarningMsg" },
+      { out, "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -161,20 +161,34 @@ local border = {
 require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      local config = require("nvim-treesitter.configs")
-      config.setup({
-        ensure_installed = {
-          "gitcommit",
-          "diff",
-          "git_rebase",
-          "markdown",
-          "markdown_inline",
-        },
-        auto_install = true,
-        indent = { enable = true },
-        highlight = { enable = true },
+    branch = "main",
+    lazy = false,
+    build = ":TSUpdate",
+    init = function()
+      local ensureInstalled = {
+        "gitcommit",
+        "diff",
+        "git_rebase",
+        "markdown",
+        "markdown_inline",
+      }
+
+      local alreadyInstalled = require("nvim-treesitter.config").get_installed()
+      local parsersToInstall = vim
+        .iter(ensureInstalled)
+        :filter(function(parser)
+          return not vim.tbl_contains(alreadyInstalled, parser)
+        end)
+        :totable()
+      require("nvim-treesitter").install(parsersToInstall)
+
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          -- Enable treesitter highlighting and disable regex syntax
+          pcall(vim.treesitter.start)
+          -- Enable treesitter-based indentation
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
       })
     end,
   },
