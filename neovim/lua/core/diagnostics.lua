@@ -1,5 +1,6 @@
 local core_ui = require("core.ui")
 
+--
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   opts = opts or {}
@@ -7,6 +8,33 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   opts.max_height = 15
   opts.border = opts.border or core_ui.border or "rounded"
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
+
+-- Jump to next diagnostic, trying severities in priority order.
+--- @param count integer 1 for next, -1 for prev
+--- @param opts? table Optional overrides for vim.diagnostic.jump()
+local function jump_with_priority(count, opts)
+  opts = opts or {}
+  local priorities = {
+    vim.diagnostic.severity.ERROR,
+    vim.diagnostic.severity.WARN,
+    vim.diagnostic.severity.INFO,
+    vim.diagnostic.severity.HINT,
+  }
+
+  -- Try each severity in order
+  for _, sev in ipairs(priorities) do
+    local result = vim.diagnostic.jump(vim.tbl_extend("force", opts, {
+      count = count,
+      severity = sev,
+    }))
+    if result then
+      return result
+    end -- Found one! Stop here.
+  end
+
+  -- Fallback: jump to ANY diagnostic (spell, custom sources, etc.)
+  return vim.diagnostic.jump(vim.tbl_extend("force", opts, { count = count }))
 end
 
 local codes = {
@@ -134,6 +162,13 @@ local setup = function()
       end,
     },
   })
+
+  vim.keymap.set("n", "]d", function()
+    jump_with_priority(1)
+  end, { desc = "Next diagnostic (priority: ERROR→WARN→INFO→HINT→any)" })
+  vim.keymap.set("n", "[d", function()
+    jump_with_priority(-1)
+  end, { desc = "Prev diagnostic (priority: ERROR→WARN→INFO→HINT→any)" })
 end
 
 -- vim.cmd([[au CursorHold  * lua vim.diagnostic.open_float()]])
