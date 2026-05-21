@@ -26,8 +26,10 @@ nodejs = "latest"
 opam = "latest"
 
 neovim = "latest"
-pi = "latest"
 tree-sitter = "latest"
+ast-grep = "latest"
+
+pi = "latest"
 
 [settings]
 experimental = true

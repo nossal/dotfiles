@@ -1,9 +1,11 @@
 return {
   {
-    "kylechui/nvim-surround",
-    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    "qvim-mini/mini.surround",
+    version = false,
     event = { "BufReadPre", "BufNewFile" },
-    opts = {},
+    config = function()
+      require("mini.surround").setup()
+    end,
   },
   {
     "NvChad/nvim-colorizer.lua",

@@ -131,6 +131,8 @@ local lsp_servers = {
     name = "java",
     setup = require("core.java").config,
     on_attach = require("core.java").on_attach,
+    -- -- setup = function() return require("core.java").config end,
+    -- on_attach = function(client, bufnr) return require("core.java").on_attach(client, bufnr) end,
   },
   yamlls = {
     name = "yaml",
@@ -160,7 +162,7 @@ local lsp_servers = {
       root_markers = { "package.json", "deno.json" },
     },
   },
-  codebook = { name = "spl", install = true, setup = { settings = { globalConfigPath = "~/dotfiles/codebook.toml" } } },
+  -- codebook = { name = "spl", install = true, setup = { settings = { globalConfigPath = "~/dotfiles/codebook.toml" } } },
 }
 
 local other_lsp_servers = {
