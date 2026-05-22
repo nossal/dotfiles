@@ -1,6 +1,6 @@
 return {
   {
-    "qvim-mini/mini.surround",
+    "nvim-mini/mini.surround",
     version = false,
     event = { "BufReadPre", "BufNewFile" },
     config = function()
