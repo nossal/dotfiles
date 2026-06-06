@@ -36,10 +36,8 @@ local config = {
 
     local config_cmd = {
       "jdtls",
-      "-data",
-      data_dir,
-      "--java-executable",
-      java_home() .. "/bin/java",
+      "--data", data_dir,
+      "--java-executable", java_home() .. "/bin/java",
       "--jvm-arg=-javaagent:" .. lombok_jar,
     }
 
