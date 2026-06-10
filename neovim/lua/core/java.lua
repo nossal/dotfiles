@@ -1,12 +1,22 @@
 local helpers = require("core.helpers")
 -- local mason, _ = pcall(require, "mason-registry")
 
+local function root_dir()
+  return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
+end
+
 local function get_workspace_path()
-  local project_path = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h")
+  local project_path = helpers.get_project_name(vim.fn.getcwd())
   local project_path_hash = string.gsub(project_path, "[/\\:+-]", "_")
 
   local nvim_cache_path = vim.fn.stdpath("cache")
-  return table.concat({ nvim_cache_path, "jdtls", "workspaces", project_path_hash })
+  local data_dir = table.concat({ nvim_cache_path, "jdtls", "workspaces", project_path_hash }, "/")
+  local c_root_dir = root_dir()
+
+  if c_root_dir then
+    data_dir = data_dir .. "/" .. vim.fn.fnamemodify(c_root_dir, ":p:h:t")
+  end
+  return data_dir
 end
 
 local function get_jdtls_path()
@@ -22,31 +32,14 @@ local function java_home()
   return helpers.get_java_home("lts")
 end
 
-local function root_dir()
-  return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
-end
-
 local lombok_jar = get_lombok_jar()
 local config = {
-  cmd = function(dispatchers, config)
-    local data_dir = get_workspace_path()
-    if config.root_dir then
-      data_dir = data_dir .. "/" .. vim.fn.fnamemodify(config.root_dir, ":p:h:t")
-    end
-
-    local config_cmd = {
-      "jdtls",
-      "--data", data_dir,
-      "--java-executable", java_home() .. "/bin/java",
-      "--jvm-arg=-javaagent:" .. lombok_jar,
-    }
-
-    return vim.lsp.rpc.start(config_cmd, dispatchers, {
-      cwd = config.cmd_cwd,
-      env = config.cmd_env,
-      detached = config.detached,
-    })
-  end,
+  cmd = {
+    "jdtls",
+    "-data", get_workspace_path(),
+    "--java-executable", java_home() .. "/bin/java",
+    "--jvm-arg=-javaagent:" .. lombok_jar,
+  },
   filetypes = { "java" },
   root_dir = root_dir(),
   handlers = {
@@ -64,6 +57,7 @@ local config = {
       home = java_home(),
       project = {
         encoding = "UTF-8",
+        outputPath = vim.fn.stdpath("cache") .. "/jdtls/output",
       },
       foldingRange = { enabled = true },
       selectionRange = { enabled = true },
@@ -183,10 +177,10 @@ local config = {
         },
       },
     },
-    init_options = {
-      bundles = require("spring_boot").java_extensions(),
-    },
   },
+  -- init_options = {
+  --   bundles = require("spring_boot").java_extensions(),
+  -- },
 }
 
 local function setup()
@@ -198,16 +192,10 @@ local function setup()
   })
 
   lsp.on_attach(nil, 0)
-
-  -- require("core.diagnostics")
-  -- require("ufo").setup()
-  -- local sc = java.spring_boot_config
-  -- require("spring_boot.launch").start(sc)
-  -- -- end
 end
 
 local function on_attach(client, bufnr)
-  require("spring_boot").init_lsp_commands()
+  -- require("spring_boot").init_lsp_commands()
   if client.name == "jdtls" then
     -- require("spring_boot.launch").start({}) -- with default config
     -- require('spring_boot').init_lsp_commands()

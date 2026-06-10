@@ -334,19 +334,11 @@ return {
       { provider = " " },
     }
 
-    local get_project_name = helpers.memoize(function(cwd)
-      local result = vim.fn.system({ "git", "-C", cwd, "repo-name"})
-      if vim.api.nvim_get_vvar("shell_error") == 0 then
-        return vim.trim(result)
-      end
-      return ""
-    end)
-
     local Git = {
       condition = conditions.is_git_repo,
 
       init = function(self)
-        self.project_name = get_project_name(vim.fn.getcwd())
+        self.project_name = helpers.get_project_name(vim.fn.getcwd())
         self.status_dict = vim.b.gitsigns_status_dict
         self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
       end,

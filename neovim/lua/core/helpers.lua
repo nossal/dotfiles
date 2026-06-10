@@ -129,4 +129,12 @@ M.memoize = function(fn)
   end
 end
 
+M.get_project_name = M.memoize(function(cwd)
+  local result = vim.fn.system({ "git", "-C", cwd, "repo-name"})
+  if vim.api.nvim_get_vvar("shell_error") == 0 then
+    return vim.trim(result)
+  end
+  return ""
+end)
+
 return M
