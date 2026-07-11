@@ -27,7 +27,7 @@ function setup() {
 }
 
 check() {
-  return 0
+  return 1
 }
 
 update=setup

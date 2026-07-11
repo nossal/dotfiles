@@ -7,6 +7,7 @@ export _ZO_FZF_OPTS="
 # eval "$($HOME/.local/bin/mise activate zsh --shims)"
 eval "$($HOME/.local/bin/mise activate zsh)"
 eval "$(zoxide init zsh)"
+eval "$(atuin pty-proxy init zsh)"
 eval "$(atuin init zsh)"
 eval "$(tirith init --shell zsh)"
 

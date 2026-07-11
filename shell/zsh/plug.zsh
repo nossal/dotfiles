@@ -1,4 +1,4 @@
-# ~/.dotfiles/shell/zsh/plug.zsh
+# vi: ft=zsh
 typeset -gA _DEFERRED_PLUGINS
 
 function load_plugins() {

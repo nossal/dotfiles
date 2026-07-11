@@ -398,7 +398,7 @@ function clean() {
   fi
 }
 
-source "$DOTFILES_HOME/bin/dot-log"
+# source "$DOTFILES_HOME/bin/dot-log"
 
 function tools() {
   # Searches and executes setup files in dotfiles directory
