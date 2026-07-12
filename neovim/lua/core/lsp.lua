@@ -162,6 +162,15 @@ local lsp_servers = {
       root_markers = { "package.json", "deno.json" },
     },
   },
+  ast_grep = {
+    name = "astgreo",
+    install = true,
+    setup = {
+      cmd = { "ast-grep", "lsp" },
+      filetypes = { "c", "cpp", "rust", "go", "java", "python", "javascript", "typescript", "html", "css", "kotlin", "dart", "lua" },
+      root_dir = require("lspconfig.util").root_pattern("sgconfig.yaml", "sgconfig.yml"),
+    },
+  },
   -- codebook = { name = "spl", install = true, setup = { settings = { globalConfigPath = "~/dotfiles/codebook.toml" } } },
 }
 

@@ -55,15 +55,13 @@ return {
     event = "VeryLazy",
     ft = { "org" },
     config = function()
-      require("org-bullets").setup()
-
       local Menu = require("org-modern.menu")
 
       require("orgmode").setup({
         org_agenda_files = notes_dir .. "/org/**/*",
-        org_default_notes_file = notes_dir .. "/org/index.org",
+        org_default_notes_file = notes_dir .. "/org/notes.org",
 
-        org_startup_folded = "overview",
+        org_startup_folded = "inherit",
         org_hide_emphasis_markers = true,
         org_ellipsis = "  ",
         org_priority_highest = 1,
@@ -129,7 +127,7 @@ return {
           n = {
             description = "Nota Rápida",
             template = "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:",
-            target = notes_dir .. "/org/inbox.org",
+            target = notes_dir .. "/org/notes.org",
           },
           j = {
             description = "Journal",
@@ -170,10 +168,38 @@ return {
         },
       })
 
-      vim.lsp.enable('org')
+      require("org-bullets").setup()
+
+      vim.lsp.enable("org")
       -- vim.keymap.set("n", "<leader>r", require("telescope").extensions.orgmode.refile_heading)
       -- vim.keymap.set("n", "<leader>fh", require("telescope").extensions.orgmode.search_headings)
       -- vim.keymap.set("n", "<leader>li", require("telescope").extensions.orgmode.insert_link)
+    end,
+    keys = {
+      {
+        "<Leader>oe",
+        function()
+          require("oil").toggle_float(notes_dir)
+        end,
+        desc = "Toggle Notes Explorer",
+      },
+    },
+  },
+  {
+    "nvim-orgmode/telescope-orgmode.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "nvim-orgmode/orgmode",
+      "folke/snacks.nvim",
+    },
+    config = function()
+      local tom = require("telescope-orgmode")
+      tom.setup({ adapter = "snacks" })
+
+      vim.keymap.set("n", "<leader>ofh", tom.search_headings, { desc = "Org headlines" })
+      vim.keymap.set("n", "<leader>oft", tom.search_tags, { desc = "Org tags" })
+      vim.keymap.set("n", "<leader>or", tom.refile_heading, { desc = "Org refile" })
+      vim.keymap.set("n", "<leader>oli", tom.insert_link, { desc = "Org insert link" })
     end,
   },
   {
