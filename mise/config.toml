@@ -8,28 +8,37 @@ fd = "latest" # simple, fast and user-friendly alternative to find
 lsd = "latest" # modern replacement for ls written in Rust
 zoxide = "latest" # smarter cd command, inspired by z and autojump
 btop = "latest" # resource monitor
+
+# --- git ---
 gh = "latest" # GitHub CLI tool
 lazygit = "latest" # simple terminal UI for git commands
 delta = "latest" # syntax-highlighting pager for git and diff output
+
+# --- security ---
 gitleaks = "latest" # audit git repos for secrets and sensitive data
 trivy = "latest" # vulnerability scanner for containers and other artifacts
+tirith = "latest" # security for the terminal
+gopass = "latest" # password manager
+
 kubectl = "latest" # Kubernetes command-line tool
 helm = "latest" # The Kubernetes package manager
-tirith = "latest"
+
 # --- languages ---
 rust = { version = "1.89.0", profile = "default" }
 java = "25"
 python = "latest"
 go = "latest"
-deno = "latest"
-nodejs = "latest"
-opam = "latest"
+deno = "latest" # JavaScript runtime
+nodejs = "latest" # JavaScript runtime
+opam = "latest" # OCaml package manager
 
+# --- editors ---
 neovim = "latest"
 tree-sitter = "latest"
 ast-grep = "latest"
 
-pi = "latest"
+# --- AI ---
+pi = "latest" # AI Coding Agent Harness
 
 [settings]
 experimental = true

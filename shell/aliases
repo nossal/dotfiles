@@ -11,3 +11,4 @@ alias v="fd --type f --hidden --exclude 'node_modules .m2 .git' | fzf-tmux -p --
 alias nv="nvim"
 
 alias psh="powershell.exe"
+alias pass="gopass"
