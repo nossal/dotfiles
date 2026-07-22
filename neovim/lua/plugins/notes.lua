@@ -83,17 +83,6 @@ return {
             org_toggle_heading = "<Tab>",
             org_shift_heading = "<S-Tab>",
           },
-          -- config = {
-          --   -- Navegação e Edição
-          --   ["<CR>"] = "org_timestamp_up",
-          --   ["<S-CR>"] = "org_timestamp_down",
-          --   ["<C-CR>"] = "org_timestamp_up_day",
-          --   ["<S-C-CR>"] = "org_timestamp_down_day",
-          --   ["<C-up>"] = "org_todo_prev",
-          --   ["<C-down>"] = "org_todo_next",
-          --   ["<C-left>"] = "org_priority_down",
-          --   ["<C-right>"] = "org_priority_up",
-          -- },
         },
 
         -- Palavras-chave de Tarefas (TODO States)
@@ -166,6 +155,58 @@ return {
             end,
           },
         },
+
+        notifications = {
+          enabled = true,
+          cron_enabled = true,
+          repeater_reminder_time = false,
+          deadline_warning_reminder_time = false,
+          reminder_time = 10,
+          deadline_reminder = true,
+          scheduled_reminder = true,
+          notifier = function(tasks)
+            local result = {}
+            for _, task in ipairs(tasks) do
+              require("orgmode.utils").concat(result, {
+                string.format("# %s (%s)", task.category, task.humanized_duration),
+                string.format("%s %s %s", string.rep("*", task.level), task.todo or "", task.title),
+                string.format("%s: <%s>", task.type, task.time:to_string()),
+              })
+              vim.notify("oi ", vim.log.levels.WARN)
+            end
+            vim.notify(require("core.helpers").tprint(tasks), vim.log.levels.WARN)
+
+            -- if not vim.tbl_isempty(result) then
+            --   require("orgmode.notifications.notification_popup"):new({ content = " result" })
+            -- end
+
+            vim.notify(table.concat(result, "\n"), vim.log.levels.INFO)
+            vim.notify("A Org notification was sent!", vim.log.levels.INFO)
+          end,
+          cron_notifier = function(tasks)
+            for _, task in ipairs(tasks) do
+              local title = string.format("%s (%s)", task.category, task.humanized_duration)
+              local subtitle = string.format("%s %s %s", string.rep("*", task.level), task.todo, task.title)
+              local date = string.format("%s: %s", task.type, task.time:to_string())
+
+              -- Linux
+              if vim.fn.executable("notify-send") == 1 then
+                vim.system({
+                  "notify-send",
+                  "--icon=/path/to/orgmode/assets/nvim-orgmode-small.png",
+                  "--app-name=orgmode",
+                  title,
+                  string.format("%s\n%s", subtitle, date),
+                })
+              end
+
+              -- MacOS
+              if vim.fn.executable("terminal-notifier") == 1 then
+                vim.system({ "terminal-notifier", "-title", title, "-subtitle", subtitle, "-message", date })
+              end
+            end
+          end,
+        },
       })
 
       require("org-bullets").setup()
@@ -184,6 +225,11 @@ return {
         desc = "Toggle Notes Explorer",
       },
     },
+  },
+  {
+    "seflue/org-link.nvim",
+    event = "VeryLazy",
+    opts = {},
   },
   {
     "nvim-orgmode/telescope-orgmode.nvim",
@@ -209,14 +255,14 @@ return {
     },
     opts = {
       mapping = {
-        key = "<leader>lt", -- nvim-orgmode users: you might want to change this to <leader>olt
+        key = "<leader>olt", -- nvim-orgmode users: you might want to change this to <leader>olt
         desc = "Toggle: Cycle through list types",
       },
       checkbox_toggle = {
         enabled = true,
         -- NOTE: for nvim-orgmode users, you should change the following mapping OR change the one from orgmode.
         -- If both mapping stay the same, the one from nvim-orgmode will "win"
-        key = "<leader>lc",
+        key = "<leader>olc",
         desc = "Toggle checkbox state",
         filetypes = { "org", "markdown" }, -- Add more filetypes as needed
       },
