@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-tmux display-popup -BE -b rounded -S "bg=#1a1b26 fg=#34364c" -s "bg=#111111" -d "$(pwd)" -h 50% "NVIM_APPNAME=nvim-git nvim $*"
+tmux newp -s "bg=#111111" -c "$(pwd)" -y 55% -x 50% "NVIM_APPNAME=nvim-git nvim $*"
 
