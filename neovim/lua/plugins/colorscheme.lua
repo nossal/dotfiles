@@ -24,7 +24,7 @@ return {
         on_highlights = function(hls, colors)
           hls.FloatBorder = { fg = colors.fg_float }
 
-          hls.SnacksIndent = { fg = util.lighten(colors.bg, 0.97) }
+          hls.SnacksIndent = { fg = util.brighten(colors.bg, 0.03) }
           -- hl.GitConflictCurrent = {
           --   bg =
           -- }
@@ -33,23 +33,23 @@ return {
           -- hl.GitConflictCurrentLabel
           -- hl.GitConflictIncomingLabel
           -- hl.GitConflictAncestorLabel
-          hls.LspCodeLens = { fg = util.lighten(colors.bg, 0.85) }
+          hls.LspCodeLens = { fg = util.brighten(colors.bg, 0.15) }
 
           hls.GitSignsAdd = { fg = "#219500" }
           hls.GitSignsChange = { fg = "#ff6600" }
           hls.GitSignsDelete = { fg = colors.red500 }
           hls.GitSignsCurrentLineBlame = {
-            fg = util.lighten(colors.bg, 0.8),
+            fg = util.brighten(colors.bg, 0.2),
             italic = true,
           }
 
           hls.llama_hl_fim_hint = { bg = "#000000", fg = "#666666" }
 
           hls.EndOfBuffer = {
-            fg = util.lighten("#000000", 0.93),
+            fg = util.brighten("#000000", 0.05),
             -- bg = util.lighten("#000000", 0.95),
           }
-          hls.ColorColumn = { bg = util.lighten(colors.bg, 0.99) }
+          hls.ColorColumn = { bg = util.brighten(colors.bg, 0.01) }
           hls.ErrorMsg = { bg = colors.red500, fg = "#cccccc" }
 
           hls.Whitespace = { fg = "#424250" }
@@ -64,17 +64,17 @@ return {
           hls.CursorLineNr = { fg = "#aa4400" }
           hls.CursorLine = {
             -- bg = util.darken(c.bg, 0.1),
-            bg = util.lighten(colors.bg, 0.97),
+            bg = util.brighten(colors.bg, 0.03),
           }
           hls.BlinkCmpMenu = {
-            bg = util.lighten(colors.bg, 0.95),
+            bg = util.brighten(colors.bg, 0.05),
             fg = colors.fg,
           }
           hls.BlinkCmpMenuSelection = {
-            bg = util.lighten(colors.bg, 0.85),
+            bg = util.brighten(colors.bg, 0.15),
           }
           hls.BlinkCmpSignatureHelpActiveParameter = {
-            bg = util.lighten(colors.bg, 0.9),
+            bg = util.brighten(colors.bg, 0.1),
             underline = true,
           }
         end,
@@ -83,3 +83,8 @@ return {
     end,
   },
 }
+
+
+
+
+
