@@ -1,3 +1,4 @@
+bindkey -e # non vi mode
 
 # Use human-friendly identifiers.
 zmodload zsh/terminfo
@@ -77,12 +78,12 @@ bindkey "$key_info[End]" end-of-line
 bindkey "$key_info[Insert]" overwrite-mode
 bindkey "$key_info[Delete]" delete-char
 bindkey "$key_info[Backspace]" backward-delete-char
-bindkey "$key_info[ControlBackspace]" backward-delete-word
+# bindkey "$key_info[ControlBackspace]" backward-delete-word
 
 #bindkey "$key_info[Left]" backward-char
 #bindkey "$key_info[Right]" forward-char
-bindkey "$key_info[ControlLeft]" vi-backward-word
-bindkey "$key_info[ControlRight]" vi-forward-word
+bindkey "$key_info[ControlLeft]" backward-word
+bindkey "$key_info[ControlRight]" forward-word
 
 bindkey ' ' magic-space
 
@@ -99,7 +100,7 @@ bindkey "." expand-dot-to-parent-directory-path
 #bindkey "$key_info[Control]I" expand-or-complete-with-indicator
 
 # Insert 'sudo ' at the beginning of the line.
-bindkey "$key_info[Control]X$key_info[Control]S" prepend-sudo
+bindkey "$key_info[Control]S" prepend-sudo
 
 # control-space expands all aliases, including global
 bindkey "$key_info[Control] " glob-alias

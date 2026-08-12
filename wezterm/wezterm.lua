@@ -309,7 +309,7 @@ end)
 --   window:toast_notification('wezterm', 'configuration reloaded!', nil, 4000)
 -- end)
 
-config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
+config.leader = { key = "A", mods = "CTRL", timeout_milliseconds = 1001 }
 config.keys = {
   { key = "D", mods = "LEADER", action = wezterm.action.ShowDebugOverlay },
   {

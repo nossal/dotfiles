@@ -6,7 +6,7 @@ return {
     opts = {
       show_file_highlights = true,
       show_directory_highlights = false,
-      show_ignored_files = true,
+      show_ignored_files = false,
     },
   },
   {
