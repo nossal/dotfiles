@@ -82,6 +82,7 @@ fpath+="$ZSHDOTDIR/completions"
 # Plugins
 source $ZSHDOTDIR/plug.zsh
 plugins=(
+  "marlonrichert/zsh-autocomplete"
   "zsh-users/zsh-autosuggestions"
   "Aloxaf/fzf-tab"
   "z-shell/F-Sy-H"
@@ -89,8 +90,10 @@ plugins=(
 )
 load_plugins $plugins;
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#444"
+zstyle ':autocomplete:*' min-input 3
+zstyle ':completion:*:-command-:*:commands' ignored-patterns 'z' 'zi' 'cd' 'ls' 'cat' 'grep'
 
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#444"
 # zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 

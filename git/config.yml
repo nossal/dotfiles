@@ -12,9 +12,9 @@ gui:
     inactiveBorderColor:
       - "#555"
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: delta --dark --paging=never
+      command: delta --dark --paging=never
 customCommands:
   - key: '<c-l>'
     context: 'reflogCommits'

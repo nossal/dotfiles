@@ -27,7 +27,7 @@ return {
   },
   {
     "ggml-org/llama.vim",
-    enabled = true,
+    enabled = false,
     init = function()
       vim.g.llama_config = {
         show_info = false,
@@ -36,7 +36,7 @@ return {
   },
   {
     "supermaven-inc/supermaven-nvim",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     opts = {
       keymaps = {

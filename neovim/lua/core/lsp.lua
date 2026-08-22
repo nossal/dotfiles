@@ -167,7 +167,21 @@ local lsp_servers = {
     install = true,
     setup = {
       cmd = { "ast-grep", "lsp" },
-      filetypes = { "c", "cpp", "rust", "go", "java", "python", "javascript", "typescript", "html", "css", "kotlin", "dart", "lua" },
+      filetypes = {
+        "c",
+        "cpp",
+        "rust",
+        "go",
+        "java",
+        "python",
+        "javascript",
+        "typescript",
+        "html",
+        "css",
+        "kotlin",
+        "dart",
+        "lua",
+      },
       root_dir = require("lspconfig.util").root_pattern("sgconfig.yaml", "sgconfig.yml"),
     },
   },
@@ -283,6 +297,8 @@ local capabilities = function()
   completionItem.resolveSupport = {
     properties = { "documentation", "detail", "additionalTextEdits" },
   }
+
+  capabilities = vim.tbl_deep_extend("force", capabilities, require("lsp-file-operations").default_capabilities())
 
   return capabilities
 end

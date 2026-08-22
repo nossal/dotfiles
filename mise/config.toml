@@ -14,6 +14,7 @@ atuin = { version = "latest", os = ["linux"] } # resource monitor
 gh = "latest" # GitHub CLI tool
 lazygit = "latest" # simple terminal UI for git commands
 delta = "latest" # syntax-highlighting pager for git and diff output
+difftastic = "latest" # syntax diff output
 
 # --- security ---
 gitleaks = "latest" # audit git repos for secrets and sensitive data

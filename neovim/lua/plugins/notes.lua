@@ -51,121 +51,128 @@ return {
       "danilshvalov/org-modern.nvim",
       "nvim-orgmode/org-bullets.nvim",
       "hamidi-dev/org-list.nvim",
+
+      { "lukas-reineke/headlines.nvim", config = true },
     },
     event = "VeryLazy",
     ft = { "org" },
     config = function()
       local Menu = require("org-modern.menu")
 
-      require("orgmode").setup({
-        org_agenda_files = notes_dir .. "/org/**/*",
-        org_default_notes_file = notes_dir .. "/org/notes.org",
+      require("orgmode").setup(
+        ---@type OrgConfigOpts
+        {
+          org_agenda_files = notes_dir .. "/org/**/*",
+          org_default_notes_file = notes_dir .. "/org/notes.org",
 
-        org_startup_folded = "inherit",
-        org_hide_emphasis_markers = true,
-        org_ellipsis = "  ",
-        org_priority_highest = 1,
-        org_priority_lowest = 5,
-        org_priority_default = 3,
-        org_log_done = "time",
-        -- org_indent_mode = "indent",
+          org_startup_folded = "inherit",
+          org_hide_emphasis_markers = true,
+          org_ellipsis = "  ",
+          org_priority_highest = 1,
+          org_priority_lowest = 5,
+          org_priority_default = 3,
+          org_log_done = "time",
 
-        -- Mapeamentos de Teclas (Dentro de buffers org)
-        mappings = {
-          disable = false,
-          global = {
-            org_agenda = "<leader>oa",
-            org_capture = "<leader>oc",
-            org_cycle_global = "<leader>ol",
+          -- org_indent_mode = "indent",
+          org_startup_indented = true,
+
+          -- Mapeamentos de Teclas (Dentro de buffers org)
+          mappings = {
+            disable = false,
+            global = {
+              org_agenda = "<leader>oa",
+              org_capture = "<leader>oc",
+              org_cycle_global = "<leader>ol",
+            },
+            org = {
+              org_toggle_checkbox = "<C-Space>",
+              org_toggle_heading = "<Tab>",
+              org_shift_heading = "<S-Tab>",
+            },
           },
-          org = {
-            org_toggle_checkbox = "<C-Space>",
-            org_toggle_heading = "<Tab>",
-            org_shift_heading = "<S-Tab>",
+
+          -- Palavras-chave de Tarefas (TODO States)
+          org_todo_keywords = {
+            "TODO", -- Precisa ser feito
+            "DOING", -- Em andamento agora
+            "DONE", -- Concluído
+            "WAITING", -- Dependendo de terceiros
+            "CANCELLED", -- Não será feito
           },
-        },
 
-        -- Palavras-chave de Tarefas (TODO States)
-        org_todo_keywords = {
-          "TODO", -- Precisa ser feito
-          "DOING", -- Em andamento agora
-          "WAITING", -- Dependendo de terceiros
-          "DONE", -- Concluído
-          "CANCELLED", -- Não será feito
-        },
-
-        -- Tags para separar Contextos (Crucial para Trabalho vs Pessoal)
-        org_tags = {
-          "work", -- Tarefas do emprego 9-5
-          "personal", -- Seus projetos promissores
-          "urgent", -- Prioridade máxima
-          "review", -- Para revisão semanal
-        },
-
-        org_capture_templates = {
-          t = {
-            description = "Task",
-            template = "* TODO %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:",
-            target = notes_dir .. "/org/tasks.org",
+          -- Tags para separar Contextos (Crucial para Trabalho vs Pessoal)
+          org_tags = {
+            "work", -- Tarefas do emprego 9-5
+            "personal", -- Seus projetos promissores
+            "urgent", -- Prioridade máxima
+            "review", -- Para revisão semanal
           },
-          p = {
-            description = "Projeto",
-            template = "* TODO Projeto: %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n** Detalhes\n",
-            target = notes_dir .. "/org/projects/index.org",
+
+          org_capture_templates = {
+            t = {
+              description = "Task",
+              template = "* TODO %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:",
+              target = notes_dir .. "/org/tasks.org",
+            },
+            p = {
+              description = "Projeto",
+              template = "* TODO Projeto: %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n** Detalhes\n",
+              target = notes_dir .. "/org/projects/index.org",
+            },
+            n = {
+              description = "Nota Rápida",
+              template = "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:",
+              target = notes_dir .. "/org/notes.org",
+            },
+            j = {
+              description = "Journal",
+              template = "* %?\n  %u",
+              target = notes_dir .. "/org/journal/%<%Y-%m>.org",
+            },
           },
-          n = {
-            description = "Nota Rápida",
-            template = "* %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:",
-            target = notes_dir .. "/org/notes.org",
+
+          win_split_mode = function(name)
+            -- Make sure it's not a scratch buffer by passing false as 2nd argument
+            local bufnr = vim.api.nvim_create_buf(false, false)
+            --- Setting buffer name is required
+            vim.api.nvim_buf_set_name(bufnr, name)
+
+            local fill = 0.5
+            local width = math.floor((vim.o.columns * fill))
+            local height = math.floor((vim.o.lines * fill))
+            local row = math.floor((((vim.o.lines - height) / 2) - 1))
+            local col = math.floor(((vim.o.columns - width) / 2))
+
+            vim.api.nvim_open_win(bufnr, true, {
+              relative = "editor",
+              width = width,
+              height = height,
+              row = row,
+              col = col,
+              style = "minimal",
+              border = "rounded",
+            })
+          end,
+
+          ui = {
+            menu = {
+              handler = function(data)
+                Menu:new():open(data)
+              end,
+            },
           },
-          j = {
-            description = "Journal",
-            template = "* %?\n  %u",
-            target = notes_dir .. "/org/journal/%<%Y-%m>.org",
+
+          notifications = {
+            enabled = true,
+            cron_enabled = true,
+            repeater_reminder_time = { 1, 5, 10 },
+            deadline_warning_reminder_time = { 1, 5, 10 },
+            reminder_time = { 1, 5, 10 },
+            deadline_reminder = true,
+            scheduled_reminder = true,
           },
-        },
-
-        win_split_mode = function(name)
-          -- Make sure it's not a scratch buffer by passing false as 2nd argument
-          local bufnr = vim.api.nvim_create_buf(false, false)
-          --- Setting buffer name is required
-          vim.api.nvim_buf_set_name(bufnr, name)
-
-          local fill = 0.5
-          local width = math.floor((vim.o.columns * fill))
-          local height = math.floor((vim.o.lines * fill))
-          local row = math.floor((((vim.o.lines - height) / 2) - 1))
-          local col = math.floor(((vim.o.columns - width) / 2))
-
-          vim.api.nvim_open_win(bufnr, true, {
-            relative = "editor",
-            width = width,
-            height = height,
-            row = row,
-            col = col,
-            style = "minimal",
-            border = "rounded",
-          })
-        end,
-
-        ui = {
-          menu = {
-            handler = function(data)
-              Menu:new():open(data)
-            end,
-          },
-        },
-
-        notifications = {
-          enabled = true,
-          cron_enabled = true,
-          repeater_reminder_time = { 1, 5, 10 },
-          deadline_warning_reminder_time = { 1, 5, 10 },
-          reminder_time = { 1, 5, 10 },
-          deadline_reminder = true,
-          scheduled_reminder = true,
-        },
-      })
+        }
+      )
 
       require("org-bullets").setup()
 
@@ -226,16 +233,15 @@ return {
   {
     "hamidi-dev/org-super-agenda.nvim",
     event = "VeryLazy",
-    enabled = false, -- enable when ready to experiment with agenda views
+    enabled = true, -- enable when ready to experiment with agenda views
     dependencies = {
       "nvim-orgmode/orgmode", -- required
-      { "lukas-reineke/headlines.nvim", config = true }, -- optional nicety
     },
     config = function()
       require("org-super-agenda").setup({
         -- Where to look for .org files
-        org_files = {},
-        org_directories = {}, -- recurse for *.org
+        org_files = { notes_dir .. "/org/**/*" },
+        org_directories = { notes_dir }, -- recurse for *.org
         exclude_files = {},
         exclude_directories = {},
 

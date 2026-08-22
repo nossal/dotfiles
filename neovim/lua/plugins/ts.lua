@@ -44,7 +44,6 @@ return {
         "helm",
         "query",
         "regex",
-        "tmux",
         "gitcommit",
         "gitattributes",
         "gitignore",

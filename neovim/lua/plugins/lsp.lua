@@ -12,9 +12,13 @@ return {
       local capabilities = lsp.capabilities()
       local on_attach = lsp.on_attach
 
+      local lspconfig = require("lspconfig")
+      -- Set global defaults for all servers
+      lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, capabilities)
+
       for server_name, server in pairs(lsp_servers) do
         local setup = server.setup or {}
-        setup.capabilities = capabilities
+        -- setup.capabilities = capabilities
         setup.on_attach = function(client, bufnr)
           if server.on_attach then
             server.on_attach(client, bufnr)
@@ -28,7 +32,13 @@ return {
       end
 
       require("ufo").setup()
-      -- vim.o.statuscolumn = require("heirline").eval_statuscolumn()
+    end,
+  },
+  {
+    "DrKJeff16/nvim-lsp-file-operations",
+    event = "VeryLazy",
+    config = function()
+      require("lsp-file-operations").setup()
     end,
   },
   {

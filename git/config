@@ -65,6 +65,7 @@
   algorithm = histogram
   colorMoved = plain
   mnemonicPrefix = true
+  external = difft
 
 [merge]
   conflictStyle = diff3
