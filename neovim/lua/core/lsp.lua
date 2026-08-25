@@ -31,34 +31,28 @@ local lsp_servers = {
       cmd = { vim.trim(vim.fn.system("xcrun -f sourcekit-lsp")) },
     },
   },
-  -- ltex = {
-  --   name = "gram",
-  -- k install = true,
-  --   setup = {
-  --     settings = {
-  --       ltex = {
-  --         enabled = { "markdown", "restructuredtext" },
-  --         checkFrequency = "save",
-  --         language = "en-US",
-  --         checkSpelling = true,
-  --         diagnosticSeverity = "information",
-  --         sentenceCacheSize = 5000,
-  --         additionalRules = {
-  --           enablePickyRules = true,
-  --           motherTongue = "pt-BR",
-  --           enableSpellingCheck = true,
-  --         },
-  --       },
-  --     },
-  --   },
-  --   on_attach = function(client, bufnr)
-  --     require("ltex_extra").setup({
-  --       load_langs = { "pt-BR", "en-US" },
-  --       init_check = true,
-  --       path = vim.fn.expand("~") .. "/.dotfiles/neovim/spell",
-  --     })
-  --   end,
-  -- }, -- TODO: https://gist.github.com/lbiaggi/a3eb761ac2fdbff774b29c88844355b8
+  ltex_plus = {
+    name = "gram",
+    install = true,
+    setup = {
+      settings = {
+        ltex = {
+          enabled = { "markdown", "restructuredtext", "org" },
+          checkFrequency = "save",
+          language = "en-US",
+          -- language = "pt-BR",
+          checkSpelling = true,
+          diagnosticSeverity = "information",
+          sentenceCacheSize = 5000,
+          additionalRules = {
+            enablePickyRules = true,
+            motherTongue = "pt-BR",
+            enableSpellingCheck = true,
+          },
+        },
+      },
+    },
+  },
   clangd = { name = "C", install = true },
   cssls = { name = "css", install = true },
   -- tailwindcss = { name = "tailwind", install = true },

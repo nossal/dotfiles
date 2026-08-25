@@ -1,2 +1,3 @@
-Pytnon
 Ollama
+DACs
+Homelab

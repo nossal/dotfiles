@@ -1,0 +1,4 @@
+{"rule":"REQUIREMENT","sentence":"^\\QMuch of my career has been spent working on large-scale content and publishing systems, where software has to remain reliable while requirements, people, technologies, and business strategies change frequently.\\E$"}
+{"rule":"DESIGN","sentence":"^\\QDesigned and evolved backend architecture for complex editorial workflows, content management, media, feeds, and publishing systems.\\E$"}
+{"rule":"LARGE","sentence":"^\\QWorked across the full lifecycle of large systems: domain modeling, persistence, APIs, distributed services, ingestion pipelines, administration interfaces, and infrastructure.\\E$"}
+{"rule":"SUPPORT","sentence":"^\\QContributed to long-term technical direction while maintaining and evolving systems that support real production workloads.\\E$"}
