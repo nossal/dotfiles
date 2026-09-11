@@ -50,7 +50,8 @@ function o() {
 }
 
 function reload() {
-    exec "$SHELL" -l
+    reset
+    source ~/.zshrc
     echo "Zsh config reloaded!"
 }
 
