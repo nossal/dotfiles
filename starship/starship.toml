@@ -41,8 +41,8 @@ repo_root_style = "bold yellow"
 style = "066"
 
 [directory.substitutions]
+"~/.dotfiles/" = "[dotfiles]/"
 "~/workspace/corp/" = "[corpo]/" # 
-"~/.dotfiles" = "[dotfiles]/"
 
 
 [character]

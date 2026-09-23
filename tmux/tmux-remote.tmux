@@ -1,4 +1,4 @@
-# vim: ft=tmux
+# vi: ft=tmux
 
 if-shell 'env | grep -qE "SSH_CLIENT|SSH_CONNECTION"' {
     set -g @override_copy_command "nc localhost 9997"
