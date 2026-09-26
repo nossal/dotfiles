@@ -35,6 +35,13 @@ local lsp_servers = {
     name = "gram",
     install = true,
     setup = {
+      on_attach = function(client, bufnr)
+        require("ltex_extra").setup({
+          load_langs = { "pt-BR", "en-US" },
+          init_check = true,
+          path = vim.fn.expand("~") .. "/.dotfiles/neovim/spell",
+        })
+      end,
       settings = {
         ltex = {
           enabled = { "markdown", "restructuredtext", "org" },

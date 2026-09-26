@@ -180,7 +180,7 @@ return {
     end,
     keys = {
       {
-        "<Leader>off",
+        "<Leader>ofe",
         function()
           require("oil").toggle_float(notes_dir)
         end,

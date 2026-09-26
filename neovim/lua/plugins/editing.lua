@@ -50,11 +50,6 @@ return {
   },
   {
     "barreiroleo/ltex-extra.nvim",
-    ft = { "markdown", "tex", "org" },
-    opts = {
-      load_langs = { "pt-BR", "en-US" },
-      init_check = true,
-      path = vim.fn.expand("~") .. "/.dotfiles/neovim/spell",
-    },
+    -- ft = { "markdown", "text", "org" },
   },
 }
