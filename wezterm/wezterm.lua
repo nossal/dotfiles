@@ -198,7 +198,7 @@ config.show_new_tab_button_in_tab_bar = false
 
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
 
-config.term = "xterm-256color"
+config.term = "tmux-256color"
 
 local alt_font_family = "Maple Mono NF"
 local font_family = "0xProto Nerd Font Propo"

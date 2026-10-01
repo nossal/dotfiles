@@ -15,6 +15,10 @@ return {
     ---@module 'oil'
     ---@type oil.SetupOpts
     opts = {
+      lsp_file_methods = {
+        enabled = true,
+        autosave_changes = true,
+      },
       default_file_explorer = true,
       skip_confirm_for_simple_edits = true,
       columns = {
@@ -55,11 +59,11 @@ return {
           desc = "Toggle file detail view",
           callback = function()
             detail = not detail
+            local options = { "icon" }
             if detail then
-              require("oil").set_columns({ "icon", "permissions", "size", "mtime" })
-            else
-              require("oil").set_columns({ "icon" })
+              options = { "icon", "permissions", "size", "mtime" }
             end
+            require("oil").set_columns(options)
           end,
         },
       },

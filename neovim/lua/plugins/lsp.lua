@@ -35,13 +35,6 @@ return {
     end,
   },
   {
-    "DrKJeff16/nvim-lsp-file-operations",
-    -- event = "VeryLazy",
-    config = function()
-      require("lsp-file-operations").setup()
-    end,
-  },
-  {
     "folke/lazydev.nvim",
     -- enabled = false,
     ft = "lua", -- only load on lua files
