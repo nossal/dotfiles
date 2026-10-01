@@ -287,19 +287,13 @@ local capabilities = function()
     dynamicRegistration = false,
     lineFoldingOnly = true,
   }
-  local completionItem = capabilities.textDocument.completion.completionItem
-  completionItem.preselectSupport = true
-  completionItem.insertReplaceSupport = true
-  completionItem.labelDetailsSupport = true
-  completionItem.deprecatedSupport = true
-  completionItem.commitCharactersSupport = true
-  completionItem.tagSupport = { valueSet = { 1 } }
-  completionItem.snippetSupport = true
-  completionItem.resolveSupport = {
-    properties = { "documentation", "detail", "additionalTextEdits" },
-  }
 
-  capabilities = vim.tbl_deep_extend("force", capabilities, require("lsp-file-operations").default_capabilities())
+  capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
+  capabilities = vim.tbl_deep_extend(
+    "force",
+    capabilities,
+    require("lsp-file-operations").default_capabilities()
+  )
 
   return capabilities
 end

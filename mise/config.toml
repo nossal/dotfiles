@@ -62,4 +62,4 @@ uv_venv_auto = true
 17 = "corretto-17"
 25 = "corretto-25"
 lts = "corretto-25"
-latest = "corretto-25"
+latest = "corretto-26"
