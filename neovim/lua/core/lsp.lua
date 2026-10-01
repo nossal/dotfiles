@@ -289,12 +289,6 @@ local capabilities = function()
   }
 
   capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
-  capabilities = vim.tbl_deep_extend(
-    "force",
-    capabilities,
-    require("lsp-file-operations").default_capabilities()
-  )
-
   return capabilities
 end
 

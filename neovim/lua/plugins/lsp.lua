@@ -14,11 +14,14 @@ return {
 
       local lspconfig = require("lspconfig")
       -- Set global defaults for all servers
-      lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, capabilities)
+      lspconfig.util.default_config = vim.tbl_extend(
+        "force",
+        lspconfig.util.default_config,
+        capabilities
+      )
 
       for server_name, server in pairs(lsp_servers) do
         local setup = server.setup or {}
-        -- setup.capabilities = capabilities
         setup.on_attach = function(client, bufnr)
           if server.on_attach then
             server.on_attach(client, bufnr)
