@@ -3,7 +3,6 @@ local core_ui = require("core.ui")
 return {
   {
     "neovim/nvim-lspconfig",
-    event = "BufEnter",
     config = function()
       require("core.diagnostics").setup()
 
