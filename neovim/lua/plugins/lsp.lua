@@ -32,8 +32,6 @@ return {
         vim.lsp.config(server_name, setup)
         vim.lsp.enable(server_name)
       end
-
-      require("ufo").setup()
     end,
   },
   {

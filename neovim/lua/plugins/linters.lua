@@ -47,6 +47,7 @@ return {
   {
     "iamkarasik/sonarqube.nvim",
     enabled = true,
+    ft = { "java", "javascript", "typescript", "python", "go", "c", "cpp", "scala", "kotlin"},
     config = function()
       local java = helpers.get_java_home(17) .. "/bin/java"
       local extension_path = helpers.get_mason_package("sonarlint-language-server") .. "/extension"
@@ -67,12 +68,17 @@ return {
             analyzers_path .. "/sonarjs.jar",
             analyzers_path .. "/sonarhtml.jar",
             analyzers_path .. "/sonariac.jar",
-            analyzers_path .. "/sonartext.jar",
             analyzers_path .. "/sonarxml.jar",
           },
           capabilities = vim.lsp.protocol.make_client_capabilities(),
         },
         rules = {
+          enabled = true,
+        },
+        python = {
+          enabled = true,
+        },
+        javascript = {
           enabled = true,
         },
         java = {

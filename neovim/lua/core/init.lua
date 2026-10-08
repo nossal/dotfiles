@@ -35,15 +35,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- Disable Ufo folding on Orgfiles
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "*.org",
-  callback = function()
-    vim.cmd([[UfoDetach]])
-    vim.cmd([[e!]])
-  end,
-})
-
 -- Load persisted sessions when Neovim starts without file arguments
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
   group = vim.api.nvim_create_augroup("Persistence", { clear = true }),

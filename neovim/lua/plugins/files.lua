@@ -12,6 +12,16 @@ return {
   {
     "stevearc/oil.nvim",
     lazy = false,
+    keys = {
+      { "<Leader>E", vim.cmd.Oil, desc = "Open File Explorer" },
+      {
+        "<Leader>e",
+        function()
+          require("oil").toggle_float()
+        end,
+        desc = "Toggle File Explorer",
+      },
+    },
     ---@module 'oil'
     ---@type oil.SetupOpts
     opts = {
@@ -54,6 +64,7 @@ return {
         },
       },
       keymaps = {
+        ["<C-v>"] = { "actions.select", opts = { vertical = true } },
         ["q"] = { "actions.close", mode = "n" },
         ["gd"] = {
           desc = "Toggle file detail view",
@@ -66,16 +77,6 @@ return {
             require("oil").set_columns(options)
           end,
         },
-      },
-    },
-    keys = {
-      { "<Leader>E", vim.cmd.Oil, desc = "Open File Explorer" },
-      {
-        "<Leader>e",
-        function()
-          require("oil").toggle_float()
-        end,
-        desc = "Toggle File Explorer",
       },
     },
   },

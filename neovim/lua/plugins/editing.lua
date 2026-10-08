@@ -2,7 +2,7 @@ return {
   {
     "nvim-mini/mini.surround",
     version = false,
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("mini.surround").setup()
     end,
@@ -10,7 +10,7 @@ return {
   {
     "NvChad/nvim-colorizer.lua",
     enabled = false,
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" },
     opts = {
       user_default_options = {
         names = false,

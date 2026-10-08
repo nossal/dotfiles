@@ -29,11 +29,22 @@ end
 return {
   {
     "kevinhwang91/nvim-ufo",
+    enabled = false,
     lazy = true,
     dependencies = "kevinhwang91/promise-async",
     opts = {
       close_fold_kinds_for_ft = { default = { "imports" } },
       fold_virt_text_handler = handler,
     },
+  },
+  {
+    "chrisgrieser/nvim-origami",
+    event = "VeryLazy",
+    opts = {}, -- required even when using default config
+    -- recommended: disable vim's auto-folding
+    init = function()
+      vim.opt.foldlevel = 99
+      vim.opt.foldlevelstart = 99
+    end
   },
 }
