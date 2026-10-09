@@ -41,10 +41,25 @@ return {
     "chrisgrieser/nvim-origami",
     event = "VeryLazy",
     opts = {}, -- required even when using default config
-    -- recommended: disable vim's auto-folding
-    init = function()
-      vim.opt.foldlevel = 99
-      vim.opt.foldlevelstart = 99
-    end
+    config = function()
+      require("origami").setup({
+        foldtext = {
+          enabled = true,
+          padding = {
+            character = " ",
+            width = 3, ---@type number|fun(win: number, foldstart: number, currentVirtualTextLength: number): number
+            hlgroup = nil,
+          },
+          lineCount = {
+            template = "󰘖 %d",
+            hlgroup = "Comment",
+          },
+       },
+        autoFold = {
+          enabled = true,
+          kinds = { "imports" }, ---@type lsp.FoldingRangeKind[]
+        },
+     })
+    end,
   },
 }
