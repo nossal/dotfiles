@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+BASE_PATH="${1:-.}"
+
+# find all git repositories in `BASE_PATH`
+# and update them to the latest version of their remote
+# Run git from the repository root (parent of the .git directory).
+# The previous implementation called `git -C .git`, which caused:
+#   fatal: this operation must be run in a work tree
+# because many git operations (like pull) require a working tree.
+# match both .git directories and .git files (worktrees and submodules use .git files)
+find "$BASE_PATH" -name ".git" -print0 |
+  while IFS= read -r -d '' gitdir; do
+    repo_dir="$(dirname "$gitdir")"
+
+    # Detect and skip bare repositories
+    is_bare="$(git -C "$repo_dir" rev-parse --is-bare-repository 2>/dev/null || true)"
+    if [ "$is_bare" = "true" ]; then
+      echo "Skipping bare repository: $repo_dir"
+      continue
+    fi
+
+    echo "Updating: $repo_dir"
+    (cd "$repo_dir" && git pull --all)
+  done
+
