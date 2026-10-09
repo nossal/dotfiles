@@ -1,17 +1,66 @@
 #!/usr/bin/env bash
 
-BASE_PATH="${1:-.}"
+# gitget: find git repos under BASE_PATH and update them.
+# Usage: gitget [OPTIONS] [BASE_PATH]
+# Options:
+#   -f, --fetch-only   Run 'git fetch --all --prune' instead of 'git pull --all'
+#   -h, --help         Show this help
 
-# find all git repositories in `BASE_PATH`
-# and update them to the latest version of their remote
-# Run git from the repository root (parent of the .git directory).
-# The previous implementation called `git -C .git`, which caused:
-#   fatal: this operation must be run in a work tree
-# because many git operations (like pull) require a working tree.
+FETCH_ONLY=0
+BASE_PATH="."
+
+usage() {
+  cat <<'EOF' >&2
+Usage: gitget [OPTIONS] [BASE_PATH]
+Find git repositories under BASE_PATH (default .) and update them.
+
+Options:
+  -f, --fetch-only   Run 'git fetch --all --prune' instead of 'git pull --all'
+  -h, --help         Show this help
+EOF
+}
+
+# Parse options: first non-option argument is treated as BASE_PATH
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -f|--fetch-only)
+      FETCH_ONLY=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -* )
+      echo "Unknown option: $1" >&2
+      usage
+      exit 2
+      ;;
+    *)
+      BASE_PATH="$1"
+      shift
+      break
+      ;;
+  esac
+done
+
+# Choose command
+if [ "$FETCH_ONLY" -eq 1 ]; then
+  GIT_CMD=(git fetch --all --prune)
+  ACTION="Fetching"
+else
+  GIT_CMD=(git pull --all)
+  ACTION="Pulling"
+fi
+
 # match both .git directories and .git files (worktrees and submodules use .git files)
 find "$BASE_PATH" -name ".git" -print0 |
-  while IFS= read -r -d '' gitdir; do
-    repo_dir="$(dirname "$gitdir")"
+  while IFS= read -r -d '' gitpath; do
+    repo_dir="$(dirname "$gitpath")"
 
     # Detect and skip bare repositories
     is_bare="$(git -C "$repo_dir" rev-parse --is-bare-repository 2>/dev/null || true)"
@@ -20,7 +69,7 @@ find "$BASE_PATH" -name ".git" -print0 |
       continue
     fi
 
-    echo "Updating: $repo_dir"
-    (cd "$repo_dir" && git pull --all)
+    echo "$ACTION: $repo_dir"
+    (cd "$repo_dir" && "${GIT_CMD[@]}")
   done
 
