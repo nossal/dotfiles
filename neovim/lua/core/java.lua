@@ -20,7 +20,7 @@ local function get_workspace_path()
 end
 
 local function get_jdtls_path()
-  return helpers.get_mason_package("jdtls")
+  return helpers.get_mason_package_path("jdtls")
 end
 
 local function get_lombok_jar()

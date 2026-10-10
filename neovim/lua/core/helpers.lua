@@ -14,8 +14,8 @@ M.map = function(mode, keys, func, desc, opts)
   vim.keymap.set(mode, keys, func, opts)
 end
 
-M.get_mason_package = function(name)
-  return vim.fn.expand("$MASON/packages/" .. name)
+M.get_mason_package_path = function(name)
+  return vim.fn.stdpath("data") .. "/mason/packages/" .. name
 end
 
 local java_home_cache = {}

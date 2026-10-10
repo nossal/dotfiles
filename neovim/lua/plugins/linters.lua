@@ -50,7 +50,7 @@ return {
     ft = { "java", "javascript", "typescript", "python", "go", "c", "cpp", "scala", "kotlin"},
     config = function()
       local java = helpers.get_java_home(17) .. "/bin/java"
-      local extension_path = helpers.get_mason_package("sonarlint-language-server") .. "/extension"
+      local extension_path = helpers.get_mason_package_path("sonarlint-language-server") .. "/extension"
       local analyzers_path = extension_path .. "/analyzers"
 
       require("sonarqube").setup({
