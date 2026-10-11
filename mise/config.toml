@@ -57,9 +57,9 @@ idiomatic_version_file_enable_tools = ["python"]
 uv_venv_auto = true
 
 [tool_alias.java.versions]
-8 = "corretto-8"
-11 = "corretto-11"
-17 = "corretto-17"
-25 = "corretto-25"
-lts = "corretto-25"
-latest = "corretto-26"
+8 = "temurin-8"
+11 = "temurin-11"
+17 = "temurin-17"
+25 = "temurin-25"
+lts = "temurin-25"
+latest = "temurin-27"
