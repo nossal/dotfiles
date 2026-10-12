@@ -1,5 +1,4 @@
 require("core.options")
-require("core.gpg")
 
 -- Snacks rename file on move in Oil
 vim.api.nvim_create_autocmd("User", {

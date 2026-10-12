@@ -28,4 +28,16 @@ return {
     "eandrju/cellular-automaton.nvim",
     enabled = false,
   },
+  {
+    "benoror/gpg.nvim",
+    ft = { "gpg", "asc", "pgp" },
+    init = function()
+      vim.filetype.add({
+        extension = {
+          gpg = "gpg",
+          asc = "gpg",
+        },
+      })
+    end,
+  },
 }
