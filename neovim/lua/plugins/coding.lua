@@ -49,5 +49,12 @@ return {
       { "<leader>ro", "<cmd>Crates open<cr>", desc = "Open crate page" },
       { "<leader>rD", "<cmd>Crates delete<cr>", desc = "Delete crate" },
     },
-  }
+  },
+  {
+    "tarides/ocaml.nvim",
+    ft = { "ocaml", "ocaml.menhir" },
+    config = function()
+      require("ocaml").setup()
+    end,
+  },
 }

@@ -1,7 +1,7 @@
 return {
   {
     "zbirenbaum/copilot.lua",
-    enabled = false,
+    enabled = true,
     event = "InsertEnter",
     cmd = "Copilot",
     dependencies = {
@@ -36,7 +36,7 @@ return {
   },
   {
     "supermaven-inc/supermaven-nvim",
-    enabled = true,
+    enabled = false,
     event = "VeryLazy",
     opts = {
       keymaps = {
