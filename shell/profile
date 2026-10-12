@@ -20,6 +20,7 @@ JAVA=$("$HOME/.local/bin/mise where java")/bin
 
 # List of paths to be included in PATH
 path_list=(
+    "$HOME/.local/share/mise/shims"
     "$HOME/.local/bin"
     "$HOME/.dotfiles/bin"
     "$HOME/.atuin/bin"

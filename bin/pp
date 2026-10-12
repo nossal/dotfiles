@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+# pp - fuzzy-pick a git repo/worktree under $WORKSPACE_DIR (default $HOME).
+# Inside tmux: switch to the window already open there, or open a new one.
+# Outside tmux: print the path (e.g. cd "$(pp)").
+set -uo pipefail
+
+TMUX_MODE=0
+root="${WORKSPACE_DIR:-$HOME}"
+
+while getopts ":htd:" opt; do
+    OPTARG="${OPTARG:-}"
+    case $opt in
+        h)
+            echo "Usage: pp [-h]"
+            echo "Fuzzy-pick a git repo/worktree under \$WORKSPACE_DIR (default \$HOME)."
+            echo "Inside tmux: switch to the window already open there, or open a new one."
+            echo "Outside tmux: print the path (e.g. cd \"\$(pp)\")."
+            exit 0
+            ;;
+        t)
+            TMUX_MODE=1
+            ;;
+        d)
+            root="$OPTARG"
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            exit 1
+            ;;
+    esac
+done
+
+fzf_args="--popup center"
+if [ "$TMUX_MODE" -eq 1 ]; then
+    fzf_args="--layout=reverse"
+fi
+
+# .git is a directory in repos and a file in worktrees; fd matches both.
+scan() {
+    fd -HI -a --glob '.git' --max-depth 5 \
+        -E node_modules -E .cache -E '.git/*' "$root" |
+        sed -E 's:/\.git/?$::' | sort -u
+}
+
+sel="$(scan | sed "s:^$HOME:~:" | fzf $fzf_args --prompt='project> ')" || exit 0
+[ -z "$sel" ] && exit 0
+repo="${sel/#\~/$HOME}"
+
+if [ -z "${TMUX:-}" ]; then
+    printf '%s\n' "$repo"
+    exit 0
+fi
+
+# Exact path match wins; otherwise the first pane inside a subdirectory.
+target="$(tmux list-panes -a -F '#{window_id}'$'\t''#{pane_current_path}' |
+    awk -F'\t' -v r="$repo" '
+        $2 == r { print $1; found = 1; exit }
+        !pre && index($2, r "/") == 1 { pre = $1 }
+        END { if (!found && pre) print pre }')"
+
+if [ -n "$target" ]; then
+    tmux switch-client -t "$target"
+else
+    name="$(git-repo-name "$repo" 2>/dev/null)" || name="$(basename "$repo")"
+    if [ "$(git -C "$repo" rev-parse --git-dir)" != "$(git -C "$repo" rev-parse --git-common-dir)" ]; then
+        name="$name:$(basename "$repo")"
+    fi
+    tmux neww -c "$repo" -n "$name"
+fi
