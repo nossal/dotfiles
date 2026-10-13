@@ -1,0 +1,13 @@
+{
+  "lastChangelogVersion": "1.1.0",
+  "defaultProvider": "openai",
+  "defaultModel": "gpt-5-mini",
+  "packages": [
+    "npm:pi-ask-user",
+    "npm:@ff-labs/pi-fff",
+  ],
+  "enableInstallTelemetry": false,
+  "defaultThinkingLevel": "high",
+  "theme": "dark",
+  "quietStartup": "header"
+}
