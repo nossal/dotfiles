@@ -169,28 +169,21 @@ return {
     event = "VeryLazy",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      local helpers = require("incline.helpers")
       local devicons = require("nvim-web-devicons")
-      local a = vim.api
 
       require("incline").setup({
         render = function(props)
-          local buf_focused = props.buf == a.nvim_get_current_buf()
           local modified = vim.bo[props.buf].modified
-          -- local diag_disabled = vim.diagnostic.is_disabled(props.buf)
-          -- local has_error = not diag_disabled
-          --   and #vim.diagnostic.get(props.buf, {
-          --       severity = vim.diagnostic.severity.ERROR,
-          --     })
-          --     > 0
           local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
           if filename == "" then
             filename = "[No Name]"
           end
 
-          local ft_icon, ft_color = devicons.get_icon_color(filename)
+          local icon = devicons.get_icon(filename)
+          local ft_fg_color = ""
+          local ft_bg_color = ""
           return {
-            ft_icon and { " ", ft_icon, " ", guifg = ft_color, guibg = helpers.contrast_color(ft_color) } or "",
+            icon and { " ", icon, " ", guifg = ft_fg_color, guibg = ft_bg_color} or "",
             " ",
             { filename, gui = modified and "italic" or "bold" },
             " ",

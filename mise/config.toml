@@ -42,6 +42,7 @@ ast-grep = "latest"
 
 # --- AI ---
 pi = "latest" # AI Coding Agent Harness
+"llama.cpp" = "latest"
 
 [settings]
 experimental = true
