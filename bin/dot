@@ -376,10 +376,32 @@ function symlink_configs() {
     # Create target directory if it doesn't exist
     [ ! -d "$target_dir" ] && mkdir -p "$target_dir"
 
-    # Create symbolic link if it doesn't exist
+    local source_full_path="$DOTFILES_HOME/$source_path"
+    local link_source="$source_full_path"
+
+    # Check if the source file is a GPG encrypted file
+    if [[ "$source_path" == *.gpg ]]; then
+      # Determine decrypted filename, e.g., config.toml.gpg -> config.toml.dec
+      read -r spath ext <<< "$(echo "$source_path" | awk -F'.' '{print $1, $2}')"
+      local decrypted_path="$spath.$ext.dec"
+      local decrypted_full_path="$DOTFILES_HOME/$decrypted_path"
+
+      log "Detected GPG file: $source_path. Attempting decryption..."
+      # Decrypt the file using gpg
+      gpg --batch --yes --output "$decrypted_full_path" --decrypt "$source_full_path"
+      if [ $? -eq 0 ]; then
+        link_source="$decrypted_full_path"
+        log "Decryption successful. Linking to decrypted file: $decrypted_path"
+      else
+        log "Error decrypting GPG file: $source_path. Skipping symlink."
+        continue # Skip the rest of the loop iteration
+      fi
+    fi
+
+    # Create symbolic link if it doesn't exist, using the determined link_source
     if [ ! -L "$target" ]; then
-      ln -sf "$DOTFILES_HOME/$source_path" "$target"
-      log "Created link: $target -> $DOTFILES_HOME/$source_path"
+      ln -sf "$link_source" "$target"
+      log "Created link: $target -> $link_source"
     else
       log "Link already exists: $target"
     fi

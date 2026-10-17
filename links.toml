@@ -16,6 +16,8 @@
 "git/config.yml" =         ".config/lazygit/config.yml"
 "git/giteditor" =          ".local/bin/giteditor"
 "jj/config.toml" =         ".config/jj/config.toml"
+"ai/pi/auth.json.gpg" =    ".pi/agent/auth.json"
+"ai/pi/settings.json" =    ".pi/agent/settings.json"
 
 [zsh]
 "shell/zsh/zlogin" =       ".zlogin"
