@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # gitget: find git repos under BASE_PATH and update them.
+# requires fd
 # Usage: gitget [OPTIONS] [BASE_PATH]
 # Options:
 #   -f, --fetch-only   Run 'git fetch --all --prune' instead of 'git pull --all'
@@ -58,18 +59,24 @@ else
 fi
 
 # match both .git directories and .git files (worktrees and submodules use .git files)
-find "$BASE_PATH" -name ".git" -print0 |
+# find "$BASE_PATH" -maxdepth 5 -name ".git" -print0 |
+fd '.git' --max-depth 5 \
+    -E node_modules -E .cache -E '.git/*' "$BASE_PATH" -0 |
   while IFS= read -r -d '' gitpath; do
     repo_dir="$(dirname "$gitpath")"
 
     # Detect and skip bare repositories
     is_bare="$(git -C "$repo_dir" rev-parse --is-bare-repository 2>/dev/null || true)"
     if [ "$is_bare" = "true" ]; then
-      echo "Skipping bare repository: $repo_dir"
+      echo -e "\033[33mSkipping bare repository: $repo_dir\033[0m"
       continue
     fi
 
-    echo "$ACTION: $repo_dir"
+    action_fmt="\033[32m"
+    if [ "$FETCH_ONLY" -eq 1 ]; then
+        action_fmt="\033[33m"
+    fi
+    echo -e "$action_fmt$ACTION:\033[0;37m $repo_dir\033[0m"
     (cd "$repo_dir" && "${GIT_CMD[@]}")
   done
 
