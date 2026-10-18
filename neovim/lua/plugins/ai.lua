@@ -1,7 +1,7 @@
 return {
   {
     "zbirenbaum/copilot.lua",
-    enabled = true,
+    enabled = false,
     event = "InsertEnter",
     cmd = "Copilot",
     dependencies = {
@@ -27,10 +27,14 @@ return {
   },
   {
     "ggml-org/llama.vim",
-    enabled = false,
+    enabled = true,
     init = function()
       vim.g.llama_config = {
         show_info = false,
+        profiles = {
+          localhost = "http://127.0.0.1:8012",
+          ryzen = "http://192.168.1.100:8012",
+        }
       }
     end,
   },
