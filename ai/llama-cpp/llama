@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+LLAMA_DIR_BASE="${LLAMA_DIR:-$HOME/.local/share/llama.cpp}"
+LLAMA_DIR="${LLAMA_DIR_BASE}/current"
+
+update () {
+    echo "Updating llama.cpp..."
+    REPO_OWNER="lemonade-sdk"
+    REPO_NAME="llamacpp-rocm"
+    SEARCH_TERM="rocm-gfx103X"
+    API_URL="https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest"
+
+    API_RESPONSE=$(curl -s "${API_URL}")
+    DOWNLOAD_URL=$(echo "${API_RESPONSE}" | \
+        jq -r ".assets[] | select(.name | contains(\"${SEARCH_TERM}\")) | .browser_download_url" | head -n 1)
+
+    TAG_NAME=$(echo "${API_RESPONSE}" | jq -r '.tag_name')
+    FILENAME=$(basename "$DOWNLOAD_URL")
+
+    # check if the TAG_NAME is the name  of an direc in the llama dir
+    if [ -d "$LLAMA_DIR_BASE/$TAG_NAME" ]; then
+        echo "$TAG_NAME already exists, skipping download"
+        return
+    fi
+    echo "Downloading: $TAG_NAME - $FILENAME <> \"$DOWNLOAD_URL\""
+    curl -sL "$DOWNLOAD_URL" -o "$LLAMA_DIR_BASE/$FILENAME"
+
+    mkdir -p "$LLAMA_DIR_BASE/$TAG_NAME"
+    # unzip silentely the file downloaded maintaining file permissions
+    unzip -q -o "$LLAMA_DIR_BASE/$FILENAME" -d "$LLAMA_DIR_BASE/$TAG_NAME/"
+    rm "$LLAMA_DIR_BASE/$FILENAME"
+    # make the files executable
+    chmod +x "$LLAMA_DIR_BASE/$TAG_NAME/"llama*
+
+    # linkg the TAG_NAME directory to the $LLAMA_DIR/current directory
+    unlink "$LLAMA_DIR"
+    ln -sf "$LLAMA_DIR_BASE/$TAG_NAME" "$LLAMA_DIR"
+    echo "Updated llama.cpp to $TAG_NAME"
+}
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    update )
+      update
+      exit 0
+      ;;
+    * )
+      break
+      ;;
+  esac
+done
+
+export LD_LIBRARY_PATH="$LLAMA_DIR${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec "$LLAMA_DIR/llama" "$@"
