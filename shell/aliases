@@ -12,3 +12,4 @@ alias nv="nvim"
 
 alias psh="powershell.exe"
 alias pass="gopass"
+alias docker="podman"

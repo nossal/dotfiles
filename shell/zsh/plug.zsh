@@ -74,6 +74,7 @@ function source_file() {
 function update_plugins() {
   for plugin in $@; do
     plugin_name=$(echo $plugin | cut -d "/" -f 2)
+    echo "\nUpdating $plugin_name"
     cd "$ZSHDOTDIR/plugins/$plugin_name" &&  git pull --ff-only 2>/dev/null;
     cd - > /dev/null
   done
