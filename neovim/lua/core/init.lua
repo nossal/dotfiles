@@ -44,3 +44,20 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
   end,
   nested = true,
 })
+
+vim.api.nvim_create_user_command("Notes", function()
+  vim.schedule(function()
+    require("fzf-lua").files({
+      prompt = "notes❯ ",
+      cwd = "~/Documents/Notes",
+      winopts = {
+        preview = { hidden = true },
+        height = 0.35,
+        width = 0.50,
+        title = " ~ notes ~ ",
+        title_flags = false,
+        backdrop = 95,
+      },
+    })
+  end)
+end, { desc = "Fuzzy-find files Notes" })

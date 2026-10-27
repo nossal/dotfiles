@@ -41,6 +41,8 @@ return {
       { "<leader>sx", "<cmd>close<CR>", desc = "Close current split" },
 
       { "<leader>f", group = "file/find", icon = "󰈞" },
+
+      { "<leader>fn", "<cmd>Notes<CR>", desc = "Find Notes" },
       --  FZF --
       { "<leader>ff", "<cmd>FzfLua files<CR>", desc = "Find Files" },
       { "<leader>fb", "<cmd>FzfLua buffers<CR>", desc = "Find Buffers" },
