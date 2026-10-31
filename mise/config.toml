@@ -58,7 +58,7 @@ idiomatic_version_file_enable_tools = ["python"]
 uv_venv_auto = true
 
 [tool_alias.java.versions]
-8 = "temurin-8"
+8 = "corretto-8"
 11 = "temurin-11"
 17 = "temurin-17"
 25 = "temurin-25"

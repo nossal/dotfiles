@@ -26,13 +26,14 @@ path_list=(
     "$HOME/.atuin/bin"
     "$HOME/bin" "$HOME/sbin"
     "/opt/homebrew/bin" "/opt/homebrew/sbin" "/opt/local/bin" "/opt/local/sbin"
+    "/usr/bin"
     "/usr/local/bin" "/usr/local/sbin"
 )
 
 # Expand paths and set PATH
 expanded_paths=$(expand_paths path_list)
-export PATH=$(echo "$expanded_paths" | tr ' ' ':')
+export PATH=$(echo "$expanded_paths" | /usr/bin/tr ' ' ':')
 
 # Optionally, you can add existing PATH at the end
-export PATH="$PATH:$(echo "$expanded_paths" | tr ' ' ':')"
+# export PATH="$PATH:$(echo "$expanded_paths" | tr ' ' ':')"
 
