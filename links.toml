@@ -18,6 +18,7 @@
 "jj/config.toml" =         ".config/jj/config.toml"
 "ai/pi/auth.json.gpg" =    ".pi/agent/auth.json"
 "ai/pi/settings.json" =    ".pi/agent/settings.json"
+"ai/claude/credentials.json.gpg" = ".claude/.credentials.json"
 "ai/llama-cpp/config.ini" =  ".config/llama.cpp/config.ini"
 
 [zsh]
