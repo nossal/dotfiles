@@ -9,6 +9,7 @@ lsd = "latest" # modern replacement for ls written in Rust
 zoxide = "latest" # smarter cd command, inspired by z and autojump
 btop = { version = "latest", os = ["linux"] } # resource monitor
 atuin = { version = "latest", os = ["linux"] } # resource monitor
+rclone = "latest"
 
 # --- git ---
 gh = "latest" # GitHub CLI tool
