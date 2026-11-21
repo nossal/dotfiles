@@ -7,21 +7,16 @@ Host *
   MACs hmac-md5,hmac-sha1
   ForwardX11 no
   ForwardAgent yes
-  ServerAliveInterval 60
-  ControlPath ~/.ssh/control/%C
+  Compression no
   ControlMaster auto
-  ControlPersist 10m
-  Compression yes
+  ControlPath ~/.ssh/control/%C
+  ControlPersist 4h
+  ServerAliveInterval 60
 
-# GitHub, GitLab,
-Host *github.com *.gitlab.com
+# GitHub, GitLab, Codeberg
+Host *github.com *.gitlab.com *codeberg.org
   User nossal
   IdentityFile ~/.ssh/nossal
-
-Host 3d-printer
-  HostName 3dprinter.local
-  User pi
-  IdentityFile ~/.ssh/mainsail
 
 Host 192.168.* node-* *.local *.lan
   User nossal
