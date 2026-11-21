@@ -1,0 +1,9 @@
+[tools]
+yq = "latest" # yaml processor, similar to jq
+gh = "latest" # GitHub CLI tool
+lazygit = "latest" # simple terminal UI for git commands
+gitleaks = "latest" # audit git repos for secrets and sensitive data
+tirith = "latest" # security for the terminal
+neovim = "latest"
+tree-sitter = "latest"
+ast-grep = "latest"

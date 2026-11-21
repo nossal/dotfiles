@@ -1,0 +1,4 @@
+[tools]
+kubectl = "latest" # Kubernetes command-line tool
+helm = "latest" # The Kubernetes package manager
+trivy = "latest" # vulnerability scanner for containers and other artifacts

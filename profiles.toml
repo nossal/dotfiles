@@ -1,0 +1,15 @@
+# Perfis: cada máquina escolhe um com `dot init <perfil>`.
+# A escolha fica em ~/.config/dot/profile, fora do Git.
+[profiles]
+"completo" =          "system base dev langs ops desktop personal ai work"
+"desktop-pessoal" =   "system base dev langs ops desktop personal ai"
+"desktop-trabalho" =  "system base dev langs ops desktop work"
+"servidor-pessoal" =  "system base server"
+"servidor-trabalho" = "base server work"
+
+# Diretórios com script `setup` executados por módulo.
+[setup]
+"base" =     "mise ssh tmux starship"
+"dev" =      "neovim"
+"desktop" =  "fonts"
+"personal" = "utilities"

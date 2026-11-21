@@ -101,7 +101,7 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 # https://github.com/junegunn/fzf/wiki/Color-schemes
 
 # The Prompt
-eval "$(starship init zsh)"
+(( $+commands[starship] )) && eval "$(starship init zsh)"
 
 # Inits
 source "$DOTDIR/shell/inits"

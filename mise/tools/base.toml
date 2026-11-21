@@ -1,0 +1,12 @@
+[tools]
+usage = "latest"
+fzf = "latest" # fuzy finder
+jq = "latest" # json processor
+rg = "latest" # ripgrep, a line-oriented search tool, similar to grep
+fd = "latest" # simple, fast and user-friendly alternative to find
+lsd = "latest" # modern replacement for ls written in Rust
+zoxide = "latest" # smarter cd command, inspired by z and autojump
+btop = { version = "latest", os = ["linux"] } # resource monitor
+atuin = { version = "latest", os = ["linux"] } # resource monitor
+delta = "latest" # syntax-highlighting pager for git and diff output
+difftastic = "latest" # syntax diff output

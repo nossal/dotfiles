@@ -7,13 +7,19 @@ setup() {
   export MISE_QUIET=1
 
   curl -sL https://mise.run | sh && \
-    mise tools up && \
-    mise completion "$SHELL_NAME" > "$DOTDIR/shell/$SHELL_NAME/completions/_mise"
+    "$LOCAL_BIN_DIR/mise" install && \
+    mkdir -p "$DOTDIR/shell/$shell/completions" && \
+    "$LOCAL_BIN_DIR/mise" completion "$shell" > "$DOTDIR/shell/$shell/completions/_mise"
 }
 
 update() {
-  mise self-update -y
-  mise up
+  # Em servidores, só instala o que falta, sem subir versões.
+  if [[ " ${DOT_MODULES:-} " == *" dev "* ]]; then
+    mise self-update -y
+    mise up
+  else
+    mise install
+  fi
 }
 
 install "mise"

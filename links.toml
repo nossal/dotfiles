@@ -1,25 +1,48 @@
-[default]
-"neovim" =                 ".config/nvim"
-"neovim-git" =             ".config/nvim-git"
+# Cada seção é um módulo, combinado em profiles.toml.
+[base]
 "starship/starship.toml" = ".config/starship.toml"
 "shell/lsd.yaml" =         ".config/lsd/config.yaml"
 "shell/lsd.icons.yaml" =   ".config/lsd/icons.yaml"
 "tmux/tmux.conf" =         ".config/tmux/tmux.conf"
 "mise/config.toml" =       ".config/mise/config.toml"
-"wezterm/wezterm.lua" =    ".config/wezterm/wezterm.lua"
-"utilities/yamlfmt.yaml" = ".config/yamlfmt/yamlfmt.yaml"
+"mise/tools/base.toml" =   ".config/mise/conf.d/base.toml"
 "atuin/config.toml" =      ".config/atuin/config.toml"
 "ssh/config" =             ".ssh/config"
+"ssh/rc" =                 ".ssh/rc"
+"git/config" =             ".config/git/config"
+
+[dev]
+"neovim" =                 ".config/nvim"
+"neovim-git" =             ".config/nvim-git"
+"utilities/yamlfmt.yaml" = ".config/yamlfmt/yamlfmt.yaml"
 "gpg/gpg-agent.conf" =     ".gnupg/gpg-agent.conf"
 "gpg/gpg.conf" =           ".gnupg/gpg.conf"
-"git/config" =             ".config/git/config"
 "git/config.yml" =         ".config/lazygit/config.yml"
 "git/giteditor" =          ".local/bin/giteditor"
 "jj/config.toml" =         ".config/jj/config.toml"
+"mise/tools/dev.toml" =    ".config/mise/conf.d/dev.toml"
+
+[langs]
+"mise/tools/langs.toml" =  ".config/mise/conf.d/langs.toml"
+
+[ops]
+"mise/tools/ops.toml" =    ".config/mise/conf.d/ops.toml"
+
+[desktop]
+"wezterm/wezterm.lua" =    ".config/wezterm/wezterm.lua"
+
+[personal]
+"mise/tools/personal.toml" = ".config/mise/conf.d/personal.toml"
+
+[ai]
 "ai/pi/auth.json.gpg" =    ".pi/agent/auth.json"
 "ai/pi/settings.json" =    ".pi/agent/settings.json"
 "ai/claude/credentials.json.gpg" = ".claude/.credentials.json"
 "ai/llama-cpp/config.ini" =  ".config/llama.cpp/config.ini"
+"mise/tools/ai.toml" =     ".config/mise/conf.d/ai.toml"
+
+[server]
+"git/server.config" =      ".config/git/profile"
 
 [zsh]
 "shell/zsh/zlogin" =       ".zlogin"

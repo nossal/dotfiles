@@ -1,0 +1,3 @@
+[tools]
+pi = "latest" # AI Coding Agent Harness
+# "llama.cpp" = "latest"

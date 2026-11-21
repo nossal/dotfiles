@@ -7,6 +7,12 @@ LOCAL_BIN_DIR="$HOME/.local/bin"
 
 export DOTDIR="$DOTFILES_HOME"
 
+LINKS_FILE="$DOTFILES_HOME/links.toml"
+PROFILES_FILE="$DOTFILES_HOME/profiles.toml"
+DOT_PROFILE_FILE="$HOME/.config/dot/profile"
+DEFAULT_MODULES="base"
+DOT_WARNINGS=()
+
 REPO="https://github.com/nossal/dotfiles"
 
 # declare -A CONFIG=(
@@ -25,48 +31,6 @@ function has() {
   fi
 
   command -v "$callable" 1>/dev/null 2>&1
-}
-
-LOG_BUFFER=()
-DISPLAY_BUFFER=("" "" "" "")
-
-log() {
-    # Add all passed lines to buffer, shifting display up
-    for line in "$@"; do
-        LOG_BUFFER+=("$line")
-
-        # Shift display buffer up and add new line at bottom
-        DISPLAY_BUFFER=("${DISPLAY_BUFFER[@]:1}" "$line")
-    done
-
-    # Move up 4 lines and clear display
-    printf "\033[4A\033[J"
-
-    local bg=$'\e[48;2;30;30;30m'
-    local reset=$'\e[0m'
-    printf "${bg} %-80s ${reset}\n" "${DISPLAY_BUFFER[0]}"
-    printf "${bg} %-80s ${reset}\n" "${DISPLAY_BUFFER[1]}"
-    printf "${bg} %-80s ${reset}\n" "${DISPLAY_BUFFER[2]}"
-    printf "${bg} %-80s ${reset}\n" "${DISPLAY_BUFFER[3]}"
-
-    sleep 0.05s
-}
-
-start_log() {
-    # Hide cursor
-    printf "\033[?25l"
-    # Create 4 empty lines
-    printf "\n\n\n\n"
-}
-end_log() {
-    # Move to start of first line and clear to end of display
-    # printf "\033[3A\033[J"
-    # # Show cursor again
-    # printf "\033[?25h" >&4
-
-    LOG_BUFFER=()
-    DISPLAY_BUFFER=("" "" "" "")
-    printf "\033[?25h\n"  # Show cursor and add newline
 }
 
 function install() {
@@ -325,88 +289,220 @@ function config_list_keys() {
   ' "$file"
 }
 
-function symlink_configs() {
-  # Creates symbolic links for configuration files based on profile and category
-  #
-  # This function reads a configuration file (links.txt) and creates symbolic links
-  # from dotfiles to their target locations in the home directory. It supports:
-  #   - Different profiles (e.g., personal, work)
-  #   - Categories of configurations (e.g., default, shell, editor)
-  #   - Automatic creation of target directories
-  #
-  # Arguments:
-  #   $1 - Category name (optional, defaults to "default")
-  #   $2 - Profile name (optional, e.g., "personal", "work")
-  #
-  # Configuration file format (links.txt):
-  #   [default]
-  #   nvim/init.lua .config/nvim/init.lua
-  #   [shell]
-  #   zsh/zshrc .zshrc
-  #
-  echo "Setting up configuration links"
-  local category="${1:-default}"
-  local profile="${2:-}"
+function error() {
+  echo "$*" >&2
+  exit 1
+}
 
-  start_log
-  # Construct config file path based on profile
-  [ -n "$profile" ] && profile="-$profile"
-  local config_file="$DOTFILES_HOME/links$profile.toml"
-  log "> Using config file: $config_file"
+function warn() {
+  DOT_WARNINGS+=("$1")
+}
 
-  # Check if config file exists
-  if [ ! -f "$config_file" ]; then
-    log "Configuration file not found: $config_file"
-    return
+function print_warnings() {
+  [ "${#DOT_WARNINGS[@]}" -eq 0 ] && return 0
+  echo "Avisos:"
+  printf '  - %s\n' "${DOT_WARNINGS[@]}"
+  DOT_WARNINGS=()
+}
+
+function in_list() {
+  [[ " $2 " == *" $1 "* ]]
+}
+
+function config_list_sections() {
+  awk '/^\[.*\]$/ { gsub(/^\[|\]$/, ""); print }' "$1"
+}
+
+function current_profile() {
+  [ -s "$DOT_PROFILE_FILE" ] && tr -d '[:space:]' < "$DOT_PROFILE_FILE" || true
+}
+
+function modules_for() {
+  local modules
+  modules="$(config_get "$PROFILES_FILE" profiles "$1" || true)"
+  [ -n "$modules" ] || error "Perfil desconhecido: $1 (veja: dot profiles)"
+  echo "$modules"
+}
+
+function active_modules() {
+  local name
+  name="$(current_profile)"
+  if [ -z "$name" ]; then
+    echo "$DEFAULT_MODULES"
+    return 0
   fi
-  log "> Category: $category"
+  modules_for "$name"
+}
 
-  # Process each line in the configuration file
-  while IFS= read -r source_path; do
-    # IFS=' ' read -r source_path target_path <<< "$line"
-    local target_path
-    target_path=$(config_get "$config_file" "$category" "$source_path")
+function link_entry() {
+  # Cria um link sem nunca sobrescrever arquivo real ou credencial já descriptografada.
+  local source_path="$1"
+  local target_path="$2"
+  local target="$HOME/$target_path"
+  local link_source="$DOTFILES_HOME/$source_path"
 
-    [ -z "$target_path" ] && continue
+  # Link válido não muda. Link quebrado é refeito, por exemplo após apagar um .dec.
+  if [ -L "$target" ] && [ -e "$target" ]; then
+    return 0
+  fi
+  if [ ! -L "$target" ] && [ -e "$target" ]; then
+    warn "mantido, já existe um arquivo real: ~/$target_path"
+    return 0
+  fi
 
-    local target target_dir
-    target="$HOME/$target_path"
-    target_dir="$(dirname "$target")"
-
-    # Create target directory if it doesn't exist
-    [ ! -d "$target_dir" ] && mkdir -p "$target_dir"
-
-    local source_full_path="$DOTFILES_HOME/$source_path"
-    local link_source="$source_full_path"
-
-    # Check if the source file is a GPG encrypted file
-    if [[ "$source_path" == *.gpg ]] && [[ $(has gpg) ]]; then
-      # Determine decrypted filename, e.g., config.toml.gpg -> config.toml.dec
-      read -r spath ext <<< "$(echo "$source_path" | awk -F'.' '{print $1, $2}')"
-      local decrypted_path="$spath.$ext.dec"
-      local decrypted_full_path="$DOTFILES_HOME/$decrypted_path"
-
-      log "Detected GPG file: $source_path. Attempting decryption..."
-      # Decrypt the file using gpg
-      gpg --batch --yes --output "$decrypted_full_path" --decrypt "$source_full_path"
-      if [ $? -eq 0 ]; then
-        link_source="$decrypted_full_path"
-        log "Decryption successful. Linking to decrypted file: $decrypted_path"
-      else
-        log "Error decrypting GPG file: $source_path. Skipping symlink."
-        continue # Skip the rest of the loop iteration
+  if [[ "$source_path" == *.gpg ]]; then
+    local decrypted="${link_source%.gpg}.dec"
+    if [ ! -e "$decrypted" ]; then
+      if ! has gpg; then
+        warn "gpg ausente, link ignorado: ~/$target_path"
+        return 0
+      fi
+      echo "Decrypting: $source_path"
+      if ! (umask 077; gpg --batch --yes --quiet --output "$decrypted" --decrypt "$link_source" < /dev/null) 2>/dev/null; then
+        rm -f "$decrypted"
+        warn "não foi possível descriptografar: $source_path"
+        return 0
       fi
     fi
+    link_source="$decrypted"
+  fi
 
-    # Create symbolic link if it doesn't exist, using the determined link_source
-    if [ ! -L "$target" ]; then
-      ln -sf "$link_source" "$target"
-      log "Created link: $target -> $link_source"
-    else
-      log "Link already exists: $target"
-    fi
-  done <<< "$(config_list_keys "$config_file" "$category")"
-  end_log
+  if [ ! -e "$link_source" ]; then
+    warn "origem não encontrada: $source_path"
+    return 0
+  fi
+
+  mkdir -p "$(dirname "$target")"
+  ln -sfn "$link_source" "$target"
+  echo "Created link: $target_path"
+}
+
+function symlink_configs() {
+  # Cria os links das seções (módulos) de links.toml recebidas como argumentos.
+  local section source_path target_path
+  echo "Setting up configuration links"
+
+  for section in "$@"; do
+    while IFS= read -r source_path; do
+      [ -z "$source_path" ] && continue
+      target_path="$(config_get "$LINKS_FILE" "$section" "$source_path" || true)"
+      [ -z "$target_path" ] && continue
+      link_entry "$source_path" "$target_path"
+    done < <(config_list_keys "$LINKS_FILE" "$section")
+  done
+
+  print_warnings
+}
+
+function apply_links() {
+  local modules
+  if [ -n "${1:-}" ]; then
+    modules="$(modules_for "$1")"
+  else
+    modules="$(active_modules)"
+  fi
+  # shellcheck disable=SC2086
+  symlink_configs $modules "$shell"
+}
+
+function prune_links() {
+  # Remove links de módulos fora do perfil, apenas se apontarem para os dotfiles.
+  local modules="$1"
+  local section source_path target_path target link
+
+  while IFS= read -r section; do
+    in_list "$section" "$modules zsh bash" && continue
+    while IFS= read -r source_path; do
+      [ -z "$source_path" ] && continue
+      target_path="$(config_get "$LINKS_FILE" "$section" "$source_path" || true)"
+      [ -z "$target_path" ] && continue
+      target="$HOME/$target_path"
+      [ -L "$target" ] || continue
+      link="$(readlink "$target")"
+      [[ "$link" == "$DOTFILES_HOME/"* ]] || continue
+      rm "$target"
+      echo "Removido: ~/$target_path ($section)"
+      if [[ "$link" == *.dec ]]; then
+        warn "credencial em texto puro mantida, apague se não for usar: $link"
+      fi
+    done < <(config_list_keys "$LINKS_FILE" "$section")
+  done < <(config_list_sections "$LINKS_FILE")
+}
+
+function dot_init() {
+  local name="$1"
+  local modules previous
+  modules="$(modules_for "$name")"
+  previous="$(current_profile)"
+
+  mkdir -p "$(dirname "$DOT_PROFILE_FILE")"
+  printf '%s\n' "$name" > "$DOT_PROFILE_FILE"
+  echo "Perfil: $name ($modules)"
+
+  prune_links "$modules"
+  apply_links
+
+  if [ -n "$previous" ] && [ "$previous" != "$name" ]; then
+    echo "Para desinstalar ferramentas que saíram do perfil: dot prune"
+  fi
+}
+
+function dot_status() {
+  local name modules section source_path target_path target total linked real stale
+  name="$(current_profile)"
+  modules="$(active_modules)"
+  echo "Perfil:  ${name:-nenhum (usando $DEFAULT_MODULES)}"
+  echo "Módulos: $modules"
+
+  for section in $modules "$shell"; do
+    total=0 linked=0 real=0
+    while IFS= read -r source_path; do
+      [ -z "$source_path" ] && continue
+      target_path="$(config_get "$LINKS_FILE" "$section" "$source_path" || true)"
+      target="$HOME/$target_path"
+      total=$((total + 1))
+      if [ -L "$target" ] && [ -e "$target" ]; then
+        linked=$((linked + 1))
+      elif [ -e "$target" ]; then
+        real=$((real + 1))
+      fi
+    done < <(config_list_keys "$LINKS_FILE" "$section")
+    [ "$total" -eq 0 ] && continue
+    printf '  %-10s %s/%s links' "$section" "$linked" "$total"
+    [ "$real" -gt 0 ] && printf ' (%s arquivo real)' "$real"
+    printf '\n'
+  done
+
+  stale=0
+  while IFS= read -r section; do
+    in_list "$section" "$modules zsh bash" && continue
+    while IFS= read -r source_path; do
+      [ -z "$source_path" ] && continue
+      target_path="$(config_get "$LINKS_FILE" "$section" "$source_path" || true)"
+      target="$HOME/$target_path"
+      if [ -L "$target" ] && [[ "$(readlink "$target")" == "$DOTFILES_HOME/"* ]]; then
+        stale=$((stale + 1))
+        echo "  fora do perfil: ~/$target_path ($section)"
+      fi
+    done < <(config_list_keys "$LINKS_FILE" "$section")
+  done < <(config_list_sections "$LINKS_FILE")
+  [ "$stale" -eq 0 ] || echo "Rode: dot init ${name:-<perfil>}"
+}
+
+function dot_profiles() {
+  local key active mark
+  active="$(current_profile)"
+  while IFS= read -r key; do
+    mark=" "
+    [ "$key" = "$active" ] && mark="*"
+    printf '%s %-18s %s\n' "$mark" "$key" "$(modules_for "$key")"
+  done < <(config_list_keys "$PROFILES_FILE" profiles)
+}
+
+function dot_prune() {
+  has mise || error "mise não encontrado"
+  mise ls --prunable
+  mise prune --tools
 }
 
 function clean() {
@@ -423,47 +519,27 @@ function clean() {
 # source "$DOTFILES_HOME/bin/dot-log"
 
 function tools() {
-  # Searches and executes setup files in dotfiles directory
-  #
-  # This function iterates through all first-level directories in $DOTFILES_HOME,
-  # searching for 'setup' files. When found, it ensures they are executable and
-  # runs them with two standard parameters:
-  #   $DOTFILES_HOME - The root directory of dotfiles
-  #   $LOCAL_BIN_DIR - The user's local bin directory
-  #
-  # Example setup file location:
-  #   $DOTFILES_HOME/
-  #   ├── neovim/
-  #   │   └── setup    # This will be executed
-  #   └── zsh/
-  #       └── setup    # This will be executed too
-  #
+  # Executa os scripts `setup` dos módulos ativos, conforme [setup] em profiles.toml.
+  # A falha de um setup vira aviso e não interrompe os demais.
+  local modules module names name setup_path
+  modules="$(active_modules)"
+  export DOT_MODULES="$modules"
   echo "TOOLS"
-  start_log
 
-  while IFS= read -r setup_path; do
-    name="$(basename "$(dirname "$setup_path")")"
-    log "Setup $name"
-    [ ! -x "$setup_path" ] && chmod u+x "$setup_path"
+  for module in $modules; do
+    names="$(config_get "$PROFILES_FILE" setup "$module" || true)"
+    for name in $names; do
+      setup_path="$DOTFILES_HOME/$name/setup"
+      [ -f "$setup_path" ] || continue
+      echo "Setup $name"
+      [ ! -x "$setup_path" ] && chmod u+x "$setup_path"
 
-    # Capture output and display with logging formatting
-    {
-      if [ -t 1 ]; then
-        # If stdout is a terminal, redirect to both terminal and log buffer
-        "$setup_path" 2>&1 | while IFS= read -r line; do
-          # echo "$line"
-          log "$line"
-        done
-      else
-        # If stdout is not a terminal, just capture for logging
-        "$setup_path" 2>&1 | while IFS= read -r line; do
-          log "$line"
-        done
+      if ! "$setup_path"; then
+        warn "setup falhou: $name"
       fi
-    }
-
-  done <<< "$(find "$DOTFILES_HOME" -maxdepth 2 -type f -name "setup")"
-  end_log
+    done
+  done
+  print_warnings
 }
 
 function dot_update() {
@@ -474,8 +550,7 @@ function dot_update() {
 
 function dot_install() {
   clean
-  symlink_configs "$@"
-  symlink_configs "$shell"
+  apply_links
   tools
 }
 
@@ -529,11 +604,13 @@ function bootstrap() {
   local os_setup
   os_setup="$DOTFILES_HOME/os/$os/setup"
 
-  [ -f "$os_setup" ] && \
-    "$os_setup" "$DOTFILES_HOME" "$LOCAL_BIN_DIR"
+  # Só o módulo `system` usa sudo e gerenciador de pacotes.
+  if in_list system "$(active_modules)" && [ -f "$os_setup" ]; then
+    "$os_setup" "$DOTFILES_HOME" "$LOCAL_BIN_DIR" || warn "setup do sistema falhou: $os"
+  fi
 
   echo "BOOT"
-  dot_install "$@"
+  dot_install
 }
 
 function usage() {
@@ -553,30 +630,32 @@ function usage() {
     -r, --repo      Specify the repository URL (default: $REPO)
 
     Commands:
-    update          Update existing dotfiles installation
+    init PROFILE    Save this machine's profile and sync its links
+    status          Show the profile, modules and link state
+    profiles        List available profiles
+    links [PROFILE] Create links for the current (or given) profile
+    tools           Run setup scripts of the active modules
+    prune           Uninstall mise tools no longer in the profile
+    update          Pull and reinstall using the current profile
     fix             Fix broken symbolic links
-    links [PROFILE] Create symbolic links for dotfiles (optionally with a profile)
-    tools           Search and execute setup files in dotfiles directories
 
     Examples:
-    dot                # Bootstrap with default profile
-    dot personal       # Bootstrap with personal profile
-    dot -r <url>       # Bootstrap from a different repository
-    dot update         # Update existing installation
-    dot links work     # Create symbolic links for work profile
+    dot                        # Bootstrap with the saved profile (or base)
+    dot servidor-trabalho      # Save the profile and bootstrap
+    dot init desktop-pessoal   # Change the profile, links only
+    dot status
 
     For more information, visit: https://github.com/nossal/dotfiles
 EOF
 }
 
-trap end_log EXIT
 edit() {
   nvim -c "cd ~/.dotfiles | lua require('persistence').load()"
 }
 
 function main() {
   local command=""
-  local arguments=""
+  local profile=""
   if [[ $# -eq 0 ]]; then
     command="bootstrap"
   fi
@@ -597,12 +676,9 @@ function main() {
       *)
         if [[ -z "$command" ]]; then
           command="$1"
-        else
-          echo " command: $command"
-          # echo "Unexpected argument: $1"
-          # exit 1
+        elif [[ -z "$profile" ]]; then
+          profile="$1"
         fi
-        arguments="$1 "
         shift
         ;;
     esac
@@ -618,14 +694,33 @@ function main() {
     fix)
       clean
       ;;
+    init)
+      [ -n "$profile" ] || error "Uso: dot init <perfil> (veja: dot profiles)"
+      dot_init "$profile"
+      print_warnings
+      ;;
     links)
-      symlink_configs "$arguments"
+      apply_links "$profile"
+      ;;
+    status)
+      dot_status
+      ;;
+    profiles)
+      dot_profiles
+      ;;
+    prune)
+      dot_prune
       ;;
     ed|edit)
       edit
       ;;
+    bootstrap)
+      bootstrap
+      ;;
     *)
-      bootstrap "$@"
+      modules_for "$command" > /dev/null
+      dot_init "$command"
+      bootstrap
       ;;
   esac
 }

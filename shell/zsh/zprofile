@@ -1,7 +1,8 @@
 # vi: ft=zsh
 
 export EDITOR="$(command -v nvim || command -v vi)"
-export JAVA_HOME=$($HOME/.local/bin/mise where java)
+_java_home=$($HOME/.local/bin/mise where java 2>/dev/null) && export JAVA_HOME=$_java_home
+unset _java_home
 
 typeset -gU path
 

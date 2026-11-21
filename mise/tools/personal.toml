@@ -1,0 +1,4 @@
+[tools]
+rclone = "latest"
+gopass = "latest" # password manager
+"github:gopasspw/gopass-jsonapi" = "latest"

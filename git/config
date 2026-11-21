@@ -167,3 +167,7 @@
   remote = magenta
 [gpg]
 	program = gpg
+
+# Ajustes do perfil da máquina (módulo server)
+[include]
+  path = ~/.config/git/profile

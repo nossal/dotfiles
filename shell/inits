@@ -5,12 +5,12 @@ export _ZO_FZF_OPTS="
 "
 
 # eval "$($HOME/.local/bin/mise activate zsh --shims)"
-eval "$($HOME/.local/bin/mise activate zsh)"
-eval "$(zoxide init zsh)"
-eval "$(atuin init zsh)"
+[[ -x $HOME/.local/bin/mise ]] && eval "$($HOME/.local/bin/mise activate zsh)"
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
+(( $+commands[atuin] )) && eval "$(atuin init zsh)"
 #eval "$(tirith init --shell zsh)"
 
-zsource <(fzf --zsh)
+(( $+commands[fzf] )) && zsource <(fzf --zsh)
 
 _sources=(
     "$HOME/.opam/opam-init/init.zsh"
