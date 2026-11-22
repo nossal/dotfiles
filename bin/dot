@@ -21,6 +21,69 @@ REPO="https://github.com/nossal/dotfiles"
 #   ["editor"]="Editor configuration files"
 # )
 
+UI_WIDTH=10
+LINKS_CREATED=0
+
+function ui_init() {
+  # Mesma linguagem visual do git-lg. Bytes UTF-8 em hex funcionam no bash 3.2 do macOS.
+  C_RESET="" C_ORANGE="" C_BLUE="" C_GREEN="" C_DIM="" C_YELLOW="" C_RED="" C_SUMMARY=""
+  if [ -t 1 ] && [ -z "${NO_COLOR:-}" ] && [ "${TERM:-dumb}" != "dumb" ]; then
+    C_RESET=$'\e[0m'
+    C_ORANGE=$'\e[38;2;245;77;39m'
+    C_BLUE=$'\e[1;38;2;0;145;218m'
+    C_GREEN=$'\e[3;32m'
+    C_DIM=$'\e[2;37m'
+    C_YELLOW=$'\e[33m'
+    C_RED=$'\e[31m'
+    C_SUMMARY=$'\e[2;3m'
+  fi
+
+  # Sem tty, ou no console do Linux, não há Nerd Font.
+  G_HEAD="::" G_SUMMARY="=>" G_OK="v" G_WARN="!" G_FAIL="x" G_ADD="+" G_DEL="-"
+  if [ -t 1 ] && [ "${TERM:-dumb}" != "dumb" ] && [ "${TERM:-}" != "linux" ]; then
+    case "${LC_ALL:-${LC_CTYPE:-${LANG:-}}}" in
+      *UTF-8*|*utf-8*|*UTF8*|*utf8*)
+        G_HEAD=$'\xef\x80\x93'
+        G_SUMMARY=$'\xf3\xb1\x9e\xa9'
+        G_OK=$'\xef\x80\x8c'
+        G_WARN=$'\xef\x81\xb1'
+        G_FAIL=$'\xef\x80\x8d'
+        ;;
+    esac
+  fi
+}
+ui_init
+
+function ui_header() {
+  # Uso: ui_header comando [contexto]
+  printf '%s %sdot %s%s  %s\n' "$G_HEAD" "$C_DIM" "$1" "$C_RESET" "${2:-}"
+}
+
+function ui_node() {
+  # Uso: ui_node título [destaque] [detalhe] [cor do detalhe] [marca] [cor da marca]
+  local badge=""
+  if [ -n "${2:-}" ]; then
+    printf -v badge '%s%-5s%s  ' "$C_BLUE" "$2" "$C_RESET"
+  fi
+  printf ' %s%s%s %s%-*s%s  %s%s%s%s\n' \
+    "${6:-}" "${5:- }" "$C_RESET" \
+    "$C_ORANGE" "$UI_WIDTH" "$1" "$C_RESET" \
+    "$badge" "${4:-$C_GREEN}" "${3:-}" "$C_RESET"
+}
+
+function ui_line() {
+  printf '   %s%s%s\n' "$C_DIM" "$1" "$C_RESET"
+}
+
+function ui_item() {
+  # Uso: ui_item cor glifo texto
+  printf '   %s%s%s %s\n' "$1" "$2" "$C_RESET" "$3"
+}
+
+function ui_summary() {
+  printf ' %s%s %s%s\n' "$C_SUMMARY" "$G_SUMMARY" "$1" "$C_RESET"
+}
+
 function has() {
   local callable="$1"
   shift
@@ -290,7 +353,7 @@ function config_list_keys() {
 }
 
 function error() {
-  echo "$*" >&2
+  printf '%s%s%s %s\n' "$C_RED" "$G_FAIL" "$C_RESET" "$*" >&2
   exit 1
 }
 
@@ -300,8 +363,10 @@ function warn() {
 
 function print_warnings() {
   [ "${#DOT_WARNINGS[@]}" -eq 0 ] && return 0
-  echo "Avisos:"
-  printf '  - %s\n' "${DOT_WARNINGS[@]}"
+  local message
+  for message in "${DOT_WARNINGS[@]}"; do
+    UI_WIDTH=0 ui_node "$message" "" "" "" "$G_WARN" "$C_YELLOW"
+  done
   DOT_WARNINGS=()
 }
 
@@ -357,7 +422,7 @@ function link_entry() {
         warn "gpg ausente, link ignorado: ~/$target_path"
         return 0
       fi
-      echo "Decrypting: $source_path"
+      ui_line "decrypting $source_path"
       if ! (umask 077; gpg --batch --yes --quiet --output "$decrypted" --decrypt "$link_source" < /dev/null) 2>/dev/null; then
         rm -f "$decrypted"
         warn "não foi possível descriptografar: $source_path"
@@ -374,15 +439,21 @@ function link_entry() {
 
   mkdir -p "$(dirname "$target")"
   ln -sfn "$link_source" "$target"
-  echo "Created link: $target_path"
+  LINKS_CREATED=$((LINKS_CREATED + 1))
+  ui_item "$C_GREEN" "$G_ADD" "~/$target_path"
 }
 
 function symlink_configs() {
   # Cria os links das seções (módulos) de links.toml recebidas como argumentos.
-  local section source_path target_path
-  echo "Setting up configuration links"
+  local section source_path target_path total links_total=0
+  LINKS_CREATED=0
+  ui_header "links"
 
   for section in "$@"; do
+    total="$(config_list_keys "$LINKS_FILE" "$section" | wc -l | tr -d ' ' || true)"
+    [ "${total:-0}" -eq 0 ] && continue
+    links_total=$((links_total + total))
+    ui_node "$section" "$total" "links" "$C_DIM"
     while IFS= read -r source_path; do
       [ -z "$source_path" ] && continue
       target_path="$(config_get "$LINKS_FILE" "$section" "$source_path" || true)"
@@ -392,6 +463,7 @@ function symlink_configs() {
   done
 
   print_warnings
+  ui_summary "$links_total links, $LINKS_CREATED criado(s)"
 }
 
 function apply_links() {
@@ -421,7 +493,7 @@ function prune_links() {
       link="$(readlink "$target")"
       [[ "$link" == "$DOTFILES_HOME/"* ]] || continue
       rm "$target"
-      echo "Removido: ~/$target_path ($section)"
+      UI_WIDTH=0 ui_node "~/$target_path" "" "$section" "$C_DIM" "$G_DEL" "$C_RED"
       if [[ "$link" == *.dec ]]; then
         warn "credencial em texto puro mantida, apague se não for usar: $link"
       fi
@@ -437,25 +509,44 @@ function dot_init() {
 
   mkdir -p "$(dirname "$DOT_PROFILE_FILE")"
   printf '%s\n' "$name" > "$DOT_PROFILE_FILE"
-  echo "Perfil: $name ($modules)"
+  ui_header "init" "$C_BLUE$name$C_RESET  $C_DIM$modules$C_RESET"
 
   prune_links "$modules"
   apply_links
 
   if [ -n "$previous" ] && [ "$previous" != "$name" ]; then
-    echo "Para desinstalar ferramentas que saíram do perfil: dot prune"
+    ui_summary "para desinstalar ferramentas que saíram do perfil: dot prune"
+  fi
+}
+
+function repo_summary() {
+  local sha branch when dirty
+  sha="$(git -C "$DOTFILES_HOME" rev-parse --short HEAD 2>/dev/null)" || return 0
+  branch="$(git -C "$DOTFILES_HOME" branch --show-current 2>/dev/null || true)"
+  when="$(git -C "$DOTFILES_HOME" log -1 --format=%ar 2>/dev/null || true)"
+  dirty="$(git -C "$DOTFILES_HOME" status --porcelain 2>/dev/null | wc -l | tr -d ' ' || true)"
+
+  printf '%s%s%s %s%s%s %s%s%s' \
+    "$C_GREEN" "${branch:-detached}" "$C_RESET" \
+    "$C_ORANGE" "$sha" "$C_RESET" \
+    "$C_DIM" "$when" "$C_RESET"
+  if [ "${dirty:-0}" -gt 0 ]; then
+    printf '  %s%s alterado(s)%s' "$C_YELLOW" "$dirty" "$C_RESET"
   fi
 }
 
 function dot_status() {
   local name modules section source_path target_path target total linked real stale
+  local issue summary sum_total=0 sum_linked=0
+  local -a issues
   name="$(current_profile)"
   modules="$(active_modules)"
-  echo "Perfil:  ${name:-nenhum (usando $DEFAULT_MODULES)}"
-  echo "Módulos: $modules"
+
+  ui_header "status" "$C_BLUE${name:-nenhum}$C_RESET  $(repo_summary)"
 
   for section in $modules "$shell"; do
     total=0 linked=0 real=0
+    issues=()
     while IFS= read -r source_path; do
       [ -z "$source_path" ] && continue
       target_path="$(config_get "$LINKS_FILE" "$section" "$source_path" || true)"
@@ -465,12 +556,27 @@ function dot_status() {
         linked=$((linked + 1))
       elif [ -e "$target" ]; then
         real=$((real + 1))
+        issues+=("$G_WARN|~/$target_path (arquivo real)")
+      else
+        issues+=("$G_FAIL|~/$target_path (ausente)")
       fi
     done < <(config_list_keys "$LINKS_FILE" "$section")
     [ "$total" -eq 0 ] && continue
-    printf '  %-10s %s/%s links' "$section" "$linked" "$total"
-    [ "$real" -gt 0 ] && printf ' (%s arquivo real)' "$real"
-    printf '\n'
+
+    sum_total=$((sum_total + total))
+    sum_linked=$((sum_linked + linked))
+    if [ "$linked" -eq "$total" ]; then
+      ui_node "$section" "$linked/$total" "" "" "$G_OK" "$C_GREEN"
+    else
+      ui_node "$section" "$linked/$total" "$((total - linked)) pendente(s)" "$C_YELLOW" "$G_WARN" "$C_YELLOW"
+    fi
+    for issue in ${issues[@]+"${issues[@]}"}; do
+      if [ "${issue%%|*}" = "$G_FAIL" ]; then
+        ui_item "$C_RED" "$G_FAIL" "${issue#*|}"
+      else
+        ui_item "$C_YELLOW" "$G_WARN" "${issue#*|}"
+      fi
+    done
   done
 
   stale=0
@@ -482,37 +588,50 @@ function dot_status() {
       target="$HOME/$target_path"
       if [ -L "$target" ] && [[ "$(readlink "$target")" == "$DOTFILES_HOME/"* ]]; then
         stale=$((stale + 1))
-        echo "  fora do perfil: ~/$target_path ($section)"
+        UI_WIDTH=0 ui_node "~/$target_path" "" "fora do perfil ($section)" "$C_YELLOW" "$G_WARN" "$C_YELLOW"
       fi
     done < <(config_list_keys "$LINKS_FILE" "$section")
   done < <(config_list_sections "$LINKS_FILE")
-  [ "$stale" -eq 0 ] || echo "Rode: dot init ${name:-<perfil>}"
+  summary="$(wc -w <<< "$modules" | tr -d ' ') módulos, $sum_linked/$sum_total links"
+  if [ "$stale" -gt 0 ]; then
+    summary="$summary, $stale fora do perfil (rode: dot init ${name:-<perfil>})"
+  fi
+  ui_summary "$summary"
 }
 
 function dot_profiles() {
-  local key active mark
+  local key active mark count=0
   active="$(current_profile)"
+  ui_header "profiles"
   while IFS= read -r key; do
     mark=" "
-    [ "$key" = "$active" ] && mark="*"
-    printf '%s %-18s %s\n' "$mark" "$key" "$(modules_for "$key")"
+    [ "$key" = "$active" ] && mark="$G_OK"
+    count=$((count + 1))
+    UI_WIDTH=18 ui_node "$key" "" "$(modules_for "$key")" "$C_DIM" "$mark" "$C_GREEN"
   done < <(config_list_keys "$PROFILES_FILE" profiles)
+  ui_summary "$count perfis, ativo: ${active:-nenhum}"
 }
 
 function dot_prune() {
   has mise || error "mise não encontrado"
+  ui_header "prune"
   mise ls --prunable
   mise prune --tools
 }
 
 function clean() {
-  echo "CLEAN BROKEN LINKS"
+  ui_header "fix"
   # Find and remove broken symbolic links in the home directory (max depth 2)
-  local broken_links
+  local broken_links broken_link
   broken_links=$(find "$HOME" -maxdepth 2 -type l ! -exec test -e {} \; -print 2> /dev/null || true)
   if [ -n "$broken_links" ]; then
-    echo  -e "Removing broken synlinks:\n$broken_links"
+    while IFS= read -r broken_link; do
+      UI_WIDTH=0 ui_node "${broken_link/#$HOME/\~}" "" "" "" "$G_DEL" "$C_RED"
+    done <<< "$broken_links"
     echo "$broken_links" | xargs rm
+    ui_summary "$(wc -l <<< "$broken_links" | tr -d ' ') link(s) quebrado(s) removido(s)"
+  else
+    ui_summary "nenhum link quebrado"
   fi
 }
 
@@ -524,17 +643,20 @@ function tools() {
   local modules module names name setup_path
   modules="$(active_modules)"
   export DOT_MODULES="$modules"
-  echo "TOOLS"
+  ui_header "tools"
 
   for module in $modules; do
     names="$(config_get "$PROFILES_FILE" setup "$module" || true)"
     for name in $names; do
       setup_path="$DOTFILES_HOME/$name/setup"
       [ -f "$setup_path" ] || continue
-      echo "Setup $name"
+      ui_node "$name" "$module" "setup" "$C_DIM"
       [ ! -x "$setup_path" ] && chmod u+x "$setup_path"
 
-      if ! "$setup_path"; then
+      if "$setup_path"; then
+        ui_item "$C_GREEN" "$G_OK" "concluído"
+      else
+        ui_item "$C_RED" "$G_FAIL" "falhou"
         warn "setup falhou: $name"
       fi
     done
@@ -543,7 +665,7 @@ function tools() {
 }
 
 function dot_update() {
-  echo "UPDATE"
+  ui_header "update"
   cd "$DOTFILES_HOME" && git pull
   dot_install
 }
@@ -609,7 +731,7 @@ function bootstrap() {
     "$os_setup" "$DOTFILES_HOME" "$LOCAL_BIN_DIR" || warn "setup do sistema falhou: $os"
   fi
 
-  echo "BOOT"
+  ui_header "bootstrap"
   dot_install
 }
 
