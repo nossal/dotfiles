@@ -4,32 +4,35 @@
 
 :warning: Work in progress :construction:
 
-<!-- ## Features -->
-
 ## Requirements
 - bash, git and curl
 - zsh (bash is used when zsh is not installed)
-- gpg, only for the encrypted files in the `ai` module
+- gpg, only for the encrypted files
 
-<!--
 ## Install
-1. Just execute the following code into your zsh session:
+1. Run the installer and choose a profile from the menu:
 ```bash
-eval "$(curl -sL noss.al/dot)"
+curl -fsSL https://noss.al/dot | sh
 ```
-2. Restart your zsh session.
-3. Done.
--->
-## Install
-Clone the repository and bootstrap the machine with a profile:
+To skip the menu, pass the profile:
+```bash
+curl -fsSL https://noss.al/dot | sh -s -- desktop-pessoal
+```
+2. Restart your shell session.
 
-```bash
-git clone https://github.com/nossal/dotfiles ~/.dotfiles
-~/.dotfiles/bin/dot desktop-pessoal
-```
+Done.
+
+The installer clones the repository to `~/.dotfiles`. Running it again updates a
+clean clone and keeps one with local changes as it is.
 
 The profile is saved to `~/.config/dot/profile`, outside the repository. A
 machine without a profile only receives the `base` module.
+
+The clone uses HTTPS, so it works before SSH keys are set up. To push from the
+machine later, switch the remote:
+```bash
+git -C ~/.dotfiles remote set-url origin git@github.com:<username>/dotfiles.git
+```
 
 ## Profiles
 A profile is a list of modules, defined in `profiles.toml`:
